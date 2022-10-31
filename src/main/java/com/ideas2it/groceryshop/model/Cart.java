@@ -1,49 +1,31 @@
 package com.ideas2it.groceryshop.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "cart")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cart {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "total_price")
     private Float totalPrice;
+    @Column(name = "is_active")
     private boolean isActive;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
     private List<CartDetails> cartDetails;
 
-    public Cart(int id, Float totalPrice, boolean isActive, List<CartDetails> cartDetails) {
-        this.id = id;
-        this.totalPrice = totalPrice;
-        this.isActive = isActive;
-        this.cartDetails = cartDetails;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Float getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public List<CartDetails> getCartDetails() {
-        return cartDetails;
-    }
-
-    public void setCartDetails(List<CartDetails> cartDetails) {
-        this.cartDetails = cartDetails;
-    }
 }
