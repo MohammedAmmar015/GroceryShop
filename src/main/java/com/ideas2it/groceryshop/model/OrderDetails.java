@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -22,5 +23,13 @@ public class OrderDetails {
     private Integer quantity;
     @Column(name = "price")
     private Float price;
+    @Column(name = "created_at")
+    private Date createdAt;
+    @Column(name = "modified_at")
+    private Date modifiedAt;
+    @Column(name = "created_by")
+    private Integer createdBy;
+    @Column(name = "modified_by")
+    private Integer modifiedBy;
 
 }
