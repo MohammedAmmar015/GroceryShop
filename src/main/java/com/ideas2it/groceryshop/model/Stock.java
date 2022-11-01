@@ -6,24 +6,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "cart_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDetails {
-
+@Entity
+@Table(name = "stock")
+public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "quantity")
-    private Integer quantity;
 
-    @Column(name = "price")
-    private Float price;
+    @Column(name = "available_stock")
+    private Integer availableStock;
 
     @ManyToOne()
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -43,4 +41,5 @@ public class CartDetails {
 
     @Column(name = "is_active")
     private Boolean isActive;
+
 }
