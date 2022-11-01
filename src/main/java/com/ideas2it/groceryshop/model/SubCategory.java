@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name ="subcategory")
+@Table(name ="sub_category")
 public class SubCategory {
 
     @Id
