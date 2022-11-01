@@ -14,20 +14,26 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "orderDelivery")
+@Table(name = "order_delivery")
 public class OrderDelivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Integer id;
     @Column(name = "is_delivered")
     private Boolean isDelivered;
-    @Column(name = "delivery_date")
+    @Column(name = "delivered_date")
     private Date deliveryDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @Target(Order.class)
-    private Order order;
+    @Column(name = "created_at")
+    private Date createdAt;
+    @Column(name = "modified_at")
+    private Date modifiedAt;
+    @Column(name = "created_by")
+    private Integer createdBy;
+    @Column(name = "modified_by")
+    private Integer modifiedBy;
+    @OneToOne
+    @JoinColumn(name = "order_id" )
+    private UserOrder userOrder;
 
 }
