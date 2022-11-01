@@ -33,7 +33,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "role")
+    @Column(name = "role", length = 11)
     private String role;
     @Column(name = "created_at")
     private Date createdAt;
