@@ -1,11 +1,19 @@
-package com.ideas2it.grocery.model;
+package com.ideas2it.groceryshop.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "orderDelivery")
 public class OrderDelivery {
 
@@ -21,39 +29,5 @@ public class OrderDelivery {
     @OneToOne(cascade = CascadeType.ALL)
     @Target(Order.class)
     private Order order;
-
-    public OrderDelivery() {
-    }
-
-    public OrderDelivery(Integer id, Boolean isDelivered, Date deliveryDate) {
-        this.id = id;
-        this.isDelivered = isDelivered;
-        this.deliveryDate = deliveryDate;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Boolean getDelivered() {
-        return isDelivered;
-    }
-
-    public void setDelivered(Boolean delivered) {
-        isDelivered = delivered;
-    }
-
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
 
 }
