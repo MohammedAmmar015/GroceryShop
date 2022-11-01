@@ -1,8 +1,17 @@
-package com.ideas2it.grocery.model;
+package com.ideas2it.groceryshop.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="orderDetails")
 public class OrderDetails {
 
@@ -15,43 +24,4 @@ public class OrderDetails {
     @Column(name = "price")
     private Float price;
 
-    @Column(name = "order_id")
-    private Integer orderId;
-
-    public OrderDetails() {}
-
-    public OrderDetails(Integer id, Integer quantity, Float price) {
-        this.id = id;
-        this.quantity = quantity;
-        this.price = price;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString(){
-        return ("Quantity in Kilogram - "  + this.quantity + "/nPrice of a product " + this.price);
-    }
 }
