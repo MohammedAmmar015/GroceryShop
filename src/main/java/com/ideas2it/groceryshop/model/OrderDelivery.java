@@ -14,20 +14,15 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "orderDelivery")
+@Table(name = "order_delivery")
 public class OrderDelivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Integer id;
     @Column(name = "is_delivered")
     private Boolean isDelivered;
     @Column(name = "delivery_date")
     private Date deliveryDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @Target(Order.class)
-    private Order order;
 
 }
