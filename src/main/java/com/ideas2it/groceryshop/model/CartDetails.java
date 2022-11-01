@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,15 +19,31 @@ public class CartDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "price")
-    private float price;
+    private Float price;
 
     @ManyToOne(targetEntity = Products.class)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private List<Products> products;
+
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @Column(name = "modified_at")
+    private Date modifiedAt;
+
+    @Column(name = "created_by")
+    private Integer createdBy;
+
+    @Column(name = "modified_by")
+    private Integer modifiedBy;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
 
 }
