@@ -1,40 +1,26 @@
 package com.ideas2it.groceryshop.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "cart_details")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "quantity")
     private int quantity;
+    @Column(name = "price")
     private float price;
 
-    public CartDetails() {
-    }
-
-    public CartDetails(int id, int quantity, float price) {
-        this.id = id;
-        this.quantity = quantity;
-        this.price = price;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
 }
