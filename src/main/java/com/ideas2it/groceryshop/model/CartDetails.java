@@ -26,9 +26,9 @@ public class CartDetails {
     @Column(name = "price")
     private Float price;
 
-    @ManyToOne(targetEntity = Products.class)
+    @ManyToOne(targetEntity = Product.class)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private List<Products> products;
+    private List<Product> products;
 
     @Column(name = "created_at")
     private Date createdAt;
