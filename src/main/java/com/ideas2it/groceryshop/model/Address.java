@@ -16,7 +16,7 @@ import lombok.Setter;
 
 /**
  *
- * Address POJO is used Store and retrieve data
+ * Address POJO is used Store and retrieve address data
  *
  * @version 19.0 31-10-2022
  *

@@ -13,20 +13,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.Address;
+import com.ideas2it.groceryshop.model.Cart;
+import com.ideas2it.groceryshop.model.OrderDelivery;
+import com.ideas2it.groceryshop.model.UserOrder;
 
 /**
  *
- *  User POJO is used common attributes of Admin, Customer and DeliveryMan object to store
- *  and retrieve data
+ *  User POJO is used to store and retrieve data common attributes of
+ *  Admin, Customer and DeliveryMan object
  *
  * @version 19.0 31-10-2022
  *
@@ -34,7 +35,7 @@ import com.ideas2it.groceryshop.model.Address;
  *
  */
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -59,7 +60,7 @@ public class User {
     private Integer modifiedBY;
     @Column(name = "is_active")
     private Boolean isActive;
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", columnDefinition = "role_id")
     private Role role;
     @OneToMany(cascade = CascadeType.ALL)
@@ -67,5 +68,8 @@ public class User {
     private List<Address> addresses;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private List<Order> orders;
+    private List<UserOrder> orders;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Cart> carts;
 }

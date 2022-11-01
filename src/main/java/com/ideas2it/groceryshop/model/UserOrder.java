@@ -39,5 +39,8 @@ public class UserOrder {
     @OneToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }

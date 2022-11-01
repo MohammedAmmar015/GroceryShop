@@ -45,4 +45,5 @@ public class Product {
     @JoinColumn(name ="sub_category_id", referencedColumnName = "id")
     private SubCategory subCategory;
 
+
 }
