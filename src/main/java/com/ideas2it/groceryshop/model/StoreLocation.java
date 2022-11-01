@@ -6,28 +6,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "cart_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDetails {
-
+@Entity
+@Table(name = "store_location")
+public class StoreLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "quantity")
-    private Integer quantity;
 
-    @Column(name = "price")
-    private Float price;
+    @Column(name = "pin_code")
+    private Integer pinCode;
 
-    @ManyToOne()
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
+    @Column(name = "area", length = 20)
+    private String area;
+
+    @OneToMany
+    @JoinColumn(name = "location_id")
+    private List<Stock> stockList;
 
     @Column(name = "created_at")
     private Date createdAt;

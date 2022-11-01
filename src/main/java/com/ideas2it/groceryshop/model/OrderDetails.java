@@ -31,5 +31,8 @@ public class OrderDetails {
     private Integer createdBy;
     @Column(name = "modified_by")
     private Integer modifiedBy;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 
 }
