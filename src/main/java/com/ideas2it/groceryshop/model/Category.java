@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,8 +21,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column (name = "name", length =  20)
+    @Column (name = "name", length = 20)
     private String name;
+
+    @OneToMany
+    @JoinColumn(name = "parent_id")
+    private List<Category> category;
 
     @Column(name = "created_at")
     private Date createdAt;
@@ -37,5 +42,4 @@ public class Category {
 
     @Column(name = "is_active")
     private boolean isActive;
-
 }

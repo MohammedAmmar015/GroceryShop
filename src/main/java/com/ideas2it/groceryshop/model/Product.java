@@ -40,10 +40,9 @@ public class Product {
 
     @Column(name = "is_active")
     private boolean isActive;
-
-    @ManyToOne
-    @JoinColumn(name ="sub_category_id", referencedColumnName = "id")
-    private SubCategory subCategory;
-
+    
+    @ManyToOne()
+    @JoinColumn(name ="category_id")
+    private Category category;
 
 }
