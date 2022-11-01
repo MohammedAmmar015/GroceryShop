@@ -20,8 +20,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.Address;
+import com.ideas2it.groceryshop.model.Cart;
+import com.ideas2it.groceryshop.model.UserOrder;
 
 /**
  *
@@ -67,5 +68,5 @@ public class User {
     private List<Address> addresses;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private List<Order> orders;
+    private List<UserOrder> orders;
 }
