@@ -1,9 +1,9 @@
 package com.ideas2it.groceryshop.repository;
 
-import com.ideas2it.groceryshop.model.Cart;
+import com.ideas2it.groceryshop.model.CartDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartRepo extends JpaRepository<Cart, Integer> {
+public interface CartDetailsRepo extends JpaRepository<CartDetails, Integer> {
 }
