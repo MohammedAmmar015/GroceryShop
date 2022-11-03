@@ -1,5 +1,7 @@
 package com.ideas2it.groceryshop.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,23 +32,30 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "street")
+    @Column(name = "street", length = 30, nullable = false)
     private String street;
-    @Column(name = "area")
+    @Column(name = "area", length = 30, nullable = false)
     private String area;
-    @Column(name = "pin_code")
+    @Column(name = "pin_code", length = 6, nullable = false)
     private String pinCode;
-    @Column(name = "created_at")
+    @Column(name = "land_mark", length = 30,nullable = false)
+    private String landMark;
+    @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private Date createdAt;
-    @Column(name = "modified_at")
+    @Column(name = "modified_at", nullable = false)
+    @CreationTimestamp
     private Date ModifiedAt;
-    @Column(name ="created_by")
+    @Column(name ="created_by", nullable = false)
     private Integer createdBy;
-    @Column(name = "modified_by")
+    @Column(name = "modified_by", nullable = false)
     private Integer modifiedBY;
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+    @Column(name = "is_default", nullable = false)
+    private Boolean isDefault;
 }
