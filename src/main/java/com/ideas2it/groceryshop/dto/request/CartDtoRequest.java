@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class RequestCartDetailsDto {
-    private Integer quantity;
-
-    private Float price;
-
-    private Integer productId;
+public class CartDtoRequest {
+    private Float totalPrice;
+    private List<CartDetailsDtoRequest> cartDetailsDtos;
 }
