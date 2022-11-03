@@ -20,25 +20,25 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", length = 20)
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
 
-    @Column(name ="price")
+    @Column(name ="price", nullable = false)
     private float price;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
-    @Column(name ="modified_at")
+    @Column(name ="modified_at", nullable = false)
     private Date modifiedAt;
 
-    @Column(name = "created_by")
+    @Column(name = "created_by", nullable = false)
     private int createdBy;
 
-    @Column(name = "modified_by")
+    @Column(name = "modified_by", nullable = false)
     private int modifiedBy;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
     
     @ManyToOne()

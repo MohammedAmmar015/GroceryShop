@@ -1,4 +1,4 @@
 package com.ideas2it.groceryshop.service;
 
-public interface Category {
+public interface CategoryService {
 }
