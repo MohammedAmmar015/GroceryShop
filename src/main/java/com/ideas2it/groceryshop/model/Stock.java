@@ -42,4 +42,8 @@ public class Stock {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private StoreLocation storeLocation;
+
 }

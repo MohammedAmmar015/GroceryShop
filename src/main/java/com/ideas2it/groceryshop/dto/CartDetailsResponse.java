@@ -1,4 +1,4 @@
-package com.ideas2it.groceryshop.dto.response;
+package com.ideas2it.groceryshop.dto;
 
 import com.ideas2it.groceryshop.model.Product;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,19 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * <p>
+ *     Cart-Details Response DTO
+ * </p>
+ * @author Mohammed Ammar
+ * @since 03-11-2022
+ * @version 1.0
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class CartDetailsDtoResponse {
+public class CartDetailsResponse {
     private Integer id;
     private Integer quantity;
 

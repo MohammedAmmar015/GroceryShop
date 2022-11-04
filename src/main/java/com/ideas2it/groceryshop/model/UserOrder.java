@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "user_order")
@@ -31,7 +32,7 @@ public class UserOrder {
     @CreationTimestamp
     private Date createdAt;
     @Column(name = "modified_at")
-    @CreationTimestamp
+    @UpdateTimestamp
     private Date modifiedAt;
     @Column(name = "created_by", nullable = false)
     private Integer createdBy;

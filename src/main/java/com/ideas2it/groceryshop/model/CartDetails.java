@@ -11,6 +11,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * <p>
+ *     Cart-Details Entity
+ * </p>
+ * @author Mohammed Ammar
+ * @since 02-11-2022
+ * @version 1.0
+ */
 @Entity
 @Table(name = "cart_details")
 @Getter

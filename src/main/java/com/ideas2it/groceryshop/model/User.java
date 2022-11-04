@@ -23,6 +23,7 @@ import lombok.Setter;
 
 import com.ideas2it.groceryshop.model.Address;
 import com.ideas2it.groceryshop.model.Cart;
+import com.ideas2it.groceryshop.model.Role;
 import com.ideas2it.groceryshop.model.OrderDelivery;
 import com.ideas2it.groceryshop.model.UserOrder;
 
@@ -60,11 +61,11 @@ public class User {
     @CreationTimestamp
     private Date ModifiedAt;
     @Column(name ="created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 1;
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBY;
+    private Integer modifiedBY = 1;
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = Boolean.TRUE;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", columnDefinition = "role_id")
     private Role role;
