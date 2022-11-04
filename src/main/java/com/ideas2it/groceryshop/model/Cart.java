@@ -11,6 +11,14 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * <p>
+ *     Cart Entity
+ * </p>
+ * @author Mohammed Ammar
+ * @since 02-11-2022
+ * @version 1.0
+ */
 @Entity
 @Table(name = "cart")
 @Getter
@@ -45,4 +53,7 @@ public class Cart {
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @ManyToOne
+    private User user;
 }

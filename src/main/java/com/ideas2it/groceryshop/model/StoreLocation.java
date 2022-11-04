@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -26,22 +31,22 @@ public class StoreLocation {
     @Column(name = "area", length = 20)
     private String area;
 
-    @OneToMany
-    @JoinColumn(name = "location_id")
-    private List<Stock> stockList;
-
     @Column(name = "created_at")
+    @CreationTimestamp
     private Date createdAt;
 
     @Column(name = "modified_at")
+    @UpdateTimestamp
     private Date modifiedAt;
 
     @Column(name = "created_by")
+    @CreatedBy
     private Integer createdBy;
 
     @Column(name = "modified_by")
+    @LastModifiedBy
     private Integer modifiedBy;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 }
