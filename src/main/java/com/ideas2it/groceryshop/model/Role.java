@@ -36,8 +36,8 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "role", length = 11, nullable = false)
-    private String role;
+    @Column(name = "name", length = 11, nullable = false)
+    private String name;
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Date createdAt;
@@ -45,9 +45,9 @@ public class Role {
     @CreationTimestamp
     private Date ModifiedAt;
     @Column(name ="created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 1;
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBY;
+    private Integer modifiedBY = 1;
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = Boolean.TRUE;
 }

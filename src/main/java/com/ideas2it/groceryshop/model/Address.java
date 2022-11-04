@@ -51,11 +51,11 @@ public class Address {
     @CreationTimestamp
     private Date ModifiedAt;
     @Column(name ="created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 1;
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBY;
+    private Integer modifiedBy = 1;
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = Boolean.TRUE;
     @Column(name = "is_default", nullable = false)
-    private Boolean isDefault;
+    private Boolean isDefault = Boolean.TRUE;
 }
