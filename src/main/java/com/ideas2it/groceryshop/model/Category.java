@@ -45,7 +45,7 @@ public class Category {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    @CreationTimestamp
+    //@CreationTimestamp
     private int createdBy;
 
     @Column(name = "modified_by", nullable = false)
