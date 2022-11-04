@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.model;
 
+import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,23 +35,25 @@ public class Category {
     @Column (name = "name", length = 20, nullable = false)
     private String name;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "parent_id")
-    private List<Category> category;
+    private Category category;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
+    @CreationTimestamp
     @Column(name ="modified_at", nullable = false)
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    //@CreationTimestamp
-    private int createdBy;
+    private int createdBy = 1;
 
     @Column(name = "modified_by", nullable = false)
-    private int modifiedBy;
+    private int modifiedBy = 1;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private boolean isActive = true;
+
 }
