@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,22 +27,24 @@ public class Product {
     @Column(name ="price", nullable = false)
     private float price;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
+    @CreationTimestamp
     @Column(name ="modified_at", nullable = false)
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private int createdBy;
+    private int createdBy = 1;
 
     @Column(name = "modified_by", nullable = false)
-    private int modifiedBy;
+    private int modifiedBy = 1;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    @Column(name = "is_active")
+    private boolean isActive = true;
     
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name ="category_id")
     private Category category;
 
