@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.mapper;
 
 import com.ideas2it.groceryshop.dto.UserRequestDto;
+import com.ideas2it.groceryshop.dto.UserResponseDto;
 import com.ideas2it.groceryshop.model.User;
 
 /**

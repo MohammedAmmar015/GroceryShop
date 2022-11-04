@@ -1,5 +1,7 @@
 package com.ideas2it.groceryshop.service.impl;
 
+import com.ideas2it.groceryshop.dto.UserResponseDto;
+import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleRepo roleRepo;
 
+    UserHelper userHelper = new UserHelper();
+
     /**
      * it is used to create user
      *
@@ -48,5 +52,16 @@ public class UserServiceImpl implements UserService {
             user.setRole(role.get());
         }
         userRepo.save(user);
+    }
+
+    /**
+     * It is used to get user by id
+     *
+     * @param id
+     * @return
+     */
+    public UserResponseDto getUserById(Integer id) {
+        UserResponseDto userResponseDto = null;
+        return userResponseDto;
     }
 }
