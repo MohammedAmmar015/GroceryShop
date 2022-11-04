@@ -1,4 +1,4 @@
-package com.ideas2it.groceryshop.dto.request;
+package com.ideas2it.groceryshop.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CartDetailsDtoRequest {
-    private Integer quantity;
+public class StockRequest {
 
-    private Float price;
-
-    private Integer productId;
+    private Integer availableStock;
 }
