@@ -16,4 +16,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
+
+    /**
+     * find user by id
+     *
+     * @param isActive
+     * @param id
+     * @return
+     */
+    User findUserByIsActiveAndId(Boolean isActive, Integer id);
 }

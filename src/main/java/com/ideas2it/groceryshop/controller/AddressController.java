@@ -31,7 +31,8 @@ public class AddressController {
      * @param addressRequestDto
      */
     @PostMapping("/")
-    public void createAddress(@RequestBody AddressRequestDto addressRequestDto) {
+    public void createAddress(@PathVariable Integer id,
+                              @RequestBody AddressRequestDto addressRequestDto) {
         addressService.addAddress(addressRequestDto);
     }
 

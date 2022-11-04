@@ -19,6 +19,7 @@ import com.ideas2it.groceryshop.model.Address;
 @Repository
 public interface AddressRepo extends JpaRepository<Address, Integer> {
 
+
     /**
      * is used to find address of user by id
      *
