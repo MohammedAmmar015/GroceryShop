@@ -19,11 +19,12 @@ import java.util.List;
 public interface AddressService {
 
     /**
-     * it used to add address
+     * it used to add address using user it
      *
+     * @param id
      * @param addressRequestDto
      */
-    public void addAddress(AddressRequestDto addressRequestDto);
+    public void addAddress(Integer id, AddressRequestDto addressRequestDto);
 
     /**
      * it is used to retrieve list of user address by user id;

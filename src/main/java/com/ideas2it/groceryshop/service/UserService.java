@@ -1,6 +1,9 @@
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.UserRequestDto;
+import com.ideas2it.groceryshop.dto.UserResponseDto;
+
+import java.util.List;
 
 /**
  *
@@ -14,4 +17,12 @@ import com.ideas2it.groceryshop.dto.UserRequestDto;
 public interface UserService {
 
     public void addUser(UserRequestDto userRequestDto);
+
+    public UserResponseDto getUserById(Integer id);
+
+    public List<UserResponseDto> getAllUser();
+
+    public List<UserResponseDto> getUserByRole(String name);
+
+    public void deleteUserById(Integer id);
 }
