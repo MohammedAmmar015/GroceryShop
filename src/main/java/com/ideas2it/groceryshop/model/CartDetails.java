@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Where(clause = "is_active = 1")
 public class CartDetails {
 
     @Id
@@ -49,11 +51,11 @@ public class CartDetails {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 1;
 
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy;
+    private Integer modifiedBy = 1;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
 }

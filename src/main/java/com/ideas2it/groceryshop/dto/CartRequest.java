@@ -20,6 +20,5 @@ import java.util.List;
 @Getter
 @Setter
 public class CartRequest {
-    private List<CartDetailsRequest> cartDetails;
-    private Integer userId;
+    private CartDetailsRequest cartDetails;
 }

@@ -30,14 +30,15 @@ public class AddressController {
      *
      * @param addressRequestDto
      */
-    @PostMapping("/")
-    public void createAddress(@PathVariable Integer id,
+    @PostMapping("/{user-id}")
+    public void createAddress(@PathVariable("user-id") Integer id,
                               @RequestBody AddressRequestDto addressRequestDto) {
-        addressService.addAddress(addressRequestDto);
+        addressService.addAddress(id, addressRequestDto);
     }
 
-    @GetMapping("/")
-    public void viewAddressesByUserId(@RequestParam Integer id) {
+    @GetMapping("/{user-id}")
+    public List<AddressResponseDto> viewAddressesByUserId(@PathVariable("user-id") Integer id) {
         List<AddressResponseDto> addresses = addressService.getAddressesByUserId(id);
+        return addresses;
     }
 }

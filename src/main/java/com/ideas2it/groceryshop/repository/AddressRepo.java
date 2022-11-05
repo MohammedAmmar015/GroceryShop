@@ -20,12 +20,7 @@ import com.ideas2it.groceryshop.model.Address;
 public interface AddressRepo extends JpaRepository<Address, Integer> {
 
 
-    /**
-     * is used to find address of user by id
-     *
-     * @param isActive
-     * @param id
-     * @return
-     */
-    //List<Address> findByIsActiveAndUserId(Boolean isActive, Integer id);
+    List<Address> findByIsActiveAndUserId(Boolean isActive, Integer id);
+
+    //void saveById(Integer id, Address address);
 }
