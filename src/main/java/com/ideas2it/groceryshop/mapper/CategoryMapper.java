@@ -11,9 +11,17 @@ import java.util.stream.Collectors;
 public class CategoryMapper {
     public static Category toCategory(CategoryRequestDto categoryRequestDto) {
         Category category = new Category();
-       // category.setId(categoryRequestDto.getParentId());
+        //category.setP(categoryRequestDto.getParentId());
         category.setName(categoryRequestDto.getName());
         return category;
+    }
+
+    public static CategoryResponseDto toCategory (Category category) {
+        CategoryResponseDto categoryResponseDto1 = new CategoryResponseDto();
+        categoryResponseDto1.setId(category.getId());
+        categoryResponseDto1.setName(category.getName());
+       // categoryResponseDto1.set
+        return categoryResponseDto1;
     }
 
 

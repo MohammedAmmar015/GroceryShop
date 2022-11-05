@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,13 +16,13 @@ public class ProductResponseDto {
 
     private float price;
 
-    private Date createdAt;
+   // private Date createdAt;
 
-    private Date modifiedAt;
+    //private Date modifiedAt;
 
-    private int createdBy;
+   // private int createdBy;
 
-    private int modifiedBy;
+    //private int modifiedBy;
 
-    private boolean isActive;
+   // private boolean isActive;
 }

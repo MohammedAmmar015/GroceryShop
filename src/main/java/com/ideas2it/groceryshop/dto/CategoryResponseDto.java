@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ideas2it.groceryshop.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,15 +20,15 @@ public class CategoryResponseDto {
 
     private String name;
 
-    private List<Category> category;
+    //private List<Category> category;
 
-    private Date createdAt;
+    //private Date createdAt;
 
-    private Date modifiedAt;
+   // private Date modifiedAt;
 
-    private int createdBy;
+   // private int createdBy;
 
-    private int modifiedBy;
+    //private int modifiedBy;
 
-    private boolean isActive;
+    //private boolean isActive;
 }
