@@ -1,4 +1,4 @@
-package com.ideas2it.groceryshop.dto.request;
+package com.ideas2it.groceryshop.dto;
 
 import com.ideas2it.groceryshop.model.Address;
 import com.ideas2it.groceryshop.model.UserOrder;

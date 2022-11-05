@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.request.OrderDetailsRequestDto;
-import com.ideas2it.groceryshop.dto.request.OrderDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.OrderDetailsRequestDto;
+import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.model.OrderDetails;
 
 import java.util.ArrayList;

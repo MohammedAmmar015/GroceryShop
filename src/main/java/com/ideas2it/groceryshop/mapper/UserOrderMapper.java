@@ -1,6 +1,6 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.request.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
 import com.ideas2it.groceryshop.model.UserOrder;
 
 import java.util.ArrayList;
