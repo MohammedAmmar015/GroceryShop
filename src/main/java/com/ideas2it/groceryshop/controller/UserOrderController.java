@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.request.UserOrderResponseDto;
-import com.ideas2it.groceryshop.service.impl.UserOrderService;
+import com.ideas2it.groceryshop.service.UserOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

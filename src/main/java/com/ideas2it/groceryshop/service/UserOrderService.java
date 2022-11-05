@@ -1,4 +1,4 @@
-package com.ideas2it.groceryshop.service.impl;
+package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.request.UserOrderResponseDto;
 
