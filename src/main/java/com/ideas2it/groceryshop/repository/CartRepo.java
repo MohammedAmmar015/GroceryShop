@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
  */
 @Repository
 public interface CartRepo extends JpaRepository<Cart, Integer> {
+
     Cart findByUserIdAndIsActive(Integer userId, Boolean isActive);
 
     Cart findByIdAndIsActive(Integer cartId, Boolean isActive);

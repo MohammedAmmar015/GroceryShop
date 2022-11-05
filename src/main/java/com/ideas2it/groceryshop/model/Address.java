@@ -3,13 +3,9 @@ package com.ideas2it.groceryshop.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,7 +38,7 @@ public class Address {
     private String area;
     @Column(name = "pin_code", length = 6, nullable = false)
     private String pinCode;
-    @Column(name = "land_mark", length = 30,nullable = false)
+    @Column(name = "land_mark", length = 30, nullable = false)
     private String landMark;
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -58,4 +54,8 @@ public class Address {
     private Boolean isActive = Boolean.TRUE;
     @Column(name = "is_default", nullable = false)
     private Boolean isDefault = Boolean.TRUE;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

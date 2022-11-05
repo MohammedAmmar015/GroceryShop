@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
     List<UserOrder> findByIsActive(Boolean status);
 
+    //UserOrder findByIdAndIsActive(Boolean isActive, int cartId);
+
 }
