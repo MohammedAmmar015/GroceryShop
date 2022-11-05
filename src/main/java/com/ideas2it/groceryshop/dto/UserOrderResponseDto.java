@@ -17,4 +17,5 @@ public class UserOrderResponseDto {
     private Float totalPrice;
     private List<OrderDetailsResponseDto> orderDetailsResponseDtos;
     private User user;
+
 }

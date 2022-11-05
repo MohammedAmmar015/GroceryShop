@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CartRepo extends JpaRepository<Cart, Integer> {
+
+    Cart findByIdAndIsActive(Integer cartId);
     Cart findByUserIdAndIsActive(Integer userId, Boolean is_active);
 
     @Modifying(clearAutomatically = true)
