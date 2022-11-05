@@ -5,7 +5,7 @@ import com.ideas2it.groceryshop.dto.CartResponse;
 
 public interface CartService {
 
-    void addCart(CartRequest cartRequest);
+    void addCart(CartRequest cartRequest, Integer userId);
 
     CartResponse getCartByUserId(Integer userId);
 

@@ -29,9 +29,10 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("/")
-    public void createCart(@RequestBody CartRequest cartRequest) {
-        cartService.addCart(cartRequest);
+    @PostMapping("/{userId}")
+    public void createCart(@RequestBody CartRequest cartRequest,
+                           @PathVariable Integer userId) {
+        cartService.addCart(cartRequest, userId);
     }
 
     @GetMapping("/{userId}")

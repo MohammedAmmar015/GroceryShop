@@ -28,12 +28,4 @@ public class CartResponse {
     private List<CartDetailsResponse> cartDetails;
 
     private Date createdAt;
-
-    private Date modifiedAt;
-
-    private Integer createdBy;
-
-    private Integer modifiedBy;
-
-    private Boolean isActive;
 }
