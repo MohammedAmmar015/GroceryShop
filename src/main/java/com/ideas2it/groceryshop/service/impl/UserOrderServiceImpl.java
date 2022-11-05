@@ -2,6 +2,7 @@ package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
 import com.ideas2it.groceryshop.model.*;
@@ -24,6 +25,7 @@ public class UserOrderServiceImpl implements UserOrderService {
     private final UserOrderRepo userOrderRepo;
     private final  CartRepo cartRepo;
     private final OrderDetailsRepo orderDetailsRepo;
+    private final CartHelper cartHelper;
 
     @Override
     public List<UserOrderResponseDto> viewAllActiveOrders() {
@@ -33,7 +35,7 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
     @Override
     public void placeOrder(Integer cartId) {
-        Cart cart = cartRepo.findByIdAndIsActive(cartId, true);
+        Cart cart = cartHelper.getCartById(cartId, true);
         if(cart != null) {
             UserOrder userOrder = new UserOrder();
             userOrder.setCart(cart);
@@ -63,7 +65,6 @@ public class UserOrderServiceImpl implements UserOrderService {
 //    public void viewAllProductOrders(Integer productId) {
 //        ProductHelper productHelper = new ProductHelper();
 //        Product product = productHelper.getProductById(productId);
-//
 //        return viewCancelledOrders;
 //    }
 

@@ -21,7 +21,7 @@ public class UserOrderController {
        return userOrderService.viewAllActiveOrders();
     }
 
-    @PostMapping("cart/{cart_id}")
+    @PostMapping("/place-order/{cart_id}")
     public void placeOrder(@PathVariable int cart_id) {
         userOrderService.placeOrder(cart_id);
     }
