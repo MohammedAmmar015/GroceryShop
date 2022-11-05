@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -25,12 +26,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Where(clause = "is_active = 1")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price")
     private Float totalPrice;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -46,14 +48,15 @@ public class Cart {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = id;
 
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy;
+    private Integer modifiedBy = id;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 }

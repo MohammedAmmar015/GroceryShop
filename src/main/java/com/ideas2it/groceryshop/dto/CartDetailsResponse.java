@@ -26,15 +26,7 @@ public class CartDetailsResponse {
 
     private Float price;
 
-    private Product product;
+    private String productName;
 
     private Date createdAt;
-
-    private Date modifiedAt;
-
-    private Integer createdBy;
-
-    private Integer modifiedBy;
-
-    private Boolean isActive;
 }
