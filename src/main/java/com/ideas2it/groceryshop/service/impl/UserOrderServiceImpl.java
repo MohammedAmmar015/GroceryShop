@@ -2,11 +2,9 @@ package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
-import com.ideas2it.groceryshop.model.Cart;
-import com.ideas2it.groceryshop.model.OrderDetails;
-import com.ideas2it.groceryshop.model.User;
-import com.ideas2it.groceryshop.model.UserOrder;
+import com.ideas2it.groceryshop.model.*;
 import com.ideas2it.groceryshop.repository.CartRepo;
 import com.ideas2it.groceryshop.repository.OrderDetailsRepo;
 import com.ideas2it.groceryshop.repository.UserOrderRepo;
@@ -35,7 +33,7 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
     @Override
     public void placeOrder(Integer cartId) {
-        Cart cart = cartRepo.findByIdAndIsActive(cartId);
+        Cart cart = cartRepo.findByIdAndIsActive(cartId, true);
         if(cart != null) {
             UserOrder userOrder = new UserOrder();
             userOrder.setCart(cart);
@@ -61,5 +59,12 @@ public class UserOrderServiceImpl implements UserOrderService {
             return null;
         }
     }
-    
+
+//    public void viewAllProductOrders(Integer productId) {
+//        ProductHelper productHelper = new ProductHelper();
+//        Product product = productHelper.getProductById(productId);
+//
+//        return viewCancelledOrders;
+//    }
+
 }

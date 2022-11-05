@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/orders")
 public class UserOrderController {
 
     private final UserOrderService userOrderService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<UserOrderResponseDto> viewAllActiveOrders() {
        return userOrderService.viewAllActiveOrders();
     }
@@ -26,7 +26,7 @@ public class UserOrderController {
         userOrderService.placeOrder(cart_id);
     }
 
-    @GetMapping("/")
+    @GetMapping("/cancelledOrders")
     public List<UserOrderResponseDto> viewAllCancelledOrders() {
         return userOrderService.viewAllCancelledOrders();
     }
@@ -35,10 +35,10 @@ public class UserOrderController {
         return userOrderService.viewOrderById(order_id);
     }
 
-    @GetMapping("/{product_id}")
-    public UserOrderResponseDto viewOrderByProductId(@PathVariable int product_id) {
-
-    }
+//    @GetMapping("/{product_id}")
+//    public void viewOrderByProductId(@PathVariable int product_id) {
+//        userOrderService.viewAllProductOrders(product_id);
+//    }
 
 
 
