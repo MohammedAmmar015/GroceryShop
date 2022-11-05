@@ -27,5 +27,6 @@ public interface RoleRepo extends JpaRepository<Role, Integer> {
      * @param name
      * @return
      */
-    Optional<Role> findRoleByIsActiveAndName(Boolean isActive, String name);
+    Optional<Role> findByIsActiveAndName(Boolean isActive, String name);
+
 }
