@@ -10,5 +10,6 @@ public interface UserOrderService {
 
     UserOrderResponseDto viewOrderById(Integer orderId);
     void placeOrder(Integer id);
+//    void viewAllProductOrders(Integer productId);
 
 }
