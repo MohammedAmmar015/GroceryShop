@@ -1,5 +1,6 @@
-package com.ideas2it.groceryshop.dto.request;
+package com.ideas2it.groceryshop.dto;
 
+import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

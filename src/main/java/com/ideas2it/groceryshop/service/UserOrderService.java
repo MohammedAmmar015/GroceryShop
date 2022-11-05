@@ -1,6 +1,6 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.request.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
 
 import java.util.List;
 

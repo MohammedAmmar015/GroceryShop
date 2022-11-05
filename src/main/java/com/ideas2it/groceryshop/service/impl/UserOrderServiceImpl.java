@@ -1,6 +1,6 @@
 package com.ideas2it.groceryshop.service.impl;
 
-import com.ideas2it.groceryshop.dto.request.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
 import com.ideas2it.groceryshop.model.UserOrder;
 import com.ideas2it.groceryshop.repository.UserOrderRepo;

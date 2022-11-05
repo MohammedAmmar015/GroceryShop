@@ -1,19 +1,18 @@
-package com.ideas2it.groceryshop.dto.request;
+package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.model.Product;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailsRequestDto {
+public class OrderDetailsResponseDto {
 
     private Integer quantity;
+
+    private Float price;
 
     private Product product;
 
