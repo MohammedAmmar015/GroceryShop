@@ -81,7 +81,8 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> getUserByRole(String name) {
         Optional<Role> role = roleRepo.findByIsActiveAndName(true, name);
         List<UserResponseDto> userResponseDtoList
-                = UserMapper.userToUserResponseDtoList(userRepo.findByIsActiveAndRole(true, role.get()));
+                = UserMapper.userToUserResponseDtoList
+                (userRepo.findByIsActiveAndRole(true, role.get()));
         return userResponseDtoList;
     }
 
