@@ -23,7 +23,7 @@ public class StockController {
     @PostMapping("/{locationId}")
     public void createStock(@RequestBody StockRequest stockRequest,
                             @PathVariable Integer locationId) {
-
+        stockService.addStock(stockRequest, locationId);
     }
 
     @GetMapping("/{productId}")

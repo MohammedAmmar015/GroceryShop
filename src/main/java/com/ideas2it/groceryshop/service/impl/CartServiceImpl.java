@@ -1,14 +1,23 @@
 package com.ideas2it.groceryshop.service.impl;
 
+import com.ideas2it.groceryshop.dto.CartDetailsRequest;
 import com.ideas2it.groceryshop.dto.CartRequest;
 import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.helper.ProductHelper;
+import com.ideas2it.groceryshop.helper.UserHelper;
+import com.ideas2it.groceryshop.mapper.CartDetailsMapper;
 import com.ideas2it.groceryshop.mapper.CartMapper;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.CartDetails;
+import com.ideas2it.groceryshop.model.Product;
+import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.repository.CartRepo;
 import com.ideas2it.groceryshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,15 +31,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements CartService {
     private CartRepo cartRepo;
+    private UserHelper userHelper;
+
+    private ProductHelper productHelper;
+
     @Autowired
-    public CartServiceImpl(CartRepo cartRepo) {
+    public CartServiceImpl(CartRepo cartRepo, UserHelper userHelper, ProductHelper productHelper) {
         this.cartRepo = cartRepo;
+        this.userHelper = userHelper;
+        this.productHelper = productHelper;
     }
 
     @Override
-    public void addCart(CartRequest cartRequest) {
-        //User user = cartRequest.getUserId();
+    public void addCart(CartRequest cartRequest, Integer userId) {
+        User user = userHelper.findUserById(userId);
+        Cart cart = cartRepo.findByUserAndIsActive(user, true);
+        List<CartDetails> cartDetails = addCartDetails(cartRequest.getCartDetails(),
+                                                        cart.getCartDetails());
+        cart.setCartDetails(cartDetails);
+        Float totalPrice = 0F;
+        for (CartDetails cartDetail : cartDetails) {
+            totalPrice += cartDetail.getPrice();
+        }
+        cart.setTotalPrice(totalPrice);
+        cartRepo.save(cart);
+    }
 
+    public List<CartDetails> addCartDetails(CartDetailsRequest cartDetailsRequest,
+                                            List<CartDetails> cartDetails) {
+        CartDetails cartDetail = CartDetailsMapper.toCartDetails(cartDetailsRequest);
+        Product product = productHelper.getProductById(cartDetailsRequest.getProductId());
+        cartDetail.setProduct(product);
+        cartDetail.setPrice(product.getPrice() * cartDetail.getQuantity());
+        cartDetails.add(cartDetail);
+        return cartDetails;
     }
     @Override
     public CartResponse getCartByUserId(Integer userId) {
@@ -40,7 +74,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeCart(Integer userId) {
-        cartRepo.deleteCartByUserId(userId);
+        User user = userHelper.findUserById(userId);
+        cartRepo.deleteCartByUserId(user);
         /*Cart cart = cartRepo.findByUserIdAndIsActive(userId, true);
         cart.setIsActive(false);
         cartRepo.save(cart);*/

@@ -18,8 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CartDetailsRequest {
-
-    private Integer quantity;
-
     private Integer productId;
+    private Integer quantity;
 }
