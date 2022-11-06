@@ -16,7 +16,5 @@ public interface CategoryService {
 
     String deleteSubCategory(Integer id, Integer subCategoryId);
 
-//    String deleteProduct(Integer id);
-
     String updateCategory(Integer id, String categoryName);
 }

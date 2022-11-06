@@ -3,11 +3,25 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
+/**
+ * <p>
+ *     It controls all the Products APIs
+ * </p>
+ * @author RUBAN  04/11/22
+ * @version  1.0
+ *
+ */
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -30,14 +44,14 @@ public class ProductController {
         return productService.getProductsByCategoryId(categoryId);
     }
 
-    @GetMapping("/")
-    public List<ProductResponseDto> getAll() {
-        return productService.getAll();
-    }
-
     @GetMapping("/category/subCategory/{subCategoryId}")
     public List<ProductResponseDto> getProductsBySubCategoryId(@PathVariable("subCategoryId") Integer subCategoryId) {
         return productService.getProductsBySubCategoryId(subCategoryId);
+    }
+
+    @GetMapping("/")
+    public List<ProductResponseDto> getProducts() {
+        return productService.getProducts();
     }
 
     @GetMapping("/{id}")
@@ -46,7 +60,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable("id") Integer id) {
-        return productService.deleteProduct(id);
+    public String deleteProductById(@PathVariable("id") Integer id) {
+        return productService.deleteProductById(id);
     }
 }

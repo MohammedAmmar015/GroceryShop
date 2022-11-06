@@ -3,16 +3,23 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
 import com.ideas2it.groceryshop.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
  * <p>
- *     It controls all the category APIs
+ *     It implements method for category CRUD operations.
  * </p>
- * @author RUBAN
+ * @author RUBAN  04/11/22
  * @version  1.0
  *
  */
@@ -27,6 +34,13 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    /**
+     * <p>
+     *     This Method to create and insert category.
+     * </p>
+     * @param categoryRequestDto It receives DTO type model from users.
+     * @return returns message.
+     */
     @PostMapping("/")
     public String insertCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
         return categoryService.addCategory(categoryRequestDto);
@@ -54,10 +68,6 @@ public class CategoryController {
         return categoryService.deleteSubCategory(id, subCategoryId);
     }
 
-//    @DeleteMapping("/subCategories/products/{id}")
-//    public String deleteProduct(@PathVariable("id") Integer id) {
-//        return categoryService.deleteProduct(id);
-//    }
 
     @PutMapping("/{id}/{categoryName}")
     public String updateCategory(@PathVariable("id") Integer id, @PathVariable("categoryName") String categoryName) {
