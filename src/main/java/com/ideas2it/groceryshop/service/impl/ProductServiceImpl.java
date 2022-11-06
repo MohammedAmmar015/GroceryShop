@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductServiceImpl implements ProductService {
@@ -37,16 +38,16 @@ public class ProductServiceImpl implements ProductService {
 
     public String addProduct(ProductRequestDto productRequestDto) {
         Product product = ProductMapper.toProduct(productRequestDto);
-        Optional<Category> category = categoryRepo.findById(productRequestDto.getCategoryId());
+        Optional<Category> category = categoryRepo.findById(productRequestDto.getSubCategoryId());
         product.setCategory(category.get());
+        product.setCategoryId(productRequestDto.getCategoryId());
         productRepo.save(product);
         return "saved";
 
     }
 
     public List<ProductResponseDto> getAll() {
-
-        List<Product> product = productRepo.findAll();
+        List<Product> product = productRepo.findAllAndIsActive(true);
         List<ProductResponseDto> productResponseDto = new ArrayList<>();
         for (Product products :product) {
             productResponseDto.add(ProductMapper.toProductDto(products));
@@ -60,6 +61,26 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) {
+        List<Product> products = productRepo.findByCategoryIdAndIsActive( categoryId, true);
+        return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) {
+        List<Product> products = productRepo.findBySubCategoryIDAndIsActive(subCategoryId, true);
+        return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public String deleteProduct(Integer id) {
+        Product product = productRepo.findByIdAndIsActive(id, true);
+        product.setActive(false);
+        productRepo.save(product);
+        return "Product Deleted Successfully";
+    }
 
 
 }

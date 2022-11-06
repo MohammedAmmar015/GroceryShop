@@ -45,7 +45,13 @@ public class Product {
     private boolean isActive = true;
     
     @ManyToOne
-    @JoinColumn(name ="category_id")
+    @JoinColumn(name ="sub_category_id")
     private Category category;
+
+    @Column(name ="unit")
+    private String unit;
+
+    @Column(name = "category_id")
+    private int categoryId;
 
 }

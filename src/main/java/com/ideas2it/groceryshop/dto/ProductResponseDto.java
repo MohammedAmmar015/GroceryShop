@@ -16,6 +16,8 @@ public class ProductResponseDto {
 
     private float price;
 
+    private String unit;
+
    // private Date createdAt;
 
     //private Date modifiedAt;

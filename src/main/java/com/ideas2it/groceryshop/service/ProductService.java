@@ -12,4 +12,10 @@ public interface ProductService {
     List<ProductResponseDto> getAll();
 
     ProductResponseDto getProductById(Integer id);
+
+    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId);
+
+    List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId);
+
+    String deleteProduct(Integer id);
 }

@@ -15,4 +15,8 @@ public class ProductRequestDto {
     private String name;
 
     private float price;
+
+    private String unit;
+
+    private int subCategoryId;
 }
