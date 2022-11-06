@@ -7,9 +7,9 @@ import com.ideas2it.groceryshop.model.Product;
 import java.util.List;
 
 public interface ProductService {
-    public String addProduct(ProductRequestDto productRequestDto);
+    String addProduct(ProductRequestDto productRequestDto);
 
-    List<ProductResponseDto> getAll();
+    List<ProductResponseDto> getProducts();
 
     ProductResponseDto getProductById(Integer id);
 
@@ -17,5 +17,5 @@ public interface ProductService {
 
     List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId);
 
-    String deleteProduct(Integer id);
+    String deleteProductById(Integer id);
 }

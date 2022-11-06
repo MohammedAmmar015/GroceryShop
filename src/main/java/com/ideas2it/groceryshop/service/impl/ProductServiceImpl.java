@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    public List<ProductResponseDto> getAll() {
+    public List<ProductResponseDto> getProducts() {
         List<Product> product = productRepo.findAllAndIsActive(true);
         List<ProductResponseDto> productResponseDto = new ArrayList<>();
         for (Product products :product) {
@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String deleteProduct(Integer id) {
+    public String deleteProductById(Integer id) {
         Product product = productRepo.findByIdAndIsActive(id, true);
         product.setActive(false);
         productRepo.save(product);
