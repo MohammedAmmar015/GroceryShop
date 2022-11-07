@@ -2,14 +2,9 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.CartRequest;
 import com.ideas2it.groceryshop.dto.CartResponse;
-import com.ideas2it.groceryshop.model.Cart;
-import com.ideas2it.groceryshop.repository.CartRepo;
 import com.ideas2it.groceryshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
@@ -38,6 +33,12 @@ public class CartController {
     @GetMapping("/{userId}")
     public CartResponse viewCarts(@PathVariable Integer userId) {
         return cartService.getCartByUserId(userId);
+    }
+
+    @PutMapping("/{userId}")
+    public void updateCart(@RequestBody CartRequest cartRequest,
+                           @PathVariable Integer userId) {
+        cartService.updateCartByUser(cartRequest, userId);
     }
 
     @DeleteMapping("/{userId}")
