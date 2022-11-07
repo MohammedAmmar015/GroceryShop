@@ -14,6 +14,9 @@ public class OrderDetailsResponseDto {
 
     private Float price;
 
-    private Product product;
+    private Integer productId;
+
+    private String productName;
+
 
 }

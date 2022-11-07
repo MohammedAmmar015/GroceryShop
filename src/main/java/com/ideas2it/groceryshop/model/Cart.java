@@ -25,6 +25,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Where(clause = "is_active = 1")
 public class Cart {
     @Id
@@ -47,24 +48,19 @@ public class Cart {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 0;
 
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy;
+    private Integer modifiedBy = 0;
 
     @Column(name = "is_active",
             nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @OneToOne()
     @JoinColumn(name="user_id")
     private User user;
 
-    public Cart() {
-        createdBy = 0;
-        modifiedBy = 0;
-        isActive = true;
-    }
     @PostPersist
     public void setCreatedUser() {
         createdBy = user.getId();

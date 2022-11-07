@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDeliveryRequestDto {
-
+    private Boolean isDelivered;
     private UserOrder userOrder;
     private Address shippingAddress;
 
