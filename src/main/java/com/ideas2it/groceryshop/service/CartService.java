@@ -13,4 +13,5 @@ public interface CartService {
 
     void removeProductFromCart(Integer userId, Integer productId);
 
+    void updateCartByUser(CartRequest cartRequest, Integer userId);
 }

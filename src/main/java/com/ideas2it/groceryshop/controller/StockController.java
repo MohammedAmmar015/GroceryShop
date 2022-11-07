@@ -20,29 +20,34 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    @PostMapping("/{locationId}")
+    @PostMapping("/{locationId}/{productId}")
     public void createStock(@RequestBody StockRequest stockRequest,
-                            @PathVariable Integer locationId) {
-        stockService.addStock(stockRequest, locationId);
+                            @PathVariable("locationId") Integer locationId,
+                            @PathVariable("productId") Integer productId) {
+        stockService.addStock(stockRequest, locationId, productId);
     }
 
     @GetMapping("/{productId}")
-    public List<StockResponse> getStockByProduct() {
-        return new ArrayList<>();
+    public List<StockResponse> viewStockByProduct(@PathVariable Integer productId) {
+        return stockService.getStockByProductId(productId);
     }
 
     @GetMapping("/{productId}/{locationId}")
-    public List<StockResponse> getStockByProductAndLocation() {
-        return new ArrayList<>();
+    public List<StockResponse> getStockByProductAndLocation(@PathVariable Integer productId,
+                                                            @PathVariable Integer locationId) {
+        return stockService.getStockByProductAndLocation(productId,locationId);
     }
 
     @PutMapping("/{productId}")
-    public void updateStockByProduct(@RequestBody StockRequest stockRequest) {
-
+    public void updateStockByProduct(@RequestBody StockRequest stockRequest,
+                                     @PathVariable Integer productId) {
+        stockService.updateStockByProduct(stockRequest, productId);
     }
 
-    @PutMapping("/{productId}/{location-id}")
-    public void updateStockByProductAndLocation(@RequestBody StockRequest stockRequest) {
-
+    @PutMapping("/{productId}/{locationId}")
+    public void updateStockByProductAndLocation(@RequestBody StockRequest stockRequest,
+                                                @PathVariable Integer productId,
+                                                @PathVariable Integer locationId) {
+        stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
     }
 }

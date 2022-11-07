@@ -19,7 +19,7 @@ public class StoreLocationController {
         this.storeService = storeService;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void createStore(@RequestBody StoreLocationRequest storeLocationRequest) {
         storeService.addStore(storeLocationRequest);
     }
@@ -30,7 +30,7 @@ public class StoreLocationController {
         storeService.modifyStore(storeLocationRequest, storeId);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<StoreLocationResponse> viewStores() {
         System.out.println(storeService.getStores());
         return storeService.getStores();

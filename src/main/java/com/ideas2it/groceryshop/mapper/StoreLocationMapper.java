@@ -18,7 +18,8 @@ public class StoreLocationMapper {
         stores.setArea(storeLocation.getArea());
         stores.setPinCode(storeLocation.getPinCode());
         stores.setIsActive(storeLocation.getIsActive());
-        stores.setCreatedAt(storeLocation.getCreatedAt());
+        stores.setCreatedAt(storeLocation.getCreatedAt
+                ());
         return stores;
     }
 }

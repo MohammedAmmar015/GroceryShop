@@ -1,13 +1,17 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.StoreLocation;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.sql.Date;
+import java.util.Date;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class StockResponse {
 
     private Integer id;
@@ -18,16 +22,10 @@ public class StockResponse {
 
     private Integer productId;
 
-    private Date createdAt;
-
     private Date modifiedAt;
-
-    private Integer createdBy;
 
     private Integer modifiedBy;
 
-    private Boolean isActive;
-
-    private StoreLocation storeLocation;
+    private String location;
 }
 
