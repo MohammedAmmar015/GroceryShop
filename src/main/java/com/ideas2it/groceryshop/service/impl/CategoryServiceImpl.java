@@ -8,8 +8,8 @@ import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.service.CategoryService;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +74,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepo.findCategoryByParentIdAndId(subCategoryId, id);
         category.setActive(false);
         categoryRepo.save(category);
-
         List<Product> products = productRepo.findAllProductBySubCategoryIdAndIsActive(subCategoryId, true);
         for(Product product1: products) {
             product1.setActive(false);
@@ -83,11 +82,6 @@ public class CategoryServiceImpl implements CategoryService {
         return "deleted";
     }
 
-//    @Override
-//    public String deleteProduct(Integer id) {
-//        categoryRepo.findById(id);
-//    }
-
     @Override
     public String updateCategory(Integer id, String categoryName) {
         Category category = categoryRepo.findByIdAndIsActive(id, true);
@@ -95,5 +89,4 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepo.save(category);
         return "category name Updated";
     }
-
 }

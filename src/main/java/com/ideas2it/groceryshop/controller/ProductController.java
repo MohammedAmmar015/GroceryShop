@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * <p>
- *     It controls all the Products APIs
+ *     It implements method of CRUD operations for Product.
  * </p>
  * @author RUBAN  04/11/22
  * @version  1.0

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * <p>
- *     It implements method for category CRUD operations.
+ *     It implements method of CRUD operations for Category.
  * </p>
  * @author RUBAN  04/11/22
  * @version  1.0
@@ -67,7 +67,6 @@ public class CategoryController {
     public String deleteSubCategory(@PathVariable("categoryId") Integer id, @PathVariable("subCategoryId") Integer subCategoryId) {
         return categoryService.deleteSubCategory(id, subCategoryId);
     }
-
 
     @PutMapping("/{id}/{categoryName}")
     public String updateCategory(@PathVariable("id") Integer id, @PathVariable("categoryName") String categoryName) {

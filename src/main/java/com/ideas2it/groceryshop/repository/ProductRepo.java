@@ -15,13 +15,14 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 
     List<Product> findByCategoryIdAndIsActive(Integer categoryId, Boolean status);
 
-    List<Product> findAllProductByCategoryIdAndIsActive(Integer id, boolean status);
-
     @Query(value = "select * from product where sub_category_id = ?1", nativeQuery = true)
     List<Product> findBySubCategoryIDAndIsActive(Integer subCategoryId, Boolean status);
 
-    @Query(value  = "select * from product where sub_category_id = ?1 AND is_active = ?2", nativeQuery = true)
-    List<Product> findAllProductBySubCategoryIdAndIsActive(Integer subCategoryId, boolean status);
+    List<Product> findAllProductByCategoryIdAndIsActive(Integer id, Boolean status);
+
+    @Query(value  = "select * from product where sub_category_id = ?1 AND is_active = ?2",
+            nativeQuery = true)
+    List<Product> findAllProductBySubCategoryIdAndIsActive(Integer subCategoryId, Boolean status);
 }
 
 
