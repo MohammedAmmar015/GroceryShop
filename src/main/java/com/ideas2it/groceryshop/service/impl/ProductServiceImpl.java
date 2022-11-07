@@ -2,6 +2,8 @@ package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
@@ -34,14 +36,16 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    public String addProduct(ProductRequestDto productRequestDto) {
+    public String addProduct(ProductRequestDto productRequestDto) throws Existed {
+        if(productRepo.existsByName(productRequestDto.getName())) {
+            throw new Existed("Product Already Added");
+        }
         Product product = ProductMapper.toProduct(productRequestDto);
         Optional<Category> category = categoryRepo.findById(productRequestDto.getSubCategoryId());
         product.setCategory(category.get());
         product.setCategoryId(productRequestDto.getCategoryId());
         productRepo.save(product);
-        return "saved";
-
+        return "Saved Successfully";
     }
 
     public List<ProductResponseDto> getProducts() {
@@ -50,23 +54,34 @@ public class ProductServiceImpl implements ProductService {
         for (Product products :product) {
             productResponseDto.add(ProductMapper.toProductDto(products));
         }
-         return productResponseDto;
+        return productResponseDto;
     }
 
-    public ProductResponseDto getProductById(Integer id) {
-       Product product = productHelper.getProductById(id);
-        return ProductMapper.toProductDto(product);
+    public ProductResponseDto getProductById(Integer id) throws NotFoundException {
+        try {
+            Product product = productHelper.getProductById(id);
+            return ProductMapper.toProductDto(product);
+        } catch(NullPointerException exception) {
+            throw new NotFoundException("Id Not Exist");
+        }
+
     }
 
     @Override
-    public List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) {
+    public List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFoundException {
         List<Product> products = productRepo.findByCategoryIdAndIsActive( categoryId, true);
+        if(products.isEmpty()) {
+            throw new NotFoundException("No Products Found, Id Invalid");
+        }
         return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) {
+    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFoundException {
         List<Product> products = productRepo.findBySubCategoryIDAndIsActive(subCategoryId, true);
+        if(products.isEmpty()) {
+            throw new NotFoundException("No Products Found, Id Invalid");
+        }
         return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }
 
@@ -75,6 +90,16 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepo.findByIdAndIsActive(id, true);
         product.setActive(false);
         productRepo.save(product);
-        return "Product Deleted Successfully";
+        return "Deleted Successfully";
+    }
+
+    @Override
+    public String updateProductById(Integer id, ProductRequestDto productRequestDto) {
+        Product product = productRepo.findByIdAndIsActive(id, true);
+        product.setName(productRequestDto.getName());
+        product.setPrice(productRequestDto.getPrice());
+        product.setUnit(productRequestDto.getUnit());
+        productRepo.save(product);
+        return "Updated Successfully";
     }
 }

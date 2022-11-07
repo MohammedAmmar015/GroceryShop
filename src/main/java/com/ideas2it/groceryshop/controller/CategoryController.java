@@ -2,6 +2,8 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +44,18 @@ public class CategoryController {
      * @return returns message.
      */
     @PostMapping("/")
-    public String insertCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
+    public String insertCategory(@RequestBody CategoryRequestDto categoryRequestDto) throws Existed {
         return categoryService.addCategory(categoryRequestDto);
 
     }
 
     @GetMapping("/")
-    public List<CategoryResponseDto> getCategory() {
+    public List<CategoryResponseDto> getCategory() throws NotFoundException {
         return categoryService.getCategory();
     }
 
     @GetMapping("/subCategories")
-    public List<CategoryResponseDto> getSubCategory() {
+    public List<CategoryResponseDto> getSubCategory() throws NotFoundException {
         return categoryService.getAllSubCategory();
     }
 
@@ -68,8 +70,13 @@ public class CategoryController {
         return categoryService.deleteSubCategory(id, subCategoryId);
     }
 
-    @PutMapping("/{id}/{categoryName}")
-    public String updateCategory(@PathVariable("id") Integer id, @PathVariable("categoryName") String categoryName) {
-        return categoryService.updateCategory(id, categoryName);
+    @PutMapping("/{id}/")
+    public String updateCategory(@PathVariable("id") Integer id, @RequestBody CategoryRequestDto categoryRequestDto) {
+        return categoryService.updateCategory(id, categoryRequestDto);
+    }
+
+    @PutMapping("/subCategories/{categoryId}/{parentId}")
+    public String updateSubCategory(@PathVariable("categoryId") Integer categoryId, @PathVariable("parentId") Integer parentId, @RequestBody CategoryRequestDto categoryRequestDto) {
+        return categoryService.updateSubCategory(categoryId, parentId, categoryRequestDto);
     }
 }
