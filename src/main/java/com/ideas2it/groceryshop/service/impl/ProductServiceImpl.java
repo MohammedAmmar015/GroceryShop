@@ -9,15 +9,15 @@ import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepo productRepo;
@@ -25,8 +25,6 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepo categoryRepo;
 
     private ProductHelper productHelper;
-
-
 
     @Autowired
     public ProductServiceImpl(ProductRepo productRepo, CategoryRepo categoryRepo, ProductHelper productHelper) {
@@ -58,14 +56,12 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDto getProductById(Integer id) {
        Product product = productHelper.getProductById(id);
         return ProductMapper.toProductDto(product);
-
     }
 
     @Override
     public List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) {
         List<Product> products = productRepo.findByCategoryIdAndIsActive( categoryId, true);
         return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
-
     }
 
     @Override
@@ -81,6 +77,4 @@ public class ProductServiceImpl implements ProductService {
         productRepo.save(product);
         return "Product Deleted Successfully";
     }
-
-
 }
