@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
         if (userRequestDto.getRoleDto().getName().equals("customer")) {
             Cart cart = new Cart();
             user.setCart(cart);
+            cart.setUser(user);
         }
         Optional<Role> role =
                 roleRepo.findByIsActiveAndName(true, userRequestDto.getRoleDto().getName());

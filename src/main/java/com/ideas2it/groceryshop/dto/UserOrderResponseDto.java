@@ -16,6 +16,6 @@ public class UserOrderResponseDto {
     private Date orderedDate;
     private Float totalPrice;
     private List<OrderDetailsResponseDto> orderDetailsResponseDtos;
-    private User user;
+    private Integer userId;
 
 }

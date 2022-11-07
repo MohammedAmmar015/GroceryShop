@@ -32,9 +32,9 @@ public class OrderDetails {
     @CreationTimestamp
     private Date modifiedAt;
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 0;
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy;
+    private Integer modifiedBy = 0;
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
