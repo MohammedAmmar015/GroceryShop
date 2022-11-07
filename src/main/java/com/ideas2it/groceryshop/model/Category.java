@@ -1,15 +1,22 @@
 package com.ideas2it.groceryshop.model;
 
-import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.util.Date;
-import java.util.List;
+
 
 /**
  * <p>
@@ -40,10 +47,10 @@ public class Category {
     private Category category;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name ="modified_at", nullable = false)
     private Date modifiedAt;
 
@@ -55,5 +62,4 @@ public class Category {
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
-
 }

@@ -1,11 +1,11 @@
-
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.Product;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepo extends JpaRepository<Product, Integer> {
     Product findByIdAndIsActive(Integer productId, Boolean status);
@@ -23,6 +23,8 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query(value  = "select * from product where sub_category_id = ?1 AND is_active = ?2",
             nativeQuery = true)
     List<Product> findAllProductBySubCategoryIdAndIsActive(Integer subCategoryId, Boolean status);
+
+    boolean existsByName(String name);
 }
 
 
