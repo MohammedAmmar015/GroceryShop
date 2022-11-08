@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.service;
 
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
@@ -41,16 +42,14 @@ public interface UserOrderService {
      * @param userOrderRequestDto
      * @param cartId
      */
-    void placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException;
+    SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException;
 
     /**
-     * <p>
-     *     This method is used for placing order directly without cart
-     * </p>
+     * This method is used for placing order directly without cart
      * @param userOrderRequestDto
      * @param userId
      */
-    void buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException;
+    SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException;
 
     /**
      * <p>
@@ -77,5 +76,5 @@ public interface UserOrderService {
      * @param order_id
      * @return String
      */
-    String cancelOrderById(Integer order_id) throws NotFoundException;
+    SuccessDto cancelOrderById(Integer order_id) throws NotFoundException;
 }

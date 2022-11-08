@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.controller;
 
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
@@ -34,8 +35,8 @@ public class UserOrderController {
      *
      */
     @PostMapping("/place-order/{cart_id}")
-    public void placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cart_id) throws NotFoundException {
-        userOrderService.placeOrder(userOrderRequestDto, cart_id);
+    public SuccessDto placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cart_id) throws NotFoundException {
+        return userOrderService.placeOrder(userOrderRequestDto, cart_id);
     }
 
     /**
@@ -45,8 +46,8 @@ public class UserOrderController {
      * @param userOrderRequestDto, userId
      */
     @PostMapping("/buy-now/{userId}")
-    public void buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) throws NotFoundException {
-        userOrderService.buyNow(userOrderRequestDto, userId);
+    public SuccessDto buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) throws NotFoundException {
+        return userOrderService.buyNow(userOrderRequestDto, userId);
     }
 
     /**
@@ -103,7 +104,7 @@ public class UserOrderController {
      * @return String
      */
     @PutMapping("/cancelOrder/{order_id}")
-    public String cancelOrder(@PathVariable Integer order_id) throws NotFoundException {
+    public SuccessDto cancelOrder(@PathVariable Integer order_id) throws NotFoundException {
         return userOrderService.cancelOrderById(order_id);
     }
 
