@@ -115,8 +115,14 @@ CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String updateSubCategory(Integer categoryId, Integer parentId, CategoryRequestDto categoryRequestDto) {
+    public String updateSubCategory(Integer categoryId, Integer parentId, CategoryRequestDto categoryRequestDto) throws NotFoundException, Existed {
         Category category = categoryRepo.findByCategoyIdAndParentIdAndIsActive(categoryId, parentId, true);
+        if(category == null) {
+            throw new NotFoundException("Id Not Exist");
+        }
+        if (categoryRepo.existsByName(categoryRequestDto.getName())) {
+            throw new Existed("Name Exist");
+        }
         category.setName(categoryRequestDto.getName());
         categoryRepo.save(category);
         return "Updated Successfully";

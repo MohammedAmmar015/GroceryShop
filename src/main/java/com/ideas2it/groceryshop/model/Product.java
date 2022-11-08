@@ -45,10 +45,10 @@ public class Product {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private int createdBy = 1;
+    private int createdBy;
 
     @Column(name = "modified_by", nullable = false)
-    private int modifiedBy = 1;
+    private int modifiedBy;
 
     @Column(name = "is_active")
     private boolean isActive = true;

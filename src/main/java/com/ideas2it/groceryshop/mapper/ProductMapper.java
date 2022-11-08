@@ -11,6 +11,8 @@ public class ProductMapper {
         Product product = new Product();
         product.setUnit(productRequestDto.getUnit());
         product.setName(productRequestDto.getName());
+        product.setCreatedBy(productRequestDto.getCreatedBy());
+        product.setModifiedBy(productRequestDto.getCreatedBy());
         product.setPrice(productRequestDto.getPrice());
         return product;
 

@@ -20,5 +20,5 @@ public interface ProductService {
 
     String deleteProductById(Integer id) throws NotFoundException;
 
-    String updateProductById(Integer id, ProductRequestDto productRequestDto);
+    String updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFoundException, Existed;
 }

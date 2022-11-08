@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
 
-    private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
 
-    private ProductHelper productHelper;
+    private final ProductHelper productHelper;
 
     @Autowired
     public ProductServiceImpl(ProductRepo productRepo, CategoryRepo categoryRepo, ProductHelper productHelper) {
@@ -99,8 +99,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String updateProductById(Integer id, ProductRequestDto productRequestDto) {
+    public String updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFoundException, Existed {
         Product product = productRepo.findByIdAndIsActive(id, true);
+        if (product == null) {
+            throw new NotFoundException("Product Id Not Found");
+        }
+        if(productRepo.existsByName(productRequestDto.getName())) {
+            throw new Existed("Product Already Exist");
+        }
         product.setName(productRequestDto.getName());
         product.setPrice(productRequestDto.getPrice());
         product.setUnit(productRequestDto.getUnit());

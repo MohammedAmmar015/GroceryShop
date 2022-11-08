@@ -20,5 +20,5 @@ public interface CategoryService {
 
     String updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws Existed, NotFoundException;
 
-    String updateSubCategory(Integer categoryId, Integer subCategoryId, CategoryRequestDto categoryRequestDto);
+    String updateSubCategory(Integer categoryId, Integer subCategoryId, CategoryRequestDto categoryRequestDto) throws NotFoundException, Existed;
 }
