@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface StockRepo extends JpaRepository<Stock, Integer> {
     List<Stock> findByProductId(Integer productId);
-    List<Stock> findByProductIdAndStoreLocationId(Integer productId, Integer locationId);
+    Stock findByProductIdAndStoreLocationId(Integer productId, Integer locationId);
 
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product.id = ?2")
     @Modifying(clearAutomatically = true)
