@@ -1,13 +1,13 @@
 package com.ideas2it.groceryshop.helper;
 
-import com.ideas2it.groceryshop.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.ideas2it.groceryshop.model.User;
 import org.springframework.stereotype.Service;
 
+import com.ideas2it.groceryshop.repository.UserRepo;
+import com.ideas2it.groceryshop.model.User;
+
 /**
- *  This Class is used to help service classes
+ *  This Class is used to help other service classes
  *
  * @version 19.0 04-11-2022
  *
