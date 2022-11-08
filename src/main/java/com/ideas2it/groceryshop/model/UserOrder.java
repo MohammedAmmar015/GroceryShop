@@ -27,7 +27,7 @@ public class UserOrder {
     @Column(name = "total_Price", nullable = false)
     private Float totalPrice;
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Date createdAt;
@@ -35,17 +35,17 @@ public class UserOrder {
     @UpdateTimestamp
     private Date modifiedAt;
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 0;
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy;
-    @OneToMany
+    private Integer modifiedBy = 0;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private List<OrderDetails> orderDetails;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private User user ;
 
 }

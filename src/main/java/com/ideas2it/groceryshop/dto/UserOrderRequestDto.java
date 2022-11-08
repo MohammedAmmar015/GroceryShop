@@ -1,18 +1,17 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.model.Cart;
-import com.ideas2it.groceryshop.model.OrderDetails;
-import com.ideas2it.groceryshop.model.User;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserOrderRequestDto {
-
-//    private List<OrderDetails> orderDetails;
-//    private Cart cart;
-//    private User user;
+    private Integer quantity;
+    private Integer productId;
+    private Integer addressId;
+    private Integer cartId;
 }

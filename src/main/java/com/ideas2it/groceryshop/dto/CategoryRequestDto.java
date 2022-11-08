@@ -16,5 +16,7 @@ public class CategoryRequestDto {
 
     private Integer parentId;
 
+    private int createdBy;
+
 }
 

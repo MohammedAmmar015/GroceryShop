@@ -2,18 +2,23 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
-import com.ideas2it.groceryshop.model.Category;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryService {
-    public String addCategory(CategoryRequestDto categoryDto);
+    String addCategory(CategoryRequestDto categoryDto) throws Existed;
 
-   // Optional<Category> getCategoryById(Integer id);
+    List<CategoryResponseDto> getCategory() throws NotFoundException;
 
-    public List<CategoryResponseDto> getCategory();
+    List<CategoryResponseDto> getAllSubCategory() throws NotFoundException;
 
-    List<CategoryResponseDto> getAllSubCategory();
+    String deleteCategory(Integer id) throws NotFoundException;
 
+    String deleteSubCategory(Integer id, Integer subCategoryId) throws NotFoundException;
+
+    String updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws Existed, NotFoundException;
+
+    String updateSubCategory(Integer categoryId, Integer subCategoryId, CategoryRequestDto categoryRequestDto) throws NotFoundException, Existed;
 }

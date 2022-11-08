@@ -1,6 +1,5 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.model.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +13,9 @@ public class OrderDetailsResponseDto {
 
     private Float price;
 
-    private Product product;
+    private Integer productId;
+
+    private String productName;
+
 
 }

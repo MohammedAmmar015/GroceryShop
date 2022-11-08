@@ -5,9 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 
 @Entity
 @Getter
@@ -28,24 +37,29 @@ public class Product {
     private float price;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at",  updatable = false)
     private Date createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name ="modified_at", nullable = false)
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private int createdBy = 1;
+    private int createdBy;
 
     @Column(name = "modified_by", nullable = false)
-    private int modifiedBy = 1;
+    private int modifiedBy;
 
     @Column(name = "is_active")
     private boolean isActive = true;
     
-    @ManyToOne
-    @JoinColumn(name ="category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="sub_category_id")
     private Category category;
 
+    @Column(name ="unit")
+    private String unit;
+
+    @Column(name = "category_id")
+    private int categoryId;
 }

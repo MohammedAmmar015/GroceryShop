@@ -7,10 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class OrderDeliveryRequestDto {
-    private Boolean isDelivered;
-    private Integer order_id;
-    private Integer shippingAddressId;
+@AllArgsConstructor
+public class SuccessDto {
+    Integer statusCode;
+    String successMessage;
 }

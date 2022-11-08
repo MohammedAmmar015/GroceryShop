@@ -9,7 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,8 +24,8 @@ import java.util.List;
 @Table(name = "cart")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Where(clause = "is_active = 1")
 public class Cart {
     @Id
@@ -48,15 +48,26 @@ public class Cart {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy = id;
+    private Integer createdBy = 0;
 
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy = id;
+    private Integer modifiedBy = 0;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active",
+            nullable = false)
     private Boolean isActive = true;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @OneToOne()
+    @JoinColumn(name="user_id")
     private User user;
+
+    @PostPersist
+    public void setCreatedUser() {
+        createdBy = user.getId();
+    }
+    @PostUpdate
+    public void setModifiedUser() {
+        modifiedBy = user.getId();
+    }
+
 }

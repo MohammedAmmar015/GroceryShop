@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,4 +17,13 @@ public class ProductRequestDto {
     private String name;
 
     private float price;
+
+    private String unit;
+
+    private int subCategoryId;
+
+    private int createdBy;
+
+    private int modifiedBy;
+
 }

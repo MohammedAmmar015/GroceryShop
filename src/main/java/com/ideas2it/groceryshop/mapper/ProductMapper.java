@@ -9,7 +9,10 @@ import java.util.List;
 public class ProductMapper {
     public static Product toProduct(ProductRequestDto productRequestDto) {
         Product product = new Product();
+        product.setUnit(productRequestDto.getUnit());
         product.setName(productRequestDto.getName());
+        product.setCreatedBy(productRequestDto.getCreatedBy());
+        product.setModifiedBy(productRequestDto.getCreatedBy());
         product.setPrice(productRequestDto.getPrice());
         return product;
 
@@ -18,6 +21,7 @@ public class ProductMapper {
     public static ProductResponseDto toProductDto(Product product) {
         ProductResponseDto productResponseDto = new ProductResponseDto();
         productResponseDto.setId(product.getId());
+        productResponseDto.setUnit(product.getUnit());
         productResponseDto.setName(product.getName());
         productResponseDto.setPrice(product.getPrice());
         return productResponseDto;

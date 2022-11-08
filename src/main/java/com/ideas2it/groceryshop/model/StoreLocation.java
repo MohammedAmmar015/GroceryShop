@@ -11,8 +11,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter

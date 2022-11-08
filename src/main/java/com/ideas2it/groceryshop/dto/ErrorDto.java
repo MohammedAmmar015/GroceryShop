@@ -1,13 +1,15 @@
 package com.ideas2it.groceryshop.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
-public class ResponseDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorDto {
+    private Integer statusCode;
     private String errorMessage;
-    private String successMessage;
 }
