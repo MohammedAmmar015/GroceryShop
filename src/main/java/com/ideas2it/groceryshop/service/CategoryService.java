@@ -14,11 +14,11 @@ public interface CategoryService {
 
     List<CategoryResponseDto> getAllSubCategory() throws NotFoundException;
 
-    String deleteCategory(Integer id);
+    String deleteCategory(Integer id) throws NotFoundException;
 
-    String deleteSubCategory(Integer id, Integer subCategoryId);
+    String deleteSubCategory(Integer id, Integer subCategoryId) throws NotFoundException;
 
-    String updateCategory(Integer id, CategoryRequestDto categoryRequestDto);
+    String updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws Existed, NotFoundException;
 
     String updateSubCategory(Integer categoryId, Integer subCategoryId, CategoryRequestDto categoryRequestDto);
 }

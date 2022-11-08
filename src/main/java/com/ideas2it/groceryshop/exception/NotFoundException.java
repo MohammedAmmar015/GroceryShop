@@ -6,21 +6,8 @@ package com.ideas2it.groceryshop.exception;
  *
  */
 public class NotFoundException extends Exception{
-    public NotFoundException() {
-        super();
-    }
-
     public NotFoundException(String exception) {
         super(exception);
     }
-
-    public NotFoundException(Throwable error) {
-        super(error);
-    }
-
-    public NotFoundException(String exception, Throwable error) {
-        super(exception, error);
-    }
-
 
 }

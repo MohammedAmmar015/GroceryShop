@@ -10,7 +10,7 @@ import java.util.List;
 public interface ProductService {
     String addProduct(ProductRequestDto productRequestDto) throws Existed;
 
-    List<ProductResponseDto> getProducts();
+    List<ProductResponseDto> getProducts() throws NotFoundException;
 
     ProductResponseDto getProductById(Integer id) throws NotFoundException;
 
@@ -18,7 +18,7 @@ public interface ProductService {
 
     List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFoundException;
 
-    String deleteProductById(Integer id);
+    String deleteProductById(Integer id) throws NotFoundException;
 
     String updateProductById(Integer id, ProductRequestDto productRequestDto);
 }

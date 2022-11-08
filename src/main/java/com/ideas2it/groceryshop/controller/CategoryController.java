@@ -60,18 +60,18 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCategory(@PathVariable("id") Integer id){
+    public String deleteCategory(@PathVariable("id") Integer id) throws NotFoundException {
         return categoryService.deleteCategory(id);
 
     }
 
     @DeleteMapping("/subCategories/{categoryId}/{subCategoryId}")
-    public String deleteSubCategory(@PathVariable("categoryId") Integer id, @PathVariable("subCategoryId") Integer subCategoryId) {
+    public String deleteSubCategory(@PathVariable("categoryId") Integer id, @PathVariable("subCategoryId") Integer subCategoryId) throws NotFoundException {
         return categoryService.deleteSubCategory(id, subCategoryId);
     }
 
     @PutMapping("/{id}/")
-    public String updateCategory(@PathVariable("id") Integer id, @RequestBody CategoryRequestDto categoryRequestDto) {
+    public String updateCategory(@PathVariable("id") Integer id, @RequestBody CategoryRequestDto categoryRequestDto) throws Existed, NotFoundException {
         return categoryService.updateCategory(id, categoryRequestDto);
     }
 
