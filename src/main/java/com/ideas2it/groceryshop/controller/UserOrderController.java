@@ -2,6 +2,7 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class UserOrderController {
      *
      */
     @PostMapping("/place-order/{cart_id}")
-    public void placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cart_id) {
+    public void placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cart_id) throws NotFoundException {
         userOrderService.placeOrder(userOrderRequestDto, cart_id);
     }
 
@@ -44,7 +45,7 @@ public class UserOrderController {
      * @param userOrderRequestDto, userId
      */
     @PostMapping("/buy-now/{userId}")
-    public void buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) {
+    public void buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) throws NotFoundException {
         userOrderService.buyNow(userOrderRequestDto, userId);
     }
 
@@ -55,7 +56,7 @@ public class UserOrderController {
      * @return List<UserOrderResponseDto>
      */
     @GetMapping("/all-orders")
-    public List<UserOrderResponseDto> viewAllActiveOrders() {
+    public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFoundException {
        return userOrderService.viewAllActiveOrders();
     }
 
@@ -66,7 +67,7 @@ public class UserOrderController {
      * @return List<UserOrderResponseDto>
      */
     @GetMapping("/cancelledOrders")
-    public List<UserOrderResponseDto> viewAllCancelledOrders() {
+    public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFoundException {
         return userOrderService.viewAllCancelledOrders();
     }
 
@@ -78,7 +79,7 @@ public class UserOrderController {
      * @return UserOrderResponseDto
      */
     @GetMapping("/{order_id}")
-    public UserOrderResponseDto viewOrderById(@PathVariable Integer order_id) {
+    public UserOrderResponseDto viewOrderById(@PathVariable Integer order_id) throws NotFoundException {
         return userOrderService.viewOrderById(order_id);
     }
 
@@ -90,7 +91,7 @@ public class UserOrderController {
      * @return List<UserOrderResponseDto>
      */
     @GetMapping("/user-id/{user_id}")
-    public List<UserOrderResponseDto> viewOrderByUserId(@PathVariable Integer user_id) {
+    public List<UserOrderResponseDto> viewOrderByUserId(@PathVariable Integer user_id) throws NotFoundException {
         return userOrderService.viewOrderByUserId(user_id);
     }
 
@@ -102,7 +103,7 @@ public class UserOrderController {
      * @return String
      */
     @PutMapping("/cancelOrder/{order_id}")
-    public String cancelOrder(@PathVariable Integer order_id) {
+    public String cancelOrder(@PathVariable Integer order_id) throws NotFoundException {
         return userOrderService.cancelOrderById(order_id);
     }
 
@@ -114,7 +115,7 @@ public class UserOrderController {
      * @return List<UserOrderResponseDto>
      */
     @GetMapping("/product-id/{product_id}")
-    public List<UserOrderResponseDto> viewOrderByProductId(@PathVariable Integer product_id) {
+    public List<UserOrderResponseDto> viewOrderByProductId(@PathVariable Integer product_id) throws NotFoundException {
         return userOrderService.viewOrdersByProductId(product_id);
     }
 

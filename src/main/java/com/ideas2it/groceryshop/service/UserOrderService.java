@@ -2,6 +2,7 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface UserOrderService {
      * </p>
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewAllActiveOrders();
+    List<UserOrderResponseDto> viewAllActiveOrders() throws NotFoundException;
 
     /**
      * <p>
@@ -22,7 +23,7 @@ public interface UserOrderService {
      * @return List<UserOrderResponseDto>
      */
 
-    List<UserOrderResponseDto> viewAllCancelledOrders();
+    List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFoundException;
 
     /**
      * <p>
@@ -31,7 +32,7 @@ public interface UserOrderService {
      * @param orderId
      * @return UserOrderResponseDto
      */
-    UserOrderResponseDto viewOrderById(Integer orderId);
+    UserOrderResponseDto viewOrderById(Integer orderId) throws NotFoundException;
 
     /**
      * <p>
@@ -40,7 +41,7 @@ public interface UserOrderService {
      * @param userOrderRequestDto
      * @param cartId
      */
-    void placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId);
+    void placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException;
 
     /**
      * <p>
@@ -49,7 +50,7 @@ public interface UserOrderService {
      * @param userOrderRequestDto
      * @param userId
      */
-    void buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId);
+    void buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException;
 
     /**
      * <p>
@@ -58,7 +59,7 @@ public interface UserOrderService {
      * @param productId
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrdersByProductId(Integer productId);
+    List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException;
 
     /**
      * <p>
@@ -67,7 +68,7 @@ public interface UserOrderService {
      * @param user_id
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrderByUserId(Integer user_id);
+    List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFoundException;
 
     /**
      * <p>
@@ -76,5 +77,5 @@ public interface UserOrderService {
      * @param order_id
      * @return String
      */
-    String cancelOrderById(Integer order_id);
+    String cancelOrderById(Integer order_id) throws NotFoundException;
 }
