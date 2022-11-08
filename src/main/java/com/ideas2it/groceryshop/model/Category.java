@@ -17,14 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.util.Date;
 
-
 /**
  * <p>
- * It implements methods for add, view, delete and update operation for categories
+ *   It is the Model object for category.
  * </p>
  *
- * @ author Ruban
- * @ version 1.0 01/11/22
+ * @author Ruban
+ * @version 1.0  01/11/22
  *
  **/
 @Entity
