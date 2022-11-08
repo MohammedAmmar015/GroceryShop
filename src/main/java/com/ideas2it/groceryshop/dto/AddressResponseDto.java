@@ -21,12 +21,12 @@ public class AddressResponseDto {
     private Integer id;
     private String street;
     private String area;
-    private String pinCode;
+    private Integer pinCode;
     private String landMark;
     private Date createdAt;
     private Date ModifiedAt;
-    private Integer createdBy = 1;
-    private Integer modifiedBy = 1;
-    private Boolean isActive = Boolean.TRUE;
-    private Boolean isDefault = Boolean.TRUE;
+    private Integer createdBy;
+    private Integer modifiedBy;
+    private Boolean isActive;
+    private Boolean isDefault;
 }

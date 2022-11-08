@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -36,13 +37,13 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name", length = 11, nullable = false)
+    @Column(name = "name", length = 15, nullable = false)
     private String name;
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
     @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @UpdateTimestamp
     private Date ModifiedAt;
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;

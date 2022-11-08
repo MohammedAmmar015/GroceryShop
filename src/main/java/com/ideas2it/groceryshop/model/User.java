@@ -1,9 +1,9 @@
 package com.ideas2it.groceryshop.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -22,11 +21,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.ideas2it.groceryshop.model.Address;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.Role;
-import com.ideas2it.groceryshop.model.OrderDelivery;
-import com.ideas2it.groceryshop.model.UserOrder;
 
 /**
  *
@@ -49,17 +45,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name", length = 20 ,nullable = false)
-    private String name;
+    @Column(name = "user_name", length = 20 , nullable = false)
+    private String userName;
+    @Column(name = "first_name", length = 20 , nullable = false)
+    private String firstName;
+    @Column(name = "last_name", length = 20 , nullable = false)
+    private String lastName;
+    @Column(name = "password")
+    private String password;
     @Column(name = "mobile_number", length = 10, nullable = false)
     private Long mobileNumber;
     @Column(name = "email", length = 50, nullable = false)
     private String email;
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
     @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @UpdateTimestamp
     private Date ModifiedAt;
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;
@@ -70,9 +72,6 @@ public class User {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", columnDefinition = "role_id")
     private Role role;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<UserOrder> orders;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Cart cart;
 }
