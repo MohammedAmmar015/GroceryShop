@@ -22,4 +22,8 @@ public class ProductRequestDto {
 
     private int subCategoryId;
 
+    private int createdBy;
+
+    private int modifiedBy;
+
 }

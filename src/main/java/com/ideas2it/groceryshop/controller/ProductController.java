@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @PostMapping("/")
-    public String insertProduct(@RequestBody ProductRequestDto productRequestDto) throws Existed {
+    public String addProduct(@RequestBody ProductRequestDto productRequestDto) throws Existed {
         return productService.addProduct(productRequestDto);
 
     }
@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public String updateProductById(@PathVariable("id") Integer id, @RequestBody ProductRequestDto productRequestDto) {
+    public String updateProductById(@PathVariable("id") Integer id, @RequestBody ProductRequestDto productRequestDto) throws NotFoundException, Existed {
         return productService.updateProductById(id, productRequestDto);
     }
 }

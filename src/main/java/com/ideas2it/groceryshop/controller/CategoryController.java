@@ -44,7 +44,7 @@ public class CategoryController {
      * @return returns message.
      */
     @PostMapping("/")
-    public String insertCategory(@RequestBody CategoryRequestDto categoryRequestDto) throws Existed {
+    public String addCategory(@RequestBody CategoryRequestDto categoryRequestDto) throws Existed {
         return categoryService.addCategory(categoryRequestDto);
 
     }
@@ -76,7 +76,7 @@ public class CategoryController {
     }
 
     @PutMapping("/subCategories/{categoryId}/{parentId}")
-    public String updateSubCategory(@PathVariable("categoryId") Integer categoryId, @PathVariable("parentId") Integer parentId, @RequestBody CategoryRequestDto categoryRequestDto) {
+    public String updateSubCategory(@PathVariable("categoryId") Integer categoryId, @PathVariable("parentId") Integer parentId, @RequestBody CategoryRequestDto categoryRequestDto) throws Existed, NotFoundException {
         return categoryService.updateSubCategory(categoryId, parentId, categoryRequestDto);
     }
 }

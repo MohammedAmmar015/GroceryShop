@@ -26,15 +26,17 @@ public class ApplicationExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public Map<String, String> handleNotFoundException(NotFoundException notFoundException) {
         Map<String, String> error = new HashMap<>();
-        error.put("Error-Info", notFoundException.getMessage());
+        error.put("Message", notFoundException.getMessage());
+        error.put("status-code", "404");
         return error;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(Existed.class)
-    public Map<String, String> handleAllReadyExisted(Existed existed) {
+    public Map<String, String> handleAlReadyExists(Existed existed) {
         Map<String, String> error = new HashMap<>();
-        error.put("Error-Info", existed.getMessage());
+        error.put("Message", existed.getMessage());
+        error.put("status-code", "404");
         return error;
     }
 }
