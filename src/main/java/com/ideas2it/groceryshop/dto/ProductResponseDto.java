@@ -5,6 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * <p>
+ *     This class is Product Response Dto and contains filtered fields.
+ * </p>
+ * @author RUBAN 03/11/2022
+ * @version  1.0
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,13 +25,4 @@ public class ProductResponseDto {
 
     private String unit;
 
-   // private Date createdAt;
-
-    //private Date modifiedAt;
-
-   // private int createdBy;
-
-    //private int modifiedBy;
-
-   // private boolean isActive;
 }

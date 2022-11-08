@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author  RUBAN
+ * @version  1.0 05/11/22
+ */
 @Repository
 public interface CategoryRepo extends JpaRepository<Category, Integer> {
 
