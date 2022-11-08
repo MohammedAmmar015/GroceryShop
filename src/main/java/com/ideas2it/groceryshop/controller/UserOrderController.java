@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.controller;
 
+import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
@@ -8,6 +9,9 @@ import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -119,5 +123,32 @@ public class UserOrderController {
     public List<UserOrderResponseDto> viewOrderByProductId(@PathVariable Integer product_id) throws NotFoundException {
         return userOrderService.viewOrdersByProductId(product_id);
     }
+
+    /**
+     * This method is used for delivery person to get order by orderId
+     * @param orderId
+     * @return OrderDeliveryResponseDto
+     */
+    @GetMapping("/orders-delivery/{orderId}")
+    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFoundException{
+        return userOrderService.getDeliveryOrder(orderId);
+    }
+
+
+    @GetMapping("/orderedDate/{orderedDate}")
+    public List<UserOrderResponseDto> viewOrdersByDate(@PathVariable String orderedDate) throws NotFoundException, ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = simpleDateFormat.parse(orderedDate);
+        return userOrderService.viewOrdersByDate(date);
+    }
+
+    @GetMapping("/{orderedDate}/{userId}")
+    public List<UserOrderResponseDto> viewOrdersByIdAndDate(@PathVariable String orderedDate, @PathVariable Integer userId) throws NotFoundException, ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = simpleDateFormat.parse(orderedDate);
+        return userOrderService.viewOrdersByIdAndDate(date, userId);
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.service.impl;
 
+import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
@@ -7,6 +8,7 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
+import com.ideas2it.groceryshop.mapper.OrderDeliveryMapper;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
 import com.ideas2it.groceryshop.model.*;
 import com.ideas2it.groceryshop.repository.AddressRepo;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -237,6 +240,41 @@ public class UserOrderServiceImpl implements UserOrderService {
             throw new NotFoundException("No Record Found!!!");
         }
 
+    }
+
+    /**
+     * This method is used for delivery person to get order by orderId
+     * @param orderId
+     * @return OrderDeliveryResponseDto
+     */
+    @Override
+    public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException {
+        OrderDelivery orderDelivery = orderDeliveryRepo.findByUserOrderId(orderId);
+        if(orderDelivery != null) {
+            return OrderDeliveryMapper.entityToDto(orderDelivery);
+        } else {
+            throw new NotFoundException("No Record Found");
+        }
+    }
+
+    public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFoundException {
+        List<UserOrder> userOrders =  userOrderRepo.findByOrderedDate(orderedDate);
+        if(!userOrders.isEmpty()) {
+            return UserOrderMapper.getAllOrdersDto(userOrders);
+        } else {
+            throw new NotFoundException("No Record Found");
+        }
+
+    }
+
+    @Override
+    public List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFoundException {
+        List<UserOrder> userOrders =  userOrderRepo.findByOrderedDateAndUserId(orderedDate, userId);
+        if(!userOrders.isEmpty()) {
+            return UserOrderMapper.getAllOrdersDto(userOrders);
+        } else {
+            throw new NotFoundException("No Record Found");
+        }
     }
 
 }

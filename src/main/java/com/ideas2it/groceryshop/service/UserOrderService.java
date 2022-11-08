@@ -1,10 +1,12 @@
 package com.ideas2it.groceryshop.service;
 
+import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UserOrderService {
@@ -77,4 +79,29 @@ public interface UserOrderService {
      * @return String
      */
     SuccessDto cancelOrderById(Integer order_id) throws NotFoundException;
+
+    /**
+     * This method is used for delivery person to get order by orderId
+     * @param orderId
+     * @return OrderDeliveryResponseDto
+     */
+    OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException;
+
+    /**
+     * This method is used to retrieve orders by ordered date
+     * @param orderedDate
+     * @return List<UserOrderResponseDto>
+     */
+    List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFoundException;
+
+    /**
+     * <p>
+     *     This method is used to retrieve particular orders
+     *     by using ordered date and user id
+     * </p>
+     *
+     * @param orderedDate
+     * @return List<UserOrderResponseDto>
+     */
+    List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFoundException;
 }
