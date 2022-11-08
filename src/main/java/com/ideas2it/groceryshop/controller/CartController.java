@@ -2,8 +2,9 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.CartRequest;
 import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -14,38 +15,70 @@ import org.springframework.web.bind.annotation.*;
  * @since 04-11-2022
  * @version 1.0
  */
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/carts")
 public class CartController {
 
     private CartService cartService;
-    @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
 
+    /**
+     * <p>
+     *     This API is used to Add Products to Cart of Particular user
+     * </p>
+     * @param cartRequest - Cart details to be added to cart
+     * @param userId - user's id to add product to user's cart
+     * @return SuccessDto with Message and Status Code
+     */
     @PostMapping("/{userId}")
-    public void createCart(@RequestBody CartRequest cartRequest,
-                           @PathVariable Integer userId) {
-        cartService.addCart(cartRequest, userId);
+    public SuccessDto createCart(@RequestBody CartRequest cartRequest,
+                                 @PathVariable Integer userId) {
+        return cartService.addCart(cartRequest, userId);
     }
 
+    /**
+     * <p>
+     *     This API is used to view Cart for Particular user by user id
+     * </p>
+     * @param userId - user's id to view Cart
+     * @return - CartResponse with product details
+     */
     @GetMapping("/{userId}")
     public CartResponse viewCarts(@PathVariable Integer userId) {
         return cartService.getCartByUserId(userId);
     }
 
+    /**
+     * <p>
+     *     This API is used to update cart product's quantity of Particular user
+     * </p>
+     * @param cartRequest - cart details to be updated
+     * @param userId - user's id to update cart details
+     */
     @PutMapping("/{userId}")
     public void updateCart(@RequestBody CartRequest cartRequest,
                            @PathVariable Integer userId) {
         cartService.updateCartByUser(cartRequest, userId);
     }
 
+    /**
+     * <p>
+     *     This API is used to delete all products from Cart
+     * </p>
+     * @param userId user's id to delete all products from cart
+     */
     @DeleteMapping("/{userId}")
     public void deleteCart(@PathVariable Integer userId) {
         cartService.removeCart(userId);
     }
 
+    /**
+     * <p>
+     *     This API is used to delete Particular product from Cart
+     * </p>
+     * @param userId - user's id
+     * @param productId - product id to delete from cart
+     */
     @DeleteMapping("/{userId}/{productId}")
     public void deleteProductFromCart(@PathVariable Integer userId, @PathVariable Integer productId) {
         cartService.removeProductFromCart(userId,productId);
