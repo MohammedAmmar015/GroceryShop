@@ -65,8 +65,11 @@ CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String deleteCategory(Integer id) {
+    public String deleteCategory(Integer id) throws NotFoundException {
         Category category = categoryRepo.findByIdAndIsActive(id, true);
+        if (category == null) {
+            throw new NotFoundException("Id Not Exist");
+        }
         category.setActive(false);
         List<Category> categories = categoryRepo.findSubCategoryByParentId(id);
         for (Category category1: categories) {
@@ -82,8 +85,11 @@ CategoryServiceImpl implements CategoryService {
         return "Deleted Successfully";
     }
 
-    public String deleteSubCategory(Integer id, Integer subCategoryId) {
-        Category category = categoryRepo.findCategoryByParentIdAndId(subCategoryId, id);
+    public String deleteSubCategory(Integer id, Integer subCategoryId) throws NotFoundException {
+        Category category = categoryRepo.findSubCategoryByParentIdAndIdAndIsActive(subCategoryId, id, true);
+        if (category == null) {
+            throw new NotFoundException("Id Not Exist");
+        }
         category.setActive(false);
         categoryRepo.save(category);
         List<Product> products = productRepo.findAllProductBySubCategoryIdAndIsActive(subCategoryId, true);
@@ -95,8 +101,14 @@ CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String updateCategory(Integer id, CategoryRequestDto categoryRequestDto) {
+    public String updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws NotFoundException, Existed {
         Category category = categoryRepo.findByIdAndParentIdAndIsActive(id, true);
+        if(category == null) {
+            throw new NotFoundException("Id Not Exist");
+        }
+        if (categoryRepo.existsByName(categoryRequestDto.getName())) {
+            throw new Existed("Name Exist");
+        }
         category.setName(categoryRequestDto.getName());
         categoryRepo.save(category);
         return "Updated Successfully";

@@ -48,11 +48,14 @@ public class ProductServiceImpl implements ProductService {
         return "Saved Successfully";
     }
 
-    public List<ProductResponseDto> getProducts() {
-        List<Product> product = productRepo.findAllAndIsActive(true);
+    public List<ProductResponseDto> getProducts() throws NotFoundException {
+        List<Product> products = productRepo.findAllAndIsActive(true);
+        if (products == null || products.isEmpty()) {
+            throw new NotFoundException("Found No Products");
+        }
         List<ProductResponseDto> productResponseDto = new ArrayList<>();
-        for (Product products :product) {
-            productResponseDto.add(ProductMapper.toProductDto(products));
+        for (Product product :products) {
+            productResponseDto.add(ProductMapper.toProductDto(product));
         }
         return productResponseDto;
     }
@@ -64,7 +67,6 @@ public class ProductServiceImpl implements ProductService {
         } catch(NullPointerException exception) {
             throw new NotFoundException("Id Not Exist");
         }
-
     }
 
     @Override
@@ -86,8 +88,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String deleteProductById(Integer id) {
+    public String deleteProductById(Integer id) throws NotFoundException {
         Product product = productRepo.findByIdAndIsActive(id, true);
+        if (product == null) {
+            throw new NotFoundException("Id Not Exist");
+        }
         product.setActive(false);
         productRepo.save(product);
         return "Deleted Successfully";

@@ -24,8 +24,8 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
     @Query(value ="select * from category where parent_id is null and is_active = ?1", nativeQuery = true)
     List<Category> findByParentIdAndIsActive( Boolean status);
 
-    @Query(value = "select * from category where id = ?1 AND parent_id = ?2", nativeQuery = true)
-    Category findCategoryByParentIdAndId(Integer subCategoryId, Integer id);
+    @Query(value = "select * from category where id = ?1 AND parent_id = ?2 and is_active = ?3", nativeQuery = true)
+    Category findSubCategoryByParentIdAndIdAndIsActive(Integer subCategoryId, Integer id, Boolean status);
 
     @Query(value = "select * from category where id = ?1 and parent_id = ?2 and is_active = ?3", nativeQuery = true)
     Category findByCategoyIdAndParentIdAndIsActive(Integer categoryId, Integer parentId, Boolean status);

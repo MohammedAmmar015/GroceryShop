@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public List<ProductResponseDto> getProducts() {
+    public List<ProductResponseDto> getProducts() throws NotFoundException {
         return productService.getProducts();
     }
 
@@ -63,7 +63,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProductById(@PathVariable("id") Integer id) {
+    public String deleteProductById(@PathVariable("id") Integer id) throws NotFoundException {
         return productService.deleteProductById(id);
     }
 
