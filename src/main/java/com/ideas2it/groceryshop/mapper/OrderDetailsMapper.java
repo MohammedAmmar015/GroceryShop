@@ -12,7 +12,6 @@ public class OrderDetailsMapper {
     public static OrderDetails dtoToEntity(UserOrderRequestDto orderDetailsRequestDto) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setQuantity(orderDetailsRequestDto.getQuantity());
-        //orderDetails.setProduct(orderDetailsRequestDto.getProduct());
         return orderDetails;
     }
 
@@ -22,7 +21,6 @@ public class OrderDetailsMapper {
         orderDetailsResponseDto.setPrice(orderDetails.getPrice());
         orderDetailsResponseDto.setProductId(orderDetails.getProduct().getId());
         orderDetailsResponseDto.setProductName(orderDetails.getProduct().getName());
-        //orderDetailsResponseDto.setProduct(orderDetails.getProduct());
         return orderDetailsResponseDto;
     }
 
