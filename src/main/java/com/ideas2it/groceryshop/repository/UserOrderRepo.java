@@ -56,10 +56,21 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
             "where order_details.product_id = :productId", nativeQuery = true)
     List<UserOrder> findByProductId(Integer productId);
 
+    /**
+     * This method is used to retrieve user order by ordered date
+     * @param orderedDate
+     * @return List<UserOrder>
+     */
     @Query("Select o from UserOrder o where date(o.orderedDate) = ?1")
     List<UserOrder> findByOrderedDate(Date orderedDate);
 
-    @Query("Select o from UserOrder o where date(o.orderedDate) = ?1 AND o.user.id = ?2")
+    /**
+     * This method is used to retrieve user order by using userId and orderedDate
+     * @param orderedDate
+     * @param userId
+     * @return List<UserOrder>
+     */
+    @Query("Select o from UserOrder o where Date(o.orderedDate) = ?1 AND o.user.id = ?2")
     List<UserOrder> findByOrderedDateAndUserId(Date orderedDate, Integer userId);
 
 }
