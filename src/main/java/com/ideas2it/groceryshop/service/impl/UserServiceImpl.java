@@ -10,12 +10,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ideas2it.groceryshop.configuration.CustomUserDetails;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.helper.UserHelper;
+import com.ideas2it.groceryshop.mapper.UserMapper;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.Role;
-import com.ideas2it.groceryshop.dto.UserRequestDto;
-import com.ideas2it.groceryshop.mapper.UserMapper;
 import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.repository.RoleRepo;
 import com.ideas2it.groceryshop.repository.UserRepo;
@@ -31,35 +35,43 @@ import com.ideas2it.groceryshop.service.UserService;
  *
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
 
     @Autowired
-    RoleRepo roleRepo;
+    private RoleRepo roleRepo;
 
     @Autowired
-    UserHelper userHelper;
+    private UserHelper userHelper;
 
     /**
      * it is used to create user
      *
-     * @param userRequestDto
+     * @param userRequestDto it contains user details
+     * @return SuccessDto it contains success message
+     * @throws Existed if username already exist
      */
-    public void addUser(UserRequestDto userRequestDto) {
+    public SuccessDto addUser(UserRequestDto userRequestDto) throws Existed {
         User user = UserMapper.userRequestDtoToUser(userRequestDto);
-        if (userRequestDto.getRoleRequestDto().getName().equals("customer")) {
+        if (userRepo.existsByUserName(userRequestDto.getUserName())) {
+            throw new Existed("User name already exist");
+        }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(userRequestDto.getPassword()));
+        if (userRequestDto.getRoleRequestDto().getName().equals("ROLE_CUSTOMER")) {
             Cart cart = new Cart();
             user.setCart(cart);
             cart.setUser(user);
         }
         Optional<Role> role = roleRepo.findByIsActiveAndName
-                        (true, userRequestDto.getRoleRequestDto().getName());
+                        (true, user.getRole().getName());
         if (role.isPresent()) {
             user.setRole(role.get());
         }
         userRepo.save(user);
+        return new SuccessDto(200,"Created user successfully");
     }
 
     /**
@@ -67,10 +79,14 @@ public class UserServiceImpl implements UserService {
      *
      * @param id it is used to get user by id
      * @return userResponseDto it contains user detail
+     * @throws NotFoundException if user does not exist or inactive
      */
-    public UserResponseDto getUserById(Integer id) {
-        User user = userRepo.findByIsActiveAndId(true, id);
-        UserResponseDto userResponseDto = UserMapper.userToUserResponseDto(user);
+    public UserResponseDto getUserById(Integer id) throws NotFoundException {
+        Optional<User> user = userRepo.findByIsActiveAndId(true, id);
+        if(user.isEmpty()) {
+            throw new NotFoundException("User does not exist");
+        }
+        UserResponseDto userResponseDto = UserMapper.userToUserResponseDto(user.get());
         return userResponseDto;
     }
 
@@ -78,10 +94,14 @@ public class UserServiceImpl implements UserService {
      * It is used to get all users
      *
      * @return userResponseDtoList is list of user
+     * @throws NotFoundException no user found
      */
-    public List<UserResponseDto> getAllUser() {
+    public List<UserResponseDto> getAllUser() throws NotFoundException {
         List<UserResponseDto> userResponseDtoList
                 = UserMapper.userToUserResponseDtoList(userRepo.findByIsActive(true));
+        if(userResponseDtoList.isEmpty()) {
+            throw new NotFoundException("No user found");
+        }
         return userResponseDtoList;
     }
 
@@ -103,8 +123,30 @@ public class UserServiceImpl implements UserService {
      *  It is used to delete user by id
      *
      * @param id to be deleted
+     * @return SuccessDto it contains success message
+     * @throws NotFoundException user does not exist
      */
-    public void deleteUserById(Integer id){
+    public SuccessDto deleteUserById(Integer id) throws NotFoundException {
+        Optional<User> user = userRepo.findByIsActiveAndId(true, id);
+        if(user == null) {
+            throw new NotFoundException("User does not exist");
+        }
         userRepo.deactivateUser(id);
+        return new SuccessDto(200,"SuccessFully Deleted user");
+    }
+
+    /**
+     * It is used to find user by username and active
+     *
+     * @param username it is name of user
+     * @return CustomUserDetails(user.get()) it contains user details
+     * @throws UsernameNotFoundException it contains user not found
+     */
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepo.findByUserNameAndIsActive(username, true);
+        if (user == null) {
+            throw new UsernameNotFoundException("user Name Not Found");
+        }
+        return new CustomUserDetails(user.get());
     }
 }

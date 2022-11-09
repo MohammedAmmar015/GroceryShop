@@ -107,7 +107,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
         userOrder.setOrderDetails(orderDetails);
         userOrder.setTotalPrice(orderDetails.get(0).getPrice());
-        userOrder.setUser(userHelper.findUserById(userId));
+        userOrder.setUser(userHelper.findUserById(userId).get());
         userOrderRepo.save(userOrder);
         orderDelivery(userOrderRequestDto, userOrder);
     }

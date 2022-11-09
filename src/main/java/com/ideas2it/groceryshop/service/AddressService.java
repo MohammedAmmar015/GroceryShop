@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
  *
@@ -17,25 +19,28 @@ import com.ideas2it.groceryshop.dto.AddressRequestDto;
 public interface AddressService {
 
     /**
-     * it used to add address using user it
+     * it used to add address using user id
      *
      * @param id it is used to add address to user
      * @param addressRequestDto it contains address details
+     * @throws NotFoundException user not found
      */
-    void addAddress(Integer id, AddressRequestDto addressRequestDto);
+    SuccessDto addAddress(Integer id, AddressRequestDto addressRequestDto) throws NotFoundException;
 
     /**
      *  It is used to retrieve list of user address by user id;
      *
      * @param id it is used to get all address a user have
      * @return addressResponseDtoList it is contains list of user address
+     * @throws NotFoundException no address found exception
      */
-    List<AddressResponseDto> getAddressesByUserId(Integer id);
+    List<AddressResponseDto> getAddressesByUserId(Integer id) throws NotFoundException;
 
     /**
      * It is used to delete user address by id
      *
      * @param id it is id to be deleted
+     * @throws NotFoundException no address found exception
      */
-    void deleteAddressById(Integer id);
+    SuccessDto deleteAddressById(Integer id) throws NotFoundException;
 }

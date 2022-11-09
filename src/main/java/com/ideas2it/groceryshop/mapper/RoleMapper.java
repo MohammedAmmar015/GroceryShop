@@ -22,9 +22,8 @@ public class RoleMapper {
      */
     public static Role roleDtoToRole(RoleRequestDto roleRequestDto){
         Role role = new Role();
-        System.out.print(roleRequestDto.getName() + "/n/n");
-        role.setName(roleRequestDto.getName());
-        System.out.print(role.getName());
+        String roleValue = "ROLE_" + roleRequestDto.getName();
+        role.setName(roleValue.toUpperCase());
         return role;
     }
 }

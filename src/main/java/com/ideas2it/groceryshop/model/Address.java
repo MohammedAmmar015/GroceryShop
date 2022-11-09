@@ -1,8 +1,5 @@
 package com.ideas2it.groceryshop.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -19,6 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.ideas2it.groceryshop.model.User;
 
@@ -55,7 +55,7 @@ public class Address {
     private Date createdAt;
     @Column(name = "modified_at", nullable = false)
     @UpdateTimestamp
-    private Date ModifiedAt;
+    private Date modifiedAt;
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;
     @Column(name = "modified_by", nullable = false)
