@@ -1,11 +1,11 @@
 package com.ideas2it.groceryshop.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.model.Address;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

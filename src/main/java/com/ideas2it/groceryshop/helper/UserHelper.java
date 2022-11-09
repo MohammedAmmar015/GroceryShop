@@ -1,5 +1,7 @@
 package com.ideas2it.groceryshop.helper;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,8 @@ public class UserHelper {
      *
      * @return user
      */
-    public User findUserById(Integer id) {
-        User user = userRepo.findByIsActiveAndId(true, id);
+    public Optional<User> findUserById(Integer id) {
+        Optional<User> user = userRepo.findByIsActiveAndId(true, id);
         return user;
     }
 }

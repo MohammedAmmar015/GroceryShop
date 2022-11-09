@@ -1,5 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.AddressService;
-
-import java.util.List;
 
 /**
  *
@@ -28,18 +30,25 @@ import java.util.List;
 @RequestMapping("api/v1/addresses")
 public class AddressController {
 
-    @Autowired
     private AddressService addressService;
+
+    @Autowired
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     /**
      * it is used to create address
      *
-     * @param addressRequestDto
+     * @param id it is id of user
+     * @param addressRequestDto it contains address of user
+     * @throws NotFoundException user not found
      */
     @PostMapping("/{user-id}")
-    public void createAddress(@PathVariable("user-id") Integer id,
-                              @RequestBody AddressRequestDto addressRequestDto) {
-        addressService.addAddress(id, addressRequestDto);
+    public SuccessDto createAddress(@PathVariable("user-id") Integer id,
+                                    @RequestBody AddressRequestDto addressRequestDto)
+            throws NotFoundException {
+        return addressService.addAddress(id, addressRequestDto);
     }
 
     /**
@@ -47,9 +56,11 @@ public class AddressController {
      *
      * @param id it is id of user
      * @return addresses list of address
+     * @throws NotFoundException no address found
      */
     @GetMapping("/{user-id}")
-    public List<AddressResponseDto> viewAddressesByUserId(@PathVariable("user-id") Integer id) {
+    public List<AddressResponseDto> viewAddressesByUserId(@PathVariable("user-id") Integer id)
+            throws NotFoundException {
         List<AddressResponseDto> addresses = addressService.getAddressesByUserId(id);
         return addresses;
     }
@@ -58,9 +69,11 @@ public class AddressController {
      * It used to delete address using address it
      *
      * @param id it is id of address
+     * @throws NotFoundException no address found
      */
     @DeleteMapping("/{address-id}")
-    public void deleteAddressById(@PathVariable("address-id") Integer id){
-        addressService.deleteAddressById(id);
+    public SuccessDto deleteAddressById(@PathVariable("address-id") Integer id)
+            throws NotFoundException {
+        return addressService.deleteAddressById(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -42,4 +43,13 @@ public interface AddressRepo extends JpaRepository<Address, Integer> {
     @Transactional
     @Query("update Address set isActive = false where id = ?1")
     void deactivateAddress(Integer id);
+
+    /**
+     * It is used to find active address by address id
+     *
+     * @param isActive it checks for address is active
+     * @param id it is id of address
+     * @return Address it returns address object
+     */
+    Optional<Address> findByIsActiveAndId(Boolean isActive, Integer id);
 }
