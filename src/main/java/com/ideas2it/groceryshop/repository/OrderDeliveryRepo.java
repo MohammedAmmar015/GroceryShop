@@ -15,4 +15,5 @@ public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer>
      * @return OrderDelivery
      */
     OrderDelivery findByUserOrderId(Integer OrderId);
+
 }

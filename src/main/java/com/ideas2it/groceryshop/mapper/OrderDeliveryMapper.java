@@ -11,7 +11,7 @@ public class OrderDeliveryMapper {
         OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto();
         orderDeliveryResponseDto.setDeliveryDate(orderDelivery.getDeliveryDate());
         orderDeliveryResponseDto.setIsDelivered(orderDelivery.getIsDelivered());
-        orderDeliveryResponseDto.setShippingAddress(orderDelivery.getShippingAddress());
+        orderDeliveryResponseDto.setShippingAddress(AddressMapper.addressResponseDto(orderDelivery.getShippingAddress()));
         orderDeliveryResponseDto.setOrderId(orderDelivery.getUserOrder().getId());
         return orderDeliveryResponseDto;
     }

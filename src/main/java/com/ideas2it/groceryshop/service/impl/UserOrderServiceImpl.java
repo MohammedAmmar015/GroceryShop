@@ -1,10 +1,14 @@
 package com.ideas2it.groceryshop.service.impl;
 
+import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
+import com.ideas2it.groceryshop.mapper.OrderDeliveryMapper;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
 import com.ideas2it.groceryshop.model.*;
 import com.ideas2it.groceryshop.repository.AddressRepo;
@@ -13,20 +17,22 @@ import com.ideas2it.groceryshop.repository.UserOrderRepo;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * <p>
- *     This class acts like a intermediate between UserOrderController and Repository.
- * </p>
+ * This class acts like a intermediate between UserOrderController and Repository.
+ *
  * @author Dhanalakshmi
  * @version 1.0v
  */
 @Service
 @RequiredArgsConstructor
+@ControllerAdvice
 public class UserOrderServiceImpl implements UserOrderService {
 
     private final UserOrderRepo userOrderRepo;
@@ -37,14 +43,13 @@ public class UserOrderServiceImpl implements UserOrderService {
     private final UserHelper userHelper;
 
     /**
-     * <p>
-     *     This method is used to placeOrder by using a cartId
-     * </p>
+     * This method is used to placeOrder by using a cartId
+     *
      * @param userOrderRequestDto
      * @param cartId
      */
     @Override
-    public void placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) {
+    public SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException {
         Cart cart = cartHelper.getCartById(cartId, true);
         if(cart != null) {
             UserOrder userOrder = new UserOrder();
@@ -56,29 +61,52 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrder.setOrderDetails(orderDetails);
             userOrderRepo.save(userOrder);
             cartHelper.deleteAllProductsFromCart(cart.getUser());
-            orderDelivery(userOrderRequestDto, userOrder);
+            return orderDelivery(userOrderRequestDto, userOrder);
+        } else {
+            throw new NotFoundException("Order is Not confirmed!!!");
         }
     }
 
     /**
-     * <p>
-     *     This method is used to add orderDelivery details
-     * </p>
+     * This method is used for placing order directly without cart
+     *
+     * @param userOrderRequestDto
+     * @param userId
+     */
+    @Override
+    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException{
+        User user = userHelper.findUserById(userId);
+        if (user!= null) {
+            UserOrder userOrder = new UserOrder();
+            List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
+            userOrder.setOrderDetails(orderDetails);
+            userOrder.setTotalPrice(orderDetails.get(0).getPrice());
+            userOrder.setUser(user);
+            userOrderRepo.save(userOrder);
+            return orderDelivery(userOrderRequestDto, userOrder);
+        } else {
+            throw new NotFoundException("Please Enter a valid UserId");
+        }
+    }
+
+    /**
+     * This method is used to add orderDelivery details
+     *
      * @param userOrderRequestDto
      * @param userOrder
      */
-    private void orderDelivery(UserOrderRequestDto userOrderRequestDto, UserOrder userOrder) {
+    private SuccessDto orderDelivery(UserOrderRequestDto userOrderRequestDto, UserOrder userOrder) {
         OrderDelivery orderDelivery = new OrderDelivery();
         Optional<Address> address = addressRepo.findById(userOrderRequestDto.getAddressId());
         orderDelivery.setUserOrder(userOrder);
         orderDelivery.setShippingAddress(address.get());
         orderDeliveryRepo.save(orderDelivery);
+        return new SuccessDto(202, "Order Placed Successfully");
     }
 
     /**
-     * <p>
-     *     This method is used for converting List<CartDetails> to List<OrderDetails>
-     * </p>
+     * This method is used for converting List<CartDetails> to List<OrderDetails>
+     *
      * @param cartDetails
      * @return List<OrderDetails>
      */
@@ -92,24 +120,6 @@ public class UserOrderServiceImpl implements UserOrderService {
             orderDetails.add(orderDetail);
         }
         return orderDetails;
-    }
-
-    /**
-     * <p>
-     *     This method is used for placing order directly without cart
-     * </p>
-     * @param userOrderRequestDto
-     * @param userId
-     */
-    @Override
-    public void buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) {
-        UserOrder userOrder = new UserOrder();
-        List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
-        userOrder.setOrderDetails(orderDetails);
-        userOrder.setTotalPrice(orderDetails.get(0).getPrice());
-        userOrder.setUser(userHelper.findUserById(userId));
-        userOrderRepo.save(userOrder);
-        orderDelivery(userOrderRequestDto, userOrder);
     }
 
     /**
@@ -134,88 +144,137 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     /**
-     * <p>
-     *     This method is used to retrieve all active orders
-     * </p>
+     * This method is used to retrieve all active orders
+     *
      * @return List<UserOrderResponseDto>
      */
     @Override
-    public List<UserOrderResponseDto> viewAllActiveOrders() {
+    public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFoundException {
         List<UserOrder> orders = userOrderRepo.findByIsActive(true);
-        List<UserOrderResponseDto> viewPlacedOrders = UserOrderMapper.getAllOrdersDto(orders);
-        return viewPlacedOrders;
+        if(orders != null) {
+            List<UserOrderResponseDto> viewPlacedOrders = UserOrderMapper.getAllOrdersDto(orders);
+            return viewPlacedOrders;
+        } else {
+            throw new NotFoundException("No Record Found!!!");
+        }
     }
 
     /**
-     * <p>
-     *     This method is used to retrieve all the cancelled order
-     * </p>
+     * This method is used to retrieve all the cancelled order
+     *
      * @return List<UserOrderResponseDto>
      */
     @Override
-    public List<UserOrderResponseDto> viewAllCancelledOrders() {
+    public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFoundException {
         List<UserOrder> orders = userOrderRepo.findByIsActive(false);
-        List<UserOrderResponseDto> viewCancelledOrders = UserOrderMapper.getAllOrdersDto(orders);
-        return viewCancelledOrders;
+        if(!orders.isEmpty()) {
+            List<UserOrderResponseDto> viewCancelledOrders = UserOrderMapper.getAllOrdersDto(orders);
+            return viewCancelledOrders;
+        } else {
+            throw new NotFoundException("No Record Found!!!");
+        }
     }
 
     /**
-     * <p>
-     *     This method is used to retrieve order by using orderId
-     * </p>
+     * This method is used to retrieve order by using orderId
      * @param orderId
      * @return UserOrderResponseDto
      */
     @Override
-    public UserOrderResponseDto viewOrderById(Integer orderId) {
+    public UserOrderResponseDto viewOrderById(Integer orderId) throws NotFoundException {
         Optional<UserOrder> userOrder = userOrderRepo.findById(orderId);
-        return UserOrderMapper.entityToDto(userOrder.get());
+        if (!userOrder.isEmpty()) {
+            return UserOrderMapper.entityToDto(userOrder.get());
+        } else {
+            throw new NotFoundException("No Record Found!!!");
+        }
     }
 
     /**
-     * <p>
-     *     This method is used to retrieve order using userId
-     * </p>
+     * This method is used to retrieve order using userId
+     *
      * @param user_id
      * @return List<UserOrderResponseDto>
      */
     @Override
-    public List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) {
+    public List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFoundException {
         List<UserOrder> userOrder = userOrderRepo.findByUserId(user_id);
-        List<UserOrderResponseDto> userOrderResponse = UserOrderMapper.getAllOrdersDto(userOrder);
-        return userOrderResponse;
+        if(!userOrder.isEmpty()) {
+            List<UserOrderResponseDto> userOrderResponse = UserOrderMapper.getAllOrdersDto(userOrder);
+            return userOrderResponse;
+        } else {
+            throw new NotFoundException("No Record Found!!!");
+        }
     }
 
     /**
-     * <p>
-     *     This method is used to Cancel the order
-     * </p>
+     * This method is used to Cancel the order
+     *
      * @param order_id
      * @return String
      */
     @Override
-    public String cancelOrderById(Integer order_id) {
+    public SuccessDto cancelOrderById(Integer order_id) throws NotFoundException {
         Integer isCancelled = userOrderRepo.cancelOrderbyId(order_id);
         if (isCancelled!= 0) {
-            return "Order Cancelled Successfully";
+            return new SuccessDto(202,"Order Cancelled Successfully");
         } else {
-            return "Not Cancelled";
+            throw new NotFoundException("Order not Cancelled!!!");
         }
 
     }
 
     /**
-     * <p>
-     *     This method is used to retrieve all orders using productId
-     * </p>
+     * This method is used to retrieve all orders using productId
+     *
      * @param productId
      * @return List<UserOrderResponseDto>
      */
    @Override
-    public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) {
+    public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException{
         List<UserOrder> userOrders = userOrderRepo.findByProductId(productId);
-        List<UserOrderResponseDto> orders = UserOrderMapper.getAllOrdersDto(userOrders);
-        return orders;
+        if(!userOrders.isEmpty()) {
+            List<UserOrderResponseDto> orders = UserOrderMapper.getAllOrdersDto(userOrders);
+            return orders;
+        } else {
+            throw new NotFoundException("No Record Found!!!");
+        }
+
+    }
+
+    /**
+     * This method is used for delivery person to get order by orderId
+     * @param orderId
+     * @return OrderDeliveryResponseDto
+     */
+    @Override
+    public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException {
+        OrderDelivery orderDelivery = orderDeliveryRepo.findByUserOrderId(orderId);
+        if(orderDelivery != null) {
+            return OrderDeliveryMapper.entityToDto(orderDelivery);
+        } else {
+            throw new NotFoundException("No Record Found");
+        }
+    }
+
+    public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFoundException {
+        List<UserOrder> userOrders =  userOrderRepo.findByOrderedDate(orderedDate);
+        if(!userOrders.isEmpty()) {
+            return UserOrderMapper.getAllOrdersDto(userOrders);
+        } else {
+            throw new NotFoundException("No Record Found");
+        }
+
+    }
+
+    @Override
+    public List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFoundException {
+        List<UserOrder> userOrders =  userOrderRepo.findByOrderedDateAndUserId(orderedDate, userId);
+        if(!userOrders.isEmpty()) {
+            return UserOrderMapper.getAllOrdersDto(userOrders);
+        } else {
+            throw new NotFoundException("No Record Found");
+        }
     }
 
 }
