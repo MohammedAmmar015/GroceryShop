@@ -5,11 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 /**
  * <p>
- *     Cart-Details Response DTO
+ *     Cart Request DTO
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022
@@ -19,13 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CartDetailsResponse {
-    private Integer id;
-    private Integer quantity;
-
-    private Float price;
-
-    private String productName;
-
-    private Date createdAt;
+public class CartRequestDto {
+    private CartDetailsRequestDto cartDetails;
 }

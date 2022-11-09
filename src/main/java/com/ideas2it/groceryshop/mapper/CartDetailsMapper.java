@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.CartDetailsRequest;
-import com.ideas2it.groceryshop.dto.CartDetailsResponse;
+import com.ideas2it.groceryshop.dto.CartDetailsRequestDto;
+import com.ideas2it.groceryshop.dto.CartDetailsResponseDto;
 import com.ideas2it.groceryshop.model.CartDetails;
 
 /**
@@ -21,7 +21,7 @@ public class CartDetailsMapper {
      * @param cartDetailsRequest - cart details
      * @return - CartDetails
      */
-    public static CartDetails toCartDetails(CartDetailsRequest cartDetailsRequest) {
+    public static CartDetails toCartDetails(CartDetailsRequestDto cartDetailsRequest) {
         CartDetails cartDetails = new CartDetails();
         cartDetails.setQuantity(cartDetailsRequest.getQuantity());
         return cartDetails;
@@ -34,8 +34,8 @@ public class CartDetailsMapper {
      * @param cartDetails - cart details
      * @return - CartDetailsResponse
      */
-    public static CartDetailsResponse convertCartDetailsToCartDetailsResponse(CartDetails cartDetails) {
-        CartDetailsResponse cartDetailsResponse = new CartDetailsResponse();
+    public static CartDetailsResponseDto convertCartDetailsToCartDetailsResponse(CartDetails cartDetails) {
+        CartDetailsResponseDto cartDetailsResponse = new CartDetailsResponseDto();
         cartDetailsResponse.setId(cartDetails.getId());
         cartDetailsResponse.setCreatedAt(cartDetails.getCreatedAt());
         cartDetailsResponse.setProductName(cartDetails.getProduct().getName());

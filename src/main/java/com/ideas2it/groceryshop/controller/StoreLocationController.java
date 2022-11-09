@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.StoreLocationRequest;
-import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.StoreRequestDto;
+import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.StoreService;
@@ -32,7 +32,7 @@ public class StoreLocationController {
      * @param storeLocationRequest - store location details
      */
     @PostMapping
-    public void createStore(@RequestBody StoreLocationRequest storeLocationRequest) throws Existed {
+    public void createStore(@RequestBody StoreRequestDto storeLocationRequest) throws Existed {
         storeService.addStore(storeLocationRequest);
     }
 
@@ -44,7 +44,7 @@ public class StoreLocationController {
      * @param storeId - store id to update
      */
     @PutMapping("/{storeId}")
-    public void updateStore(@RequestBody StoreLocationRequest storeLocationRequest,
+    public void updateStore(@RequestBody StoreRequestDto storeLocationRequest,
                             @PathVariable Integer storeId) throws Existed, NotFoundException {
         storeService.modifyStore(storeLocationRequest, storeId);
     }
@@ -56,7 +56,7 @@ public class StoreLocationController {
      * @return list of Store Location Response
      */
     @GetMapping
-    public List<StoreLocationResponse> viewStores() throws NotFoundException {
+    public List<StoreResponseDto> viewStores() throws NotFoundException {
         System.out.println(storeService.getStores());
         return storeService.getStores();
     }
@@ -69,7 +69,7 @@ public class StoreLocationController {
      * @return - store response DTO
      */
     @GetMapping("/{storeId}")
-    public StoreLocationResponse viewStoreById(@PathVariable Integer storeId) throws NotFoundException {
+    public StoreResponseDto viewStoreById(@PathVariable Integer storeId) throws NotFoundException {
         return storeService.getStoreById(storeId);
     }
 

@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.CartRequest;
-import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.dto.CartRequestDto;
+import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.CartService;
@@ -39,7 +39,7 @@ public class CartController {
      * @return SuccessDto with Message and Status Code
      */
     @PostMapping("/{userId}")
-    public SuccessDto createCart(@RequestBody CartRequest cartRequest,
+    public SuccessDto createCart(@RequestBody CartRequestDto cartRequest,
                                  @PathVariable Integer userId) throws NotFoundException {
         return cartService.addCart(cartRequest, userId);
     }
@@ -52,7 +52,7 @@ public class CartController {
      * @return - CartResponse with product details
      */
     @GetMapping("/{userId}")
-    public CartResponse viewCarts(@PathVariable Integer userId) throws NotFoundException {
+    public CartResponseDto viewCarts(@PathVariable Integer userId) throws NotFoundException {
         return cartService.getCartByUserId(userId);
     }
 
@@ -64,7 +64,7 @@ public class CartController {
      * @param userId - user's id to update cart details
      */
     @PutMapping("/{userId}")
-    public SuccessDto updateCart(@RequestBody CartRequest cartRequest,
+    public SuccessDto updateCart(@RequestBody CartRequestDto cartRequest,
                                 @PathVariable Integer userId) {
         return cartService.updateCartByUser(cartRequest, userId);
     }

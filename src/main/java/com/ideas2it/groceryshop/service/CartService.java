@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.CartRequest;
-import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.dto.CartRequestDto;
+import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.model.Cart;
@@ -24,7 +24,11 @@ public interface CartService {
      * @param userId - user's id to add product to user's cart
      * @return - successDto with Message and status Code
      */
+<<<<<<< Updated upstream
     SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFound;
+=======
+    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFoundException;
+>>>>>>> Stashed changes
 
     /**
      * <p>
@@ -33,7 +37,11 @@ public interface CartService {
      * @param userId - user's id to get Cart
      * @return - CartResponse with cart details
      */
+<<<<<<< Updated upstream
     CartResponse getCartByUserId(Integer userId) throws NotFound;
+=======
+    CartResponseDto getCartByUserId(Integer userId) throws NotFoundException;
+>>>>>>> Stashed changes
 
     /**
      * <p>
@@ -65,7 +73,7 @@ public interface CartService {
      * @param userId      - user's id to update cart product
      * @return
      */
-    SuccessDto updateCartByUser(CartRequest cartRequest, Integer userId);
+    SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId);
 
     Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound;
 }

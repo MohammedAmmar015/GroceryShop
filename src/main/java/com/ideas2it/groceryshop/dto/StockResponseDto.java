@@ -5,19 +5,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * <p>
- *     Stock Request DTO, to get request details
+ *     Stock Response DTO, to response stock details
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022
  * @version 1.0
  */
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class StockRequest {
+public class StockResponseDto {
+
+    private Integer id;
 
     private Integer availableStock;
+
+    private String productName;
+
+    private Integer productId;
+
+    private Date modifiedAt;
+
+    private Integer modifiedBy;
+
+    private String location;
 }
+

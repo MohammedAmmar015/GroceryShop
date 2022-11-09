@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.StockRequest;
-import com.ideas2it.groceryshop.dto.StockResponse;
+import com.ideas2it.groceryshop.dto.StockRequestDto;
+import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.model.Stock;
 
 /**
@@ -21,7 +21,7 @@ public class StockMapper {
      * @param stockRequest - stock details
      * @return Stock
      */
-    public static Stock toStock(StockRequest stockRequest) {
+    public static Stock toStock(StockRequestDto stockRequest) {
         Stock stock = new Stock();
         stock.setAvailableStock(stockRequest.getAvailableStock());
         return stock;
@@ -34,8 +34,8 @@ public class StockMapper {
      * @param stock - stock details
      * @return - StockResponse
      */
-    public static StockResponse toStockResponse(Stock stock) {
-        StockResponse stockResponse = new StockResponse();
+    public static StockResponseDto toStockResponse(Stock stock) {
+        StockResponseDto stockResponse = new StockResponseDto();
         stockResponse.setId(stock.getId());
         stockResponse.setAvailableStock(stock.getAvailableStock());
         stockResponse.setLocation(stock.getStoreLocation().getArea());

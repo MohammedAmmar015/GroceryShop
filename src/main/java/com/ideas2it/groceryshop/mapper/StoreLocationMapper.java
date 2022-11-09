@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.StoreLocationRequest;
-import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.StoreRequestDto;
+import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.model.StoreLocation;
 
 /**
@@ -21,7 +21,7 @@ public class StoreLocationMapper {
      * @param storeLocationRequest - store details
      * @return - StoreLocation
      */
-    public static StoreLocation toStoreLocation(StoreLocationRequest storeLocationRequest) {
+    public static StoreLocation toStoreLocation(StoreRequestDto storeLocationRequest) {
         StoreLocation storeLocation = new StoreLocation();
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
@@ -35,8 +35,8 @@ public class StoreLocationMapper {
      * @param storeLocation - store location details
      * @return - StoreLocationResponse
      */
-    public static StoreLocationResponse toStoreLocationResponse(StoreLocation storeLocation) {
-        StoreLocationResponse stores = new StoreLocationResponse();
+    public static StoreResponseDto toStoreLocationResponse(StoreLocation storeLocation) {
+        StoreResponseDto stores = new StoreResponseDto();
         stores.setId(storeLocation.getId());
         stores.setArea(storeLocation.getArea());
         stores.setPinCode(storeLocation.getPinCode());

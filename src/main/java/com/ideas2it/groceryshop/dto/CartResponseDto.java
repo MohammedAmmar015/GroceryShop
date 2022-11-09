@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
- *     Store Location Response DTO, to hold response details
+ *     Cart response DTO
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022
@@ -19,20 +20,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-public class StoreLocationResponse {
+public class CartResponseDto {
     private Integer id;
 
-    private Integer pinCode;
+    private Float totalPrice;
 
-    private String area;
+    private List<CartDetailsResponseDto> cartDetails;
 
     private Date createdAt;
-
-    private Date modifiedAt;
-
-    private Integer createdBy;
-
-    private Integer modifiedBy;
-
-    private Boolean isActive;
 }

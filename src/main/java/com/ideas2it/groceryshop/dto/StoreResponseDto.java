@@ -1,6 +1,5 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.model.StoreLocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,30 +9,30 @@ import java.util.Date;
 
 /**
  * <p>
- *     Stock Response DTO, to response stock details
+ *     Store Location Response DTO, to hold response details
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022
  * @version 1.0
  */
-@Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockResponse {
-
+@Getter
+@Setter
+public class StoreResponseDto {
     private Integer id;
 
-    private Integer availableStock;
+    private Integer pinCode;
 
-    private String productName;
+    private String area;
 
-    private Integer productId;
+    private Date createdAt;
 
     private Date modifiedAt;
 
+    private Integer createdBy;
+
     private Integer modifiedBy;
 
-    private String location;
+    private Boolean isActive;
 }
-

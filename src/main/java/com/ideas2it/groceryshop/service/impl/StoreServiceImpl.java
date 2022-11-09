@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.service.impl;
 
-import com.ideas2it.groceryshop.dto.StoreLocationRequest;
-import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.StoreRequestDto;
+import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFoundException;
@@ -37,7 +37,7 @@ public class StoreServiceImpl implements StoreService {
      * @return
      */
     @Override
-    public SuccessDto addStore(StoreLocationRequest storeLocationRequest) throws Existed {
+    public SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed {
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
         if (storeRepo.existsByAreaOrPinCode(area, pinCode)) {
@@ -55,8 +55,8 @@ public class StoreServiceImpl implements StoreService {
      * @return list of Store Location
      */
     @Override
-    public List<StoreLocationResponse> getStores() throws NotFoundException {
-        List<StoreLocationResponse> storesResponse = new ArrayList<>();
+    public List<StoreResponseDto> getStores() throws NotFoundException {
+        List<StoreResponseDto> storesResponse = new ArrayList<>();
         List<StoreLocation> stores = storeRepo.findByIsActive(true);
         if (stores.isEmpty()) {
             throw new NotFoundException("No Store Locations Found");
@@ -90,12 +90,12 @@ public class StoreServiceImpl implements StoreService {
      * @return StoreLocationResponse Object
      */
     @Override
-    public StoreLocationResponse getStoreById(Integer storeId) throws NotFoundException {
+    public StoreResponseDto getStoreById(Integer storeId) throws NotFoundException {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
             throw new NotFoundException("Given Store id Not Found");
         }
-        StoreLocationResponse storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
+        StoreResponseDto storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
         return storeResponse;
     }
 
@@ -109,7 +109,7 @@ public class StoreServiceImpl implements StoreService {
      * @return
      */
     @Override
-    public SuccessDto modifyStore(StoreLocationRequest storeLocationRequest,
+    public SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
                                   Integer storeId) throws NotFoundException, Existed {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         String area = storeLocationRequest.getArea();
