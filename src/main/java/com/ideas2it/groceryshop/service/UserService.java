@@ -6,7 +6,7 @@ import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 
 /**
  *
@@ -33,17 +33,17 @@ public interface UserService {
      *
      * @param id it is id of user
      * @return userResponseDto it contains user detail
-     * @throws NotFoundException if user does not exist or inactive
+     * @throws NotFound if user does not exist or inactive
      */
-    UserResponseDto getUserById(Integer id) throws NotFoundException;
+    UserResponseDto getUserById(Integer id) throws NotFound;
 
     /**
      * It is used to get all users
      *
      * @return userResponseDtoList is list of user
-     * @throws NotFoundException no user found
+     * @throws NotFound no user found
      */
-    List<UserResponseDto> getAllUser() throws NotFoundException;
+    List<UserResponseDto> getAllUser() throws NotFound;
 
     /**
      * It is used to find users by role
@@ -58,7 +58,7 @@ public interface UserService {
      *
      * @param id to be deleted
      * @return successDto returns success message
-     * @throws NotFoundException user does not exist
+     * @throws NotFound user does not exist
      */
-    SuccessDto deleteUserById(Integer id) throws NotFoundException;
+    SuccessDto deleteUserById(Integer id) throws NotFound;
 }

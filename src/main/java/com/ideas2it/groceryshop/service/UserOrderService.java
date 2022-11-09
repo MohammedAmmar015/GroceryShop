@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +17,7 @@ public interface UserOrderService {
      * </p>
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewAllActiveOrders() throws NotFoundException;
+    List<UserOrderResponseDto> viewAllActiveOrders() throws NotFound;
 
     /**
      * <p>
@@ -26,7 +26,7 @@ public interface UserOrderService {
      * @return List<UserOrderResponseDto>
      */
 
-    List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFoundException;
+    List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFound;
 
     /**
      * <p>
@@ -35,7 +35,7 @@ public interface UserOrderService {
      * @param orderId
      * @return UserOrderResponseDto
      */
-    UserOrderResponseDto viewOrderById(Integer orderId) throws NotFoundException;
+    UserOrderResponseDto viewOrderById(Integer orderId) throws NotFound;
 
     /**
      * <p>
@@ -44,14 +44,14 @@ public interface UserOrderService {
      * @param userOrderRequestDto
      * @param cartId
      */
-    SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException;
+    SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFound;
 
     /**
      * This method is used for placing order directly without cart
      * @param userOrderRequestDto
      * @param userId
      */
-    SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException;
+    SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFound;
 
     /**
      * <p>
@@ -60,7 +60,7 @@ public interface UserOrderService {
      * @param productId
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException;
+    List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFound;
 
     /**
      * <p>
@@ -69,7 +69,7 @@ public interface UserOrderService {
      * @param user_id
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFoundException;
+    List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFound;
 
     /**
      * <p>
@@ -78,21 +78,21 @@ public interface UserOrderService {
      * @param order_id
      * @return String
      */
-    SuccessDto cancelOrderById(Integer order_id) throws NotFoundException;
+    SuccessDto cancelOrderById(Integer order_id) throws NotFound;
 
     /**
      * This method is used for delivery person to get order by orderId
      * @param orderId
      * @return OrderDeliveryResponseDto
      */
-    OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException;
+    OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound;
 
     /**
      * This method is used to retrieve orders by ordered date
      * @param orderedDate
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFoundException;
+    List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFound;
 
     /**
      * <p>
@@ -103,5 +103,5 @@ public interface UserOrderService {
      * @param orderedDate
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFoundException;
+    List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFound;
 }

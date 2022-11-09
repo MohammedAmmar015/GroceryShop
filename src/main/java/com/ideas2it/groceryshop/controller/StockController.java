@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.StockRequestDto;
 import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StockService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +44,7 @@ public class StockController {
     public SuccessDto createStock(@RequestBody StockRequestDto stockRequest,
                             @PathVariable("locationId") Integer locationId,
                             @PathVariable("productId") Integer productId)
-            throws Existed, NotFoundException {
+            throws Existed, NotFound {
 
         return stockService.addStock(stockRequest, locationId, productId);
     }
@@ -58,7 +58,7 @@ public class StockController {
      */
     @GetMapping("/{productId}")
     public List<StockResponseDto> viewStockByProduct(@PathVariable Integer productId)
-            throws NotFoundException {
+            throws NotFound {
         return stockService.getStockByProductId(productId);
     }
 
@@ -73,7 +73,7 @@ public class StockController {
     @GetMapping("/{productId}/{locationId}")
     public StockResponseDto getStockByProductAndLocation(@PathVariable Integer productId,
                                                          @PathVariable Integer locationId)
-            throws NotFoundException {
+            throws NotFound {
         return stockService.getStockByProductAndLocation(productId,locationId);
     }
 
@@ -86,7 +86,7 @@ public class StockController {
      */
     @PutMapping("/{productId}")
     public SuccessDto updateStockByProduct(@RequestBody StockRequestDto stockRequest,
-                                           @PathVariable Integer productId) throws NotFoundException {
+                                           @PathVariable Integer productId) throws NotFound {
         return stockService.updateStockByProduct(stockRequest, productId);
     }
 
@@ -102,7 +102,7 @@ public class StockController {
     @PutMapping("/{productId}/{locationId}")
     public SuccessDto updateStockByProductAndLocation(@RequestBody StockRequestDto stockRequest,
                                                 @PathVariable Integer productId,
-                                                @PathVariable Integer locationId) throws NotFoundException {
+                                                @PathVariable Integer locationId) throws NotFound {
         return stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
     }
 }

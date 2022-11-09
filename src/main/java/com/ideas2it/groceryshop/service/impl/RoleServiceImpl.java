@@ -3,7 +3,7 @@ package com.ideas2it.groceryshop.service.impl;
 import java.util.Optional;
 
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,12 +51,12 @@ public class RoleServiceImpl implements RoleService {
      *
      * @param updateRoleRequestDto it contains role name and name to be updated
      * @return SuccessDto it returns success message
-     * @throws NotFoundException role not found
+     * @throws NotFound role not found
      */
-    public SuccessDto updateRole(UpdateRoleRequestDto updateRoleRequestDto) throws NotFoundException {
+    public SuccessDto updateRole(UpdateRoleRequestDto updateRoleRequestDto) throws NotFound {
         Optional<Role> role = roleRepo.findByIsActiveAndName(true, updateRoleRequestDto.getName());
         if(role.isEmpty()) {
-            throw new NotFoundException("Role not found");
+            throw new NotFound("Role not found");
         }
         roleRepo.updateRoleName(updateRoleRequestDto.getName(), updateRoleRequestDto.getNameToUpdate());
         return new SuccessDto(200,"Updated role successfully");
@@ -67,12 +67,12 @@ public class RoleServiceImpl implements RoleService {
      *
      * @param roleRequestDto it is used to delete role
      * @return SuccessDto it returns success message
-     * @throws NotFoundException role not found
+     * @throws NotFound role not found
      */
-    public SuccessDto deleteRole(RoleRequestDto roleRequestDto) throws NotFoundException {
+    public SuccessDto deleteRole(RoleRequestDto roleRequestDto) throws NotFound {
         Optional<Role> role = roleRepo.findByIsActiveAndName(true, roleRequestDto.getName());
         if(role.isEmpty()) {
-            throw new NotFoundException("Role not found");
+            throw new NotFound("Role not found");
         }
         roleRepo.deactivateRole(roleRequestDto.getName());
         return new SuccessDto(200,"Deleted role successfully");

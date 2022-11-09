@@ -24,11 +24,10 @@ public interface CartService {
      * @param userId - user's id to add product to user's cart
      * @return - successDto with Message and status Code
      */
-<<<<<<< Updated upstream
-    SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFound;
-=======
-    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFoundException;
->>>>>>> Stashed changes
+
+
+    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound;
+
 
     /**
      * <p>
@@ -37,11 +36,7 @@ public interface CartService {
      * @param userId - user's id to get Cart
      * @return - CartResponse with cart details
      */
-<<<<<<< Updated upstream
-    CartResponse getCartByUserId(Integer userId) throws NotFound;
-=======
-    CartResponseDto getCartByUserId(Integer userId) throws NotFoundException;
->>>>>>> Stashed changes
+    CartResponseDto getCartByUserId(Integer userId) throws NotFound;
 
     /**
      * <p>
