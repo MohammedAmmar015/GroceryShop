@@ -1,7 +1,10 @@
 package com.ideas2it.groceryshop.service.impl;
 
-import com.ideas2it.groceryshop.dto.StockRequest;
-import com.ideas2it.groceryshop.dto.StockResponse;
+import com.ideas2it.groceryshop.dto.StockRequestDto;
+import com.ideas2it.groceryshop.dto.StockResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.StockMapper;
 import com.ideas2it.groceryshop.model.Product;
@@ -35,20 +38,35 @@ public class StockServiceImpl implements StockService {
 
     /**
      * <p>
-     *     It is used to add Stock for Particular product based on Location
+     * It is used to add Stock for Particular product based on Location
      * </p>
+     *
      * @param stockRequest stock details to add
-     * @param locationId To add stock to particular location
-     * @param productId To add Stock to the Product
+     * @param locationId   To add stock to particular location
+     * @param productId    To add Stock to the Product
+     * @return
      */
     @Override
-    public void addStock(StockRequest stockRequest, Integer locationId, Integer productId) {
+    public SuccessDto addStock(StockRequestDto stockRequest,
+                               Integer locationId,
+                               Integer productId) throws NotFound, Existed {
+        if (stockRepo.existsByStoreLocationIdOrProductId(locationId, productId)) {
+            throw new Existed("Stock already exists for this location and product");
+        }
         Stock stock = StockMapper.toStock(stockRequest);
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, locationId);
-        Product product = productHelper.getProductById(productId);
+        if (storeLocation == null) {
+            throw new NotFound("Store Location Not Found");
+        }
         stock.setStoreLocation(storeLocation);
+        Product product = productHelper.getProductById(productId);
+        if (product == null) {
+            throw new NotFound("Given product id Not Found");
+        }
         stock.setProduct(product);
         stockRepo.save(stock);
+        return new SuccessDto(201,
+                "Stock created successfully for given product");
     }
 
     /**
@@ -60,9 +78,13 @@ public class StockServiceImpl implements StockService {
      * @return List of Stock details
      */
     @Override
-    public List<StockResponse> getStockByProductId(Integer productId) {
+
+    public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFound {
         List<Stock> stocks = stockRepo.findByProductId(productId);
-        List<StockResponse> stockResponse = new ArrayList<>();
+        if (stocks.isEmpty()) {
+            throw new NotFound("No Data Found");
+        }
+        List<StockResponseDto> stockResponse = new ArrayList<>();
         for (Stock stock : stocks) {
             stockResponse.add(StockMapper.toStockResponse(stock));
         }
@@ -78,36 +100,54 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
-    public StockResponse getStockByProductAndLocation(Integer productId, Integer locationId) {
+    public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
-        StockResponse stockResponse = StockMapper.toStockResponse(stock);
+        if (stock == null) {
+            throw new NotFound("Stock Not found for this Product and Location");
+        }
+        StockResponseDto stockResponse = StockMapper.toStockResponse(stock);
         return stockResponse;
     }
 
     /**
      * <p>
-     *     To Update Stock for particular product on different location
+     * To Update Stock for particular product on different location
      * </p>
+     *
      * @param stockRequest - stock details to update
-     * @param productId - id to update stock
+     * @param productId    - id to update stock
+     * @return
      */
     @Override
-    public void updateStockByProduct(StockRequest stockRequest, Integer productId) {
-        stockRepo.updateStockByProduct(stockRequest.getAvailableStock(), productId);
+    public SuccessDto updateStockByProduct(StockRequestDto stockRequest,
+                                           Integer productId) throws NotFound {
+        Integer rowsAffected =
+                stockRepo.updateStockByProduct(stockRequest.getAvailableStock(), productId);
+        if (rowsAffected == 0) {
+            throw new NotFound("Product Id Not Found");
+        }
+        return new SuccessDto(200, "Stock Updated successfully");
     }
 
     /**
      * <p>
-     *     To update stock for particular product on particular location
+     * To update stock for particular product on particular location
      * </p>
+     *
      * @param stockRequest - stock details to update
-     * @param productId - id to update stock for this product
-     * @param locationId - id to update stock on this location
+     * @param productId    - id to update stock for this product
+     * @param locationId   - id to update stock on this location
+     * @return
      */
     @Override
-    public void updateStockByProductAndLocation(StockRequest stockRequest,
-                                                Integer productId,
-                                                Integer locationId) {
-        stockRepo.updateStockByProductAndLocation(stockRequest.getAvailableStock(), productId, locationId);
+    public SuccessDto updateStockByProductAndLocation(StockRequestDto stockRequest,
+                                                      Integer productId,
+                                                      Integer locationId) throws NotFound {
+        Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getAvailableStock(),
+                                                                    productId, locationId);
+        if (rowsAffected == 0) {
+            throw new NotFound("Product or Location Id Not Found");
+        }
+        return new SuccessDto(200, "Stock Updated Successfully");
     }
 }

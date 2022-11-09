@@ -1,7 +1,9 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.StoreLocationRequest;
-import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.StoreRequestDto;
+import com.ideas2it.groceryshop.dto.StoreResponseDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StoreService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +32,7 @@ public class StoreLocationController {
      * @param storeLocationRequest - store location details
      */
     @PostMapping
-    public void createStore(@RequestBody StoreLocationRequest storeLocationRequest) {
+    public void createStore(@RequestBody StoreRequestDto storeLocationRequest) throws Existed {
         storeService.addStore(storeLocationRequest);
     }
 
@@ -42,8 +44,8 @@ public class StoreLocationController {
      * @param storeId - store id to update
      */
     @PutMapping("/{storeId}")
-    public void updateStore(@RequestBody StoreLocationRequest storeLocationRequest,
-                            @PathVariable Integer storeId) {
+    public void updateStore(@RequestBody StoreRequestDto storeLocationRequest,
+                            @PathVariable Integer storeId) throws Existed, NotFound {
         storeService.modifyStore(storeLocationRequest, storeId);
     }
 
@@ -54,7 +56,7 @@ public class StoreLocationController {
      * @return list of Store Location Response
      */
     @GetMapping
-    public List<StoreLocationResponse> viewStores() {
+    public List<StoreResponseDto> viewStores() throws NotFound {
         System.out.println(storeService.getStores());
         return storeService.getStores();
     }
@@ -67,7 +69,7 @@ public class StoreLocationController {
      * @return - store response DTO
      */
     @GetMapping("/{storeId}")
-    public StoreLocationResponse viewStoreById(@PathVariable Integer storeId) {
+    public StoreResponseDto viewStoreById(@PathVariable Integer storeId) throws NotFound {
         return storeService.getStoreById(storeId);
     }
 

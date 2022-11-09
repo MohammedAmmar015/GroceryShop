@@ -1,10 +1,19 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.StockRequest;
-import com.ideas2it.groceryshop.dto.StockResponse;
+import com.ideas2it.groceryshop.dto.StockRequestDto;
+import com.ideas2it.groceryshop.dto.StockResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StockService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -32,10 +41,12 @@ public class StockController {
      * @param productId - to create stock for particular product
      */
     @PostMapping("/{locationId}/{productId}")
-    public void createStock(@RequestBody StockRequest stockRequest,
+    public SuccessDto createStock(@RequestBody StockRequestDto stockRequest,
                             @PathVariable("locationId") Integer locationId,
-                            @PathVariable("productId") Integer productId) {
-        stockService.addStock(stockRequest, locationId, productId);
+                            @PathVariable("productId") Integer productId)
+            throws Existed, NotFound {
+
+        return stockService.addStock(stockRequest, locationId, productId);
     }
 
     /**
@@ -46,7 +57,8 @@ public class StockController {
      * @return - list of Stock response
      */
     @GetMapping("/{productId}")
-    public List<StockResponse> viewStockByProduct(@PathVariable Integer productId) {
+    public List<StockResponseDto> viewStockByProduct(@PathVariable Integer productId)
+            throws NotFound {
         return stockService.getStockByProductId(productId);
     }
 
@@ -59,8 +71,9 @@ public class StockController {
      * @return
      */
     @GetMapping("/{productId}/{locationId}")
-    public StockResponse getStockByProductAndLocation(@PathVariable Integer productId,
-                                                            @PathVariable Integer locationId) {
+    public StockResponseDto getStockByProductAndLocation(@PathVariable Integer productId,
+                                                         @PathVariable Integer locationId)
+            throws NotFound {
         return stockService.getStockByProductAndLocation(productId,locationId);
     }
 
@@ -72,9 +85,9 @@ public class StockController {
      * @param productId - to update stock for this product
      */
     @PutMapping("/{productId}")
-    public void updateStockByProduct(@RequestBody StockRequest stockRequest,
-                                     @PathVariable Integer productId) {
-        stockService.updateStockByProduct(stockRequest, productId);
+    public SuccessDto updateStockByProduct(@RequestBody StockRequestDto stockRequest,
+                                           @PathVariable Integer productId) throws NotFound {
+        return stockService.updateStockByProduct(stockRequest, productId);
     }
 
     /**
@@ -87,9 +100,9 @@ public class StockController {
      * @param locationId - to update stock on this location
      */
     @PutMapping("/{productId}/{locationId}")
-    public void updateStockByProductAndLocation(@RequestBody StockRequest stockRequest,
+    public SuccessDto updateStockByProductAndLocation(@RequestBody StockRequestDto stockRequest,
                                                 @PathVariable Integer productId,
-                                                @PathVariable Integer locationId) {
-        stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
+                                                @PathVariable Integer locationId) throws NotFound {
+        return stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
     }
 }

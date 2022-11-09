@@ -13,8 +13,13 @@ import java.util.List;
 public interface ProductRepo extends JpaRepository<Product, Integer> {
     Product findByIdAndIsActive(Integer productId, Boolean status);
 
-    @Query(value = "select * from product where is_active = ?1", nativeQuery = true)
-    List<Product> findAllAndIsActive(Boolean status);
+    @Query(value = "select * from product where is_active = ?1",
+            nativeQuery = true)
+    //@Query("Select p from Product p LEFT JOIN p.stocks s " +
+            //" where p.isActive = ?1 and s.storeLocation.id = 1")
+    /*@Query(value = "select *, s.available_stock as available_count from product p left join stock s on p.id = s.product_id where p.is_active = ?1 and s.location_id = 1",
+          nativeQuery = true)
+    */List<Product> findAllAndIsActive(Boolean status);
 
     List<Product> findByCategoryIdAndIsActive(Integer categoryId, Boolean status);
 
@@ -23,7 +28,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 
     List<Product> findAllProductByCategoryIdAndIsActive(Integer id, Boolean status);
 
-    @Query(value  = "select * from product where sub_category_id = ?1 AND is_active = ?2",
+    @Query(value  = "select * from product where sub_category_id = ?1 and is_active = ?2",
             nativeQuery = true)
     List<Product> findAllProductBySubCategoryIdAndIsActive(Integer subCategoryId, Boolean status);
 

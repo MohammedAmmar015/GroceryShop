@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
@@ -32,29 +35,34 @@ public class RoleController {
      * It is used to create role
      *
      * @param roleRequestDto it is contains name of role
+     * @return SuccessDto it returns success message
      */
     @PostMapping
-    public void createRole(@RequestBody RoleRequestDto roleRequestDto){
-        roleService.addRole(roleRequestDto);
+    public SuccessDto createRole(@RequestBody RoleRequestDto roleRequestDto) throws Existed {
+        return roleService.addRole(roleRequestDto);
     }
 
     /**
      * It is used to update name of existing role
      *
      * @param updateRoleRequestDto it contains old name of role to be updated and name of role
+     * @return SuccessDto it returns success message
      */
     @PutMapping
-    public void updateRole(@RequestBody UpdateRoleRequestDto updateRoleRequestDto){
-        roleService.updateRole(updateRoleRequestDto);
+    public SuccessDto updateRole(@RequestBody UpdateRoleRequestDto updateRoleRequestDto)
+            throws NotFound {
+        return roleService.updateRole(updateRoleRequestDto);
     }
 
     /**
      * It is used to delete role by name
      *
-     * @param roleRequestDto
+     * @param roleRequestDto it contains role name
+     * @return SuccessDto it returns success message
      */
     @DeleteMapping
-    public void deleteRole(@RequestBody RoleRequestDto roleRequestDto){
-        roleService.deleteRole(roleRequestDto);
+    public SuccessDto deleteRole(@RequestBody RoleRequestDto roleRequestDto)
+            throws NotFound {
+        return roleService.deleteRole(roleRequestDto);
     }
 }

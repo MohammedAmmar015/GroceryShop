@@ -1,11 +1,19 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.CartRequest;
-import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.dto.CartRequestDto;
+import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.CartService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * <p>
@@ -31,8 +39,8 @@ public class CartController {
      * @return SuccessDto with Message and Status Code
      */
     @PostMapping("/{userId}")
-    public SuccessDto createCart(@RequestBody CartRequest cartRequest,
-                                 @PathVariable Integer userId) {
+    public SuccessDto createCart(@RequestBody CartRequestDto cartRequest,
+                                 @PathVariable Integer userId) throws NotFound {
         return cartService.addCart(cartRequest, userId);
     }
 
@@ -44,7 +52,7 @@ public class CartController {
      * @return - CartResponse with product details
      */
     @GetMapping("/{userId}")
-    public CartResponse viewCarts(@PathVariable Integer userId) {
+    public CartResponseDto viewCarts(@PathVariable Integer userId) throws NotFound {
         return cartService.getCartByUserId(userId);
     }
 
@@ -56,9 +64,9 @@ public class CartController {
      * @param userId - user's id to update cart details
      */
     @PutMapping("/{userId}")
-    public void updateCart(@RequestBody CartRequest cartRequest,
-                           @PathVariable Integer userId) {
-        cartService.updateCartByUser(cartRequest, userId);
+    public SuccessDto updateCart(@RequestBody CartRequestDto cartRequest,
+                                @PathVariable Integer userId) {
+        return cartService.updateCartByUser(cartRequest, userId);
     }
 
     /**
@@ -68,8 +76,8 @@ public class CartController {
      * @param userId user's id to delete all products from cart
      */
     @DeleteMapping("/{userId}")
-    public void deleteCart(@PathVariable Integer userId) {
-        cartService.removeCart(userId);
+    public SuccessDto deleteCart(@PathVariable Integer userId) throws NotFound {
+        return cartService.removeCart(userId);
     }
 
     /**
@@ -80,8 +88,9 @@ public class CartController {
      * @param productId - product id to delete from cart
      */
     @DeleteMapping("/{userId}/{productId}")
-    public void deleteProductFromCart(@PathVariable Integer userId, @PathVariable Integer productId) {
-        cartService.removeProductFromCart(userId,productId);
+    public SuccessDto deleteProductFromCart(@PathVariable Integer userId,
+                                            @PathVariable Integer productId) throws NotFound {
+        return cartService.removeProductFromCart(userId,productId);
     }
 
 }

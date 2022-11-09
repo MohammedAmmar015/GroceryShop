@@ -3,10 +3,11 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.ProductService;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
+
 
 /**
  * <p>
@@ -30,7 +31,7 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -44,10 +45,10 @@ public class ProductController {
      *
      * @param productRequestDto Dto type model.
      * @return SuccessDto
-     * @throws ExistedException will be thrown if the product already Exist.
+     * @throws Existed will be thrown if the product already Exist.
      */
     @PostMapping("/")
-    public SuccessDto addProduct(@RequestBody ProductRequestDto productRequestDto) throws ExistedException {
+    public SuccessDto addProduct(@RequestBody ProductRequestDto productRequestDto) throws Existed {
         return productService.addProduct(productRequestDto);
 
     }
@@ -59,10 +60,10 @@ public class ProductController {
      *
      * @param categoryId to find particular object.
      * @return Dto type model.
-     * @throws NotFoundException will be thrown if the id not exist.
+     * @throws NotFound will be thrown if the id not exist.
      */
     @GetMapping("/category/{categoryId}")
-    public List<ProductResponseDto> getProductsByCategoryId(@PathVariable("categoryId") Integer categoryId) throws NotFoundException {
+    public List<ProductResponseDto> getProductsByCategoryId(@PathVariable("categoryId") Integer categoryId) throws NotFound {
         return productService.getProductsByCategoryId(categoryId);
     }
 
@@ -73,10 +74,10 @@ public class ProductController {
      *
      * @param subCategoryId to find the object to retrieve.
      * @return Dto type model.
-     * @throws NotFoundException will be thrown if the id not exist.
+     * @throws NotFound will be thrown if the id not exist.
      */
     @GetMapping("/category/subCategory/{subCategoryId}")
-    public List<ProductResponseDto> getProductsBySubCategoryId(@PathVariable("subCategoryId") Integer subCategoryId) throws NotFoundException {
+    public List<ProductResponseDto> getProductsBySubCategoryId(@PathVariable("subCategoryId") Integer subCategoryId) throws NotFound {
         return productService.getProductsBySubCategoryId(subCategoryId);
     }
 
@@ -86,10 +87,10 @@ public class ProductController {
      * </p>
      *
      * @return products.
-     * @throws NotFoundException will be thrown if the products not exist.
+     * @throws NotFound will be thrown if the products not exist.
      */
-    @GetMapping("/")
-    public List<ProductResponseDto> getProducts() throws NotFoundException {
+    @GetMapping
+    public List<ProductResponseDto> getProducts() throws NotFound {
         return productService.getProducts();
     }
 
@@ -100,10 +101,10 @@ public class ProductController {
      *
      * @param id to find particular object.
      * @return product.
-     * @throws NotFoundException will be thrown if the id not exist.
+     * @throws NotFound will be thrown if the id not exist.
      */
     @GetMapping("/{id}")
-    public ProductResponseDto getProductById(@PathVariable("id") Integer id) throws NotFoundException {
+    public ProductResponseDto getProductById(@PathVariable("id") Integer id) throws NotFound {
         return productService.getProductById(id);
     }
 
@@ -114,10 +115,10 @@ public class ProductController {
      *
      * @param id to find particular object.
      * @return SuccessDto
-     * @throws NotFoundException will be thrown if the id is not exist.
+     * @throws NotFound will be thrown if the id is not exist.
      */
     @DeleteMapping("/{id}")
-    public SuccessDto deleteProductById(@PathVariable("id") Integer id) throws NotFoundException {
+    public SuccessDto deleteProductById(@PathVariable("id") Integer id) throws NotFound {
         return productService.deleteProductById(id);
     }
 
@@ -129,11 +130,11 @@ public class ProductController {
      * @param id to find the object to be updated.
      * @param productRequestDto values to get updated.
      * @return SuccessDto
-     * @throws NotFoundException will be thrown if the id is not exist.
-     * @throws ExistedException will be thrown if old and new fields values are same.
+     * @throws NotFound will be thrown if the id is not exist.
+     * @throws Existed will be thrown if old and new fields values are same.
      */
     @PutMapping("/{id}")
-    public SuccessDto updateProductById(@PathVariable("id") Integer id, @RequestBody ProductRequestDto productRequestDto) throws NotFoundException, ExistedException {
+    public SuccessDto updateProductById(@PathVariable("id") Integer id, @RequestBody ProductRequestDto productRequestDto) throws NotFound, Existed {
         return productService.updateProductById(id, productRequestDto);
     }
 }

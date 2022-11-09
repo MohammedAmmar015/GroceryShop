@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -30,15 +31,14 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * @param isActive it is used to check user is active
      * @param id it is used to search user by id
      * @return user it returns user object
-     *
      */
-    User findByIsActiveAndId(Boolean isActive, Integer id);
+    Optional<User> findByIsActiveAndId(Boolean isActive, Integer id);
 
     /**
-     * Find active users
+     *  It is used to get all active users
      *
-     * @param isActive active users
-     * @return users list of users
+     * @param isActive it checks for active user
+     * @return it returns list of active users
      */
     List<User> findByIsActive(Boolean isActive);
 
@@ -60,4 +60,21 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     @Transactional
     @Query("update User set isActive = false where id = ?1")
     void deactivateUser(Integer id);
+
+    /**
+     *
+     *
+     * @param userName it is used to find user by username
+     * @return boolean it returns user exist or not
+     */
+    boolean existsByUserName(String userName);
+
+    /**
+     * It is used to find active user based on id
+     *
+     * @param username it is username
+     * @param isActive weather use is active or not
+     * @return user it returns user object
+     */
+    Optional<User> findByUserNameAndIsActive(String username, boolean isActive);
 }

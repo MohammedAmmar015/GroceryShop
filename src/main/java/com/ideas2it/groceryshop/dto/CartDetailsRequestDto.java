@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CartDetailsRequest {
+public class CartDetailsRequestDto {
     private Integer productId;
     private Integer quantity;
 }

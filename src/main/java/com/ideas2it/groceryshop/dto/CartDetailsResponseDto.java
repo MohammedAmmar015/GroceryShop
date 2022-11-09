@@ -1,6 +1,5 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.model.StoreLocation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,24 +7,25 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Setter
-@Getter
+/**
+ * <p>
+ *     Cart-Details Response DTO
+ * </p>
+ * @author Mohammed Ammar
+ * @since 03-11-2022
+ * @version 1.0
+ */
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockResponse {
-
+@Getter
+@Setter
+public class CartDetailsResponseDto {
     private Integer id;
+    private Integer quantity;
 
-    private Integer availableStock;
+    private Float price;
 
     private String productName;
 
-    private Integer productId;
-
-    private Date modifiedAt;
-
-    private Integer modifiedBy;
-
-    private String location;
+    private Date createdAt;
 }
-

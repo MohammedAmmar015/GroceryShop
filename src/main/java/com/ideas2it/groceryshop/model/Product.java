@@ -8,7 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -71,4 +73,9 @@ public class Product {
 
     @Column(name = "category_id")
     private int categoryId;
+
+    /*@OneToMany(mappedBy = "product")
+    private List<Stock> stocks;*/
+
+    //private Integer availableCount;
 }

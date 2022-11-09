@@ -1,8 +1,10 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.CartRequest;
-import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.dto.CartRequestDto;
+import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.model.Cart;
 
 /**
  * <p>
@@ -22,7 +24,10 @@ public interface CartService {
      * @param userId - user's id to add product to user's cart
      * @return - successDto with Message and status Code
      */
-    SuccessDto addCart(CartRequest cartRequest, Integer userId);
+
+
+    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound;
+
 
     /**
      * <p>
@@ -31,31 +36,39 @@ public interface CartService {
      * @param userId - user's id to get Cart
      * @return - CartResponse with cart details
      */
-    CartResponse getCartByUserId(Integer userId);
+    CartResponseDto getCartByUserId(Integer userId) throws NotFound;
 
     /**
      * <p>
-     *     It is used To remove Cart details from Cart
+     * It is used To remove Cart details from Cart
      * </p>
+     *
      * @param userId - user's id to remove products from cart
+     * @return
      */
-    void removeCart(Integer userId);
+    SuccessDto removeCart(Integer userId) throws NotFound;
 
     /**
      * <p>
-     *     It is used to remove particular product from cart
+     * It is used to remove particular product from cart
      * </p>
-     * @param userId - user's id to remove product from cart
+     *
+     * @param userId    - user's id to remove product from cart
      * @param productId - product id to be removed
+     * @return
      */
-    void removeProductFromCart(Integer userId, Integer productId);
+    SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound;
 
     /**
      * <p>
-     *     It is used to Update Cart Product Quantity of Particular user
+     * It is used to Update Cart Product Quantity of Particular user
      * </p>
+     *
      * @param cartRequest - cart details to be Updated
-     * @param userId - user's id to update cart product
+     * @param userId      - user's id to update cart product
+     * @return
      */
-    void updateCartByUser(CartRequest cartRequest, Integer userId);
+    SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId);
+
+    Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound;
 }

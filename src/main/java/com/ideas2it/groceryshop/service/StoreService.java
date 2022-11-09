@@ -1,7 +1,10 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.StoreLocationRequest;
-import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.StoreRequestDto;
+import com.ideas2it.groceryshop.dto.StoreResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.List;
 
@@ -17,11 +20,13 @@ public interface StoreService {
 
     /**
      * <p>
-     *     To add Store Location
+     * To add Store Location
      * </p>
+     *
      * @param storeLocationRequest request DTO to be passed
+     * @return
      */
-    void addStore(StoreLocationRequest storeLocationRequest);
+    SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed;
 
     /**
      * <p>
@@ -29,16 +34,17 @@ public interface StoreService {
      * </p>
      * @return list of Store Location
      */
-    List<StoreLocationResponse> getStores();
+    List<StoreResponseDto> getStores() throws NotFound;
 
     /**
      * <p>
-     *     To remove Store Location
+     * To remove Store Location
      * </p>
      *
      * @param storeId store id has to be passes
+     * @return
      */
-    void removeStore(Integer storeId);
+    SuccessDto removeStore(Integer storeId);
 
 
     /**
@@ -48,14 +54,17 @@ public interface StoreService {
      * @param storeId store id has to be passed
      * @return StoreLocationResponse Object
      */
-    StoreLocationResponse getStoreById(Integer storeId);
+    StoreResponseDto getStoreById(Integer storeId) throws NotFound;
 
     /**
      * <p>
-     *     To Modify Store Location details
+     * To Modify Store Location details
      * </p>
+     *
      * @param storeLocationRequest Store Location details to update
-     * @param storeId store id to be passed
+     * @param storeId              store id to be passed
+     * @return
      */
-    void modifyStore(StoreLocationRequest storeLocationRequest, Integer storeId);
+    SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
+                           Integer storeId) throws NotFound, Existed;
 }
