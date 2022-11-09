@@ -13,12 +13,12 @@ import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.service.ProductService;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -74,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
         }
         List<ProductResponseDto> productResponseDto = new ArrayList<>();
         for (Product product :products) {
+
             productResponseDto.add(ProductMapper.toProductDto(product));
         }
         return productResponseDto;
