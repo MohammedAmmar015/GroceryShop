@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.StockRequest;
 import com.ideas2it.groceryshop.dto.StockResponse;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public interface StockService {
      * @return
      */
     SuccessDto addStock(StockRequest stockRequest, Integer locationId, Integer productId)
-            throws NotFoundException, Existed;
+            throws NotFound, Existed;
 
     /**
      * <p>
@@ -40,7 +40,7 @@ public interface StockService {
      * @return List of Stock details
      */
     List<StockResponse> getStockByProductId(Integer productId)
-            throws NotFoundException;
+            throws NotFound, NotFound;
 
     /**
      * <p>
@@ -51,7 +51,7 @@ public interface StockService {
      * @return
      */
     StockResponse getStockByProductAndLocation(Integer productId, Integer locationId)
-            throws NotFoundException;
+            throws NotFound, NotFound;
 
     /**
      * <p>
@@ -63,7 +63,7 @@ public interface StockService {
      * @return
      */
     SuccessDto updateStockByProduct(StockRequest stockRequest, Integer productId)
-            throws NotFoundException;
+            throws NotFound, NotFound;
 
 
     /**
@@ -79,5 +79,5 @@ public interface StockService {
     SuccessDto updateStockByProductAndLocation(StockRequest stockRequest,
                                                Integer productId,
                                                Integer locationId)
-            throws NotFoundException;
+            throws NotFound, NotFound;
 }

@@ -3,7 +3,7 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.CartRequest;
 import com.ideas2it.groceryshop.dto.CartResponse;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.model.Cart;
 
 /**
@@ -24,7 +24,7 @@ public interface CartService {
      * @param userId - user's id to add product to user's cart
      * @return - successDto with Message and status Code
      */
-    SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFoundException;
+    SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFound;
 
     /**
      * <p>
@@ -33,7 +33,7 @@ public interface CartService {
      * @param userId - user's id to get Cart
      * @return - CartResponse with cart details
      */
-    CartResponse getCartByUserId(Integer userId) throws NotFoundException;
+    CartResponse getCartByUserId(Integer userId) throws NotFound;
 
     /**
      * <p>
@@ -43,7 +43,7 @@ public interface CartService {
      * @param userId - user's id to remove products from cart
      * @return
      */
-    SuccessDto removeCart(Integer userId) throws NotFoundException;
+    SuccessDto removeCart(Integer userId) throws NotFound;
 
     /**
      * <p>
@@ -54,7 +54,7 @@ public interface CartService {
      * @param productId - product id to be removed
      * @return
      */
-    SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFoundException;
+    SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound;
 
     /**
      * <p>
@@ -67,5 +67,5 @@ public interface CartService {
      */
     SuccessDto updateCartByUser(CartRequest cartRequest, Integer userId);
 
-    Cart getCartByCartId(Integer cartId, Boolean status) throws NotFoundException;
+    Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound;
 }

@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.CartDetailsRequest;
 import com.ideas2it.groceryshop.dto.CartRequest;
 import com.ideas2it.groceryshop.dto.CartResponse;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
@@ -48,14 +48,14 @@ public class CartServiceImpl implements CartService {
      * @return - successDto with Message and status Code
      */
     @Override
-    public SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFoundException {
-        User user = userHelper.findUserById(userId);
-        if (user == null) {
-            throw new NotFoundException("User Not Found");
+    public SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFound {
+        Optional<User> user = userHelper.findUserById(userId);
+        if (user.isEmpty()) {
+            throw new NotFound("User Not Found");
         }
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
         if (carts.isEmpty()) {
-            throw new NotFoundException("Cart Not Found, Cart is Only for Customer");
+            throw new NotFound("Cart Not Found, Cart is Only for Customer");
         } else {
             Cart cart = carts.get();
             List<CartDetails> cartDetails = addCartDetails(cartRequest.getCartDetails(),
@@ -77,11 +77,11 @@ public class CartServiceImpl implements CartService {
      * @return - List<CartDetails>
      */
     private List<CartDetails> addCartDetails(CartDetailsRequest cartDetailsRequest,
-                                            List<CartDetails> cartDetails) throws NotFoundException {
+                                            List<CartDetails> cartDetails) throws NotFound {
         CartDetails cartDetail = CartDetailsMapper.toCartDetails(cartDetailsRequest);
         Product product = productHelper.getProductById(cartDetailsRequest.getProductId());
         if (product == null) {
-            throw new NotFoundException("Product Not Found");
+            throw new NotFound("Product Not Found");
         }
         cartDetail.setProduct(product);
         cartDetail.setPrice(product.getPrice() * cartDetail.getQuantity());
@@ -112,10 +112,10 @@ public class CartServiceImpl implements CartService {
      * @return - CartResponse with cart details
      */
     @Override
-    public CartResponse getCartByUserId(Integer userId) throws NotFoundException {
+    public CartResponse getCartByUserId(Integer userId) throws NotFound {
         Optional<Cart> cart = cartRepo.findByUserIdAndIsActive(userId, true);
         if (cart.isEmpty()) {
-            throw new NotFoundException("Cart Not Found, Cart is Only for Customer");
+            throw new NotFound("Cart Not Found, Cart is Only for Customer");
         }
         return CartMapper.convertCartToCartResponse(cart.get());
     }
@@ -129,13 +129,13 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     @Override
-    public SuccessDto removeCart(Integer userId) throws NotFoundException {
-        User user = userHelper.findUserById(userId);
+    public SuccessDto removeCart(Integer userId) throws NotFound {
+        Optional<User> user = userHelper.findUserById(userId);
         if (user == null) {
-            throw new NotFoundException("User Not Found");
+            throw new NotFound("User Not Found");
         }
-        cartRepo.deleteCartDetailsByUserId(user.getId());
-        cartRepo.deleteTotalPrice(user);
+        cartRepo.deleteCartDetailsByUserId(user.get().getId());
+        cartRepo.deleteTotalPrice(user.get());
         return new SuccessDto(200, "All products from Cart, gets Deleted");
     }
 
@@ -149,10 +149,10 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     @Override
-    public SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFoundException {
+    public SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound {
         Cart cart = cartRepo.findByUserIdAndIsActive(userId, true).get();
         if (cart == null) {
-            throw new NotFoundException("Cart Not Found, Cart is Only for Customer");
+            throw new NotFound("Cart Not Found, Cart is Only for Customer");
         }
         for (CartDetails cartDetails : cart.getCartDetails()) {
             if (cartDetails.getProduct().getId() == productId) {
@@ -195,10 +195,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart getCartByCartId(Integer cartId, Boolean status) throws NotFoundException {
+    public Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound {
         Cart cart = cartRepo.findByIdAndIsActive(cartId, status);
         if (cart == null) {
-            throw new NotFoundException("Cart not found for given Cart id");
+            throw new NotFound("Cart not found for given Cart id");
         }
         return cart;
     }

@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.StockRequest;
 import com.ideas2it.groceryshop.dto.StockResponse;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.StockMapper;
 import com.ideas2it.groceryshop.model.Product;
@@ -49,19 +49,19 @@ public class StockServiceImpl implements StockService {
     @Override
     public SuccessDto addStock(StockRequest stockRequest,
                                Integer locationId,
-                               Integer productId) throws NotFoundException, Existed {
+                               Integer productId) throws NotFound, Existed {
         if (stockRepo.existsByStoreLocationIdOrProductId(locationId, productId)) {
             throw new Existed("Stock already exists for this location and product");
         }
         Stock stock = StockMapper.toStock(stockRequest);
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, locationId);
         if (storeLocation == null) {
-            throw new NotFoundException("Store Location Not Found");
+            throw new NotFound("Store Location Not Found");
         }
         stock.setStoreLocation(storeLocation);
         Product product = productHelper.getProductById(productId);
         if (product == null) {
-            throw new NotFoundException("Given product id Not Found");
+            throw new NotFound("Given product id Not Found");
         }
         stock.setProduct(product);
         stockRepo.save(stock);
@@ -78,10 +78,10 @@ public class StockServiceImpl implements StockService {
      * @return List of Stock details
      */
     @Override
-    public List<StockResponse> getStockByProductId(Integer productId) throws NotFoundException {
+    public List<StockResponse> getStockByProductId(Integer productId) throws NotFound {
         List<Stock> stocks = stockRepo.findByProductId(productId);
         if (stocks.isEmpty()) {
-            throw new NotFoundException("No Data Found");
+            throw new NotFound("No Data Found");
         }
         List<StockResponse> stockResponse = new ArrayList<>();
         for (Stock stock : stocks) {
@@ -99,10 +99,10 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
-    public StockResponse getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFoundException {
+    public StockResponse getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
-            throw new NotFoundException("Stock Not found for this Product and Location");
+            throw new NotFound("Stock Not found for this Product and Location");
         }
         StockResponse stockResponse = StockMapper.toStockResponse(stock);
         return stockResponse;
@@ -119,11 +119,11 @@ public class StockServiceImpl implements StockService {
      */
     @Override
     public SuccessDto updateStockByProduct(StockRequest stockRequest,
-                                           Integer productId) throws NotFoundException {
+                                           Integer productId) throws NotFound {
         Integer rowsAffected =
                 stockRepo.updateStockByProduct(stockRequest.getAvailableStock(), productId);
         if (rowsAffected == 0) {
-            throw new NotFoundException("Product Id Not Found");
+            throw new NotFound("Product Id Not Found");
         }
         return new SuccessDto(200, "Stock Updated successfully");
     }
@@ -141,11 +141,11 @@ public class StockServiceImpl implements StockService {
     @Override
     public SuccessDto updateStockByProductAndLocation(StockRequest stockRequest,
                                                       Integer productId,
-                                                      Integer locationId) throws NotFoundException {
+                                                      Integer locationId) throws NotFound {
         Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getAvailableStock(),
                                                                     productId, locationId);
         if (rowsAffected == 0) {
-            throw new NotFoundException("Product or Location Id Not Found");
+            throw new NotFound("Product or Location Id Not Found");
         }
         return new SuccessDto(200, "Stock Updated Successfully");
     }
