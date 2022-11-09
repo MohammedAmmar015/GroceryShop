@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.StoreLocationRequest;
-import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.StoreRequestDto;
+import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFoundException;
@@ -26,7 +26,7 @@ public interface StoreService {
      * @param storeLocationRequest request DTO to be passed
      * @return
      */
-    SuccessDto addStore(StoreLocationRequest storeLocationRequest) throws Existed;
+    SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed;
 
     /**
      * <p>
@@ -34,7 +34,7 @@ public interface StoreService {
      * </p>
      * @return list of Store Location
      */
-    List<StoreLocationResponse> getStores() throws NotFoundException;
+    List<StoreResponseDto> getStores() throws NotFoundException;
 
     /**
      * <p>
@@ -54,7 +54,7 @@ public interface StoreService {
      * @param storeId store id has to be passed
      * @return StoreLocationResponse Object
      */
-    StoreLocationResponse getStoreById(Integer storeId) throws NotFoundException;
+    StoreResponseDto getStoreById(Integer storeId) throws NotFoundException;
 
     /**
      * <p>
@@ -65,6 +65,6 @@ public interface StoreService {
      * @param storeId              store id to be passed
      * @return
      */
-    SuccessDto modifyStore(StoreLocationRequest storeLocationRequest,
+    SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
                            Integer storeId) throws NotFoundException, Existed;
 }

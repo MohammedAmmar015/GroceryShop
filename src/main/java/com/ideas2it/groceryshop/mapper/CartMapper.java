@@ -1,9 +1,9 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.CartDetailsRequest;
-import com.ideas2it.groceryshop.dto.CartDetailsResponse;
-import com.ideas2it.groceryshop.dto.CartRequest;
-import com.ideas2it.groceryshop.dto.CartResponse;
+import com.ideas2it.groceryshop.dto.CartDetailsRequestDto;
+import com.ideas2it.groceryshop.dto.CartDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.CartRequestDto;
+import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.CartDetails;
 
@@ -27,12 +27,12 @@ public class CartMapper {
      * @param cart - cart object
      * @return - CartResponse
      */
-    public static CartResponse convertCartToCartResponse(Cart cart) {
-        CartResponse cartResponse = new CartResponse();
+    public static CartResponseDto convertCartToCartResponse(Cart cart) {
+        CartResponseDto cartResponse = new CartResponseDto();
         cartResponse.setId(cart.getId());
         cartResponse.setTotalPrice(cart.getTotalPrice());
         cartResponse.setCreatedAt(cart.getCreatedAt());
-        List<CartDetailsResponse> cartDetailsResponse = new ArrayList<>();
+        List<CartDetailsResponseDto> cartDetailsResponse = new ArrayList<>();
         for (CartDetails cartDetails : cart.getCartDetails()) {
             cartDetailsResponse.add(CartDetailsMapper.convertCartDetailsToCartDetailsResponse(cartDetails));
         }
@@ -47,10 +47,10 @@ public class CartMapper {
      * @param cartRequest - cart request dto
      * @return - Cart
      */
-    public static Cart convertCartRequestToCart(CartRequest cartRequest) {
+    public static Cart convertCartRequestToCart(CartRequestDto cartRequest) {
         Cart cart = new Cart();
         List<CartDetails> cartDetails = new ArrayList<>();
-        CartDetailsRequest cartDetailsRequest = cartRequest.getCartDetails();
+        CartDetailsRequestDto cartDetailsRequest = cartRequest.getCartDetails();
         cartDetails.add(CartDetailsMapper.toCartDetails(cartDetailsRequest));
         return cart;
     }

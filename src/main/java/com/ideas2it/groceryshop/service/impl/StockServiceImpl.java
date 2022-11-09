@@ -1,7 +1,7 @@
 package com.ideas2it.groceryshop.service.impl;
 
-import com.ideas2it.groceryshop.dto.StockRequest;
-import com.ideas2it.groceryshop.dto.StockResponse;
+import com.ideas2it.groceryshop.dto.StockRequestDto;
+import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
@@ -47,7 +47,7 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
-    public SuccessDto addStock(StockRequest stockRequest,
+    public SuccessDto addStock(StockRequestDto stockRequest,
                                Integer locationId,
                                Integer productId) throws NotFound, Existed {
         if (stockRepo.existsByStoreLocationIdOrProductId(locationId, productId)) {
@@ -78,12 +78,16 @@ public class StockServiceImpl implements StockService {
      * @return List of Stock details
      */
     @Override
+<<<<<<< Updated upstream
     public List<StockResponse> getStockByProductId(Integer productId) throws NotFound {
+=======
+    public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFoundException {
+>>>>>>> Stashed changes
         List<Stock> stocks = stockRepo.findByProductId(productId);
         if (stocks.isEmpty()) {
             throw new NotFound("No Data Found");
         }
-        List<StockResponse> stockResponse = new ArrayList<>();
+        List<StockResponseDto> stockResponse = new ArrayList<>();
         for (Stock stock : stocks) {
             stockResponse.add(StockMapper.toStockResponse(stock));
         }
@@ -99,12 +103,16 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
+<<<<<<< Updated upstream
     public StockResponse getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
+=======
+    public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFoundException {
+>>>>>>> Stashed changes
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
             throw new NotFound("Stock Not found for this Product and Location");
         }
-        StockResponse stockResponse = StockMapper.toStockResponse(stock);
+        StockResponseDto stockResponse = StockMapper.toStockResponse(stock);
         return stockResponse;
     }
 
@@ -118,8 +126,13 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
+<<<<<<< Updated upstream
     public SuccessDto updateStockByProduct(StockRequest stockRequest,
                                            Integer productId) throws NotFound {
+=======
+    public SuccessDto updateStockByProduct(StockRequestDto stockRequest,
+                                           Integer productId) throws NotFoundException {
+>>>>>>> Stashed changes
         Integer rowsAffected =
                 stockRepo.updateStockByProduct(stockRequest.getAvailableStock(), productId);
         if (rowsAffected == 0) {
@@ -139,7 +152,7 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
-    public SuccessDto updateStockByProductAndLocation(StockRequest stockRequest,
+    public SuccessDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                       Integer productId,
                                                       Integer locationId) throws NotFound {
         Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getAvailableStock(),
