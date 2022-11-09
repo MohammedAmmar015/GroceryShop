@@ -2,6 +2,9 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.StockRequest;
 import com.ideas2it.groceryshop.dto.StockResponse;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 
 import java.util.List;
 
@@ -17,13 +20,16 @@ public interface StockService {
 
     /**
      * <p>
-     *     It is used to add Stock for Particular product based on Location
+     * It is used to add Stock for Particular product based on Location
      * </p>
+     *
      * @param stockRequest stock details to add
-     * @param locationId To add stock to particular location
-     * @param productId To add Stock to the Product
+     * @param locationId   To add stock to particular location
+     * @param productId    To add Stock to the Product
+     * @return
      */
-    void addStock(StockRequest stockRequest, Integer locationId, Integer productId);
+    SuccessDto addStock(StockRequest stockRequest, Integer locationId, Integer productId)
+            throws NotFoundException, Existed;
 
     /**
      * <p>
@@ -33,7 +39,8 @@ public interface StockService {
      * @param productId id to view Stock details
      * @return List of Stock details
      */
-    List<StockResponse> getStockByProductId(Integer productId);
+    List<StockResponse> getStockByProductId(Integer productId)
+            throws NotFoundException;
 
     /**
      * <p>
@@ -43,25 +50,34 @@ public interface StockService {
      * @param locationId - to view stock by product and location
      * @return
      */
-    StockResponse getStockByProductAndLocation(Integer productId, Integer locationId);
+    StockResponse getStockByProductAndLocation(Integer productId, Integer locationId)
+            throws NotFoundException;
 
     /**
      * <p>
-     *     To Update Stock for particular product on different location
+     * To Update Stock for particular product on different location
      * </p>
+     *
      * @param stockRequest - stock details to update
-     * @param productId - id to update stock
+     * @param productId    - id to update stock
+     * @return
      */
-    void updateStockByProduct(StockRequest stockRequest, Integer productId);
+    SuccessDto updateStockByProduct(StockRequest stockRequest, Integer productId)
+            throws NotFoundException;
 
 
     /**
      * <p>
-     *     To update stock for particular product on particular location
+     * To update stock for particular product on particular location
      * </p>
+     *
      * @param stockRequest - stock details to update
-     * @param productId - id to update stock for this product
-     * @param locationId - id to update stock on this location
+     * @param productId    - id to update stock for this product
+     * @param locationId   - id to update stock on this location
+     * @return
      */
-    void updateStockByProductAndLocation(StockRequest stockRequest, Integer productId, Integer locationId);
+    SuccessDto updateStockByProductAndLocation(StockRequest stockRequest,
+                                               Integer productId,
+                                               Integer locationId)
+            throws NotFoundException;
 }

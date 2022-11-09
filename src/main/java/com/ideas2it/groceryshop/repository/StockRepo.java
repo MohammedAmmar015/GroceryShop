@@ -16,15 +16,17 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product.id = ?2")
     @Modifying(clearAutomatically = true)
     @Transactional
-    void updateStockByProduct(Integer availableStock, Integer productId);
+    Integer updateStockByProduct(Integer availableStock, Integer productId);
 
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product.id = ?2 AND s.storeLocation.id = ?3")
     @Modifying(clearAutomatically = true)
     @Transactional
-    void updateStockByProductAndLocation(Integer availableStock, Integer productId, Integer locationId);
+    Integer updateStockByProductAndLocation(Integer availableStock, Integer productId, Integer locationId);
 
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock - ?1 where s.product = ?2 AND s.storeLocation.id = ?3")
     @Modifying(clearAutomatically = true)
     @Transactional
-    void decreaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
+    Integer decreaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
+
+    boolean existsByStoreLocationIdOrProductId(Integer locationId, Integer productId);
 }

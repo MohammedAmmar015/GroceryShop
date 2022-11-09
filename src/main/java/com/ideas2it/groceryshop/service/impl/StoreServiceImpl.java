@@ -2,16 +2,18 @@ package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.StoreLocationRequest;
 import com.ideas2it.groceryshop.dto.StoreLocationResponse;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.StoreService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -28,14 +30,22 @@ public class StoreServiceImpl implements StoreService {
 
     /**
      * <p>
-     *     To add Store Location
+     * To add Store Location
      * </p>
+     *
      * @param storeLocationRequest request DTO to be passed
+     * @return
      */
     @Override
-    public void addStore(StoreLocationRequest storeLocationRequest) {
+    public SuccessDto addStore(StoreLocationRequest storeLocationRequest) throws Existed {
+        String area = storeLocationRequest.getArea();
+        Integer pinCode = storeLocationRequest.getPinCode();
+        if (storeRepo.existsByAreaOrPinCode(area, pinCode)) {
+            throw new Existed("Area or PinCode Already exists");
+        }
         StoreLocation storeLocation = StoreLocationMapper.toStoreLocation(storeLocationRequest);
         storeRepo.save(storeLocation);
+        return new SuccessDto(201, "Store Location Created Successfully");
     }
 
     /**
@@ -45,25 +55,32 @@ public class StoreServiceImpl implements StoreService {
      * @return list of Store Location
      */
     @Override
-    public List<StoreLocationResponse> getStores() {
-        List<StoreLocationResponse> stores = new ArrayList<>();
-        for (StoreLocation storeLocation : storeRepo.findByIsActive(true)) {
-            stores.add(StoreLocationMapper.toStoreLocationResponse(storeLocation));
+    public List<StoreLocationResponse> getStores() throws NotFoundException {
+        List<StoreLocationResponse> storesResponse = new ArrayList<>();
+        List<StoreLocation> stores = storeRepo.findByIsActive(true);
+        if (stores.isEmpty()) {
+            throw new NotFoundException("No Store Locations Found");
         }
-        return stores;
+        for (StoreLocation storeLocation : stores) {
+            storesResponse.add(StoreLocationMapper.toStoreLocationResponse(storeLocation));
+        }
+        return storesResponse;
     }
 
     /**
      * <p>
-     *     To remove Store Location
+     * To remove Store Location
      * </p>
      *
      * @param storeId store id has to be passes
+     * @return
      */
     @Override
-    public void removeStore(Integer storeId) {
+    public SuccessDto removeStore(Integer storeId) {
         storeRepo.deleteStoreById(storeId);
+        return new SuccessDto(200, "Store Location deleted Successfully");
     }
+
 
     /**
      * <p>
@@ -73,24 +90,39 @@ public class StoreServiceImpl implements StoreService {
      * @return StoreLocationResponse Object
      */
     @Override
-    public StoreLocationResponse getStoreById(Integer storeId) {
+    public StoreLocationResponse getStoreById(Integer storeId) throws NotFoundException {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
-        StoreLocationResponse store = StoreLocationMapper.toStoreLocationResponse(storeLocation);
-        return store;
+        if (storeLocation == null) {
+            throw new NotFoundException("Given Store id Not Found");
+        }
+        StoreLocationResponse storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
+        return storeResponse;
     }
 
     /**
      * <p>
-     *     To Modify Store Location details
+     * To Modify Store Location details
      * </p>
+     *
      * @param storeLocationRequest Store Location details to update
-     * @param storeId store id to be passed
+     * @param storeId              store id to be passed
+     * @return
      */
     @Override
-    public void modifyStore(StoreLocationRequest storeLocationRequest, Integer storeId) {
+    public SuccessDto modifyStore(StoreLocationRequest storeLocationRequest,
+                                  Integer storeId) throws NotFoundException, Existed {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
+        String area = storeLocationRequest.getArea();
+        Integer pinCode = storeLocationRequest.getPinCode();
+        if(storeRepo.existsByAreaOrPinCode(area, pinCode)) {
+            throw new Existed("Area or PinCode already exists");
+        }
+        if (storeLocation == null) {
+            throw new NotFoundException("Given Store id for Update, Not Found");
+        }
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
         storeRepo.save(storeLocation);
+        return new SuccessDto(200, "Store Location Updated Successfully");
     }
 }
