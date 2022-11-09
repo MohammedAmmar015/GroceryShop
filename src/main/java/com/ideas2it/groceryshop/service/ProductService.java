@@ -3,8 +3,8 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.List;
 
@@ -13,17 +13,17 @@ import java.util.List;
  * @version   1.0
  */
 public interface ProductService {
-    SuccessDto addProduct(ProductRequestDto productRequestDto) throws ExistedException;
+    SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed;
 
-    List<ProductResponseDto> getProducts() throws NotFoundException;
+    List<ProductResponseDto> getProducts() throws NotFound;
 
-    ProductResponseDto getProductById(Integer id) throws NotFoundException;
+    ProductResponseDto getProductById(Integer id) throws NotFound;
 
-    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFoundException;
+    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFound;
 
-    List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFoundException;
+    List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFound;
 
-    SuccessDto deleteProductById(Integer id) throws NotFoundException;
+    SuccessDto deleteProductById(Integer id) throws NotFound;
 
-    SuccessDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFoundException, ExistedException;
+    SuccessDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFound, Existed;
 }
