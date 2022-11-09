@@ -3,8 +3,8 @@ package com.ideas2it.groceryshop.service.impl;
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.mapper.CategoryMapper;
 import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
@@ -12,10 +12,12 @@ import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.service.CategoryService;
 
-import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -26,15 +28,13 @@ import java.util.Optional;
  * @version  1.0
  */
 @Service
+@AllArgsConstructor
 public class
 CategoryServiceImpl implements CategoryService {
-    private final CategoryRepo categoryRepo;
+    private CategoryRepo categoryRepo;
 
-    private final ProductRepo productRepo;
-    public CategoryServiceImpl(CategoryRepo categoryRepo, ProductRepo productRepo) {
-        this.categoryRepo = categoryRepo;
-        this.productRepo = productRepo;
-    }
+    private ProductRepo productRepo;
+
 
     /**
      * <p>
@@ -43,11 +43,11 @@ CategoryServiceImpl implements CategoryService {
      *
      * @param categoryRequestDto dto type object.
      * @return SuccessDto
-     * @throws ExistedException will be thrown if category already Exists.
+     * @throws Existed will be thrown if category already Exists.
      */
-    public SuccessDto addCategory(CategoryRequestDto categoryRequestDto) throws ExistedException {
+    public SuccessDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed {
         if(categoryRepo.existsByName(categoryRequestDto.getName())) {
-            throw new ExistedException("Category Already Added");
+            throw new Existed("Category Already Added");
         }
         Category category = CategoryMapper.toCategory(categoryRequestDto);
         if(categoryRequestDto.getParentId() != 0) {
@@ -64,12 +64,12 @@ CategoryServiceImpl implements CategoryService {
      * </p>
      *
      * @return Category List.
-     * @throws NotFoundException will be thrown if no category is added.
+     * @throws NotFound will be thrown if no category is added.
      */
-    public List<CategoryResponseDto> getCategory() throws NotFoundException {
+    public List<CategoryResponseDto> getCategory() throws NotFound {
         List<Category> categories = categoryRepo.findByParentIdAndIsActive( true);
         if (categories == null || categories.isEmpty()) {
-            throw new NotFoundException("No Products Added");
+            throw new NotFound("No Products Added");
         }
         List<CategoryResponseDto> categories1 = new ArrayList<>();
         for(Category category:categories) {
@@ -84,12 +84,12 @@ CategoryServiceImpl implements CategoryService {
      * </p>
      *
      * @return sub category list if exist otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if the no sub category exists.
+     * @throws NotFound will be thrown if the no sub category exists.
      */
-    public List<CategoryResponseDto> getAllSubCategory() throws NotFoundException {
+    public List<CategoryResponseDto> getAllSubCategory() throws NotFound {
         List<Category> categories = categoryRepo.findByParentIdSubCategoryAndIsActive(true);
         if (categories == null || categories.isEmpty()) {
-            throw new NotFoundException("No Products Added");
+            throw new NotFound("No Products Added");
         }
         List<CategoryResponseDto> categories1 = new ArrayList<>();
         for(Category category:categories) {
@@ -105,13 +105,13 @@ CategoryServiceImpl implements CategoryService {
      *
      * @param id to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if category doesn't exist.
+     * @throws NotFound will be thrown if category doesn't exist.
      */
     @Override
-    public SuccessDto deleteCategory(Integer id) throws NotFoundException {
+    public SuccessDto deleteCategory(Integer id) throws NotFound {
         Category category = categoryRepo.findByIdAndIsActive(id, true);
         if (category == null) {
-            throw new NotFoundException("Id Not Exist");
+            throw new NotFound("Id Not Exist");
         }
         category.setActive(false);
         List<Category> categories = categoryRepo.findSubCategoryByParentId(id);
@@ -136,12 +136,12 @@ CategoryServiceImpl implements CategoryService {
      * @param id to find which object to get deleted.
      * @param subCategoryId to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if sub category doesn't exist.
+     * @throws NotFound will be thrown if sub category doesn't exist.
      */
-    public SuccessDto deleteSubCategory(Integer id, Integer subCategoryId) throws NotFoundException {
+    public SuccessDto deleteSubCategory(Integer id, Integer subCategoryId) throws NotFound {
         Category category = categoryRepo.findSubCategoryByParentIdAndIdAndIsActive(subCategoryId, id, true);
         if (category == null) {
-            throw new NotFoundException("Id Not Exist");
+            throw new NotFound("Id Not Exist");
         }
         category.setActive(false);
         categoryRepo.save(category);
@@ -161,17 +161,17 @@ CategoryServiceImpl implements CategoryService {
      * @param id to find which object to update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if id doesn't match.
-     * @throws ExistedException will be thrown if values are already exist.
+     * @throws NotFound will be thrown if id doesn't match.
+     * @throws Existed will be thrown if values are already exist.
      */
     @Override
-    public SuccessDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws NotFoundException, ExistedException {
+    public SuccessDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws NotFound, Existed {
         Category category = categoryRepo.findByIdAndParentIdAndIsActive(id, true);
         if(category == null) {
-            throw new NotFoundException("Id Not Exist");
+            throw new NotFound("Id Not Exist");
         }
         if (categoryRepo.existsByName(categoryRequestDto.getName())) {
-            throw new ExistedException("Name Exist");
+            throw new Existed("Name Exist");
         }
         category.setName(categoryRequestDto.getName());
         categoryRepo.save(category);
@@ -187,17 +187,17 @@ CategoryServiceImpl implements CategoryService {
      * @param parentId to find object to get update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if id doesn't match.
-     * @throws ExistedException will be thrown if values are already exist.
+     * @throws NotFound will be thrown if id doesn't match.
+     * @throws Existed will be thrown if values are already exist.
      */
     @Override
-    public SuccessDto updateSubCategory(Integer categoryId, Integer parentId, CategoryRequestDto categoryRequestDto) throws NotFoundException, ExistedException {
-        Category category = categoryRepo.findByCategoyIdAndParentIdAndIsActive(categoryId, parentId, true);
+    public SuccessDto updateSubCategory(Integer categoryId, Integer parentId, CategoryRequestDto categoryRequestDto) throws NotFound, Existed {
+        Category category = categoryRepo.findByCategoryIdAndParentIdAndIsActive(categoryId, parentId, true);
         if(category == null) {
-            throw new NotFoundException("Id Not Exist");
+            throw new NotFound("Id Not Exist");
         }
         if (categoryRepo.existsByName(categoryRequestDto.getName())) {
-            throw new ExistedException("Name Exist");
+            throw new Existed("Name Exist");
         }
         category.setName(categoryRequestDto.getName());
         categoryRepo.save(category);

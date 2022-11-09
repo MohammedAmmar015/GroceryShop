@@ -124,6 +124,24 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
+     *     This method is used for placing order directly without cart
+     * </p>
+     * @param userOrderRequestDto
+     * @param userId
+     */
+    @Override
+    public void buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) {
+        UserOrder userOrder = new UserOrder();
+        List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
+        userOrder.setOrderDetails(orderDetails);
+        userOrder.setTotalPrice(orderDetails.get(0).getPrice());
+        userOrder.setUser(userHelper.findUserById(userId));
+        userOrderRepo.save(userOrder);
+        orderDelivery(userOrderRequestDto, userOrder);
+    }
+
+    /**
+     * <p>
      *     This method is used for calculating the total price
      *     and to set the orderDetails
      * </p>

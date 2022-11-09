@@ -1,7 +1,10 @@
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
  *
@@ -18,20 +21,26 @@ public interface RoleService {
      * It is used to create role
      *
      * @param roleRequestDto it contains role name
+     * @return SuccessDto it returns success message
+     * @throws Existed role already exist
      */
-    void addRole(RoleRequestDto roleRequestDto);
+    SuccessDto addRole(RoleRequestDto roleRequestDto) throws Existed;
 
     /**
      * it is used to update role
      *
      * @param updateRoleRequestDto it contains role name and name to be updated
+     * @return SuccessDto it returns success message
+     * @throws NotFoundException role not found
      */
-    void updateRole(UpdateRoleRequestDto updateRoleRequestDto);
+    SuccessDto updateRole(UpdateRoleRequestDto updateRoleRequestDto) throws NotFoundException;
 
     /**
      * It is uses to delete role
      *
      * @param roleRequestDto it is used to delete role
+     * @return SuccessDto it returns success message
+     * @throws NotFoundException role not found
      */
-    void deleteRole(RoleRequestDto roleRequestDto);
+    SuccessDto deleteRole(RoleRequestDto roleRequestDto) throws NotFoundException;
 }

@@ -3,10 +3,11 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.CategoryService;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
+
 
 /**
  * <p>
@@ -30,7 +31,7 @@ import java.util.List;
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @Autowired
     public CategoryController(CategoryService categoryService) {
@@ -45,8 +46,8 @@ public class CategoryController {
      * @param categoryRequestDto It receives DTO type from users.
      * @return SuccessDto.
      */
-    @PostMapping("/")
-    public SuccessDto addCategory(@RequestBody CategoryRequestDto categoryRequestDto) throws ExistedException {
+    @PostMapping
+    public SuccessDto addCategory(@RequestBody CategoryRequestDto categoryRequestDto) throws Existed {
         return categoryService.addCategory(categoryRequestDto);
 
     }
@@ -57,10 +58,10 @@ public class CategoryController {
      * </p>
      *
      * @return CategoryDto.
-     * @throws NotFoundException will be thrown if category is empty.
+     * @throws NotFound will be thrown if category is empty.
      */
-    @GetMapping("/")
-    public List<CategoryResponseDto> getCategory() throws NotFoundException {
+    @GetMapping
+    public List<CategoryResponseDto> getCategory() throws NotFound {
         return categoryService.getCategory();
     }
 
@@ -71,10 +72,10 @@ public class CategoryController {
      * </p>
      *
      * @return CategoryDto
-     * @throws NotFoundException will be thrown if sub category is empty.
+     * @throws NotFound will be thrown if sub category is empty.
      */
     @GetMapping("/subCategories")
-    public List<CategoryResponseDto> getSubCategory() throws NotFoundException {
+    public List<CategoryResponseDto> getSubCategory() throws NotFound {
         return categoryService.getAllSubCategory();
     }
 
@@ -86,10 +87,10 @@ public class CategoryController {
      *
      * @param id to delete category.
      * @return SuccessDto.
-     * @throws NotFoundException will be thrown when the id not exist.
+     * @throws NotFound will be thrown when the id not exist.
      */
     @DeleteMapping("/{id}")
-    public SuccessDto deleteCategory(@PathVariable("id") Integer id) throws NotFoundException {
+    public SuccessDto deleteCategory(@PathVariable("id") Integer id) throws NotFound {
         return categoryService.deleteCategory(id);
 
     }
@@ -103,10 +104,10 @@ public class CategoryController {
      * @param id to delete Sub category.
      * @param subCategoryId to delete sub category.
      * @return SuccessDto
-     * @throws NotFoundException will be thrown if the id not exist.
+     * @throws NotFound will be thrown if the id not exist.
      */
     @DeleteMapping("/subCategories/{categoryId}/{subCategoryId}")
-    public SuccessDto deleteSubCategory(@PathVariable("categoryId") Integer id, @PathVariable("subCategoryId") Integer subCategoryId) throws NotFoundException {
+    public SuccessDto deleteSubCategory(@PathVariable("categoryId") Integer id, @PathVariable("subCategoryId") Integer subCategoryId) throws NotFound {
         return categoryService.deleteSubCategory(id, subCategoryId);
     }
 
@@ -118,11 +119,11 @@ public class CategoryController {
      * @param id to find which object to update
      * @param categoryRequestDto values to be update.
      * @return SuccessDto
-     * @throws ExistedException will be thrown if new values are same as old.
-     * @throws NotFoundException will be thrown if the id not exist.
+     * @throws Existed will be thrown if new values are same as old.
+     * @throws NotFound will be thrown if the id not exist.
      */
     @PutMapping("/{id}/")
-    public SuccessDto updateCategory(@PathVariable("id") Integer id, @RequestBody CategoryRequestDto categoryRequestDto) throws ExistedException, NotFoundException {
+    public SuccessDto updateCategory(@PathVariable("id") Integer id, @RequestBody CategoryRequestDto categoryRequestDto) throws Existed, NotFound {
         return categoryService.updateCategory(id, categoryRequestDto);
     }
 
@@ -135,11 +136,11 @@ public class CategoryController {
      * @param parentId to update.
      * @param categoryRequestDto values to be Update.
      * @return SuccessDto
-     * @throws ExistedException will be thrown if new values are same as old.
-     * @throws NotFoundException will be thrown if the id is not exist.
+     * @throws Existed will be thrown if new values are same as old.
+     * @throws NotFound will be thrown if the id is not exist.
      */
     @PutMapping("/subCategories/{categoryId}/{parentId}")
-    public SuccessDto updateSubCategory(@PathVariable("categoryId") Integer categoryId, @PathVariable("parentId") Integer parentId, @RequestBody CategoryRequestDto categoryRequestDto) throws ExistedException, NotFoundException {
+    public SuccessDto updateSubCategory(@PathVariable("categoryId") Integer categoryId, @PathVariable("parentId") Integer parentId, @RequestBody CategoryRequestDto categoryRequestDto) throws Existed, NotFound {
         return categoryService.updateSubCategory(categoryId, parentId, categoryRequestDto);
     }
 }
