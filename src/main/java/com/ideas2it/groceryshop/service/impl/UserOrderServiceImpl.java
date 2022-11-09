@@ -70,6 +70,24 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     /**
+     * This method is used for converting List<CartDetails> to List<OrderDetails>
+     *
+     * @param cartDetails
+     * @return List<OrderDetails>
+     */
+    private List<OrderDetails> cartDetailsToOrderDetails(List<CartDetails> cartDetails) {
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        for(CartDetails cartDetail : cartDetails) {
+            OrderDetails orderDetail = new OrderDetails();
+            orderDetail.setQuantity(cartDetail.getQuantity());
+            orderDetail.setPrice(cartDetail.getPrice());
+            orderDetail.setProduct(cartDetail.getProduct());
+            orderDetails.add(orderDetail);
+        }
+        return orderDetails;
+    }
+
+    /**
      * This method is used for placing order directly without cart
      *
      * @param userOrderRequestDto
@@ -105,24 +123,6 @@ public class UserOrderServiceImpl implements UserOrderService {
         orderDelivery.setShippingAddress(address.get());
         orderDeliveryRepo.save(orderDelivery);
         return new SuccessDto(202, "Order Placed Successfully");
-    }
-
-    /**
-     * This method is used for converting List<CartDetails> to List<OrderDetails>
-     *
-     * @param cartDetails
-     * @return List<OrderDetails>
-     */
-    private List<OrderDetails> cartDetailsToOrderDetails(List<CartDetails> cartDetails) {
-        List<OrderDetails> orderDetails = new ArrayList<>();
-        for(CartDetails cartDetail : cartDetails) {
-            OrderDetails orderDetail = new OrderDetails();
-            orderDetail.setQuantity(cartDetail.getQuantity());
-            orderDetail.setPrice(cartDetail.getPrice());
-            orderDetail.setProduct(cartDetail.getProduct());
-            orderDetails.add(orderDetail);
-        }
-        return orderDetails;
     }
 
     /**
