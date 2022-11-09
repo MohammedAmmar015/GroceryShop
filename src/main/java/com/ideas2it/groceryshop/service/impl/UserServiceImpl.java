@@ -15,7 +15,7 @@ import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.mapper.UserMapper;
 import com.ideas2it.groceryshop.model.Cart;
@@ -79,12 +79,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *
      * @param id it is used to get user by id
      * @return userResponseDto it contains user detail
-     * @throws NotFoundException if user does not exist or inactive
+     * @throws NotFound if user does not exist or inactive
      */
-    public UserResponseDto getUserById(Integer id) throws NotFoundException {
+    public UserResponseDto getUserById(Integer id) throws NotFound {
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
         if(user.isEmpty()) {
-            throw new NotFoundException("User does not exist");
+            throw new NotFound("User does not exist");
         }
         UserResponseDto userResponseDto = UserMapper.userToUserResponseDto(user.get());
         return userResponseDto;
@@ -94,13 +94,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * It is used to get all users
      *
      * @return userResponseDtoList is list of user
-     * @throws NotFoundException no user found
+     * @throws NotFound no user found
      */
-    public List<UserResponseDto> getAllUser() throws NotFoundException {
+    public List<UserResponseDto> getAllUser() throws NotFound {
         List<UserResponseDto> userResponseDtoList
                 = UserMapper.userToUserResponseDtoList(userRepo.findByIsActive(true));
         if(userResponseDtoList.isEmpty()) {
-            throw new NotFoundException("No user found");
+            throw new NotFound("No user found");
         }
         return userResponseDtoList;
     }
@@ -124,12 +124,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *
      * @param id to be deleted
      * @return SuccessDto it contains success message
-     * @throws NotFoundException user does not exist
+     * @throws NotFound user does not exist
      */
-    public SuccessDto deleteUserById(Integer id) throws NotFoundException {
+    public SuccessDto deleteUserById(Integer id) throws NotFound {
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
         if(user == null) {
-            throw new NotFoundException("User does not exist");
+            throw new NotFound("User does not exist");
         }
         userRepo.deactivateUser(id);
         return new SuccessDto(200,"SuccessFully Deleted user");

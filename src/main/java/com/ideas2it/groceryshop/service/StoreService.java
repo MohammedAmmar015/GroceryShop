@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public interface StoreService {
      * </p>
      * @return list of Store Location
      */
-    List<StoreResponseDto> getStores() throws NotFoundException;
+    List<StoreResponseDto> getStores() throws NotFound;
 
     /**
      * <p>
@@ -54,7 +54,7 @@ public interface StoreService {
      * @param storeId store id has to be passed
      * @return StoreLocationResponse Object
      */
-    StoreResponseDto getStoreById(Integer storeId) throws NotFoundException;
+    StoreResponseDto getStoreById(Integer storeId) throws NotFound;
 
     /**
      * <p>
@@ -66,5 +66,5 @@ public interface StoreService {
      * @return
      */
     SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
-                           Integer storeId) throws NotFoundException, Existed;
+                           Integer storeId) throws NotFound, Existed;
 }

@@ -37,7 +37,6 @@ public class CartServiceImpl implements CartService {
     private CartRepo cartRepo;
     private UserHelper userHelper;
     private ProductHelper productHelper;
-    private CartHelper cartHelper;
 
     /**
      * <p>
@@ -48,17 +47,10 @@ public class CartServiceImpl implements CartService {
      * @return - successDto with Message and status Code
      */
     @Override
-<<<<<<< Updated upstream
-    public SuccessDto addCart(CartRequest cartRequest, Integer userId) throws NotFound {
+    public SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound {
         Optional<User> user = userHelper.findUserById(userId);
         if (user.isEmpty()) {
             throw new NotFound("User Not Found");
-=======
-    public SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFoundException {
-        Optional<User> user = userHelper.findUserById(userId);
-        if (user.isEmpty()) {
-            throw new NotFoundException("User Not Found");
->>>>>>> Stashed changes
         }
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
         if (carts.isEmpty()) {
@@ -83,13 +75,8 @@ public class CartServiceImpl implements CartService {
      * @param cartDetails - List of cart details in user's cart
      * @return - List<CartDetails>
      */
-<<<<<<< Updated upstream
-    private List<CartDetails> addCartDetails(CartDetailsRequest cartDetailsRequest,
-                                            List<CartDetails> cartDetails) throws NotFound {
-=======
     private List<CartDetails> addCartDetails(CartDetailsRequestDto cartDetailsRequest,
-                                             List<CartDetails> cartDetails) throws NotFoundException {
->>>>>>> Stashed changes
+                                             List<CartDetails> cartDetails) throws NotFound {
         CartDetails cartDetail = CartDetailsMapper.toCartDetails(cartDetailsRequest);
         Product product = productHelper.getProductById(cartDetailsRequest.getProductId());
         if (product == null) {
@@ -124,11 +111,7 @@ public class CartServiceImpl implements CartService {
      * @return - CartResponse with cart details
      */
     @Override
-<<<<<<< Updated upstream
-    public CartResponse getCartByUserId(Integer userId) throws NotFound {
-=======
-    public CartResponseDto getCartByUserId(Integer userId) throws NotFoundException {
->>>>>>> Stashed changes
+    public CartResponseDto getCartByUserId(Integer userId) throws NotFound {
         Optional<Cart> cart = cartRepo.findByUserIdAndIsActive(userId, true);
         if (cart.isEmpty()) {
             throw new NotFound("Cart Not Found, Cart is Only for Customer");

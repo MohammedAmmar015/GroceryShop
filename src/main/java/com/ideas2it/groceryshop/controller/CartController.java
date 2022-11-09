@@ -3,7 +3,7 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.CartService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ public class CartController {
      */
     @PostMapping("/{userId}")
     public SuccessDto createCart(@RequestBody CartRequestDto cartRequest,
-                                 @PathVariable Integer userId) throws NotFoundException {
+                                 @PathVariable Integer userId) throws NotFound {
         return cartService.addCart(cartRequest, userId);
     }
 
@@ -52,7 +52,7 @@ public class CartController {
      * @return - CartResponse with product details
      */
     @GetMapping("/{userId}")
-    public CartResponseDto viewCarts(@PathVariable Integer userId) throws NotFoundException {
+    public CartResponseDto viewCarts(@PathVariable Integer userId) throws NotFound {
         return cartService.getCartByUserId(userId);
     }
 
@@ -76,7 +76,7 @@ public class CartController {
      * @param userId user's id to delete all products from cart
      */
     @DeleteMapping("/{userId}")
-    public SuccessDto deleteCart(@PathVariable Integer userId) throws NotFoundException {
+    public SuccessDto deleteCart(@PathVariable Integer userId) throws NotFound {
         return cartService.removeCart(userId);
     }
 
@@ -89,7 +89,7 @@ public class CartController {
      */
     @DeleteMapping("/{userId}/{productId}")
     public SuccessDto deleteProductFromCart(@PathVariable Integer userId,
-                                            @PathVariable Integer productId) throws NotFoundException {
+                                            @PathVariable Integer productId) throws NotFound {
         return cartService.removeProductFromCart(userId,productId);
     }
 

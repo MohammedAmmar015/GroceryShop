@@ -28,13 +28,8 @@ public interface StockService {
      * @param productId    To add Stock to the Product
      * @return
      */
-<<<<<<< Updated upstream
-    SuccessDto addStock(StockRequest stockRequest, Integer locationId, Integer productId)
-            throws NotFound, Existed;
-=======
     SuccessDto addStock(StockRequestDto stockRequest, Integer locationId, Integer productId)
-            throws NotFoundException, Existed;
->>>>>>> Stashed changes
+            throws NotFound, Existed;
 
     /**
      * <p>
@@ -44,13 +39,8 @@ public interface StockService {
      * @param productId id to view Stock details
      * @return List of Stock details
      */
-<<<<<<< Updated upstream
-    List<StockResponse> getStockByProductId(Integer productId)
-            throws NotFound, NotFound;
-=======
     List<StockResponseDto> getStockByProductId(Integer productId)
-            throws NotFoundException;
->>>>>>> Stashed changes
+            throws NotFound;
 
     /**
      * <p>
@@ -60,13 +50,8 @@ public interface StockService {
      * @param locationId - to view stock by product and location
      * @return
      */
-<<<<<<< Updated upstream
-    StockResponse getStockByProductAndLocation(Integer productId, Integer locationId)
-            throws NotFound, NotFound;
-=======
     StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
-            throws NotFoundException;
->>>>>>> Stashed changes
+            throws NotFound;
 
     /**
      * <p>
@@ -77,13 +62,8 @@ public interface StockService {
      * @param productId    - id to update stock
      * @return
      */
-<<<<<<< Updated upstream
-    SuccessDto updateStockByProduct(StockRequest stockRequest, Integer productId)
-            throws NotFound, NotFound;
-=======
     SuccessDto updateStockByProduct(StockRequestDto stockRequest, Integer productId)
-            throws NotFoundException;
->>>>>>> Stashed changes
+            throws NotFound;
 
 
     /**

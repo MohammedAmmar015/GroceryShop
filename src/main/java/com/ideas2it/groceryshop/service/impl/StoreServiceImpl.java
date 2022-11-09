@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.repository.StoreRepo;
@@ -55,11 +55,11 @@ public class StoreServiceImpl implements StoreService {
      * @return list of Store Location
      */
     @Override
-    public List<StoreResponseDto> getStores() throws NotFoundException {
+    public List<StoreResponseDto> getStores() throws NotFound {
         List<StoreResponseDto> storesResponse = new ArrayList<>();
         List<StoreLocation> stores = storeRepo.findByIsActive(true);
         if (stores.isEmpty()) {
-            throw new NotFoundException("No Store Locations Found");
+            throw new NotFound("No Store Locations Found");
         }
         for (StoreLocation storeLocation : stores) {
             storesResponse.add(StoreLocationMapper.toStoreLocationResponse(storeLocation));
@@ -90,10 +90,10 @@ public class StoreServiceImpl implements StoreService {
      * @return StoreLocationResponse Object
      */
     @Override
-    public StoreResponseDto getStoreById(Integer storeId) throws NotFoundException {
+    public StoreResponseDto getStoreById(Integer storeId) throws NotFound {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
-            throw new NotFoundException("Given Store id Not Found");
+            throw new NotFound("Given Store id Not Found");
         }
         StoreResponseDto storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
         return storeResponse;
@@ -110,7 +110,7 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
-                                  Integer storeId) throws NotFoundException, Existed {
+                                  Integer storeId) throws NotFound, Existed {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
@@ -118,7 +118,7 @@ public class StoreServiceImpl implements StoreService {
             throw new Existed("Area or PinCode already exists");
         }
         if (storeLocation == null) {
-            throw new NotFoundException("Given Store id for Update, Not Found");
+            throw new NotFound("Given Store id for Update, Not Found");
         }
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());

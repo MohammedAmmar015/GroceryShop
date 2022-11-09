@@ -12,7 +12,7 @@ import com.ideas2it.groceryshop.dto.RoleRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
 import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
@@ -50,7 +50,7 @@ public class RoleController {
      */
     @PutMapping
     public SuccessDto updateRole(@RequestBody UpdateRoleRequestDto updateRoleRequestDto)
-            throws NotFoundException {
+            throws NotFound {
         return roleService.updateRole(updateRoleRequestDto);
     }
 
@@ -62,7 +62,7 @@ public class RoleController {
      */
     @DeleteMapping
     public SuccessDto deleteRole(@RequestBody RoleRequestDto roleRequestDto)
-            throws NotFoundException {
+            throws NotFound {
         return roleService.deleteRole(roleRequestDto);
     }
 }

@@ -4,7 +4,7 @@ import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
-import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
@@ -49,7 +49,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @param cartId
      */
     @Override
-    public SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException {
+    public SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFound {
         Cart cart = cartHelper.getCartById(cartId, true);
         if(cart != null) {
             UserOrder userOrder = new UserOrder();
@@ -63,7 +63,7 @@ public class UserOrderServiceImpl implements UserOrderService {
             cartHelper.deleteAllProductsFromCart(cart.getUser());
             return orderDelivery(userOrderRequestDto, userOrder);
         } else {
-            throw new NotFoundException("Order is Not confirmed!!!");
+            throw new NotFound("Order is Not confirmed!!!");
         }
     }
 
@@ -74,8 +74,8 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @param userId
      */
     @Override
-    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException{
-        User user = userHelper.findUserById(userId);
+    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFound{
+        User user = userHelper.findUserById(userId).get();
         if (user!= null) {
             UserOrder userOrder = new UserOrder();
             List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
@@ -85,7 +85,7 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrderRepo.save(userOrder);
             return orderDelivery(userOrderRequestDto, userOrder);
         } else {
-            throw new NotFoundException("Please Enter a valid UserId");
+            throw new NotFound("Please Enter a valid UserId");
         }
     }
 
@@ -124,24 +124,6 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used for placing order directly without cart
-     * </p>
-     * @param userOrderRequestDto
-     * @param userId
-     */
-    @Override
-    public void buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) {
-        UserOrder userOrder = new UserOrder();
-        List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
-        userOrder.setOrderDetails(orderDetails);
-        userOrder.setTotalPrice(orderDetails.get(0).getPrice());
-        userOrder.setUser(userHelper.findUserById(userId));
-        userOrderRepo.save(userOrder);
-        orderDelivery(userOrderRequestDto, userOrder);
-    }
-
-    /**
-     * <p>
      *     This method is used for calculating the total price
      *     and to set the orderDetails
      * </p>
@@ -167,13 +149,13 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return List<UserOrderResponseDto>
      */
     @Override
-    public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFoundException {
+    public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFound {
         List<UserOrder> orders = userOrderRepo.findByIsActive(true);
         if(orders != null) {
             List<UserOrderResponseDto> viewPlacedOrders = UserOrderMapper.getAllOrdersDto(orders);
             return viewPlacedOrders;
         } else {
-            throw new NotFoundException("No Record Found!!!");
+            throw new NotFound("No Record Found!!!");
         }
     }
 
@@ -183,13 +165,13 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return List<UserOrderResponseDto>
      */
     @Override
-    public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFoundException {
+    public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFound {
         List<UserOrder> orders = userOrderRepo.findByIsActive(false);
         if(!orders.isEmpty()) {
             List<UserOrderResponseDto> viewCancelledOrders = UserOrderMapper.getAllOrdersDto(orders);
             return viewCancelledOrders;
         } else {
-            throw new NotFoundException("No Record Found!!!");
+            throw new NotFound("No Record Found!!!");
         }
     }
 
@@ -199,12 +181,12 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return UserOrderResponseDto
      */
     @Override
-    public UserOrderResponseDto viewOrderById(Integer orderId) throws NotFoundException {
+    public UserOrderResponseDto viewOrderById(Integer orderId) throws NotFound {
         Optional<UserOrder> userOrder = userOrderRepo.findById(orderId);
         if (!userOrder.isEmpty()) {
             return UserOrderMapper.entityToDto(userOrder.get());
         } else {
-            throw new NotFoundException("No Record Found!!!");
+            throw new NotFound("No Record Found!!!");
         }
     }
 
@@ -215,13 +197,13 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return List<UserOrderResponseDto>
      */
     @Override
-    public List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFoundException {
+    public List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFound {
         List<UserOrder> userOrder = userOrderRepo.findByUserId(user_id);
         if(!userOrder.isEmpty()) {
             List<UserOrderResponseDto> userOrderResponse = UserOrderMapper.getAllOrdersDto(userOrder);
             return userOrderResponse;
         } else {
-            throw new NotFoundException("No Record Found!!!");
+            throw new NotFound("No Record Found!!!");
         }
     }
 
@@ -232,12 +214,12 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return String
      */
     @Override
-    public SuccessDto cancelOrderById(Integer order_id) throws NotFoundException {
+    public SuccessDto cancelOrderById(Integer order_id) throws NotFound {
         Integer isCancelled = userOrderRepo.cancelOrderbyId(order_id);
         if (isCancelled!= 0) {
             return new SuccessDto(202,"Order Cancelled Successfully");
         } else {
-            throw new NotFoundException("Order not Cancelled!!!");
+            throw new NotFound("Order not Cancelled!!!");
         }
 
     }
@@ -249,13 +231,13 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return List<UserOrderResponseDto>
      */
    @Override
-    public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException{
+    public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFound{
         List<UserOrder> userOrders = userOrderRepo.findByProductId(productId);
         if(!userOrders.isEmpty()) {
             List<UserOrderResponseDto> orders = UserOrderMapper.getAllOrdersDto(userOrders);
             return orders;
         } else {
-            throw new NotFoundException("No Record Found!!!");
+            throw new NotFound("No Record Found!!!");
         }
 
     }
@@ -266,32 +248,32 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return OrderDeliveryResponseDto
      */
     @Override
-    public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException {
+    public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound {
         OrderDelivery orderDelivery = orderDeliveryRepo.findByUserOrderId(orderId);
         if(orderDelivery != null) {
             return OrderDeliveryMapper.entityToDto(orderDelivery);
         } else {
-            throw new NotFoundException("No Record Found");
+            throw new NotFound("No Record Found");
         }
     }
 
-    public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFoundException {
+    public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFound {
         List<UserOrder> userOrders =  userOrderRepo.findByOrderedDate(orderedDate);
         if(!userOrders.isEmpty()) {
             return UserOrderMapper.getAllOrdersDto(userOrders);
         } else {
-            throw new NotFoundException("No Record Found");
+            throw new NotFound("No Record Found");
         }
 
     }
 
     @Override
-    public List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFoundException {
+    public List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFound {
         List<UserOrder> userOrders =  userOrderRepo.findByOrderedDateAndUserId(orderedDate, userId);
         if(!userOrders.isEmpty()) {
             return UserOrderMapper.getAllOrdersDto(userOrders);
         } else {
-            throw new NotFoundException("No Record Found");
+            throw new NotFound("No Record Found");
         }
     }
 

@@ -78,11 +78,8 @@ public class StockServiceImpl implements StockService {
      * @return List of Stock details
      */
     @Override
-<<<<<<< Updated upstream
-    public List<StockResponse> getStockByProductId(Integer productId) throws NotFound {
-=======
-    public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFoundException {
->>>>>>> Stashed changes
+
+    public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFound {
         List<Stock> stocks = stockRepo.findByProductId(productId);
         if (stocks.isEmpty()) {
             throw new NotFound("No Data Found");
@@ -103,11 +100,7 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
-<<<<<<< Updated upstream
-    public StockResponse getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
-=======
-    public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFoundException {
->>>>>>> Stashed changes
+    public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
             throw new NotFound("Stock Not found for this Product and Location");
@@ -126,13 +119,8 @@ public class StockServiceImpl implements StockService {
      * @return
      */
     @Override
-<<<<<<< Updated upstream
-    public SuccessDto updateStockByProduct(StockRequest stockRequest,
-                                           Integer productId) throws NotFound {
-=======
     public SuccessDto updateStockByProduct(StockRequestDto stockRequest,
-                                           Integer productId) throws NotFoundException {
->>>>>>> Stashed changes
+                                           Integer productId) throws NotFound {
         Integer rowsAffected =
                 stockRepo.updateStockByProduct(stockRequest.getAvailableStock(), productId);
         if (rowsAffected == 0) {
