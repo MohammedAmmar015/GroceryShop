@@ -18,4 +18,6 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE StoreLocation SET isActive = false WHERE id = ?1")
     void deleteStoreById(Integer storeId);
+
+    boolean existsByAreaOrPinCode(String area, Integer pinCode);
 }

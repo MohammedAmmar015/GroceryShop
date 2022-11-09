@@ -6,13 +6,27 @@ import com.ideas2it.groceryshop.dto.CartRequest;
 import com.ideas2it.groceryshop.dto.CartResponse;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.CartDetails;
-import com.ideas2it.groceryshop.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>
+ *     Cart Mapper, used to convert Cart Entity and Cart DTO
+ * </p>
+ * @author Mohammed Ammar
+ * @since 02-11-2022
+ * @version 1.0
+ */
 public class CartMapper {
 
+    /**
+     * <p>
+     *     It is used to convert Cart Entity to CartResponse
+     * </p>
+     * @param cart - cart object
+     * @return - CartResponse
+     */
     public static CartResponse convertCartToCartResponse(Cart cart) {
         CartResponse cartResponse = new CartResponse();
         cartResponse.setId(cart.getId());
@@ -20,22 +34,19 @@ public class CartMapper {
         cartResponse.setCreatedAt(cart.getCreatedAt());
         List<CartDetailsResponse> cartDetailsResponse = new ArrayList<>();
         for (CartDetails cartDetails : cart.getCartDetails()) {
-            cartDetailsResponse.add(CartMapper.convertCartDetailsToCartDetailsResponse(cartDetails));
+            cartDetailsResponse.add(CartDetailsMapper.convertCartDetailsToCartDetailsResponse(cartDetails));
         }
         cartResponse.setCartDetails(cartDetailsResponse);
         return cartResponse;
     }
 
-    private static CartDetailsResponse convertCartDetailsToCartDetailsResponse(CartDetails cartDetails) {
-        CartDetailsResponse cartDetailsResponse = new CartDetailsResponse();
-        cartDetailsResponse.setId(cartDetails.getId());
-        cartDetailsResponse.setCreatedAt(cartDetails.getCreatedAt());
-        cartDetailsResponse.setProductName(cartDetails.getProduct().getName());
-        cartDetailsResponse.setQuantity(cartDetails.getQuantity());
-        cartDetailsResponse.setPrice(cartDetails.getPrice());
-        return cartDetailsResponse;
-    }
-
+    /**
+     * <p>
+     *     It is used to convert CartRequest to Cart object
+     * </p>
+     * @param cartRequest - cart request dto
+     * @return - Cart
+     */
     public static Cart convertCartRequestToCart(CartRequest cartRequest) {
         Cart cart = new Cart();
         List<CartDetails> cartDetails = new ArrayList<>();

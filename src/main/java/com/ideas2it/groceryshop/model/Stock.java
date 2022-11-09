@@ -4,11 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Date;
-import java.util.List;
 
+/**
+ * <p>
+ *     Stock Entity to holds stock details
+ * </p>
+ * @author Mohammed Ammar
+ * @since 07-11-2022
+ * @version 1.0
+ */
 @Getter
 @Setter
 @NoArgsConstructor

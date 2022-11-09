@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
      * @param isActive - true or false
      * @return - Cart object
      */
-    Cart findByUserIdAndIsActive(Integer userId, Boolean isActive);
+    Optional<Cart> findByUserIdAndIsActive(Integer userId, Boolean isActive);
 
     /**
      * <p>
