@@ -7,7 +7,13 @@ import java.util.List;
 
 public class OrderDeliveryMapper {
 
-    public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery){
+    /**
+     * This method is used to convert orderDelivery Entity to OrderDeliveryResponseDto
+     * @param orderDelivery
+     * @return OrderDeliveryResponseDto
+     */
+
+    public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery) {
         OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto();
         orderDeliveryResponseDto.setDeliveryDate(orderDelivery.getDeliveryDate());
         orderDeliveryResponseDto.setIsDelivered(orderDelivery.getIsDelivered());
@@ -16,6 +22,11 @@ public class OrderDeliveryMapper {
         return orderDeliveryResponseDto;
     }
 
+    /**
+     * This method is used to convert List<OrderDelivery> to List<OrderDeliveryResponseDto>
+     * @param orderDelivery
+     * @return List<OrderDeliveryResponseDto>
+     */
     public static List<OrderDeliveryResponseDto> getAllOrdersDto(List<OrderDelivery> orderDelivery) {
         List<OrderDeliveryResponseDto> orderDeliveryResponseDtos = new ArrayList<OrderDeliveryResponseDto>();
         for(OrderDelivery orderDeliver: orderDelivery) {
@@ -23,6 +34,5 @@ public class OrderDeliveryMapper {
         }
         return orderDeliveryResponseDtos;
     }
-
 
 }
