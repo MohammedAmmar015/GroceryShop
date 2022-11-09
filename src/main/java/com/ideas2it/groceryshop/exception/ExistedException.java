@@ -5,8 +5,8 @@ package com.ideas2it.groceryshop.exception;
  * @version  1.0 05/11/22
  *
  */
-public class Existed extends Exception {
-    public Existed(String exception) {
+public class ExistedException extends Exception {
+    public ExistedException(String exception) {
         super(exception);
     }
 }

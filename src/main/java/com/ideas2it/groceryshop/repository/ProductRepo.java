@@ -1,12 +1,15 @@
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.Product;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import java.util.List;
-import java.util.Optional;
 
+import java.util.List;
+
+/**
+ * @author  RUBAN
+ * @version  1.0 05/11/22
+ */
 public interface ProductRepo extends JpaRepository<Product, Integer> {
     Product findByIdAndIsActive(Integer productId, Boolean status);
 

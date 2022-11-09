@@ -35,10 +35,10 @@ public class OrderDelivery {
     private Integer createdBy = 0;
     @Column(name = "modified_by", nullable = false)
     private Integer modifiedBy = 0;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id" )
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private UserOrder userOrder;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "shippingAddressId")
     private Address shippingAddress;
 

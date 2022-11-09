@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SuccessDto {
     Integer statusCode;
-    String successMessage;
+    String message;
 }

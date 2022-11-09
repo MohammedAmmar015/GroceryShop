@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserOrderMapper {
+
+    /**
+     * This method is used to convert UserOrder to UserOrderResponseDto
+     * @param userOrder
+     * @return UserOrderResponseDto
+     */
      public static UserOrderResponseDto entityToDto(UserOrder userOrder) {
             UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto();
             userOrderResponseDto.setOrderedDate(userOrder.getOrderedDate());
@@ -16,6 +22,11 @@ public class UserOrderMapper {
             return userOrderResponseDto;
         }
 
+    /**
+     * This method is used to convert List<UserOrder> to List<UserOrderResponseDto>
+     * @param userOrders
+     * @return List<UserOrderResponseDto>
+     */
     public static List<UserOrderResponseDto> getAllOrdersDto(List<UserOrder> userOrders) {
         List<UserOrderResponseDto> userOrderResponseDtos = new ArrayList<UserOrderResponseDto>();
         for(UserOrder userOrder: userOrders) {
@@ -23,6 +34,5 @@ public class UserOrderMapper {
         }
         return userOrderResponseDtos;
     }
-
 
 }
