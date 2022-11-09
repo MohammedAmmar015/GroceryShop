@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param userOrderRequestDto
      * @param cartId
+     * @throws NotFoundException
      */
     @Override
     public SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFoundException {
@@ -72,9 +74,10 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param userOrderRequestDto
      * @param userId
+     * @throws NotFoundException
      */
     @Override
-    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException{
+    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFoundException {
         User user = userHelper.findUserById(userId);
         if (user!= null) {
             UserOrder userOrder = new UserOrder();
@@ -147,6 +150,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to retrieve all active orders
      *
      * @return List<UserOrderResponseDto>
+     * @throws NotFoundException
      */
     @Override
     public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFoundException {
@@ -163,6 +167,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to retrieve all the cancelled order
      *
      * @return List<UserOrderResponseDto>
+     * @throws NotFoundException
      */
     @Override
     public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFoundException {
@@ -179,6 +184,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to retrieve order by using orderId
      * @param orderId
      * @return UserOrderResponseDto
+     * @throws NotFoundException
      */
     @Override
     public UserOrderResponseDto viewOrderById(Integer orderId) throws NotFoundException {
@@ -195,6 +201,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param user_id
      * @return List<UserOrderResponseDto>
+     * @throws NotFoundException
      */
     @Override
     public List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFoundException {
@@ -211,7 +218,8 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to Cancel the order
      *
      * @param order_id
-     * @return String
+     * @return SuccessDto
+     * @throws NotFoundException
      */
     @Override
     public SuccessDto cancelOrderById(Integer order_id) throws NotFoundException {
@@ -229,6 +237,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param productId
      * @return List<UserOrderResponseDto>
+     * @throws NotFoundException
      */
    @Override
     public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException{
@@ -246,6 +255,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used for delivery person to get order by orderId
      * @param orderId
      * @return OrderDeliveryResponseDto
+     * @throws NotFoundException
      */
     @Override
     public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException {
@@ -257,6 +267,12 @@ public class UserOrderServiceImpl implements UserOrderService {
         }
     }
 
+    /**
+     * This method is used retrieve all orders by date
+     * @param orderedDate
+     * @return
+     * @throws NotFoundException
+     */
     public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFoundException {
         List<UserOrder> userOrders =  userOrderRepo.findByOrderedDate(orderedDate);
         if(!userOrders.isEmpty()) {
@@ -267,6 +283,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     }
 
+    /**
+     * This method is used to retrieve orders by ordered date and userId
+     * @param orderedDate
+     * @param userId
+     * @return
+     * @throws NotFoundException
+     */
     @Override
     public List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFoundException {
         List<UserOrder> userOrders =  userOrderRepo.findByOrderedDateAndUserId(orderedDate, userId);
