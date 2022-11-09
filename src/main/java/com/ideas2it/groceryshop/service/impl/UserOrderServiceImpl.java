@@ -47,6 +47,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param userOrderRequestDto
      * @param cartId
+     * @throws NotFound
      */
     @Override
     public SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFound {
@@ -68,12 +69,32 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     /**
+     * This method is used for converting List<CartDetails> to List<OrderDetails>
+     *
+     * @param cartDetails
+     * @return List<OrderDetails>
+     */
+    private List<OrderDetails> cartDetailsToOrderDetails(List<CartDetails> cartDetails) {
+        List<OrderDetails> orderDetails = new ArrayList<>();
+        for(CartDetails cartDetail : cartDetails) {
+            OrderDetails orderDetail = new OrderDetails();
+            orderDetail.setQuantity(cartDetail.getQuantity());
+            orderDetail.setPrice(cartDetail.getPrice());
+            orderDetail.setProduct(cartDetail.getProduct());
+            orderDetails.add(orderDetail);
+        }
+        return orderDetails;
+    }
+
+    /**
      * This method is used for placing order directly without cart
      *
      * @param userOrderRequestDto
      * @param userId
+     * @throws NotFound
      */
     @Override
+
     public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFound{
         User user = userHelper.findUserById(userId).get();
         if (user!= null) {
@@ -105,24 +126,6 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     /**
-     * This method is used for converting List<CartDetails> to List<OrderDetails>
-     *
-     * @param cartDetails
-     * @return List<OrderDetails>
-     */
-    private List<OrderDetails> cartDetailsToOrderDetails(List<CartDetails> cartDetails) {
-        List<OrderDetails> orderDetails = new ArrayList<>();
-        for(CartDetails cartDetail : cartDetails) {
-            OrderDetails orderDetail = new OrderDetails();
-            orderDetail.setQuantity(cartDetail.getQuantity());
-            orderDetail.setPrice(cartDetail.getPrice());
-            orderDetail.setProduct(cartDetail.getProduct());
-            orderDetails.add(orderDetail);
-        }
-        return orderDetails;
-    }
-
-    /**
      * <p>
      *     This method is used for calculating the total price
      *     and to set the orderDetails
@@ -147,6 +150,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to retrieve all active orders
      *
      * @return List<UserOrderResponseDto>
+     * @throws NotFound
      */
     @Override
     public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFound {
@@ -163,6 +167,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to retrieve all the cancelled order
      *
      * @return List<UserOrderResponseDto>
+     * @throws NotFound
      */
     @Override
     public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFound {
@@ -179,6 +184,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to retrieve order by using orderId
      * @param orderId
      * @return UserOrderResponseDto
+     * @throws NotFound
      */
     @Override
     public UserOrderResponseDto viewOrderById(Integer orderId) throws NotFound {
@@ -195,6 +201,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param user_id
      * @return List<UserOrderResponseDto>
+     * @throws NotFound
      */
     @Override
     public List<UserOrderResponseDto> viewOrderByUserId(Integer user_id) throws NotFound {
@@ -211,7 +218,8 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used to Cancel the order
      *
      * @param order_id
-     * @return String
+     * @return SuccessDto
+     * @throws NotFound
      */
     @Override
     public SuccessDto cancelOrderById(Integer order_id) throws NotFound {
@@ -229,6 +237,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param productId
      * @return List<UserOrderResponseDto>
+     * @throws NotFound
      */
    @Override
     public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFound{
@@ -246,6 +255,7 @@ public class UserOrderServiceImpl implements UserOrderService {
      * This method is used for delivery person to get order by orderId
      * @param orderId
      * @return OrderDeliveryResponseDto
+     * @throws NotFound
      */
     @Override
     public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound {
@@ -257,6 +267,12 @@ public class UserOrderServiceImpl implements UserOrderService {
         }
     }
 
+    /**
+     * This method is used retrieve all orders by date
+     * @param orderedDate
+     * @return
+     * @throws NotFound
+     */
     public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFound {
         List<UserOrder> userOrders =  userOrderRepo.findByOrderedDate(orderedDate);
         if(!userOrders.isEmpty()) {
@@ -267,6 +283,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     }
 
+    /**
+     * This method is used to retrieve orders by ordered date and userId
+     * @param orderedDate
+     * @param userId
+     * @return
+     * @throws NotFound
+     */
     @Override
     public List<UserOrderResponseDto> viewOrdersByIdAndDate(Date orderedDate, Integer userId) throws NotFound {
         List<UserOrder> userOrders =  userOrderRepo.findByOrderedDateAndUserId(orderedDate, userId);
