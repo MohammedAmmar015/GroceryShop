@@ -2,11 +2,11 @@ package com.ideas2it.groceryshop.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
- * It is used to set data and store
+ * It is used to set data and store in model object.
+ * It is used to create user profile.
  *
  * @version 19.0 04-11-2022
  *
@@ -15,11 +15,13 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
 public class UserRequestDto {
 
-    private String name;
+    private String userName;
+    private String firstName;
+    private String lastName;
     private Long mobileNumber;
     private String email;
-    private RoleDto roleDto;
+    private String password;
+    private RoleRequestDto roleRequestDto;
 }

@@ -23,7 +23,9 @@ import com.ideas2it.groceryshop.model.Role;
 public class UserResponseDto {
 
     private Integer id;
-    private String name;
+    private String userName;
+    private String firstName;
+    private String lastName;
     private Long mobileNumber;
     private String email;
     private Date createdAt;

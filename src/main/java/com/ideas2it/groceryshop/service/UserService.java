@@ -1,9 +1,9 @@
 package com.ideas2it.groceryshop.service;
 
+import java.util.List;
+
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
-
-import java.util.List;
 
 /**
  *
@@ -16,13 +16,40 @@ import java.util.List;
  */
 public interface UserService {
 
-    public void addUser(UserRequestDto userRequestDto);
+    /**
+     * it is used to create user
+     *
+     * @param userRequestDto
+     */
+    void addUser(UserRequestDto userRequestDto);
 
-    public UserResponseDto getUserById(Integer id);
+    /**
+     * It is used to get user by id
+     *
+     * @param id it is id of user
+     * @return userResponseDto it contains user detail
+     */
+    UserResponseDto getUserById(Integer id);
 
-    public List<UserResponseDto> getAllUser();
+    /**
+     * It is used to get all users
+     *
+     * @return userResponseDtoList is list of user
+     */
+    List<UserResponseDto> getAllUser();
 
-    public List<UserResponseDto> getUserByRole(String name);
+    /**
+     * It is used to find users by role
+     *
+     * @param name used to search users by role name
+     * @return userResponseDtoList list of user
+     */
+    List<UserResponseDto> getUserByRole(String name);
 
-    public void deleteUserById(Integer id);
+    /**
+     *  It is used to delete user by id
+     *
+     * @param id to be deleted
+     */
+    void deleteUserById(Integer id);
 }

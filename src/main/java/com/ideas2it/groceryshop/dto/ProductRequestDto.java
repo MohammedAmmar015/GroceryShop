@@ -5,8 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
+/**
+ * <p>
+ *     Product Request Dto class.
+ * </p>
+ * @author RUBAN 03/11/2022
+ * @version  1.0
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,4 +27,7 @@ public class ProductRequestDto {
 
     private int subCategoryId;
 
+    private int createdBy;
+
+    private int modifiedBy;
 }

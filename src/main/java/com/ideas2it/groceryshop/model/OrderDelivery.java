@@ -21,7 +21,7 @@ public class OrderDelivery {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(name = "is_delivered",nullable = false)
-    private Boolean isDelivered;
+    private Boolean isDelivered = false;
     @Column(name = "delivered_date")
     @CreationTimestamp
     private Date deliveryDate;
@@ -32,13 +32,13 @@ public class OrderDelivery {
     @CreationTimestamp
     private Date modifiedAt;
     @Column(name = "created_by", nullable = false)
-    private Integer createdBy;
+    private Integer createdBy = 0;
     @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy;
-    @OneToOne
-    @JoinColumn(name = "order_id" )
+    private Integer modifiedBy = 0;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private UserOrder userOrder;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "shippingAddressId")
     private Address shippingAddress;
 

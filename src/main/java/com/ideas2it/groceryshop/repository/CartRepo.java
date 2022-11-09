@@ -48,6 +48,7 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
      * @param userId - user's id to delete cart
      */
     @Modifying(clearAutomatically = true)
+    @Transactional
     @Query(value = "update cart_details set is_active = 0 where cart_id = "
             + "(select id from cart where user_id = ?1)",
             nativeQuery = true)
@@ -60,10 +61,12 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
      * @param user
      */
     @Modifying(clearAutomatically = true)
+    @Transactional
     @Query("Update Cart c set c.totalPrice = 0 where c.user = ?1")
     void deleteTotalPrice(User user);
 
     @Modifying(clearAutomatically = true)
+    @Transactional
     @Query(value = "update cart_details set quantity = ?1 where product_id = ?2 "
             + "and cart_id = (select cart_id from cart where user_id = ?3)",
             nativeQuery = true)

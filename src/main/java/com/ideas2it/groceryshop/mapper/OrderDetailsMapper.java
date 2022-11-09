@@ -9,23 +9,36 @@ import java.util.List;
 
 public class OrderDetailsMapper {
 
+    /**
+     * This method is used to convert UserOrderRequestDto to OrderDetails Entity
+     * @param orderDetailsRequestDto
+     * @return OrderDetails
+     */
     public static OrderDetails dtoToEntity(UserOrderRequestDto orderDetailsRequestDto) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setQuantity(orderDetailsRequestDto.getQuantity());
-        //orderDetails.setProduct(orderDetailsRequestDto.getProduct());
         return orderDetails;
     }
 
+    /**
+     * This method is used to convert OrderDetails to OrderDetailsResponseDto
+     * @param orderDetails
+     * @return OrderDetailsResponseDto
+     */
     public static OrderDetailsResponseDto entityToDto(OrderDetails orderDetails){
         OrderDetailsResponseDto orderDetailsResponseDto = new OrderDetailsResponseDto();
         orderDetailsResponseDto.setQuantity(orderDetails.getQuantity());
         orderDetailsResponseDto.setPrice(orderDetails.getPrice());
         orderDetailsResponseDto.setProductId(orderDetails.getProduct().getId());
         orderDetailsResponseDto.setProductName(orderDetails.getProduct().getName());
-        //orderDetailsResponseDto.setProduct(orderDetails.getProduct());
         return orderDetailsResponseDto;
     }
 
+    /**
+     * This method is used to convert List<OrderDetails> to List<OrderDetailsResponseDto>
+     * @param orderDescription
+     * @return List<OrderDetailsResponseDto>
+     */
     public static List<OrderDetailsResponseDto> getAllOrdersEntityToDto(List<OrderDetails> orderDescription) {
         List<OrderDetailsResponseDto> orderDetailsDtos = new ArrayList<>();
         for (OrderDetails orderDetail : orderDescription) {
@@ -34,8 +47,5 @@ public class OrderDetailsMapper {
         }
         return orderDetailsDtos;
     }
-
-
-
 
 }

@@ -18,6 +18,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
+/**
+ * <p>
+ *   It is the Model object for Product.
+ * </p>
+ *
+ * @author Ruban
+ * @version 1.0  01/11/22
+ *
+ **/
 @Entity
 @Getter
 @Setter
@@ -30,7 +39,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", length = 20, nullable = false)
+    @Column(name = "Name", length = 20, nullable = false)
     private String name;
 
     @Column(name ="price", nullable = false)
@@ -45,10 +54,10 @@ public class Product {
     private Date modifiedAt;
 
     @Column(name = "created_by", nullable = false)
-    private int createdBy = 1;
+    private int createdBy;
 
     @Column(name = "modified_by", nullable = false)
-    private int modifiedBy = 1;
+    private int modifiedBy;
 
     @Column(name = "is_active")
     private boolean isActive = true;

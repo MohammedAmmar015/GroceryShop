@@ -2,13 +2,18 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 
 import java.util.List;
 
+/**
+ * @author  RUBAN 03/11/2022
+ * @version   1.0
+ */
 public interface ProductService {
-    String addProduct(ProductRequestDto productRequestDto) throws Existed;
+    SuccessDto addProduct(ProductRequestDto productRequestDto) throws ExistedException;
 
     List<ProductResponseDto> getProducts() throws NotFoundException;
 
@@ -18,7 +23,7 @@ public interface ProductService {
 
     List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFoundException;
 
-    String deleteProductById(Integer id) throws NotFoundException;
+    SuccessDto deleteProductById(Integer id) throws NotFoundException;
 
-    String updateProductById(Integer id, ProductRequestDto productRequestDto);
+    SuccessDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFoundException, ExistedException;
 }

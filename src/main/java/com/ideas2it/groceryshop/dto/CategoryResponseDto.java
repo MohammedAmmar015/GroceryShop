@@ -1,15 +1,17 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ideas2it.groceryshop.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.List;
-
+/**
+ * <p>
+ *     This class is Category Response Dto and contains filtered fields.
+ * </p>
+ * @author RUBAN 03/11/2022
+ * @version  1.0
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,16 +21,4 @@ public class CategoryResponseDto {
     private int id;
 
     private String name;
-
-    //private List<Category> category;
-
-    //private Date createdAt;
-
-   // private Date modifiedAt;
-
-   // private int createdBy;
-
-    //private int modifiedBy;
-
-    //private boolean isActive;
 }

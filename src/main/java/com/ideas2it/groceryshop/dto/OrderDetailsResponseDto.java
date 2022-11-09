@@ -1,6 +1,6 @@
 package com.ideas2it.groceryshop.dto;
 
-import com.ideas2it.groceryshop.model.Product;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetailsResponseDto {
 
     private Integer quantity;
@@ -17,6 +18,5 @@ public class OrderDetailsResponseDto {
     private Integer productId;
 
     private String productName;
-
 
 }

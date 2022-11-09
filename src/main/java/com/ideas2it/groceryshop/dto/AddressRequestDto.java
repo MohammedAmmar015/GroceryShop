@@ -5,7 +5,8 @@ import lombok.Setter;
 
 /**
  *
- * It is used to set data and store
+ * It is used to set data and transfer to model object for creating.
+ * It is used to create address for user
  *
  * @version 19.0 04-11-2022
  *
@@ -18,6 +19,6 @@ public class AddressRequestDto {
 
     private String street;
     private String area;
-    private String pinCode;
+    private Integer pinCode;
     private String landMark;
 }

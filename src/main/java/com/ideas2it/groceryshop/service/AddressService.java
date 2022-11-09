@@ -1,11 +1,9 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.AddressResponseDto;
-import org.springframework.stereotype.Service;
-
-import com.ideas2it.groceryshop.dto.AddressRequestDto;
-
 import java.util.List;
+
+import com.ideas2it.groceryshop.dto.AddressResponseDto;
+import com.ideas2it.groceryshop.dto.AddressRequestDto;
 
 /**
  *
@@ -21,16 +19,23 @@ public interface AddressService {
     /**
      * it used to add address using user it
      *
-     * @param id
-     * @param addressRequestDto
+     * @param id it is used to add address to user
+     * @param addressRequestDto it contains address details
      */
-    public void addAddress(Integer id, AddressRequestDto addressRequestDto);
+    void addAddress(Integer id, AddressRequestDto addressRequestDto);
 
     /**
-     * it is used to retrieve list of user address by user id;
+     *  It is used to retrieve list of user address by user id;
      *
-     * @param id
-     * @return addressResponseDtoList
+     * @param id it is used to get all address a user have
+     * @return addressResponseDtoList it is contains list of user address
      */
-    public List<AddressResponseDto> getAddressesByUserId(Integer id);
+    List<AddressResponseDto> getAddressesByUserId(Integer id);
+
+    /**
+     * It is used to delete user address by id
+     *
+     * @param id it is id to be deleted
+     */
+    void deleteAddressById(Integer id);
 }

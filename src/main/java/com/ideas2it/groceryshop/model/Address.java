@@ -1,16 +1,26 @@
 package com.ideas2it.groceryshop.model;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import com.ideas2it.groceryshop.model.User;
 
 /**
  *
@@ -37,14 +47,14 @@ public class Address {
     @Column(name = "area", length = 30, nullable = false)
     private String area;
     @Column(name = "pin_code", length = 6, nullable = false)
-    private String pinCode;
+    private Integer pinCode;
     @Column(name = "land_mark", length = 30, nullable = false)
     private String landMark;
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
     @Column(name = "modified_at", nullable = false)
-    @CreationTimestamp
+    @UpdateTimestamp
     private Date ModifiedAt;
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;
@@ -54,7 +64,6 @@ public class Address {
     private Boolean isActive = Boolean.TRUE;
     @Column(name = "is_default", nullable = false)
     private Boolean isDefault = Boolean.TRUE;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
