@@ -1,9 +1,6 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
-import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.*;
 import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.Date;
@@ -60,7 +57,7 @@ public interface UserOrderService {
      * @param productId
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFound;
+    List<OrderDetailsResponseDto> viewOrdersByProductId(Integer productId) throws NotFound;
 
     /**
      * <p>
