@@ -5,6 +5,7 @@ import com.ideas2it.groceryshop.model.UserOrder;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
  * @since 07-11-2022
  * @version 1.0
  */
+@Service
 @AllArgsConstructor
 public class StockHelper {
     private StockRepo stockRepo;
