@@ -37,14 +37,16 @@ import com.ideas2it.groceryshop.service.UserService;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    @Autowired
     private UserRepo userRepo;
-
-    @Autowired
     private RoleRepo roleRepo;
+    private UserHelper userHelper;
 
     @Autowired
-    private UserHelper userHelper;
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, UserHelper userHelper) {
+        this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
+        this.userHelper = userHelper;
+    }
 
     /**
      * it is used to create user
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(userRequestDto.getPassword()));
-        if (userRequestDto.getRoleRequestDto().getName().equals("ROLE_CUSTOMER")) {
+        if (userRequestDto.getRoleRequestDto().getName().equals("customer")) {
             Cart cart = new Cart();
             user.setCart(cart);
             cart.setUser(user);
@@ -128,11 +130,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     public SuccessDto deleteUserById(Integer id) throws NotFound {
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
-        if(user == null) {
+        if(user.get() == null) {
             throw new NotFound("User does not exist");
         }
         userRepo.deactivateUser(id);
-        return new SuccessDto(200,"SuccessFully Deleted user");
+        return new SuccessDto(200,"Successfully Deleted user");
     }
 
     /**

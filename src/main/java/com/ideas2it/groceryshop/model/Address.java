@@ -42,28 +42,39 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "street", length = 30, nullable = false)
     private String street;
+
     @Column(name = "area", length = 30, nullable = false)
     private String area;
+
     @Column(name = "pin_code", length = 6, nullable = false)
     private Integer pinCode;
+
     @Column(name = "land_mark", length = 30, nullable = false)
     private String landMark;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
+
     @Column(name = "modified_at", nullable = false)
     @UpdateTimestamp
     private Date modifiedAt;
+
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;
+
     @Column(name = "modified_by", nullable = false)
     private Integer modifiedBy = 1;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = Boolean.TRUE;
+
     @Column(name = "is_default", nullable = false)
     private Boolean isDefault = Boolean.TRUE;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
