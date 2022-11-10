@@ -13,11 +13,9 @@ import java.util.List;
  * @version   1.0
  */
 public interface ProductService {
-    SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed;
+    SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound;
 
     List<ProductResponseDto> getProducts() throws NotFound;
-
-    ProductResponseDto getProductById(Integer id) throws NotFound;
 
     List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFound;
 
@@ -26,4 +24,6 @@ public interface ProductService {
     SuccessDto deleteProductById(Integer id) throws NotFound;
 
     SuccessDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFound, Existed;
+
+    List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFound;
 }

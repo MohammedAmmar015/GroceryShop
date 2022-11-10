@@ -45,6 +45,7 @@ public class ProductMapper {
         productResponseDto.setUnit(product.getUnit());
         productResponseDto.setName(product.getName());
         productResponseDto.setPrice(product.getPrice());
+        productResponseDto.setIsStockAvailable(true);
         return productResponseDto;
     }
 }

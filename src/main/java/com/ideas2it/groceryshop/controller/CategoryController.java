@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * <p>
  *     It implements method of CRUD operations for Category.
  * </p>
- * @author RUBAN  04/11/22
+ * @author RUBAN  03/11/22
  * @version  1.0
  *
  */
