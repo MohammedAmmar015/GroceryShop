@@ -41,8 +41,6 @@ public class StockMapper {
         stockResponse.setLocation(stock.getStoreLocation().getArea());
         stockResponse.setProductId(stock.getProduct().getId());
         stockResponse.setProductName(stock.getProduct().getName());
-        stockResponse.setModifiedAt(stock.getModifiedAt());
-        stockResponse.setModifiedBy(stock.getModifiedBy());
         return stockResponse;
     }
 }

@@ -5,7 +5,6 @@ import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.NotFound;
-import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.mapper.CartDetailsMapper;
@@ -130,7 +129,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public SuccessDto removeCart(Integer userId) throws NotFound {
         Optional<User> user = userHelper.findUserById(userId);
-        if (user == null) {
+        if (user.isEmpty()) {
             throw new NotFound("User Not Found");
         }
         cartRepo.deleteCartDetailsByUserId(user.get().getId());
@@ -149,10 +148,11 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound {
-        Cart cart = cartRepo.findByUserIdAndIsActive(userId, true).get();
-        if (cart == null) {
+        Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
+        if (carts.isEmpty()) {
             throw new NotFound("Cart Not Found, Cart is Only for Customer");
         }
+        Cart cart = carts.get();
         for (CartDetails cartDetails : cart.getCartDetails()) {
             if (cartDetails.getProduct().getId() == productId) {
                 cartDetails.setIsActive(false);
@@ -173,10 +173,13 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     @Override
-    public SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId) {
+    public SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound {
         Integer newQuantity = cartRequest.getCartDetails().getQuantity();
         Integer productId = cartRequest.getCartDetails().getProductId();
         Cart cart = cartRepo.findByUserIdAndIsActive(userId, true).get();
+        if (cart == null) {
+            throw new NotFound("Cart Not Found, Cart is Only for Customer");
+        }
         List<CartDetails> cartDetails = cart.getCartDetails();
         for (CartDetails cartDetail : cartDetails) {
             if (productId == cartDetail.getProduct().getId()) {
