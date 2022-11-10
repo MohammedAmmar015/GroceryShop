@@ -65,7 +65,7 @@ public class CartController {
      */
     @PutMapping("/{userId}")
     public SuccessDto updateCart(@RequestBody CartRequestDto cartRequest,
-                                @PathVariable Integer userId) {
+                                @PathVariable Integer userId) throws NotFound {
         return cartService.updateCartByUser(cartRequest, userId);
     }
 

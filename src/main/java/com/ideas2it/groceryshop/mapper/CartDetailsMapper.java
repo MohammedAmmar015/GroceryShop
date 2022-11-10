@@ -37,7 +37,6 @@ public class CartDetailsMapper {
     public static CartDetailsResponseDto convertCartDetailsToCartDetailsResponse(CartDetails cartDetails) {
         CartDetailsResponseDto cartDetailsResponse = new CartDetailsResponseDto();
         cartDetailsResponse.setId(cartDetails.getId());
-        cartDetailsResponse.setCreatedAt(cartDetails.getCreatedAt());
         cartDetailsResponse.setProductName(cartDetails.getProduct().getName());
         cartDetailsResponse.setQuantity(cartDetails.getQuantity());
         cartDetailsResponse.setPrice(cartDetails.getPrice());

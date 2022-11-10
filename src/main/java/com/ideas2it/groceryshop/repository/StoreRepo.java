@@ -16,8 +16,11 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
     StoreLocation findByIsActiveAndId(Boolean isActive, Integer id);
 
     @Modifying(clearAutomatically = true)
+    @Transactional
     @Query("UPDATE StoreLocation SET isActive = false WHERE id = ?1")
-    void deleteStoreById(Integer storeId);
+    Integer deleteStoreById(Integer storeId);
 
     boolean existsByAreaOrPinCode(String area, Integer pinCode);
+
+    boolean existsByPinCode(Integer pinCode);
 }

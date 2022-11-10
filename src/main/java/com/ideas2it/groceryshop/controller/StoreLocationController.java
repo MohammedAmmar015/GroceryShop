@@ -2,6 +2,7 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StoreService;
@@ -32,8 +33,8 @@ public class StoreLocationController {
      * @param storeLocationRequest - store location details
      */
     @PostMapping
-    public void createStore(@RequestBody StoreRequestDto storeLocationRequest) throws Existed {
-        storeService.addStore(storeLocationRequest);
+    public SuccessDto createStore(@RequestBody StoreRequestDto storeLocationRequest) throws Existed {
+        return storeService.addStore(storeLocationRequest);
     }
 
     /**
@@ -44,9 +45,9 @@ public class StoreLocationController {
      * @param storeId - store id to update
      */
     @PutMapping("/{storeId}")
-    public void updateStore(@RequestBody StoreRequestDto storeLocationRequest,
-                            @PathVariable Integer storeId) throws Existed, NotFound {
-        storeService.modifyStore(storeLocationRequest, storeId);
+    public SuccessDto updateStore(@RequestBody StoreRequestDto storeLocationRequest,
+                                  @PathVariable Integer storeId) throws Existed, NotFound {
+        return storeService.modifyStore(storeLocationRequest, storeId);
     }
 
     /**
@@ -80,8 +81,8 @@ public class StoreLocationController {
      * @param storeId - id to delete store
      */
     @DeleteMapping("/{storeId}")
-    public void deleteStore(@PathVariable Integer storeId) {
-        storeService.removeStore(storeId);
+    public SuccessDto deleteStore(@PathVariable Integer storeId) throws NotFound {
+        return storeService.removeStore(storeId);
     }
 
 }

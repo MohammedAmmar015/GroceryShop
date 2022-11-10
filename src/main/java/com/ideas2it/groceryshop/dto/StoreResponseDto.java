@@ -25,14 +25,4 @@ public class StoreResponseDto {
     private Integer pinCode;
 
     private String area;
-
-    private Date createdAt;
-
-    private Date modifiedAt;
-
-    private Integer createdBy;
-
-    private Integer modifiedBy;
-
-    private Boolean isActive;
 }
