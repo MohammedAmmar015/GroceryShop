@@ -37,18 +37,24 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name", length = 15, nullable = false)
+
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
+
     @Column(name = "modified_at", nullable = false)
     @UpdateTimestamp
     private Date ModifiedAt;
+
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;
+
     @Column(name = "modified_by", nullable = false)
     private Integer modifiedBY = 1;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = Boolean.TRUE;
 }

@@ -69,7 +69,7 @@ public class AddressServiceImpl implements AddressService {
             throws NotFound {
        List<Address> address = addressRepo.findByIsActiveAndUserId(true, id);
         if(address.isEmpty()){
-            throw new NotFound("No Address found exception");
+            throw new NotFound("No Address found");
         }
        List<AddressResponseDto> addressResponseDtoList =
                AddressMapper.addressResponseDtoList(address);

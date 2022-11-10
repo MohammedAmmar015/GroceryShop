@@ -2,7 +2,6 @@ package com.ideas2it.groceryshop.controller;
 
 import java.util.List;
 
-import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.AddressService;
 
 /**

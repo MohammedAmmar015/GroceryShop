@@ -2,14 +2,15 @@ package com.ideas2it.groceryshop.service.impl;
 
 import java.util.Optional;
 
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
+import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.mapper.RoleMapper;
 import com.ideas2it.groceryshop.model.Role;
 import com.ideas2it.groceryshop.repository.RoleRepo;
 import com.ideas2it.groceryshop.service.RoleService;
@@ -38,11 +39,13 @@ public class RoleServiceImpl implements RoleService {
      * @throws Existed role already exist
      */
     public SuccessDto addRole(RoleRequestDto roleRequestDto) throws Existed {
-        Optional<Role> role = roleRepo.findByIsActiveAndName(true, roleRequestDto.getName());
-        if(role.isPresent()) {
+        Role role = RoleMapper.roleDtoToRole(roleRequestDto);
+        Boolean isAvailable = roleRepo.existsByNameAndIsActive( role.getName(),true);
+        System.out.print(isAvailable);
+        if(isAvailable == true) {
             throw new Existed("Role already exist");
         }
-        roleRepo.save(role.get());
+        roleRepo.save(role);
         return new SuccessDto(200,"Created role successfully");
     }
 
@@ -54,11 +57,13 @@ public class RoleServiceImpl implements RoleService {
      * @throws NotFound role not found
      */
     public SuccessDto updateRole(UpdateRoleRequestDto updateRoleRequestDto) throws NotFound {
-        Optional<Role> role = roleRepo.findByIsActiveAndName(true, updateRoleRequestDto.getName());
+        Optional<Role> role = roleRepo.findByIsActiveAndName(true,
+                updateRoleRequestDto.getNameToUpdate());
         if(role.isEmpty()) {
             throw new NotFound("Role not found");
         }
-        roleRepo.updateRoleName(updateRoleRequestDto.getName(), updateRoleRequestDto.getNameToUpdate());
+        roleRepo.updateRoleName(updateRoleRequestDto.getName(),
+                updateRoleRequestDto.getNameToUpdate());
         return new SuccessDto(200,"Updated role successfully");
     }
 
@@ -70,7 +75,8 @@ public class RoleServiceImpl implements RoleService {
      * @throws NotFound role not found
      */
     public SuccessDto deleteRole(RoleRequestDto roleRequestDto) throws NotFound {
-        Optional<Role> role = roleRepo.findByIsActiveAndName(true, roleRequestDto.getName());
+        Optional<Role> role = roleRepo.findByIsActiveAndName
+                (true, roleRequestDto.getName());
         if(role.isEmpty()) {
             throw new NotFound("Role not found");
         }

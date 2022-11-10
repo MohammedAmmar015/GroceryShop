@@ -52,4 +52,13 @@ public interface RoleRepo extends JpaRepository<Role, Integer> {
     @Transactional
     @Query("update Role set name = ?1 where name = ?2")
     void updateRoleName(String name, String nameToUpdate);
+
+    /**
+     *
+     *
+     * @param name it is used to search role by name
+     * @param status
+     * @return Boolean it is used to check weather role is active or not
+     */
+    Boolean existsByNameAndIsActive(String name, Boolean status);
 }
