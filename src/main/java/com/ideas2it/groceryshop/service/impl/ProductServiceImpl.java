@@ -11,14 +11,15 @@ import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
+import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.service.ProductService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -38,6 +39,8 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductHelper productHelper;
 
+    private StockRepo stockRepo;
+
 
     /**
      * <p>
@@ -48,12 +51,16 @@ public class ProductServiceImpl implements ProductService {
      * @return SuccessDto otherwise exception will be thrown.
      * @throws Existed will be thrown if product already exist.
      */
-    public SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed {
+    public SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound {
         if(productRepo.existsByName(productRequestDto.getName())) {
             throw new Existed("Product Already Added");
         }
+        if(!productRepo.existsById(productRequestDto.getSubCategoryId())) {
+            throw new NotFound("Id Not Exist");
+        }
         Product product = ProductMapper.toProduct(productRequestDto);
         Optional<Category> category = categoryRepo.findById(productRequestDto.getSubCategoryId());
+        product.setCategoryId(productRequestDto.getCategoryId());
         product.setCategory(category.get());
         productRepo.save(product);
         return new SuccessDto(201, "Added Successfully");
@@ -72,31 +79,18 @@ public class ProductServiceImpl implements ProductService {
         if (products == null || products.isEmpty()) {
             throw new NotFound("No Products Found");
         }
-        List<ProductResponseDto> productResponseDto = new ArrayList<>();
+        List<ProductResponseDto> productResponses = new ArrayList<>();
         for (Product product :products) {
-
-            productResponseDto.add(ProductMapper.toProductDto(product));
+            ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
+            Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(1, product.getId(), 0);
+            if (isStockAvailable) {
+                productResponseDto.setIsStockAvailable(true);
+            }
+            productResponses.add(productResponseDto);
         }
-        return productResponseDto;
+        return productResponses;
     }
 
-    /**
-     * <p>
-     *     This method to get particular product by id.
-     * </p>
-     *
-     * @param id to find particular object.
-     * @return product.
-     * @throws NotFound will be thrown if the id doesn't exist.
-     */
-    public ProductResponseDto getProductById(Integer id) throws NotFound {
-        try {
-            Product product = productHelper.getProductById(id);
-            return ProductMapper.toProductDto(product);
-        } catch(NullPointerException exception) {
-            throw new NotFound("Id Not Exist");
-        }
-    }
 
     /**
      * <p>
@@ -179,5 +173,26 @@ public class ProductServiceImpl implements ProductService {
         product.setUnit(productRequestDto.getUnit());
         productRepo.save(product);
         return new SuccessDto(200, "Updated Successfully");
+    }
+
+    @Override
+    public List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFound {
+        List<Product> products = productRepo.findAllAndIsActive(true);
+
+        if (products == null || products.isEmpty()) {
+            throw new NotFound("No Products Found");
+        }
+        List<ProductResponseDto> productResponses = new ArrayList<>();
+        for (Product product :products) {
+            ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
+            Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(locationId, product.getId(), 0);
+            if (isStockAvailable) {
+                productResponseDto.setIsStockAvailable(true);
+            } else {
+                productResponseDto.setIsStockAvailable(false);
+            }
+            productResponses.add(productResponseDto);
+        }
+        return productResponses;
     }
 }

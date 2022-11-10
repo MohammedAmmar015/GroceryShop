@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import javax.persistence.Transient;
 
 /**
  * <p>
@@ -33,7 +35,6 @@ import javax.persistence.FetchType;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name ="product")
 public class Product {
 
@@ -74,8 +75,7 @@ public class Product {
     @Column(name = "category_id")
     private int categoryId;
 
-    /*@OneToMany(mappedBy = "product")
-    private List<Stock> stocks;*/
+    @ManyToMany(mappedBy = "products")
+    private List<StoreLocation> storeLocations;
 
-    //private Integer availableCount;
 }
