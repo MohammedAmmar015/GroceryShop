@@ -45,33 +45,46 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "user_name", length = 20 , nullable = false)
     private String userName;
+
     @Column(name = "first_name", length = 20 , nullable = false)
     private String firstName;
+
     @Column(name = "last_name", length = 20 , nullable = false)
     private String lastName;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "mobile_number", length = 10, nullable = false)
     private Long mobileNumber;
+
     @Column(name = "email", length = 50, nullable = false)
     private String email;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
+
     @Column(name = "modified_at", nullable = false)
     @UpdateTimestamp
     private Date ModifiedAt;
+
     @Column(name ="created_by", nullable = false)
     private Integer createdBy = 1;
+
     @Column(name = "modified_by", nullable = false)
     private Integer modifiedBY = 1;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = Boolean.TRUE;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", columnDefinition = "role_id")
     private Role role;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Cart cart;
 }

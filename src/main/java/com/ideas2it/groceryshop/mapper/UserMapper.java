@@ -53,10 +53,10 @@ public class UserMapper {
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setCreatedAt(user.getCreatedAt());
         userResponseDto.setModifiedAt(user.getModifiedAt());
-        userResponseDto.setCreatedBy(userResponseDto.getCreatedBy());
+        userResponseDto.setCreatedBy(user.getCreatedBy());
+        userResponseDto.setModifiedBy(user.getModifiedBY());
         userResponseDto.setRole(user.getRole());
         userResponseDto.setIsActive(user.getIsActive());
-        //userResponseDto.setAddresses(user.getAddresses());
         return userResponseDto;
     }
 
