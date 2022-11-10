@@ -28,5 +28,7 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
     @Transactional
     Integer decreaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
 
-    boolean existsByStoreLocationIdOrProductId(Integer locationId, Integer productId);
+    Boolean existsByStoreLocationIdAndProductId(Integer locationId, Integer productId);
+
+    Boolean existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(Integer locationId, Integer productId, Integer number);
 }

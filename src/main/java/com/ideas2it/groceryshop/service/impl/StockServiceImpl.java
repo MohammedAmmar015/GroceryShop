@@ -50,7 +50,7 @@ public class StockServiceImpl implements StockService {
     public SuccessDto addStock(StockRequestDto stockRequest,
                                Integer locationId,
                                Integer productId) throws NotFound, Existed {
-        if (stockRepo.existsByStoreLocationIdOrProductId(locationId, productId)) {
+        if (stockRepo.existsByStoreLocationIdAndProductId(locationId, productId)) {
             throw new Existed("Stock already exists for this location and product");
         }
         Stock stock = StockMapper.toStock(stockRequest);

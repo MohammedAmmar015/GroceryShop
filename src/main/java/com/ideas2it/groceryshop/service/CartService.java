@@ -68,7 +68,7 @@ public interface CartService {
      * @param userId      - user's id to update cart product
      * @return
      */
-    SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId);
+    SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound;
 
     Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound;
 }

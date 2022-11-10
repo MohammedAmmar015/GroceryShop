@@ -29,10 +29,6 @@ public class StockResponseDto {
 
     private Integer productId;
 
-    private Date modifiedAt;
-
-    private Integer modifiedBy;
-
     private String location;
 }
 

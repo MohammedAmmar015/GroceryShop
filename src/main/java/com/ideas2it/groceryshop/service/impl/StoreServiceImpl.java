@@ -76,8 +76,11 @@ public class StoreServiceImpl implements StoreService {
      * @return
      */
     @Override
-    public SuccessDto removeStore(Integer storeId) {
-        storeRepo.deleteStoreById(storeId);
+    public SuccessDto removeStore(Integer storeId) throws NotFound {
+        Integer rowsAffected = storeRepo.deleteStoreById(storeId);
+        if (rowsAffected == 0) {
+            throw new NotFound("Given Store id Not Found");
+        }
         return new SuccessDto(200, "Store Location deleted Successfully");
     }
 

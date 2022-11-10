@@ -26,6 +26,4 @@ public class CartDetailsResponseDto {
     private Float price;
 
     private String productName;
-
-    private Date createdAt;
 }
