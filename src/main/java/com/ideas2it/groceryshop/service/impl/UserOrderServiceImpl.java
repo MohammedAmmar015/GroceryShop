@@ -1,14 +1,13 @@
 package com.ideas2it.groceryshop.service.impl;
 
-import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
-import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.*;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
+import com.ideas2it.groceryshop.helper.StockHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.mapper.OrderDeliveryMapper;
+import com.ideas2it.groceryshop.mapper.OrderDetailsMapper;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
 import com.ideas2it.groceryshop.model.*;
 import com.ideas2it.groceryshop.repository.AddressRepo;
@@ -16,6 +15,7 @@ import com.ideas2it.groceryshop.repository.OrderDeliveryRepo;
 import com.ideas2it.groceryshop.repository.UserOrderRepo;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
@@ -41,6 +41,8 @@ public class UserOrderServiceImpl implements UserOrderService {
     private final CartHelper cartHelper;
     private final ProductHelper productHelper;
     private final UserHelper userHelper;
+
+    private final StockHelper stockHelper;
 
     /**
      * This method is used to placeOrder by using a cartId
@@ -95,14 +97,14 @@ public class UserOrderServiceImpl implements UserOrderService {
      */
     @Override
 
-    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFound{
-        User user = userHelper.findUserById(userId).get();
-        if (user!= null) {
+    public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFound {
+        Optional<User> user = userHelper.findUserById(userId);
+        if (user.isPresent()) {
             UserOrder userOrder = new UserOrder();
             List<OrderDetails> orderDetails = setOrderDetails(userOrderRequestDto);
             userOrder.setOrderDetails(orderDetails);
             userOrder.setTotalPrice(orderDetails.get(0).getPrice());
-            userOrder.setUser(user);
+            userOrder.setUser(user.get());
             userOrderRepo.save(userOrder);
             return orderDelivery(userOrderRequestDto, userOrder);
         } else {
@@ -116,12 +118,17 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @param userOrderRequestDto
      * @param userOrder
      */
-    private SuccessDto orderDelivery(UserOrderRequestDto userOrderRequestDto, UserOrder userOrder) {
+    private SuccessDto orderDelivery(UserOrderRequestDto userOrderRequestDto, UserOrder userOrder) throws NotFound {
         OrderDelivery orderDelivery = new OrderDelivery();
-        Optional<Address> address = addressRepo.findById(userOrderRequestDto.getAddressId());
-        orderDelivery.setUserOrder(userOrder);
-        orderDelivery.setShippingAddress(address.get());
-        orderDeliveryRepo.save(orderDelivery);
+        Optional<Address> address = addressRepo.findByIsActiveAndId(true, userOrderRequestDto.getAddressId());
+        if(address.isPresent()) {
+            orderDelivery.setUserOrder(userOrder);
+            orderDelivery.setShippingAddress(address.get());
+            orderDeliveryRepo.save(orderDelivery);
+            stockHelper.removeStockByOrderDetails(userOrder, address.get().getPinCode());
+        } else {
+            throw new NotFound("Address Not Found!!!");
+        }
         return new SuccessDto(202, "Order Placed Successfully");
     }
 
@@ -240,10 +247,10 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @throws NotFound
      */
    @Override
-    public List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFound{
-        List<UserOrder> userOrders = userOrderRepo.findByProductId(productId);
+    public List<OrderDetailsResponseDto> viewOrdersByProductId(Integer productId) throws NotFound{
+        List<OrderDetails> userOrders = userOrderRepo.findByProductId(productId);
         if(!userOrders.isEmpty()) {
-            List<UserOrderResponseDto> orders = UserOrderMapper.getAllOrdersDto(userOrders);
+            List<OrderDetailsResponseDto> orders = OrderDetailsMapper.getAllOrdersEntityToDto(userOrders);
             return orders;
         } else {
             throw new NotFound("No Record Found!!!");
