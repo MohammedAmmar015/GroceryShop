@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "order_delivery")
-public class OrderDelivery {
+public class OrderDelivery extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,16 +25,6 @@ public class OrderDelivery {
     @Column(name = "delivered_date")
     @CreationTimestamp
     private Date deliveryDate;
-    @Column(name = "created_at")
-    @CreationTimestamp
-    private Date createdAt;
-    @Column(name = "modified_at")
-    @CreationTimestamp
-    private Date modifiedAt;
-    @Column(name = "created_by", nullable = false)
-    private Integer createdBy = 0;
-    @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy = 0;
     @OneToOne(mappedBy = "orderDelivery")
     private UserOrder userOrder;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
