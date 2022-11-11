@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,15 @@ public class UserOrderController {
     @PostMapping("/buy-now/{userId}")
     public SuccessDto buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) throws NotFound {
         return userOrderService.buyNow(userOrderRequestDto, userId);
+    }
+
+    /**
+     * To pick the order the status should be changed
+     *
+     */
+    @PutMapping("/statusUpdate/{orderId}")
+    public SuccessDto statusUpdate(@PathVariable Integer orderId) throws NotFound{
+        return userOrderService.statusUpdate(orderId);
     }
 
     /**
@@ -104,7 +114,7 @@ public class UserOrderController {
      * @throws NotFound
      */
     @PutMapping("/cancelOrder/{orderId}")
-    public SuccessDto cancelOrder(@PathVariable() Integer orderId) throws NotFound {
+    public SuccessDto cancelOrder(@PathVariable() Integer orderId) throws NotFound, Existed {
         return userOrderService.cancelOrderById(orderId);
     }
 
@@ -126,7 +136,7 @@ public class UserOrderController {
      * @return OrderDeliveryResponseDto
      * @throws NotFound
      */
-    @GetMapping("/orders-delivery/{orderId}")
+    @GetMapping("/order-delivery/{orderId}")
     public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
         return userOrderService.getDeliveryOrder(orderId);
     }

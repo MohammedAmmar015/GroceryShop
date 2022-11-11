@@ -13,8 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 public class UserOrderResponseDto {
+    private Integer userId;
     private Date orderedDate;
     private Float totalPrice;
-    private List<OrderDetailsResponseDto> orderDetailsResponseDtos;
-    private Integer userId;
+    private List<OrderDetailsResponseDto> orderDetails;
+    private Boolean isDelivered;
+
 }
