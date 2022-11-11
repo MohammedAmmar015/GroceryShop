@@ -1,7 +1,5 @@
 package com.ideas2it.groceryshop.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,14 +12,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.ideas2it.groceryshop.audit.Audit;
 
 /**
  *
  * Role POJO is used Store and retrieve role data
  *
- * @version 19.0 31-10-2022
+ * @version 1.0 31-10-2022
  *
  * @author Rohit A P
  *
@@ -32,7 +29,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Role extends Audit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,20 +37,6 @@ public class Role {
 
     @Column(name = "name", length = 20, nullable = false)
     private String name;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    @CreationTimestamp
-    private Date createdAt;
-
-    @Column(name = "modified_at", nullable = false)
-    @UpdateTimestamp
-    private Date ModifiedAt;
-
-    @Column(name ="created_by", nullable = false)
-    private Integer createdBy = 1;
-
-    @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBY = 1;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = Boolean.TRUE;

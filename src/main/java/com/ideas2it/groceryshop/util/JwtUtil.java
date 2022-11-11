@@ -1,6 +1,5 @@
 package com.ideas2it.groceryshop.util;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 /**
  * JwtUtil class is responsible for creating token and to keep session open
  *
- * @version 19.0 07-11-2022
+ * @version 1.0 07-11-2022
  *
  * @author Rohit A P
  *

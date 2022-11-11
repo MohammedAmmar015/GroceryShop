@@ -17,7 +17,7 @@ import com.ideas2it.groceryshop.model.User;
  *
  * It is used to communicate User model with database
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -77,4 +77,13 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * @return user it returns user object
      */
     Optional<User> findByUserNameAndIsActive(String username, boolean isActive);
+
+    /**
+     * This method is used to get user by mobile number
+     *
+     * @param mobileNumber it is user mobile number
+     * @param isActive weather use is active or not
+     * @return user it returns user object
+     */
+    Optional<User> findUserByMobileNumberAndIsActive(Long mobileNumber , boolean isActive);
 }

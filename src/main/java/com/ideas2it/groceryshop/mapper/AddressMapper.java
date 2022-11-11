@@ -11,7 +11,7 @@ import com.ideas2it.groceryshop.model.Address;
  *
  * It is used to convert dto into model and vice versa
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -24,7 +24,8 @@ public class AddressMapper {
      * @param addressRequestDto it contains address detail
      * @return address it contains address detail
      */
-    public static Address addressDtoToAddress(AddressRequestDto addressRequestDto) {
+    public static Address addressDtoToAddress
+    (AddressRequestDto addressRequestDto) {
         Address address = new Address();
         address.setStreet(addressRequestDto.getStreet());
         address.setArea(addressRequestDto.getArea());
@@ -60,7 +61,8 @@ public class AddressMapper {
      * @param addressList It contains list of address object
      * @return responseDtoList it contains list of address response Dto
      */
-    public static List<AddressResponseDto> addressResponseDtoList(List<Address> addressList) {
+    public static List<AddressResponseDto> addressResponseDtoList
+    (List<Address> addressList) {
         List<AddressResponseDto> responseDtoList = new ArrayList<AddressResponseDto>();
         for(Address address : addressList) {
             responseDtoList.add(addressResponseDto(address));

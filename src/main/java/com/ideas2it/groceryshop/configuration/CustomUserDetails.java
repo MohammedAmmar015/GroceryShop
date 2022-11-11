@@ -21,9 +21,11 @@ import com.ideas2it.groceryshop.model.User;
 public class CustomUserDetails implements UserDetails {
 
     private User user;
+    private Integer userId;
 
     public CustomUserDetails(User user) {
         this.user = user;
+        this.userId = user.getId();
     }
 
     @Override

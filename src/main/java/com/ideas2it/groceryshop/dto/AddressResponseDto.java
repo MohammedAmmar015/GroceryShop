@@ -1,15 +1,15 @@
 package com.ideas2it.groceryshop.dto;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
 
 /**
  *
  * It is used to retrieve data from database
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *

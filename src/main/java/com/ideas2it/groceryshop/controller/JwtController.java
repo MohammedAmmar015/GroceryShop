@@ -1,9 +1,14 @@
 package com.ideas2it.groceryshop.controller;
 
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.groceryshop.dto.LoginRequestDto;
 import com.ideas2it.groceryshop.dto.LoginResponseDto;
+import com.ideas2it.groceryshop.service.UserService;
 import com.ideas2it.groceryshop.util.JwtUtil;
 
 /**
  * Jwt stands for JSON web token it is used to generate
- * token based on user details authentication
+ * token based on user details name and encoded password
  *
  * @version 1.0 09-11-2022
  *
@@ -31,30 +37,53 @@ public class JwtController {
     private JwtUtil jwtTokenUtil;
     private UserDetailsService userDetailsService;
 
+    private UserService userService;
+
     @Autowired
-    public JwtController(DaoAuthenticationProvider authenticationProvider, JwtUtil jwtTokenUtil
-            , UserDetailsService userDetailsService) {
+    public JwtController(DaoAuthenticationProvider authenticationProvider,
+                         JwtUtil jwtTokenUtil, UserDetailsService userDetailsService,
+                         UserService userService) {
         this.authenticationProvider = authenticationProvider;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
+    /**
+     * This method is used to find if user exist or not and to create bearer token
+     *
+     * @param loginRequestDto it contains username or mobile number and password
+     * @return LoginResponseDto it contains bearer token and success message
+     * @throws BadCredentialsException
+     */
     @PostMapping
-    public LoginResponseDto createAuthenticationToken(@RequestBody LoginRequestDto loginRequestDto)
-            throws Exception {
-        authenticate(loginRequestDto.getUserName(), loginRequestDto.getPassword());
-        UserDetails userDetails = userDetailsService
-                .loadUserByUsername(loginRequestDto.getUserName());
+    public LoginResponseDto createAuthenticationToken
+            (@Valid @RequestBody Optional<LoginRequestDto> loginRequestDto)
+            throws BadCredentialsException {
+        SecurityContextHolder.clearContext();
+        String userName = null;
+        userName = userService.getUserByMobileNumber
+                (loginRequestDto.get().getUserNameOrMobileNumber());
+        authenticate(userName, loginRequestDto.get().getPassword());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
-        return new LoginResponseDto(token);
+        return new LoginResponseDto(token, "Logged in successfully");
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    /**
+     * This method is used to authenticate user by username and password
+     *
+     * @param username it is username of user
+     * @param password it is password of user
+     * @throws BadCredentialsException it is used to find username or password is invalid
+     */
+    private void authenticate(String username, String password)
+            throws BadCredentialsException {
         try {
-            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(username
-                    , password));
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("INVALID_CREDENTIALS", e);
+            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken
+                    (username, password));
+        } catch (BadCredentialsException badCredentialsException) {
+            throw new BadCredentialsException("INVALID_CREDENTIALS", badCredentialsException);
         }
     }
 }

@@ -13,6 +13,5 @@ public class UserOrderRequestDto {
     private Integer quantity;
     private Integer productId;
     private Integer addressId;
-    private Integer cartId;
     private Integer userId;
 }

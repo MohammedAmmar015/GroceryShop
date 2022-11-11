@@ -21,7 +21,7 @@ import com.ideas2it.groceryshop.model.User;
  *
  * It is used to have user logics
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -40,22 +40,23 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * it used to add address
+     * it used to add address to user
      *
      * @param addressRequestDto it is used to add address to user
      * @return SuccessDto it returns success message
      * @throws NotFound user not found
      */
+    @Override
     public SuccessDto addAddress(Integer id, AddressRequestDto addressRequestDto)
             throws NotFound {
         Optional<User> user = userHelper.findUserById(id);
         if(user.isEmpty()) {
-            throw new NotFound("user not found");
+            throw new NotFound("User not found");
         }
         Address address = AddressMapper.addressDtoToAddress(addressRequestDto);
         address.setUser(user.get());
         addressRepo.save(address);
-        return new SuccessDto(200,"Successfully Deleted address");
+        return new SuccessDto(200,"Address added successfully");
     }
 
     /**
@@ -65,11 +66,12 @@ public class AddressServiceImpl implements AddressService {
      * @return addressResponseDtoList it is return list of address of a user
      * @throws NotFound no address found exception
      */
+    @Override
     public List<AddressResponseDto> getAddressesByUserId(Integer id)
             throws NotFound {
        List<Address> address = addressRepo.findByIsActiveAndUserId(true, id);
         if(address.isEmpty()){
-            throw new NotFound("No Address found");
+            throw new NotFound("Address not found");
         }
        List<AddressResponseDto> addressResponseDtoList =
                AddressMapper.addressResponseDtoList(address);
@@ -83,12 +85,13 @@ public class AddressServiceImpl implements AddressService {
      * @return SuccessDto it returns success message
      * @throws NotFound address not found
      */
+    @Override
     public SuccessDto deleteAddressById(Integer id) throws NotFound {
         Optional<Address> address = addressRepo.findByIsActiveAndId(true, id);
         if(address.isEmpty()) {
             throw new NotFound("Address not found");
         }
         addressRepo.deactivateAddress(id);
-        return new SuccessDto(200,"Successfully Deleted address");
+        return new SuccessDto(200,"Address deleted successfully");
     }
 }

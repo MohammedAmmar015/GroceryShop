@@ -14,9 +14,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDeliveryResponseDto {
-    Boolean isDelivered;
-    Date deliveryDate;
-    Integer orderId;
-    AddressResponseDto shippingAddress;
+    private Integer userId;
+    private Integer orderId;
+    private Float totalPrice;
+    private AddressResponseDto shippingAddress;
+    private Boolean orderStatus;
+
 }
 

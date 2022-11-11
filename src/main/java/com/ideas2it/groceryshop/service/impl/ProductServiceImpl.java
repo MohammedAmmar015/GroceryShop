@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
         if(productRepo.existsByName(productRequestDto.getName())) {
             throw new Existed("Product Already Added");
         }
-        if(!productRepo.existsById(productRequestDto.getSubCategoryId())) {
+        if(!categoryRepo.existsById(productRequestDto.getSubCategoryId())) {
             throw new NotFound("Id Not Exist");
         }
         Product product = ProductMapper.toProduct(productRequestDto);

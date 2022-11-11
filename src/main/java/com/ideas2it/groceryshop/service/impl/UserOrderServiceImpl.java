@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
@@ -15,7 +16,6 @@ import com.ideas2it.groceryshop.repository.OrderDeliveryRepo;
 import com.ideas2it.groceryshop.repository.UserOrderRepo;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
@@ -62,11 +62,14 @@ public class UserOrderServiceImpl implements UserOrderService {
             List<CartDetails> cartDetails = cart.getCartDetails();
             List<OrderDetails> orderDetails= cartDetailsToOrderDetails(cartDetails);
             userOrder.setOrderDetails(orderDetails);
+            OrderDelivery orderDelivery = orderDelivery(userOrderRequestDto, userOrder);
+            userOrder.setOrderDelivery(orderDelivery);
             userOrderRepo.save(userOrder);
             cartHelper.deleteAllProductsFromCart(cart.getUser());
-            return orderDelivery(userOrderRequestDto, userOrder);
+            stockHelper.removeStockByOrderDetails(userOrder, orderDelivery.getShippingAddress().getPinCode());
+          return new SuccessDto(202, "Order Placed Successfully");
         } else {
-            throw new NotFound("Order is Not confirmed!!!");
+            throw new NotFound("Order Not confirmed!!!");
         }
     }
 
@@ -96,7 +99,6 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @throws NotFound
      */
     @Override
-
     public SuccessDto buyNow(UserOrderRequestDto userOrderRequestDto, Integer userId) throws NotFound {
         Optional<User> user = userHelper.findUserById(userId);
         if (user.isPresent()) {
@@ -105,8 +107,10 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrder.setOrderDetails(orderDetails);
             userOrder.setTotalPrice(orderDetails.get(0).getPrice());
             userOrder.setUser(user.get());
+            OrderDelivery orderDelivery = orderDelivery(userOrderRequestDto, userOrder);
+            userOrder.setOrderDelivery(orderDelivery);
             userOrderRepo.save(userOrder);
-            return orderDelivery(userOrderRequestDto, userOrder);
+            return new SuccessDto(202, "Order Placed Successfully");
         } else {
             throw new NotFound("Please Enter a valid UserId");
         }
@@ -118,18 +122,15 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @param userOrderRequestDto
      * @param userOrder
      */
-    private SuccessDto orderDelivery(UserOrderRequestDto userOrderRequestDto, UserOrder userOrder) throws NotFound {
+    private OrderDelivery orderDelivery(UserOrderRequestDto userOrderRequestDto, UserOrder userOrder) throws NotFound {
         OrderDelivery orderDelivery = new OrderDelivery();
         Optional<Address> address = addressRepo.findByIsActiveAndId(true, userOrderRequestDto.getAddressId());
         if(address.isPresent()) {
-            orderDelivery.setUserOrder(userOrder);
             orderDelivery.setShippingAddress(address.get());
-            orderDeliveryRepo.save(orderDelivery);
-            stockHelper.removeStockByOrderDetails(userOrder, address.get().getPinCode());
+            return orderDelivery;
         } else {
             throw new NotFound("Address Not Found!!!");
         }
-        return new SuccessDto(202, "Order Placed Successfully");
     }
 
     /**
@@ -153,6 +154,16 @@ public class UserOrderServiceImpl implements UserOrderService {
         return orderDetails;
     }
 
+    @Override
+    public SuccessDto statusUpdate(Integer orderId) throws NotFound {
+        UserOrderResponseDto userOrderResponseDto = viewOrderById(orderId);
+        if(userOrderResponseDto.getIsDelivered()!=true) {
+            Integer updationStatus = orderDeliveryRepo.updateStatus(orderId);
+            return new SuccessDto(202, "Order delivered Successfully");
+        } else {
+            throw new NotFound("No Record Found");
+        }
+    }
     /**
      * This method is used to retrieve all active orders
      *
@@ -224,17 +235,22 @@ public class UserOrderServiceImpl implements UserOrderService {
     /**
      * This method is used to Cancel the order
      *
-     * @param order_id
+     * @param orderId
      * @return SuccessDto
      * @throws NotFound
      */
     @Override
-    public SuccessDto cancelOrderById(Integer order_id) throws NotFound {
-        Integer isCancelled = userOrderRepo.cancelOrderbyId(order_id);
-        if (isCancelled!= 0) {
-            return new SuccessDto(202,"Order Cancelled Successfully");
+    public SuccessDto cancelOrderById(Integer orderId) throws NotFound, Existed {
+        Boolean isActive = viewOrderById(orderId).getIsDelivered();
+        if(!isActive) {
+            Integer isCancelled = userOrderRepo.cancelOrderbyId(orderId);
+            if (isCancelled != 0) {
+                return new SuccessDto(202, "Order Cancelled Successfully");
+            } else {
+                throw new NotFound("Order not Cancelled!!!");
+            }
         } else {
-            throw new NotFound("Order not Cancelled!!!");
+            throw new Existed("Order Already Cancelled!!!");
         }
 
     }

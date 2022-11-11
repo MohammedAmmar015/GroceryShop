@@ -4,6 +4,7 @@ import com.ideas2it.groceryshop.dto.ErrorDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -14,11 +15,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.UnexpectedTypeException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * @author  RUBAN
@@ -48,7 +50,13 @@ public class ApplicationExceptionHandler {
         return error;
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    /**
+     * This method is used to handle BadCredentialsException
+     *
+     * @param badCredentialsException it contains error message
+     * @return errorDto it contains error message and error status code
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ParseException.class)
     public ErrorDto parseException(ParseException parseException) {
         ErrorDto error = new ErrorDto();
@@ -59,17 +67,22 @@ public class ApplicationExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
-    public ErrorDto handleAllReadyInvalid(BadCredentialsException badCredentialsException) {
+    public ErrorDto handlerBadCredentials(BadCredentialsException badCredentialsException) {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setErrorMessage(badCredentialsException.getMessage());
         errorDto.setStatusCode(401);
         return errorDto;
     }
 
-
+    /**
+     * This method is used to handle UsernameNotFoundException
+     *
+     * @param usernameNotFoundException it contains error message
+     * @return errorDto it contains error message and error status code
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ErrorDto handleAllReadyUserNameOrPasswordNotFound
+    public ErrorDto handlerUsernameNotFound
             (UsernameNotFoundException usernameNotFoundException) {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setErrorMessage(usernameNotFoundException.getMessage());
@@ -89,5 +102,39 @@ public class ApplicationExceptionHandler {
             errors.put(fieldName, errorMessage);
         }
         return errors;
+    }
+
+    /**
+     * This method is used to handle HttpMessageNotReadableException
+     *
+     * @param httpMessageNotReadableException it contains error message
+     * @return errorDto it contains error message and error status code
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ErrorDto handlerMessageNotReadableException
+    (HttpMessageNotReadableException httpMessageNotReadableException) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setErrorMessage(httpMessageNotReadableException.getMessage());
+        errorDto.setStatusCode(400);
+        return errorDto;
+    }
+
+    /**
+     * This method is used to handle SQLIntegrityConstraintViolationException
+     *
+     * @param sqlIntegrityConstraintViolationException it contains error message
+     * @return errorDto it contains error message and error status code
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ErrorDto handlerSQLIntegrityConstraintViolation
+            (SQLIntegrityConstraintViolationException
+                     sqlIntegrityConstraintViolationException){
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setErrorMessage
+                (sqlIntegrityConstraintViolationException.getMessage());
+        errorDto.setStatusCode(400);
+        return errorDto;
     }
 }
