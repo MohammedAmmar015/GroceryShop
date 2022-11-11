@@ -5,6 +5,7 @@ import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
+import org.springframework.core.io.Resource;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ import java.util.List;
  * @version   1.0
  */
 public interface ProductService {
+
+    Resource loadFileAsResource(String fileName);
+
     SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound;
 
     List<ProductResponseDto> getProducts() throws NotFound;

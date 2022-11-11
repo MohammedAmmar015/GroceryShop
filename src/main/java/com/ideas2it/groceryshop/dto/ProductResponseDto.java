@@ -26,4 +26,10 @@ public class ProductResponseDto {
     private String unit;
 
     private Boolean isStockAvailable;
+
+    private String categoryName;
+
+    private String subCategoryName;
+
+    private String image;
 }

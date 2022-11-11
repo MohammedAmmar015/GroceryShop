@@ -45,6 +45,7 @@ public class Product {
     @Column(name = "Name", length = 20, nullable = false)
     private String name;
 
+
     @Column(name ="price", nullable = false)
     private float price;
 
@@ -72,10 +73,12 @@ public class Product {
     @Column(name ="unit")
     private String unit;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "category_id")
     private int categoryId;
 
     @ManyToMany(mappedBy = "products")
     private List<StoreLocation> storeLocations;
-
 }

@@ -4,18 +4,27 @@ import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
+import com.ideas2it.groceryshop.exception.FileStorage;
+import com.ideas2it.groceryshop.exception.MyFileNotFound;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
+import com.ideas2it.groceryshop.property.FileStorageProperties;
 import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.service.ProductService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +39,7 @@ import java.util.stream.Collectors;
  * @version  1.0
  */
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepo productRepo;
@@ -40,6 +49,48 @@ public class ProductServiceImpl implements ProductService {
     private ProductHelper productHelper;
 
     private StockRepo stockRepo;
+
+    private final Path fileStorageLocation;
+
+
+   /* @Autowired
+    public ProductServiceImpl(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }*/
+
+    @Autowired
+    public ProductServiceImpl(FileStorageProperties fileStorageProperties, ProductRepo productRepo, StockRepo stockRepo, CategoryRepo categoryRepo) {
+        this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
+        this.stockRepo = stockRepo;
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+                .toAbsolutePath().normalize();
+
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new FileStorage("Could not create the directory where the uploaded files will be stored.", ex);
+        }
+    }
+
+
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new MyFileNotFound("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new MyFileNotFound("File not found " + fileName, ex);
+        }
+    }
+
+
+
+
 
 
     /**
@@ -72,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
      * </p>
      *
      * @return List of products.
-     * @throws NotFound will be thrown if the products doesn't exist.
+     * @throws NotFound exception will be thrown if the products doesn't exist.
      */
     public List<ProductResponseDto> getProducts() throws NotFound {
         List<Product> products = productRepo.findAllAndIsActive(true);
@@ -83,10 +134,12 @@ public class ProductServiceImpl implements ProductService {
         for (Product product :products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(1, product.getId(), 0);
+
             if (isStockAvailable) {
                 productResponseDto.setIsStockAvailable(true);
             }
             productResponses.add(productResponseDto);
+
         }
         return productResponses;
     }
