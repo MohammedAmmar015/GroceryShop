@@ -25,10 +25,16 @@ public class StockResponseDto {
 
     private Integer availableStock;
 
-    private String productName;
-
     private Integer productId;
 
-    private String location;
+    private String productName;
+
+    private String subCategory;
+
+    private String category;
+
+    private String area;
+
+    private Integer pinCode;
 }
 

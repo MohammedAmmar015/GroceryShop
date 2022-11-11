@@ -23,7 +23,7 @@ public class StockMapper {
      */
     public static Stock toStock(StockRequestDto stockRequest) {
         Stock stock = new Stock();
-        stock.setAvailableStock(stockRequest.getAvailableStock());
+        stock.setAvailableStock(stockRequest.getStock());
         return stock;
     }
 
@@ -38,9 +38,12 @@ public class StockMapper {
         StockResponseDto stockResponse = new StockResponseDto();
         stockResponse.setId(stock.getId());
         stockResponse.setAvailableStock(stock.getAvailableStock());
-        stockResponse.setLocation(stock.getStoreLocation().getArea());
+        stockResponse.setArea(stock.getStoreLocation().getArea());
+        stockResponse.setPinCode(stock.getStoreLocation().getPinCode());
         stockResponse.setProductId(stock.getProduct().getId());
         stockResponse.setProductName(stock.getProduct().getName());
+        stockResponse.setSubCategory(stock.getProduct().getCategory().getName());
+        stockResponse.setCategory(stock.getProduct().getCategory().getCategory().getName());
         return stockResponse;
     }
 }

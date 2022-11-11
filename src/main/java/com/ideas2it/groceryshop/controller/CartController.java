@@ -3,6 +3,7 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.CartService;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -39,8 +42,8 @@ public class CartController {
      * @return SuccessDto with Message and Status Code
      */
     @PostMapping("/{userId}")
-    public SuccessDto createCart(@RequestBody CartRequestDto cartRequest,
-                                 @PathVariable Integer userId) throws NotFound {
+    public SuccessDto createCart(@Valid @RequestBody CartRequestDto cartRequest,
+                                 @PathVariable Integer userId) throws NotFound, Existed {
         return cartService.addCart(cartRequest, userId);
     }
 
@@ -64,7 +67,7 @@ public class CartController {
      * @param userId - user's id to update cart details
      */
     @PutMapping("/{userId}")
-    public SuccessDto updateCart(@RequestBody CartRequestDto cartRequest,
+    public SuccessDto updateCart(@Valid @RequestBody CartRequestDto cartRequest,
                                 @PathVariable Integer userId) throws NotFound {
         return cartService.updateCartByUser(cartRequest, userId);
     }

@@ -51,7 +51,7 @@ public class StockServiceImpl implements StockService {
                                Integer locationId,
                                Integer productId) throws NotFound, Existed {
         if (stockRepo.existsByStoreLocationIdAndProductId(locationId, productId)) {
-            throw new Existed("Stock already exists for this location and product");
+            throw new Existed("Stock already exists");
         }
         Stock stock = StockMapper.toStock(stockRequest);
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, locationId);
@@ -61,12 +61,13 @@ public class StockServiceImpl implements StockService {
         stock.setStoreLocation(storeLocation);
         Product product = productHelper.getProductById(productId);
         if (product == null) {
-            throw new NotFound("Given product id Not Found");
+            throw new NotFound("Product Not Found");
         }
         stock.setProduct(product);
+        stock.setUnit(product.getUnit().substring(2));
         stockRepo.save(stock);
         return new SuccessDto(201,
-                "Stock created successfully for given product");
+                "Stock created successfully");
     }
 
     /**
@@ -103,30 +104,10 @@ public class StockServiceImpl implements StockService {
     public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
-            throw new NotFound("Stock Not found for this Product and Location");
+            throw new NotFound("Stock Not found");
         }
         StockResponseDto stockResponse = StockMapper.toStockResponse(stock);
         return stockResponse;
-    }
-
-    /**
-     * <p>
-     * To Update Stock for particular product on different location
-     * </p>
-     *
-     * @param stockRequest - stock details to update
-     * @param productId    - id to update stock
-     * @return
-     */
-    @Override
-    public SuccessDto updateStockByProduct(StockRequestDto stockRequest,
-                                           Integer productId) throws NotFound {
-        Integer rowsAffected =
-                stockRepo.updateStockByProduct(stockRequest.getAvailableStock(), productId);
-        if (rowsAffected == 0) {
-            throw new NotFound("Product Id Not Found");
-        }
-        return new SuccessDto(200, "Stock Updated successfully");
     }
 
     /**
@@ -143,10 +124,10 @@ public class StockServiceImpl implements StockService {
     public SuccessDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                       Integer productId,
                                                       Integer locationId) throws NotFound {
-        Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getAvailableStock(),
+        Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
                                                                     productId, locationId);
         if (rowsAffected == 0) {
-            throw new NotFound("Product or Location Id Not Found");
+            throw new NotFound("Product or Location Not Found");
         }
         return new SuccessDto(200, "Stock Updated Successfully");
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class StockController {
      * @param productId - to create stock for particular product
      */
     @PostMapping("/{locationId}/{productId}")
-    public SuccessDto createStock(@RequestBody StockRequestDto stockRequest,
+    public SuccessDto createStock(@Valid @RequestBody StockRequestDto stockRequest,
                             @PathVariable("locationId") Integer locationId,
                             @PathVariable("productId") Integer productId)
             throws Existed, NotFound {
@@ -70,24 +71,11 @@ public class StockController {
      * @param locationId - to view stock in this location
      * @return
      */
-    @GetMapping("/{productId}/{locationId}")
+    @GetMapping("/{locationId}/{productId}")
     public StockResponseDto getStockByProductAndLocation(@PathVariable Integer productId,
                                                          @PathVariable Integer locationId)
             throws NotFound {
         return stockService.getStockByProductAndLocation(productId,locationId);
-    }
-
-    /**
-     * <p>
-     *     This API is used to Update Stock for Particular Product on different location
-     * </p>
-     * @param stockRequest - stock details to be updated
-     * @param productId - to update stock for this product
-     */
-    @PutMapping("/{productId}")
-    public SuccessDto updateStockByProduct(@RequestBody StockRequestDto stockRequest,
-                                           @PathVariable Integer productId) throws NotFound {
-        return stockService.updateStockByProduct(stockRequest, productId);
     }
 
     /**
@@ -99,8 +87,8 @@ public class StockController {
      * @param productId - to update stock for this product
      * @param locationId - to update stock on this location
      */
-    @PutMapping("/{productId}/{locationId}")
-    public SuccessDto updateStockByProductAndLocation(@RequestBody StockRequestDto stockRequest,
+    @PutMapping("/{locationId}/{productId}")
+    public SuccessDto updateStockByProductAndLocation(@Valid @RequestBody StockRequestDto stockRequest,
                                                 @PathVariable Integer productId,
                                                 @PathVariable Integer locationId) throws NotFound {
         return stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
