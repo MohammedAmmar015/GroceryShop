@@ -2,6 +2,8 @@ package com.ideas2it.groceryshop.mapper;
 
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.model.OrderDelivery;
+import com.ideas2it.groceryshop.model.UserOrder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,27 +14,14 @@ public class OrderDeliveryMapper {
      * @param orderDelivery
      * @return OrderDeliveryResponseDto
      */
-
     public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery) {
         OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto();
-//        orderDeliveryResponseDto.setDeliveryDate(orderDelivery.getDeliveryDate());
-//        orderDeliveryResponseDto.setIsDelivered(orderDelivery.getIsDelivered());
+        orderDeliveryResponseDto.setOrderId(orderDelivery.getUserOrder().getId());
         orderDeliveryResponseDto.setShippingAddress(AddressMapper.addressResponseDto(orderDelivery.getShippingAddress()));
-//        orderDeliveryResponseDto.setOrderId(orderDelivery.getUserOrder().getId());
+        orderDeliveryResponseDto.setUserId(orderDelivery.getUserOrder().getUser().getId());
+        orderDeliveryResponseDto.setOrderStatus(orderDelivery.getUserOrder().getIsActive());
+        orderDeliveryResponseDto.setTotalPrice(orderDelivery.getUserOrder().getTotalPrice());
         return orderDeliveryResponseDto;
-    }
-
-    /**
-     * This method is used to convert List<OrderDelivery> to List<OrderDeliveryResponseDto>
-     * @param orderDelivery
-     * @return List<OrderDeliveryResponseDto>
-     */
-    public static List<OrderDeliveryResponseDto> getAllOrdersDto(List<OrderDelivery> orderDelivery) {
-        List<OrderDeliveryResponseDto> orderDeliveryResponseDtos = new ArrayList<OrderDeliveryResponseDto>();
-        for(OrderDelivery orderDeliver: orderDelivery) {
-            orderDeliveryResponseDtos.add(entityToDto(orderDeliver));
-        }
-        return orderDeliveryResponseDtos;
     }
 
 }

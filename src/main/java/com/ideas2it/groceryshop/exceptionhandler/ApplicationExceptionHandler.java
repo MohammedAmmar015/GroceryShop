@@ -4,6 +4,8 @@ import com.ideas2it.groceryshop.dto.ErrorDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,5 +51,22 @@ public class ApplicationExceptionHandler {
         return error;
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ErrorDto handleAllReadyInvalid(BadCredentialsException badCredentialsException) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setErrorMessage(badCredentialsException.getMessage());
+        errorDto.setStatusCode(401);
+        return errorDto;
+    }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ErrorDto handleAllReadyUserNameOrPasswordNotFound
+            (UsernameNotFoundException usernameNotFoundException) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setErrorMessage(usernameNotFoundException.getMessage());
+        errorDto.setStatusCode(404);
+        return errorDto;
+    }
 }

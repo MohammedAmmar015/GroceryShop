@@ -20,7 +20,6 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * @return List<UserOrder>
      */
     List<UserOrder> findByIsActive(Boolean status);
-
     /**
      * <p>
      *     This method is used to retrieve order using userId
@@ -37,7 +36,6 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * @param order_id
      * @return
      */
-//    @Transactional
     @Modifying
     @Transactional
     @Query(value = "update UserOrder set isActive = false where id = ?1")

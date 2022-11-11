@@ -33,8 +33,8 @@ public class OrderDetailsMapper {
         orderDetailsResponseDto.setPrice(orderDetails.getPrice());
 //        orderDetailsResponseDto.setProductId(orderDetails.getProduct().getId());
         orderDetailsResponseDto.setProductName(orderDetails.getProduct().getName());
-        orderDetailsResponseDto.setCategoryName(product.getCategory().getName());
-        orderDetailsResponseDto.setSubCategoryName(product.getCategory().getCategory().getName());
+        orderDetailsResponseDto.setCategoryName(product.getCategory().getCategory().getName());
+        orderDetailsResponseDto.setSubCategoryName(product.getCategory().getName());
         return orderDetailsResponseDto;
     }
 

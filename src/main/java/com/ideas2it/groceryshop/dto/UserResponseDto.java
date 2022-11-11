@@ -1,5 +1,7 @@
 package com.ideas2it.groceryshop.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import com.ideas2it.groceryshop.model.Role;
  */
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDto {
 
     private Integer id;

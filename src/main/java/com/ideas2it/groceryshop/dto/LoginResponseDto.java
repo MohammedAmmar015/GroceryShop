@@ -9,9 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOrderRequestDto {
-    private Integer quantity;
-    private Integer productId;
-    private Integer addressId;
-    private Integer userId;
+public class LoginResponseDto {
+    private String token;
 }

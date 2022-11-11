@@ -52,6 +52,15 @@ public class UserOrderController {
     }
 
     /**
+     * To pick the order the status should be changed
+     *
+     */
+    @PutMapping("/statusUpdate/{orderId}")
+    public SuccessDto statusUpdate(@PathVariable Integer orderId) throws NotFound{
+        return userOrderService.statusUpdate(orderId);
+    }
+
+    /**
      * <p>
      *     This method is used to retrieve all UserOrder in detail
      * </p>
@@ -127,8 +136,8 @@ public class UserOrderController {
      * @return OrderDeliveryResponseDto
      * @throws NotFound
      */
-    @GetMapping("/orders-delivery/{orderId}")
-    public UserOrderResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
+    @GetMapping("/order-delivery/{orderId}")
+    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
         return userOrderService.getDeliveryOrder(orderId);
     }
 

@@ -44,6 +44,8 @@ public interface UserOrderService {
      */
     SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFound;
 
+    SuccessDto statusUpdate(Integer orderId) throws NotFound;
+
     /**
      * This method is used for placing order directly without cart
      * @param userOrderRequestDto
@@ -83,7 +85,7 @@ public interface UserOrderService {
      * @param orderId
      * @return OrderDeliveryResponseDto
      */
-    UserOrderResponseDto getDeliveryOrder(Integer orderId) throws NotFound;
+    OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound;
 
     /**
      * This method is used to retrieve orders by ordered date
