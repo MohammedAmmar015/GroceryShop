@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
@@ -15,7 +16,6 @@ import com.ideas2it.groceryshop.repository.OrderDeliveryRepo;
 import com.ideas2it.groceryshop.repository.UserOrderRepo;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
@@ -122,7 +122,6 @@ public class UserOrderServiceImpl implements UserOrderService {
         OrderDelivery orderDelivery = new OrderDelivery();
         Optional<Address> address = addressRepo.findByIsActiveAndId(true, userOrderRequestDto.getAddressId());
         if(address.isPresent()) {
-            orderDelivery.setUserOrder(userOrder);
             orderDelivery.setShippingAddress(address.get());
             orderDeliveryRepo.save(orderDelivery);
             stockHelper.removeStockByOrderDetails(userOrder, address.get().getPinCode());
@@ -224,17 +223,22 @@ public class UserOrderServiceImpl implements UserOrderService {
     /**
      * This method is used to Cancel the order
      *
-     * @param order_id
+     * @param orderId
      * @return SuccessDto
      * @throws NotFound
      */
     @Override
-    public SuccessDto cancelOrderById(Integer order_id) throws NotFound {
-        Integer isCancelled = userOrderRepo.cancelOrderbyId(order_id);
-        if (isCancelled!= 0) {
-            return new SuccessDto(202,"Order Cancelled Successfully");
+    public SuccessDto cancelOrderById(Integer orderId) throws NotFound, Existed {
+        Boolean isActive = viewOrderById(orderId).getIsActive();
+        if(isActive) {
+            Integer isCancelled = userOrderRepo.cancelOrderbyId(orderId);
+            if (isCancelled != 0) {
+                return new SuccessDto(202, "Order Cancelled Successfully");
+            } else {
+                throw new NotFound("Order not Cancelled!!!");
+            }
         } else {
-            throw new NotFound("Order not Cancelled!!!");
+            throw new Existed("Order Already Cancelled!!!");
         }
 
     }
@@ -265,13 +269,19 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @throws NotFound
      */
     @Override
-    public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound {
-        OrderDelivery orderDelivery = orderDeliveryRepo.findByUserOrderId(orderId);
-        if(orderDelivery != null) {
-            return OrderDeliveryMapper.entityToDto(orderDelivery);
-        } else {
-            throw new NotFound("No Record Found");
-        }
+    public UserOrderResponseDto getDeliveryOrder(Integer orderId) throws NotFound {
+        Optional<UserOrder> userOrder = userOrderRepo.findById(orderId);
+        if(userOrder.isPresent()) {
+            UserOrder userOrder1 = userOrder.get();
+            OrderDelivery orderDelivery = userOrder1.getOrderDelivery();
+            userOrder1.setIsActive(orderDelivery.getIsDelivered());
+            orderDelivery.setIsDelivered(true);
+            userOrder1.setIsActive(false);
+            userOrderRepo.save(userOrder1);
+            return UserOrderMapper.deliveryEntityToDto(userOrder1);
+            } else {
+                throw new NotFound("No Record Found");
+            }
     }
 
     /**

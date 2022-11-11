@@ -15,10 +15,10 @@ public class OrderDeliveryMapper {
 
     public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery) {
         OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto();
-        orderDeliveryResponseDto.setDeliveryDate(orderDelivery.getDeliveryDate());
-        orderDeliveryResponseDto.setIsDelivered(orderDelivery.getIsDelivered());
+//        orderDeliveryResponseDto.setDeliveryDate(orderDelivery.getDeliveryDate());
+//        orderDeliveryResponseDto.setIsDelivered(orderDelivery.getIsDelivered());
         orderDeliveryResponseDto.setShippingAddress(AddressMapper.addressResponseDto(orderDelivery.getShippingAddress()));
-        orderDeliveryResponseDto.setOrderId(orderDelivery.getUserOrder().getId());
+//        orderDeliveryResponseDto.setOrderId(orderDelivery.getUserOrder().getId());
         return orderDeliveryResponseDto;
     }
 

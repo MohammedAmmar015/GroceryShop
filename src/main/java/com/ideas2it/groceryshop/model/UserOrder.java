@@ -45,7 +45,11 @@ public class UserOrder {
     @JoinColumn(name = "cart_id")
     private Cart cart;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user ;
+    @OneToOne
+    @JoinColumn(name = "delivery_id")
+    private OrderDelivery orderDelivery;
+
 
 }

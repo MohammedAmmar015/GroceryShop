@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +105,7 @@ public class UserOrderController {
      * @throws NotFound
      */
     @PutMapping("/cancelOrder/{orderId}")
-    public SuccessDto cancelOrder(@PathVariable() Integer orderId) throws NotFound {
+    public SuccessDto cancelOrder(@PathVariable() Integer orderId) throws NotFound, Existed {
         return userOrderService.cancelOrderById(orderId);
     }
 
@@ -127,7 +128,7 @@ public class UserOrderController {
      * @throws NotFound
      */
     @GetMapping("/orders-delivery/{orderId}")
-    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
+    public UserOrderResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
         return userOrderService.getDeliveryOrder(orderId);
     }
 

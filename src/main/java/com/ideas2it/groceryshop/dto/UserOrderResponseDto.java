@@ -15,6 +15,8 @@ import java.util.List;
 public class UserOrderResponseDto {
     private Date orderedDate;
     private Float totalPrice;
-    private List<OrderDetailsResponseDto> orderDetailsResponseDtos;
+    private List<OrderDetailsResponseDto> orderDetails;
+    private OrderDeliveryResponseDto orderDeliveryResponseDto;
+    private Boolean isActive;
     private Integer userId;
 }

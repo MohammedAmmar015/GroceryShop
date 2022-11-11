@@ -3,6 +3,7 @@ package com.ideas2it.groceryshop.mapper;
 import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.model.OrderDetails;
+import com.ideas2it.groceryshop.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,13 @@ public class OrderDetailsMapper {
      */
     public static OrderDetailsResponseDto entityToDto(OrderDetails orderDetails){
         OrderDetailsResponseDto orderDetailsResponseDto = new OrderDetailsResponseDto();
+        Product product = orderDetails.getProduct();
         orderDetailsResponseDto.setQuantity(orderDetails.getQuantity());
         orderDetailsResponseDto.setPrice(orderDetails.getPrice());
-        orderDetailsResponseDto.setProductId(orderDetails.getProduct().getId());
+//        orderDetailsResponseDto.setProductId(orderDetails.getProduct().getId());
         orderDetailsResponseDto.setProductName(orderDetails.getProduct().getName());
+        orderDetailsResponseDto.setCategoryName(product.getCategory().getName());
+        orderDetailsResponseDto.setSubCategoryName(product.getCategory().getCategory().getName());
         return orderDetailsResponseDto;
     }
 

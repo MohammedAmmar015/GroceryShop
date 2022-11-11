@@ -1,6 +1,7 @@
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.Date;
@@ -75,14 +76,14 @@ public interface UserOrderService {
      * @param order_id
      * @return String
      */
-    SuccessDto cancelOrderById(Integer order_id) throws NotFound;
+    SuccessDto cancelOrderById(Integer order_id) throws NotFound, Existed;
 
     /**
      * This method is used for delivery person to get order by orderId
      * @param orderId
      * @return OrderDeliveryResponseDto
      */
-    OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound;
+    UserOrderResponseDto getDeliveryOrder(Integer orderId) throws NotFound;
 
     /**
      * This method is used to retrieve orders by ordered date

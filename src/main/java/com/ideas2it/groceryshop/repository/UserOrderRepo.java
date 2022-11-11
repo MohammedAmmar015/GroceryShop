@@ -3,8 +3,10 @@ package com.ideas2it.groceryshop.repository;
 import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.UserOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +37,9 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * @param order_id
      * @return
      */
+//    @Transactional
+    @Modifying
+    @Transactional
     @Query(value = "update UserOrder set isActive = false where id = ?1")
     Integer cancelOrderbyId(Integer order_id);
 
