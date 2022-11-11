@@ -9,6 +9,7 @@ import com.ideas2it.groceryshop.service.StoreService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class StoreLocationController {
      * @param storeLocationRequest - store location details
      */
     @PostMapping
-    public SuccessDto createStore(@RequestBody StoreRequestDto storeLocationRequest) throws Existed {
+    public SuccessDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest) throws Existed {
         return storeService.addStore(storeLocationRequest);
     }
 
@@ -45,7 +46,7 @@ public class StoreLocationController {
      * @param storeId - store id to update
      */
     @PutMapping("/{storeId}")
-    public SuccessDto updateStore(@RequestBody StoreRequestDto storeLocationRequest,
+    public SuccessDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
                                   @PathVariable Integer storeId) throws Existed, NotFound {
         return storeService.modifyStore(storeLocationRequest, storeId);
     }

@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.model;
 
+import com.ideas2it.groceryshop.audit.Audit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,35 +29,21 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "store_location")
-public class StoreLocation {
+public class StoreLocation extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "pin_code")
+    @Column(name = "pin_code", nullable = false)
     private Integer pinCode;
 
-    @Column(name = "area", length = 20)
+    @Column(name = "area", length = 20, nullable = false)
     private String area;
 
-    @Column(name = "created_at")
-    @CreationTimestamp
-    private Date createdAt;
-
-    @Column(name = "modified_at")
-    @UpdateTimestamp
-    private Date modifiedAt;
-
-    @Column(name = "created_by")
-    @CreatedBy
-    private Integer createdBy = 0;
-
-    @Column(name = "modified_by")
-    @LastModifiedBy
-    private Integer modifiedBy = 0;
-
-    @Column(name = "is_active")
-    private Boolean isActive = true;
+    @Column(name = "is_active",
+            nullable = false,
+            columnDefinition = "TINYINT")
+    private Boolean isActive = false;
 
     @ManyToMany
     @JoinTable(name = "stock",

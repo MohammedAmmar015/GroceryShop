@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *     Stock Request DTO, to get request details
@@ -19,5 +21,6 @@ import lombok.Setter;
 @Setter
 public class StockRequestDto {
 
-    private Integer availableStock;
+    @NotNull(message = "Stock cannot be empty")
+    private Integer stock;
 }

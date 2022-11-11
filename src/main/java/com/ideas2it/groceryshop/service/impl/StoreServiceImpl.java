@@ -59,7 +59,7 @@ public class StoreServiceImpl implements StoreService {
         List<StoreResponseDto> storesResponse = new ArrayList<>();
         List<StoreLocation> stores = storeRepo.findByIsActive(true);
         if (stores.isEmpty()) {
-            throw new NotFound("No Store Locations Found");
+            throw new NotFound("Store Location Not Found");
         }
         for (StoreLocation storeLocation : stores) {
             storesResponse.add(StoreLocationMapper.toStoreLocationResponse(storeLocation));
@@ -79,7 +79,7 @@ public class StoreServiceImpl implements StoreService {
     public SuccessDto removeStore(Integer storeId) throws NotFound {
         Integer rowsAffected = storeRepo.deleteStoreById(storeId);
         if (rowsAffected == 0) {
-            throw new NotFound("Given Store id Not Found");
+            throw new NotFound("Store Location Not Found");
         }
         return new SuccessDto(200, "Store Location deleted Successfully");
     }
@@ -96,7 +96,7 @@ public class StoreServiceImpl implements StoreService {
     public StoreResponseDto getStoreById(Integer storeId) throws NotFound {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
-            throw new NotFound("Given Store id Not Found");
+            throw new NotFound("Store Location Not Found");
         }
         StoreResponseDto storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
         return storeResponse;
@@ -121,7 +121,7 @@ public class StoreServiceImpl implements StoreService {
             throw new Existed("Area or PinCode already exists");
         }
         if (storeLocation == null) {
-            throw new NotFound("Given Store id for Update, Not Found");
+            throw new NotFound("Store Location Not Found");
         }
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());

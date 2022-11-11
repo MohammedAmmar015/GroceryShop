@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.model;
 
+import com.ideas2it.groceryshop.audit.Audit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "is_active = 1")
-public class CartDetails {
+public class CartDetails extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,20 +49,8 @@ public class CartDetails {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
-    private Date createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "modified_at", nullable = false)
-    private Date modifiedAt;
-
-    @Column(name = "created_by", nullable = false)
-    private Integer createdBy = 1;
-
-    @Column(name = "modified_by", nullable = false)
-    private Integer modifiedBy = 1;
-
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active",
+            nullable = false,
+            columnDefinition = "TINYINT")
     private Boolean isActive = true;
 }

@@ -21,11 +21,12 @@ import java.util.List;
 @Getter
 @Setter
 public class CartResponseDto {
+
+    private Date createdAt;
+
     private Integer id;
 
     private Float totalPrice;
 
     private List<CartDetailsResponseDto> cartDetails;
-
-    private Date createdAt;
 }

@@ -20,10 +20,14 @@ import java.util.Date;
 @Getter
 @Setter
 public class CartDetailsResponseDto {
-    private Integer id;
+
+    private String productName;
+
+    private String subCategory;
+
+    private String category;
+
     private Integer quantity;
 
     private Float price;
-
-    private String productName;
 }

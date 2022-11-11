@@ -8,14 +8,18 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
+import javax.validation.UnexpectedTypeException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -84,6 +88,20 @@ public class ApplicationExceptionHandler {
         errorDto.setErrorMessage(usernameNotFoundException.getMessage());
         errorDto.setStatusCode(404);
         return errorDto;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new HashMap<>();
+        for (ObjectError error : exception.getBindingResult().getAllErrors()) {
+            FieldError fieldError = (FieldError) error;
+            String fieldName =   fieldError.getField();
+            String errorMessage = fieldError.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        }
+        return errors;
     }
 
     /**

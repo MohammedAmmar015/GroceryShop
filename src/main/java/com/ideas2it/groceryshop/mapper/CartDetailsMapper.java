@@ -3,6 +3,7 @@ package com.ideas2it.groceryshop.mapper;
 import com.ideas2it.groceryshop.dto.CartDetailsRequestDto;
 import com.ideas2it.groceryshop.dto.CartDetailsResponseDto;
 import com.ideas2it.groceryshop.model.CartDetails;
+import com.ideas2it.groceryshop.model.Product;
 
 /**
  * <p>
@@ -36,8 +37,10 @@ public class CartDetailsMapper {
      */
     public static CartDetailsResponseDto convertCartDetailsToCartDetailsResponse(CartDetails cartDetails) {
         CartDetailsResponseDto cartDetailsResponse = new CartDetailsResponseDto();
-        cartDetailsResponse.setId(cartDetails.getId());
-        cartDetailsResponse.setProductName(cartDetails.getProduct().getName());
+        Product product = cartDetails.getProduct();
+        cartDetailsResponse.setProductName(product.getName());
+        cartDetailsResponse.setSubCategory(product.getCategory().getName());
+        cartDetailsResponse.setCategory(product.getCategory().getCategory().getName());
         cartDetailsResponse.setQuantity(cartDetails.getQuantity());
         cartDetailsResponse.setPrice(cartDetails.getPrice());
         return cartDetailsResponse;

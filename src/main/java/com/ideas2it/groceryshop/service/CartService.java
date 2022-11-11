@@ -3,6 +3,7 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.model.Cart;
 
@@ -26,7 +27,7 @@ public interface CartService {
      */
 
 
-    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound;
+    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed;
 
 
     /**

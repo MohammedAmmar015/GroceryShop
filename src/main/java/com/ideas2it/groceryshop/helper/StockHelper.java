@@ -29,13 +29,27 @@ public class StockHelper {
      */
     public void removeStockByOrderDetails(UserOrder order, Integer pinCode) {
         Boolean isStoreAvailable = storeRepo.existsByPinCode(pinCode);
+        Integer locationId = 0;
         if (!isStoreAvailable) {
-            pinCode = storeRepo.findByIsActiveAndId(true, 1).getPinCode();
+            locationId = storeRepo.findByIsActiveAndId(true, 2).getId();
         }
         for (OrderDetails orderDetail : order.getOrderDetails()) {
             stockRepo.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
                                                         orderDetail.getProduct(),
-                                                        pinCode);
+                                                        locationId);
+        }
+    }
+
+    public void updateStockByOrderDetails(UserOrder order, Integer pinCode) {
+        Boolean isStoreAvailable = storeRepo.existsByPinCode(pinCode);
+        Integer locationId = 0;
+        if (!isStoreAvailable) {
+            locationId = storeRepo.findByIsActiveAndId(true, 2).getId();
+        }
+        for (OrderDetails orderDetail : order.getOrderDetails()) {
+            stockRepo.increaseStockByProductsAndLocation(orderDetail.getQuantity(),
+                    orderDetail.getProduct(),
+                    locationId);
         }
     }
 }

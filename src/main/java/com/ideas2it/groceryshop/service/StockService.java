@@ -53,18 +53,6 @@ public interface StockService {
     StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
             throws NotFound;
 
-    /**
-     * <p>
-     * To Update Stock for particular product on different location
-     * </p>
-     *
-     * @param stockRequest - stock details to update
-     * @param productId    - id to update stock
-     * @return
-     */
-    SuccessDto updateStockByProduct(StockRequestDto stockRequest, Integer productId)
-            throws NotFound;
-
 
     /**
      * <p>
