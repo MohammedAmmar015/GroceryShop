@@ -2,6 +2,8 @@ package com.ideas2it.groceryshop.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ import com.ideas2it.groceryshop.service.AddressService;
  *
  * Address class is used to view, delete and create address
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -44,9 +46,9 @@ public class AddressController {
      * @param addressRequestDto it contains address of user
      * @throws NotFound user not found
      */
-    @PostMapping("/{user-id}")
-    public SuccessDto createAddress(@PathVariable("user-id") Integer id,
-                                    @RequestBody AddressRequestDto addressRequestDto)
+    @PostMapping("/{userId}")
+    public SuccessDto createAddress(@PathVariable("userId") Integer id,
+                                    @Valid @RequestBody AddressRequestDto addressRequestDto)
             throws NotFound {
         return addressService.addAddress(id, addressRequestDto);
     }
@@ -58,9 +60,9 @@ public class AddressController {
      * @return addresses list of address
      * @throws NotFound no address found
      */
-    @GetMapping("/{user-id}")
-    public List<AddressResponseDto> viewAddressesByUserId(@PathVariable("user-id") Integer id)
-            throws NotFound {
+    @GetMapping("/{userId}")
+    public List<AddressResponseDto> viewAddressesByUserId
+    (@Valid @PathVariable("userId") Integer id) throws NotFound {
         List<AddressResponseDto> addresses = addressService.getAddressesByUserId(id);
         return addresses;
     }
@@ -71,8 +73,8 @@ public class AddressController {
      * @param id it is id of address
      * @throws NotFound no address found
      */
-    @DeleteMapping("/{address-id}")
-    public SuccessDto deleteAddressById(@PathVariable("address-id") Integer id)
+    @DeleteMapping("/{addressId}")
+    public SuccessDto deleteAddressById(@Valid @PathVariable("address-id") Integer id)
             throws NotFound {
         return addressService.deleteAddressById(id);
     }

@@ -2,6 +2,8 @@ package com.ideas2it.groceryshop.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +42,8 @@ public class UserController {
      * @throws Existed username already exist
      */
     @PostMapping
-    public SuccessDto createUser(@RequestBody UserRequestDto userRequestDto) throws Existed {
+    public SuccessDto createUser(@Valid @RequestBody UserRequestDto userRequestDto)
+            throws Existed {
         return userService.addUser(userRequestDto);
     }
 
@@ -52,7 +55,8 @@ public class UserController {
      * @throws NotFound user does not exist
      */
     @GetMapping("/{user-id}")
-    public UserResponseDto getUserById(@PathVariable("user-id") Integer id) throws NotFound {
+    public UserResponseDto getUserById(@PathVariable("user-id") Integer id)
+            throws NotFound {
         UserResponseDto userResponseDto = userService.getUserById(id);
         return userResponseDto;
     }
@@ -75,8 +79,8 @@ public class UserController {
      * @param name it is name of role
      * @return userResponseDtoList it returns list of user
      */
-    @GetMapping("/{role-name}/role")
-    public List<UserResponseDto> viewUsersByRole(@PathVariable("role-name") String name) {
+    @GetMapping("/{roleName}/role")
+    public List<UserResponseDto> viewUsersByRole(@PathVariable("roleName") String name) {
         List<UserResponseDto> userResponseDtoList = userService.getUserByRole(name);
         return userResponseDtoList;
     }
@@ -88,8 +92,8 @@ public class UserController {
      * @return SuccessDto it contains success message
      * @throws NotFound it contains user not found exception
      */
-    @DeleteMapping("/{user-id}")
-    public SuccessDto deleteUserById(@PathVariable("user-id") Integer id)
+    @DeleteMapping("/{userId}")
+    public SuccessDto deleteUserById(@PathVariable("userId") Integer id)
             throws NotFound {
         return userService.deleteUserById(id);
     }

@@ -20,7 +20,7 @@ import com.ideas2it.groceryshop.service.RoleService;
  * It is implements class of RoleService
  * It is used to save, update and delete role from database
  *
- * @version 19.0 07-11-2022
+ * @version 1.0 07-11-2022
  *
  * @author Rohit A P
  *
@@ -38,15 +38,16 @@ public class RoleServiceImpl implements RoleService {
      * @return SuccessDto it returns success message
      * @throws Existed role already exist
      */
+    @Override
     public SuccessDto addRole(RoleRequestDto roleRequestDto) throws Existed {
-        Role role = RoleMapper.roleDtoToRole(roleRequestDto);
+        Role role = RoleMapper.roleDtoToRole(roleRequestDto.getName());
         Boolean isAvailable = roleRepo.existsByNameAndIsActive( role.getName(),true);
         System.out.print(isAvailable);
         if(isAvailable == true) {
             throw new Existed("Role already exist");
         }
         roleRepo.save(role);
-        return new SuccessDto(200,"Created role successfully");
+        return new SuccessDto(200,"Role created successfully");
     }
 
     /**
@@ -56,6 +57,7 @@ public class RoleServiceImpl implements RoleService {
      * @return SuccessDto it returns success message
      * @throws NotFound role not found
      */
+    @Override
     public SuccessDto updateRole(UpdateRoleRequestDto updateRoleRequestDto) throws NotFound {
         Optional<Role> role = roleRepo.findByIsActiveAndName(true,
                 updateRoleRequestDto.getNameToUpdate());
@@ -64,7 +66,7 @@ public class RoleServiceImpl implements RoleService {
         }
         roleRepo.updateRoleName(updateRoleRequestDto.getName(),
                 updateRoleRequestDto.getNameToUpdate());
-        return new SuccessDto(200,"Updated role successfully");
+        return new SuccessDto(200,"Role updated successfully");
     }
 
     /**
@@ -74,6 +76,7 @@ public class RoleServiceImpl implements RoleService {
      * @return SuccessDto it returns success message
      * @throws NotFound role not found
      */
+    @Override
     public SuccessDto deleteRole(RoleRequestDto roleRequestDto) throws NotFound {
         Optional<Role> role = roleRepo.findByIsActiveAndName
                 (true, roleRequestDto.getName());
@@ -81,6 +84,6 @@ public class RoleServiceImpl implements RoleService {
             throw new NotFound("Role not found");
         }
         roleRepo.deactivateRole(roleRequestDto.getName());
-        return new SuccessDto(200,"Deleted role successfully");
+        return new SuccessDto(200,"Role deleted successfully");
     }
 }

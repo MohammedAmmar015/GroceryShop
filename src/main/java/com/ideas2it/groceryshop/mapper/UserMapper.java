@@ -11,7 +11,7 @@ import com.ideas2it.groceryshop.model.User;
  *
  * It is used to convert dto into model and vice versa
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -32,7 +32,7 @@ public class UserMapper {
         user.setMobileNumber(userRequestDto.getMobileNumber());
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(userRequestDto.getPassword());
-        user.setRole(RoleMapper.roleDtoToRole(userRequestDto.getRoleRequestDto()));
+        user.setRole(RoleMapper.roleDtoToRole(userRequestDto.getRole()));
         System.out.print(user);
         return user;
     }

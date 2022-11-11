@@ -7,7 +7,7 @@ import com.ideas2it.groceryshop.model.Role;
  *
  * It is used to convert dto into model
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -17,12 +17,12 @@ public class RoleMapper {
     /**
      * It is used to convert role Dto object into model object
      *
-     * @param roleRequestDto it contains role name
+     * @param roleRequest it contains role name
      * @return role it returns role object
      */
-    public static Role roleDtoToRole(RoleRequestDto roleRequestDto){
+    public static Role roleDtoToRole(String roleRequest){
         Role role = new Role();
-        String roleValue = "ROLE_" + roleRequestDto.getName();
+        String roleValue = "ROLE_" + roleRequest;
         role.setName(roleValue.toUpperCase());
         return role;
     }

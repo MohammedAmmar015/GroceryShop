@@ -16,7 +16,7 @@ import com.ideas2it.groceryshop.model.Address;
  *
  * It is used to communicate Address model with database
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
