@@ -16,8 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  *
  * It is used to Configure spring security
+ * It contains access restriction method which will limit user from
+ * accessing all API restrict
  *
- * @version 19.0 07-11-2022
+ * @version 1.0 07-11-2022
  *
  * @author Rohit A P
  *
@@ -47,25 +49,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/v1/login", "/api/v1/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/categories", "/api/v1/products/",
-                "/api/v1/stores", "/api/v1/stocks", "/api/v1/roles")
+                .antMatchers(HttpMethod.POST,"/api/v1/login",
+                        "/api/v1/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/categories",
+                        "/api/v1/products/", "/api/v1/stores", "/api/v1/stocks/",
+                        "/api/v1/roles/", "/api/v1/subCategories**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/*",
-                        "api/v1/all-orders", "/api/v1/stocks**", "/api/v1/stores**")
+                        "api/v1/all-orders", "/api/v1/stocks**",
+                        "/api/v1/stores")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/v1/categories/*", "/api/v1/products/*",
-                        "/api/v1/roles/*","/api/v1/stocks/*", "/api/v1/stores/*")
+                        "/api/v1/roles/*","/api/v1/stocks/*", "/api/v1/stores/*",
+                        "/api/v1/subCategories**")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/v1/users", "/api/v1/categories/*",
-                        "/api/v1/products/*", "/api/v1/stocks/*", "/api/v1/stores/*")
+                        "/api/v1/products/*", "/api/v1/stocks/*", "/api/v1/stores/*",
+                        "/api/v1/subcategories/*")
                 .hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and().httpBasic();
         http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-
     }
 }

@@ -1,7 +1,9 @@
 package com.ideas2it.groceryshop.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.ideas2it.groceryshop.dto.LoginRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
@@ -12,7 +14,7 @@ import com.ideas2it.groceryshop.exception.NotFound;
  *
  * It is interface of UserService implements
  *
- * @version 19.0 04-11-2022
+ * @version 1.0 04-11-2022
  *
  * @author Rohit A P
  *
@@ -61,4 +63,12 @@ public interface UserService {
      * @throws NotFound user does not exist
      */
     SuccessDto deleteUserById(Integer id) throws NotFound;
+
+    /**
+     * This method is used to get user by mobile number
+     *
+     * @param mobileNumber it contains user name or
+     * @return userName it is contains user name
+     */
+    String getUserByMobileNumber(String mobileNumber);
 }
