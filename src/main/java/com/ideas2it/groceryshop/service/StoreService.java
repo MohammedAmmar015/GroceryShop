@@ -44,7 +44,7 @@ public interface StoreService {
      * @param storeId store id has to be passes
      * @return
      */
-    SuccessDto removeStore(Integer storeId);
+    SuccessDto removeStore(Integer storeId) throws NotFound;
 
 
     /**

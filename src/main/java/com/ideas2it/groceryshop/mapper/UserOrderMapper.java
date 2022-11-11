@@ -17,8 +17,9 @@ public class UserOrderMapper {
             UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto();
             userOrderResponseDto.setOrderedDate(userOrder.getOrderedDate());
             userOrderResponseDto.setTotalPrice(userOrder.getTotalPrice());
+            userOrderResponseDto.setIsDelivered(userOrder.getOrderDelivery().getIsDelivered());
             userOrderResponseDto.setUserId(userOrder.getUser().getId());
-            userOrderResponseDto.setOrderDetailsResponseDtos(OrderDetailsMapper.getAllOrdersEntityToDto(userOrder.getOrderDetails()));
+            userOrderResponseDto.setOrderDetails(OrderDetailsMapper.getAllOrdersEntityToDto(userOrder.getOrderDetails()));
             return userOrderResponseDto;
         }
 

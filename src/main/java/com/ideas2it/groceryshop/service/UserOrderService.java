@@ -1,9 +1,7 @@
 package com.ideas2it.groceryshop.service;
 
-import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
-import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 
 import java.util.Date;
@@ -46,6 +44,8 @@ public interface UserOrderService {
      */
     SuccessDto placeOrder(UserOrderRequestDto userOrderRequestDto, Integer cartId) throws NotFound;
 
+    SuccessDto statusUpdate(Integer orderId) throws NotFound;
+
     /**
      * This method is used for placing order directly without cart
      * @param userOrderRequestDto
@@ -60,7 +60,7 @@ public interface UserOrderService {
      * @param productId
      * @return List<UserOrderResponseDto>
      */
-    List<UserOrderResponseDto> viewOrdersByProductId(Integer productId) throws NotFound;
+    List<OrderDetailsResponseDto> viewOrdersByProductId(Integer productId) throws NotFound;
 
     /**
      * <p>
@@ -78,7 +78,7 @@ public interface UserOrderService {
      * @param order_id
      * @return String
      */
-    SuccessDto cancelOrderById(Integer order_id) throws NotFound;
+    SuccessDto cancelOrderById(Integer order_id) throws NotFound, Existed;
 
     /**
      * This method is used for delivery person to get order by orderId

@@ -1,9 +1,7 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
-import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.UserOrderService;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +32,12 @@ public class UserOrderController {
      * <p>
      *     This method is used to place order by cartId
      * </p>
-     * @param userOrderRequestDto, cart_id
+     * @param userOrderRequestDto, cartId
      *
      */
-    @PostMapping("/place-order/{cart_id}")
-    public SuccessDto placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cart_id) throws NotFound {
-        return userOrderService.placeOrder(userOrderRequestDto, cart_id);
+    @PostMapping("/place-order/{cartId}")
+    public SuccessDto placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cartId) throws NotFound {
+        return userOrderService.placeOrder(userOrderRequestDto, cartId);
     }
 
     /**
@@ -51,6 +49,15 @@ public class UserOrderController {
     @PostMapping("/buy-now/{userId}")
     public SuccessDto buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) throws NotFound {
         return userOrderService.buyNow(userOrderRequestDto, userId);
+    }
+
+    /**
+     * To pick the order the status should be changed
+     *
+     */
+    @PutMapping("/statusUpdate/{orderId}")
+    public SuccessDto statusUpdate(@PathVariable Integer orderId) throws NotFound{
+        return userOrderService.statusUpdate(orderId);
     }
 
     /**
@@ -78,49 +85,49 @@ public class UserOrderController {
     /**
      * This method is used to retrieve UserOrder by orderId
      *
-     * @param order_id
+     * @param orderId
      * @return UserOrderResponseDto
      * @throws NotFound
      */
-    @GetMapping("/{order_id}")
-    public UserOrderResponseDto viewOrderById(@PathVariable Integer order_id) throws NotFound {
-        return userOrderService.viewOrderById(order_id);
+    @GetMapping("/{orderId}")
+    public UserOrderResponseDto viewOrderById(@PathVariable Integer orderId) throws NotFound {
+        return userOrderService.viewOrderById(orderId);
     }
 
     /**
      * This method is used to retrieve All order by userId
      *
-     * @param user_id
+     * @param userId
      * @return List<UserOrderResponseDto>
      * @throws NotFound
      */
-    @GetMapping("/user-id/{user_id}")
-    public List<UserOrderResponseDto> viewOrderByUserId(@PathVariable Integer user_id) throws NotFound {
-        return userOrderService.viewOrderByUserId(user_id);
+    @GetMapping("/user-id/{userId}")
+    public List<UserOrderResponseDto> viewOrderByUserId(@PathVariable Integer userId) throws NotFound {
+        return userOrderService.viewOrderByUserId(userId);
     }
 
     /**
      * This method is used to cancel order by orderId
      *
-     * @param order_id
+     * @param orderId
      * @return String
      * @throws NotFound
      */
-    @PutMapping("/cancelOrder/{order_id}")
-    public SuccessDto cancelOrder(@PathVariable Integer order_id) throws NotFound {
-        return userOrderService.cancelOrderById(order_id);
+    @PutMapping("/cancelOrder/{orderId}")
+    public SuccessDto cancelOrder(@PathVariable() Integer orderId) throws NotFound, Existed {
+        return userOrderService.cancelOrderById(orderId);
     }
 
     /**
      * This method is used to retrieve product by productId
      *
-     * @param product_id
+     * @param productId
      * @return List<UserOrderResponseDto>
      * @throws NotFound
      */
-    @GetMapping("/product-id/{product_id}")
-    public List<UserOrderResponseDto> viewOrderByProductId(@PathVariable Integer product_id) throws NotFound {
-        return userOrderService.viewOrdersByProductId(product_id);
+    @GetMapping("/productId/{productId}")
+    public List<OrderDetailsResponseDto> viewOrderByProductId(@PathVariable Integer productId) throws NotFound {
+        return userOrderService.viewOrdersByProductId(productId);
     }
 
     /**
@@ -129,8 +136,8 @@ public class UserOrderController {
      * @return OrderDeliveryResponseDto
      * @throws NotFound
      */
-    @GetMapping("/orders-delivery/{orderId}")
-    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound{
+    @GetMapping("/order-delivery/{orderId}")
+    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
         return userOrderService.getDeliveryOrder(orderId);
     }
 
@@ -141,7 +148,7 @@ public class UserOrderController {
      * @throws NotFound
      * @throws ParseException
      */
-    @GetMapping("/orderedDate/{orderedDate}")
+    @GetMapping("/date/{orderedDate}")
     public List<UserOrderResponseDto> viewOrdersByDate(@PathVariable String orderedDate) throws NotFound, ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = simpleDateFormat.parse(orderedDate);

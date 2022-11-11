@@ -11,12 +11,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrderDetailsResponseDto {
 
+    private String categoryName;
+
+    private String subCategoryName;
+
+    private String productName;
+
     private Integer quantity;
 
     private Float price;
-
-    private Integer productId;
-
-    private String productName;
 
 }

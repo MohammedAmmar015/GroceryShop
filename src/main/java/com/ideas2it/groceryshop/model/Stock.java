@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
@@ -41,19 +44,21 @@ public class Stock {
     private Product product;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     private Date createdAt;
 
     @Column(name = "modified_at")
+    @UpdateTimestamp
     private Date modifiedAt;
 
     @Column(name = "created_by")
-    private Integer createdBy;
+    private Integer createdBy = 0;
 
     @Column(name = "modified_by")
-    private Integer modifiedBy;
+    private Integer modifiedBy = 0;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @ManyToOne
     @JoinColumn(name = "location_id")

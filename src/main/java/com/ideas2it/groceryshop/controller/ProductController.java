@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * <p>
  *     It implements method of CRUD operations for Product.
  * </p>
- * @author RUBAN  04/11/22
+ * @author Ruban 03/11/2022
  * @version  1.0
  *
  */
@@ -48,7 +48,7 @@ public class ProductController {
      * @throws Existed will be thrown if the product already Exist.
      */
     @PostMapping("/")
-    public SuccessDto addProduct(@RequestBody ProductRequestDto productRequestDto) throws Existed {
+    public SuccessDto addProduct(@RequestBody ProductRequestDto productRequestDto) throws Existed, NotFound {
         return productService.addProduct(productRequestDto);
 
     }
@@ -94,19 +94,11 @@ public class ProductController {
         return productService.getProducts();
     }
 
-    /**
-     * <p>
-     *     This method used to get particular product by Id.
-     * </p>
-     *
-     * @param id to find particular object.
-     * @return product.
-     * @throws NotFound will be thrown if the id not exist.
-     */
-    @GetMapping("/{id}")
-    public ProductResponseDto getProductById(@PathVariable("id") Integer id) throws NotFound {
-        return productService.getProductById(id);
+    @GetMapping("/location/{locationId}")
+    public List<ProductResponseDto> getProductsByLocation(@PathVariable("locationId") Integer locationId) throws NotFound {
+        return productService.getProductsByLocation(locationId);
     }
+
 
     /**
      * <p>
