@@ -30,4 +30,6 @@ public class ProductRequestDto {
     private int createdBy;
 
     private int modifiedBy;
+
+    private String image;
 }
