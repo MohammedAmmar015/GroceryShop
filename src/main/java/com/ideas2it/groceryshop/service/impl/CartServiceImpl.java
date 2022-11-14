@@ -17,6 +17,7 @@ import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.repository.CartRepo;
 import com.ideas2it.groceryshop.service.CartService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
+@NoArgsConstructor
 public class CartServiceImpl implements CartService {
     private CartRepo cartRepo;
     private UserHelper userHelper;
@@ -58,7 +60,7 @@ public class CartServiceImpl implements CartService {
             throw new NotFound("Cart Not Found");
         }
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
-        Cart cart = addCartDetails(cartRequest, user, carts);
+        Cart cart = createCart(cartRequest, user, carts);
         cartRepo.save(cart);
         return new SuccessDto(200, "Product added to cart Successfully");
     }
@@ -75,7 +77,7 @@ public class CartServiceImpl implements CartService {
      * @return Cart
      * @throws NotFound throws if product not found
      */
-    private Cart addCartDetails(CartRequestDto cartRequest, User user, Optional<Cart> carts) throws NotFound, Existed {
+    private Cart createCart(CartRequestDto cartRequest, User user, Optional<Cart> carts) throws NotFound, Existed {
         Cart cart;
         List<CartDetails> cartDetails;
         if (carts.isEmpty()) {
