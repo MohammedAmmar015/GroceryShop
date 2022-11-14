@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,8 @@ import com.ideas2it.groceryshop.service.AddressService;
 
 /**
  *
- * Address class is used to view, delete and create address
+ * Address controller class is used to view,
+ * delete and create address
  *
  * @version 1.0 04-11-2022
  *
@@ -29,6 +32,7 @@ import com.ideas2it.groceryshop.service.AddressService;
  *
  */
 @RestController
+@NoArgsConstructor
 @RequestMapping("api/v1/addresses")
 public class AddressController {
 
@@ -74,7 +78,7 @@ public class AddressController {
      * @throws NotFound no address found
      */
     @DeleteMapping("/{addressId}")
-    public SuccessDto deleteAddressById(@Valid @PathVariable("address-id") Integer id)
+    public SuccessDto deleteAddressById(@Valid @PathVariable("addressId") Integer id)
             throws NotFound {
         return addressService.deleteAddressById(id);
     }

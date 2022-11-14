@@ -3,6 +3,7 @@ package com.ideas2it.groceryshop.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import lombok.Setter;
  * @author Rohit A P
  *
  */
+@AllArgsConstructor
 @Getter
 @Setter
 public class AddressRequestDto {

@@ -26,8 +26,6 @@ import com.ideas2it.groceryshop.repository.RoleRepo;
 import com.ideas2it.groceryshop.repository.UserRepo;
 import com.ideas2it.groceryshop.service.UserService;
 
-import static java.lang.Character.isDigit;
-
 /**
  *
  * It is used to have User business logics and

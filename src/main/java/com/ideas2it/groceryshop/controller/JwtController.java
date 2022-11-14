@@ -36,7 +36,6 @@ public class JwtController {
     private DaoAuthenticationProvider authenticationProvider;
     private JwtUtil jwtTokenUtil;
     private UserDetailsService userDetailsService;
-
     private UserService userService;
 
     @Autowired

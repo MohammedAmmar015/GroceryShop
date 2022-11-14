@@ -21,9 +21,9 @@ public interface ProductService {
 
     List<ProductResponseDto> getProducts() throws NotFound;
 
-    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFound;
+    List<ProductResponseDto> getProductsByLocationIdAndCategoryId(Integer locationId, Integer categoryId) throws NotFound;
 
-    List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFound;
+    List<ProductResponseDto> getProductsByLocationIdAndSubCategoryId(Integer locationId, Integer subCategoryId) throws NotFound;
 
     SuccessDto deleteProductById(Integer id) throws NotFound;
 
