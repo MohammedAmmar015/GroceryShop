@@ -13,6 +13,9 @@ public class AuditorAwareImpl implements AuditorAware<Integer> {
 
     public Optional<Integer> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Optional.of(((CustomUserDetails) authentication.getPrincipal()).getUserId());
+        if (authentication == null) {
+            return Optional.of(((CustomUserDetails) authentication.getPrincipal()).getUser().getId());
+        }
+        return Optional.empty();
     }
 }

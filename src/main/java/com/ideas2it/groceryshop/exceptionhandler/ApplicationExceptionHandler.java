@@ -90,6 +90,13 @@ public class ApplicationExceptionHandler {
         return errorDto;
     }
 
+    /**
+     * <p>
+     *     This is Exception handler method for MethodArgumentNotValid Exception
+     * </p>
+     * @param exception MethodArgumentNotValidException exception with Message
+     * @return errors with field name and error message
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
