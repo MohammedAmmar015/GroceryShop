@@ -2,10 +2,6 @@ package com.ideas2it.groceryshop.mapper;
 
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.model.OrderDelivery;
-import com.ideas2it.groceryshop.model.UserOrder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class OrderDeliveryMapper {
 
