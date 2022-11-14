@@ -21,8 +21,5 @@ public class CategoryRequestDto {
     private String name;
 
     private Integer parentId;
-
-    private int createdBy;
-
 }
 

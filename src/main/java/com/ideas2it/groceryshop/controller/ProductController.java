@@ -6,10 +6,7 @@ import com.ideas2it.groceryshop.dto.SuccessDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.ProductService;
-
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -31,7 +28,8 @@ import java.util.List;
  * <p>
  *     It implements method of CRUD operations for Product.
  * </p>
- * @author Ruban 03/11/2022
+ * @author Ruban
+ * 03/11/2022
  * @version  1.0
  *
  */
@@ -40,40 +38,7 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
-    private final ProductService productService;
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
-
-    @GetMapping("/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = productService.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            logger.info("Could not determine file type.");
-        }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
-
-
-
-
-
-
-
+    private ProductService productService;
 
     /**
      * <p>
@@ -92,31 +57,30 @@ public class ProductController {
 
     /**
      * <p>
-     *
-     *     This method to get product in category
+     *     This method to get product in category based on Location.
      * </p>
      *
      * @param categoryId to find particular object.
      * @return Dto type model.
-     * @throws NotFound will be thrown if the id not exist.
+     * @throws NotFound exception will be thrown if the id not exist.
      */
-    @GetMapping("/category/{categoryId}")
-    public List<ProductResponseDto> getProductsByCategoryId(@PathVariable("categoryId") Integer categoryId) throws NotFound {
-        return productService.getProductsByCategoryId(categoryId);
+    @GetMapping("/category/{locationId}/{categoryId}")
+    public List<ProductResponseDto> getProductsByLocationIdAndCategoryId(@PathVariable("locationId") Integer locationId, @PathVariable("categoryId") Integer categoryId) throws NotFound {
+        return productService.getProductsByLocationIdAndCategoryId(locationId, categoryId);
     }
 
     /**
      * <p>
-     *     This method to get Products in sub category.
+     *     This method to get Products in sub category based on Location.
      * </p>
      *
      * @param subCategoryId to find the object to retrieve.
      * @return Dto type model.
-     * @throws NotFound will be thrown if the id not exist.
+     * @throws NotFound exception will be thrown if the id not exist.
      */
-    @GetMapping("/category/subCategory/{subCategoryId}")
-    public List<ProductResponseDto> getProductsBySubCategoryId(@PathVariable("subCategoryId") Integer subCategoryId) throws NotFound {
-        return productService.getProductsBySubCategoryId(subCategoryId);
+    @GetMapping("/category/subCategory/{locationId}/{subCategoryId}")
+    public List<ProductResponseDto> getProductsByLocationIdAndSubCategoryId(@PathVariable("locationId") Integer locationId, @PathVariable("subCategoryId") Integer subCategoryId) throws NotFound {
+        return productService.getProductsByLocationIdAndSubCategoryId(locationId, subCategoryId);
     }
 
     /**
@@ -125,18 +89,25 @@ public class ProductController {
      * </p>
      *
      * @return products.
-     * @throws NotFound will be thrown if the products not exist.
+     * @throws NotFound exception will be thrown if the products not exist.
      */
     @GetMapping
     public List<ProductResponseDto> getProducts() throws NotFound {
         return productService.getProducts();
     }
 
+    /**
+     * <p>
+     *     This method to get products based on Location.
+     * </p>
+     * @param locationId to fetch product from that particular location.
+     * @return List of Products.
+     * @throws NotFound exception will be thrown if id not exist.
+     */
     @GetMapping("/location/{locationId}")
     public List<ProductResponseDto> getProductsByLocation(@PathVariable("locationId") Integer locationId) throws NotFound {
         return productService.getProductsByLocation(locationId);
     }
-
 
     /**
      * <p>
@@ -145,7 +116,7 @@ public class ProductController {
      *
      * @param id to find particular object.
      * @return SuccessDto
-     * @throws NotFound will be thrown if the id is not exist.
+     * @throws NotFound exception will be thrown if the id is not exist.
      */
     @DeleteMapping("/{id}")
     public SuccessDto deleteProductById(@PathVariable("id") Integer id) throws NotFound {
@@ -160,11 +131,29 @@ public class ProductController {
      * @param id to find the object to be updated.
      * @param productRequestDto values to get updated.
      * @return SuccessDto
-     * @throws NotFound will be thrown if the id is not exist.
-     * @throws Existed will be thrown if old and new fields values are same.
+     * @throws NotFound exception will be thrown if the id is not exist.
+     * @throws Existed exception will be thrown if old and new fields values are same.
      */
     @PutMapping("/{id}")
     public SuccessDto updateProductById(@PathVariable("id") Integer id, @RequestBody ProductRequestDto productRequestDto) throws NotFound, Existed {
         return productService.updateProductById(id, productRequestDto);
+    }
+
+    @GetMapping("/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) throws IOException {
+        Resource resource = productService.loadFileAsResource(fileName);
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            throw new IOException("Could not determine file type");
+        }
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }

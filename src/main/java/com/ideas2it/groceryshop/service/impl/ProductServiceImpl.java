@@ -7,7 +7,6 @@ import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.FileStorage;
 import com.ideas2it.groceryshop.exception.MyFileNotFound;
 import com.ideas2it.groceryshop.exception.NotFound;
-import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
@@ -15,7 +14,9 @@ import com.ideas2it.groceryshop.property.FileStorageProperties;
 import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.repository.StockRepo;
+import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.ProductService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,7 +29,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,40 +39,29 @@ import java.util.stream.Collectors;
  * @version  1.0
  */
 @Service
-//@AllArgsConstructor
+@NoArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepo productRepo;
-
     private CategoryRepo categoryRepo;
-
-    private ProductHelper productHelper;
-
     private StockRepo stockRepo;
-
-    private final Path fileStorageLocation;
-
-
-   /* @Autowired
-    public ProductServiceImpl(ProductRepo productRepo) {
-        this.productRepo = productRepo;
-    }*/
+    private StoreRepo storeRepo;
+    private  Path fileStorageLocation;
 
     @Autowired
-    public ProductServiceImpl(FileStorageProperties fileStorageProperties, ProductRepo productRepo, StockRepo stockRepo, CategoryRepo categoryRepo) {
+    public ProductServiceImpl(FileStorageProperties fileStorageProperties, ProductRepo productRepo, StockRepo stockRepo, CategoryRepo categoryRepo, StoreRepo storeRepo) {
         this.productRepo = productRepo;
+        this.storeRepo = storeRepo;
         this.categoryRepo = categoryRepo;
         this.stockRepo = stockRepo;
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
-
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
             throw new FileStorage("Could not create the directory where the uploaded files will be stored.", ex);
         }
     }
-
 
     public Resource loadFileAsResource(String fileName) {
         try {
@@ -88,11 +77,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
-
-
-
-
     /**
      * <p>
      *     This method used to add product.
@@ -100,21 +84,21 @@ public class ProductServiceImpl implements ProductService {
      *
      * @param productRequestDto dto type object.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws Existed will be thrown if product already exist.
+     * @throws Existed exception will be thrown if product already exist.
      */
     public SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound {
         if(productRepo.existsByName(productRequestDto.getName())) {
             throw new Existed("Product Already Added");
         }
         if(!categoryRepo.existsById(productRequestDto.getSubCategoryId())) {
-            throw new NotFound("Id Not Exist");
+            throw new NotFound("Sub category Id Not Exist");
         }
         Product product = ProductMapper.toProduct(productRequestDto);
         Optional<Category> category = categoryRepo.findById(productRequestDto.getSubCategoryId());
         product.setCategoryId(productRequestDto.getCategoryId());
         product.setCategory(category.get());
         productRepo.save(product);
-        return new SuccessDto(201, "Added Successfully");
+        return new SuccessDto(201, "Product Added Successfully");
     }
 
     /**
@@ -128,22 +112,15 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponseDto> getProducts() throws NotFound {
         List<Product> products = productRepo.findAllAndIsActive(true);
         if (products == null || products.isEmpty()) {
-            throw new NotFound("No Products Found");
+            throw new NotFound("Products Not Found");
         }
         List<ProductResponseDto> productResponses = new ArrayList<>();
         for (Product product :products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
-            Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(1, product.getId(), 0);
-
-            if (isStockAvailable) {
-                productResponseDto.setIsStockAvailable(true);
-            }
             productResponses.add(productResponseDto);
-
         }
         return productResponses;
     }
-
 
     /**
      * <p>
@@ -152,15 +129,28 @@ public class ProductServiceImpl implements ProductService {
      *
      * @param categoryId to get particular object.
      * @return List of products.
-     * @throws NotFound will be thrown if the id doesn't exist.
+     * @throws NotFound exception will be thrown if the id doesn't exist.
      */
     @Override
-    public List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFound {
+    public List<ProductResponseDto> getProductsByLocationIdAndCategoryId(Integer locationId, Integer categoryId) throws NotFound {
         List<Product> products = productRepo.findByCategoryIdAndIsActive( categoryId, true);
         if(products.isEmpty()) {
-            throw new NotFound("No Products Found, Id Invalid");
+            throw new NotFound("Products Not Found, Id Invalid");
         }
-        return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+        Boolean store = storeRepo.existsByIdAndIsActive(locationId, true);
+        if(!store) {
+            throw new NotFound("Location Id Invalid");
+        }
+        List<ProductResponseDto> productResponses = new ArrayList<>();
+        for(Product product: products){
+            ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
+            Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(locationId, product.getId(), 0);
+            if (isStockAvailable) {
+                productResponseDto.setIsStockAvailable(true);
+            }
+            productResponses.add(productResponseDto);
+        }
+        return productResponses;
     }
 
     /**
@@ -170,15 +160,28 @@ public class ProductServiceImpl implements ProductService {
      *
      * @param subCategoryId to find particular object
      * @return List of products.
-     * @throws NotFound will be thrown if the id doesn't exist.
+     * @throws NotFound exception will be thrown if the id doesn't exist.
      */
     @Override
-    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFound {
+    public List<ProductResponseDto> getProductsByLocationIdAndSubCategoryId(Integer locationId, Integer subCategoryId) throws NotFound {
         List<Product> products = productRepo.findBySubCategoryIDAndIsActive(subCategoryId, true);
         if(products.isEmpty()) {
-            throw new NotFound("No Products Found, Id Invalid");
+            throw new NotFound("Products Not Found, Id Invalid");
         }
-        return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+        Boolean store = storeRepo.existsByIdAndIsActive(locationId, true);
+        if(!store) {
+            throw new NotFound("Location Id Invalid");
+        }
+        List<ProductResponseDto> productResponses = new ArrayList<>();
+        for(Product product: products){
+            ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
+            Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThanEqual(locationId, product.getId(), 0);
+            if (isStockAvailable) {
+                productResponseDto.setIsStockAvailable(true);
+            }
+            productResponses.add(productResponseDto);
+        }
+        return productResponses;
     }
 
     /**
@@ -188,17 +191,17 @@ public class ProductServiceImpl implements ProductService {
      *
      * @param id to find particular object to get delete.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound will be thrown if the id doesn't exist.
+     * @throws NotFound exception will be thrown if the id doesn't exist.
      */
     @Override
     public SuccessDto deleteProductById(Integer id) throws NotFound {
         Product product = productRepo.findByIdAndIsActive(id, true);
         if (product == null) {
-            throw new NotFound("Id Not Exist");
+            throw new NotFound("product Id Not Found");
         }
         product.setActive(false);
         productRepo.save(product);
-        return new SuccessDto(200, "Deleted Successfully");
+        return new SuccessDto(200, "Product Deleted Successfully");
     }
 
     /**
@@ -209,8 +212,8 @@ public class ProductServiceImpl implements ProductService {
      * @param id to find particular object.
      * @param productRequestDto dto type object contains values to get update.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound will be thrown if the id doesn't exist.
-     * @throws Existed will be thrown if the values to update is already exist.
+     * @throws NotFound exception will be thrown if the id doesn't exist.
+     * @throws Existed exception will be thrown if the values to update is already exist.
      */
     @Override
     public SuccessDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFound, Existed {
@@ -225,7 +228,7 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(productRequestDto.getPrice());
         product.setUnit(productRequestDto.getUnit());
         productRepo.save(product);
-        return new SuccessDto(200, "Updated Successfully");
+        return new SuccessDto(200, "Product Details Updated Successfully");
     }
 
     @Override

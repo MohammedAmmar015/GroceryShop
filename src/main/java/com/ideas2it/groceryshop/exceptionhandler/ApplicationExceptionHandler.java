@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.UnexpectedTypeException;
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -24,7 +25,8 @@ import java.util.Map;
 
 /**
  * @author  RUBAN
- * @version  1.0 05/11/22
+ * @version  1.0
+ * @since  05/11/22
  *
  */
 @RestController
@@ -42,8 +44,16 @@ public class ApplicationExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleIOException(IOException ioException) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setStatusCode(404);
+        errorDto.setErrorMessage(ioException.getMessage());
+        return errorDto;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Existed.class)
-    public ErrorDto handleAlReadyExists(Existed existed) {
+    public ErrorDto handleAlReadyExistsException(Existed existed) {
         ErrorDto error = new ErrorDto();
         error.setErrorMessage(existed.getMessage());
         error.setStatusCode(404);

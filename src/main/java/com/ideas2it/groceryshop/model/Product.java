@@ -1,26 +1,22 @@
 package com.ideas2it.groceryshop.model;
 
+import com.ideas2it.groceryshop.audit.Audit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
-import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
-import javax.persistence.Transient;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import java.util.List;
 
 /**
  * <p>
@@ -34,9 +30,11 @@ import javax.persistence.Transient;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name ="product")
-public class Product {
+//@Where(clause = "isActive='true")
+public class Product extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,23 +43,8 @@ public class Product {
     @Column(name = "Name", length = 20, nullable = false)
     private String name;
 
-
     @Column(name ="price", nullable = false)
     private float price;
-
-    @CreationTimestamp
-    @Column(name = "created_at",  updatable = false)
-    private Date createdAt;
-
-    @UpdateTimestamp
-    @Column(name ="modified_at", nullable = false)
-    private Date modifiedAt;
-
-    @Column(name = "created_by", nullable = false)
-    private int createdBy;
-
-    @Column(name = "modified_by", nullable = false)
-    private int modifiedBy;
 
     @Column(name = "is_active")
     private boolean isActive = true;
@@ -81,4 +64,5 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private List<StoreLocation> storeLocations;
+
 }
