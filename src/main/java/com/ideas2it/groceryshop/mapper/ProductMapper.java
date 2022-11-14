@@ -26,8 +26,6 @@ public class ProductMapper {
         Product product = new Product();
         product.setUnit(productRequestDto.getUnit());
         product.setName(productRequestDto.getName());
-        product.setCreatedBy(productRequestDto.getCreatedBy());
-        product.setModifiedBy(productRequestDto.getCreatedBy());
         product.setPrice(productRequestDto.getPrice());
         product.setImage(productRequestDto.getImage());
         return product;
@@ -49,7 +47,7 @@ public class ProductMapper {
         productResponseDto.setImage(product.getImage());
         productResponseDto.setCategoryName(product.getCategory().getCategory().getName());
         productResponseDto.setSubCategoryName(product.getCategory().getName());
-        productResponseDto.setIsStockAvailable(false);
+        productResponseDto.setIsStockAvailable(true);
         return productResponseDto;
     }
 }

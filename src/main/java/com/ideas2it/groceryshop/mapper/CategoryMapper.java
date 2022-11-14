@@ -27,8 +27,6 @@ public class CategoryMapper {
     public static Category toCategory(CategoryRequestDto categoryRequestDto) {
         Category category = new Category();
         category.setName(categoryRequestDto.getName());
-        category.setCreatedBy(categoryRequestDto.getCreatedBy());
-        category.setModifiedBy(categoryRequestDto.getCreatedBy());
         return category;
     }
 
