@@ -50,12 +50,6 @@ public class ApplicationExceptionHandler {
         return error;
     }
 
-    /**
-     * This method is used to handle BadCredentialsException
-     *
-     * @param badCredentialsException it contains error message
-     * @return errorDto it contains error message and error status code
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ParseException.class)
     public ErrorDto parseException(ParseException parseException) {
@@ -65,6 +59,12 @@ public class ApplicationExceptionHandler {
         return error;
     }
 
+    /**
+     * This method is used to handle BadCredentialsException
+     *
+     * @param badCredentialsException it contains error message
+     * @return errorDto it contains error message and error status code
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public ErrorDto handlerBadCredentials(BadCredentialsException badCredentialsException) {

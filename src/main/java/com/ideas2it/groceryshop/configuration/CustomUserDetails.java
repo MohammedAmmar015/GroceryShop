@@ -3,6 +3,9 @@ package com.ideas2it.groceryshop.configuration;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,14 +21,13 @@ import com.ideas2it.groceryshop.model.User;
  * @author Rohit A P
  *
  */
+@Getter
 public class CustomUserDetails implements UserDetails {
 
     private User user;
-    private Integer userId;
 
     public CustomUserDetails(User user) {
         this.user = user;
-        this.userId = user.getId();
     }
 
     @Override

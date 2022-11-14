@@ -1,7 +1,5 @@
 package com.ideas2it.groceryshop.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.ideas2it.groceryshop.audit.Audit;
+
 import com.ideas2it.groceryshop.model.User;
 
 /**

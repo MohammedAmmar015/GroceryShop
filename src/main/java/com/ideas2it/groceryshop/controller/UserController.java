@@ -37,7 +37,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     *  it is used create user
+     *  it is used to create user
      * @param userRequestDto it contains user detail
      * @throws Existed username already exist
      */
@@ -54,8 +54,8 @@ public class UserController {
      * @return userResponseDto
      * @throws NotFound user does not exist
      */
-    @GetMapping("/{user-id}")
-    public UserResponseDto getUserById(@PathVariable("user-id") Integer id)
+    @GetMapping("/{userId}")
+    public UserResponseDto getUserById(@PathVariable("userId") Integer id)
             throws NotFound {
         UserResponseDto userResponseDto = userService.getUserById(id);
         return userResponseDto;
