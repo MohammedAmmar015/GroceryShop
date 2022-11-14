@@ -3,7 +3,9 @@ package com.ideas2it.groceryshop.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -16,7 +18,9 @@ import lombok.Setter;
  * @author Rohit A P
  *
  */
+@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 @Setter
 public class UserRequestDto {
 
@@ -32,8 +36,7 @@ public class UserRequestDto {
     @NotBlank(message = "Last name Field cannot be empty")
     private String lastName;
 
-    @NotNull
-    @NotBlank(message = "Mobile Number Field cannot be empty")
+    @NotNull(message = "Mobile Number Field cannot be empty")
     private Long mobileNumber;
 
     @NotNull

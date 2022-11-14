@@ -53,22 +53,24 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/v1/login",
                         "/api/v1/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/categories",
-                        "/api/v1/products/", "/api/v1/stores", "/api/v1/stocks/",
-                        "/api/v1/roles/", "/api/v1/subCategories**")
+                .antMatchers(HttpMethod.POST, "/api/v1/categories/",
+                        "/api/v1/products/", "/api/v1/stores", "/api/v1/stocks/*/*",
+                        "/api/v1/roles")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/*",
-                        "api/v1/all-orders", "/api/v1/stocks**",
-                        "/api/v1/stores")
+                        "api/v1/orders/allOrders", "api/v1/orders/cancelledOrders",
+                        "api/v1/orders/date/*", "/api/v1/stocks/*",
+                        "/api/v1/stocks/*/*", "/api/v1/stores", "api/v1/orders/products/*")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/v1/categories/*", "/api/v1/products/*",
-                        "/api/v1/roles/*","/api/v1/stocks/*", "/api/v1/stores/*",
-                        "/api/v1/subCategories**")
+                        "/api/v1/roles/*","/api/v1/stocks/*", "/api/v1/stocks/*/*", "/api/v1/stores/*",
+                        "/api/v1/categories/subCategories/*/*")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/v1/users", "/api/v1/categories/*",
                         "/api/v1/products/*", "/api/v1/stocks/*", "/api/v1/stores/*",
-                        "/api/v1/subcategories/*")
+                        "/api/v1/categories/subcategories/*/*", "/api/v1/roles/*")
                 .hasRole("ADMIN")
+                .antMatchers("/api/v1/orders/ordersDelivery/*").hasRole("DELIVERY_PERSON")
                 .anyRequest().authenticated()
                 .and().httpBasic();
         http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,5 +1,7 @@
 package com.ideas2it.groceryshop.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,15 +11,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import com.ideas2it.groceryshop.audit.Audit;
-import com.ideas2it.groceryshop.model.Role;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
+import com.ideas2it.groceryshop.model.Role;
 /**
  *
  *  User POJO is used to store and retrieve data common attributes of
@@ -34,13 +41,13 @@ import com.ideas2it.groceryshop.model.Role;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends Audit {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_name", length = 20 , nullable = false)
+    @Column(name = "user_name", length = 20 , nullable = false, unique = true)
     private String userName;
 
     @Column(name = "first_name", length = 20 , nullable = false)
@@ -64,4 +71,29 @@ public class User extends Audit {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", columnDefinition = "role_id")
     private Role role;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @CreatedBy
+    @Column(name = "created_by")
+    private Integer createdBy;
+
+    @UpdateTimestamp
+    @Column(name = "modified_at")
+    private Date modifiedAt;
+
+    @LastModifiedBy
+    @Column(name = "modified_by")
+    private Integer modifiedBy;
+
+    @PrePersist
+    public void setCreator() {
+        createdBy = id;
+    }
+    @PreUpdate
+    public void setModifier() {
+        modifiedBy = id;
+    }
 }

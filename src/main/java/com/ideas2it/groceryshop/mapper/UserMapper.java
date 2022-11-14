@@ -44,7 +44,7 @@ public class UserMapper {
      * @return userResponseDto it returns user details in object
      */
     public static UserResponseDto userToUserResponseDto(User user) {
-        UserResponseDto userResponseDto = new UserResponseDto();
+        UserResponseDto userResponseDto = null;
         userResponseDto.setId(user.getId());
         userResponseDto.setUserName(user.getUserName());
         userResponseDto.setFirstName(user.getFirstName());
@@ -54,7 +54,7 @@ public class UserMapper {
         userResponseDto.setCreatedAt(user.getCreatedAt());
         userResponseDto.setModifiedAt(user.getModifiedAt());
         userResponseDto.setCreatedBy(user.getCreatedBy());
-        userResponseDto.setModifiedBy(user.getModifiedBY());
+        userResponseDto.setModifiedBy(user.getModifiedBy());
         userResponseDto.setRole(user.getRole());
         userResponseDto.setIsActive(user.getIsActive());
         return userResponseDto;

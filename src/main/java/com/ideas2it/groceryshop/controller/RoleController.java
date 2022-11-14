@@ -19,9 +19,10 @@ import com.ideas2it.groceryshop.service.RoleService;
 
 /**
  *
- * Role class is used to do create, update and delete role.
+ * Role controller class is used to do create,
+ * update and delete role.
  *
- * @version 1.0 07-11-2022
+ * @version 1.0 14-11-2022
  *
  * @author Rohit A P
  *
