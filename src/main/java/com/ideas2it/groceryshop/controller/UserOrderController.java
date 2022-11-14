@@ -35,7 +35,7 @@ public class UserOrderController {
      * @param userOrderRequestDto, cartId
      *
      */
-    @PostMapping("/place-order/{cartId}")
+    @PostMapping("/placeOrder/{cartId}")
     public SuccessDto placeOrder(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer cartId) throws NotFound {
         return userOrderService.placeOrder(userOrderRequestDto, cartId);
     }
@@ -46,7 +46,7 @@ public class UserOrderController {
      * </p>
      * @param userOrderRequestDto, userId
      */
-    @PostMapping("/buy-now/{userId}")
+    @PostMapping("/buyNow/{userId}")
     public SuccessDto buyNow(@RequestBody UserOrderRequestDto userOrderRequestDto, @PathVariable Integer userId) throws NotFound {
         return userOrderService.buyNow(userOrderRequestDto, userId);
     }
@@ -66,7 +66,7 @@ public class UserOrderController {
      * </p>
      * @return List<UserOrderResponseDto>
      */
-    @GetMapping("/all-orders")
+    @GetMapping("/activeOrders")
     public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFound {
        return userOrderService.viewAllActiveOrders();
     }
@@ -101,7 +101,7 @@ public class UserOrderController {
      * @return List<UserOrderResponseDto>
      * @throws NotFound
      */
-    @GetMapping("/user-id/{userId}")
+    @GetMapping("/user/{userId}")
     public List<UserOrderResponseDto> viewOrderByUserId(@PathVariable Integer userId) throws NotFound {
         return userOrderService.viewOrderByUserId(userId);
     }
@@ -136,7 +136,7 @@ public class UserOrderController {
      * @return OrderDeliveryResponseDto
      * @throws NotFound
      */
-    @GetMapping("/order-delivery/{orderId}")
+    @GetMapping("/orderDelivery/{orderId}")
     public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
         return userOrderService.getDeliveryOrder(orderId);
     }

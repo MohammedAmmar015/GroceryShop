@@ -1,11 +1,12 @@
 package com.ideas2it.groceryshop.model;
 
+import com.ideas2it.groceryshop.audit.Audit;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,4 @@ public class UserOrder extends Audit {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private OrderDelivery orderDelivery;
-
-
 }
