@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  * @author RUBAN  03/11/22
  * @version  1.0
+ * @since 03/11/22
  *
  */
 @AllArgsConstructor
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private CategoryService categoryService;
 
 
     /**
