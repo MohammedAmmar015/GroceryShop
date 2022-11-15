@@ -39,7 +39,6 @@ import static org.mockito.Mockito.when;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(classes = {ProductServiceTest.class})
 public class ProductServiceTest {
-
     @Mock
     ProductRepo productRepo;
 
@@ -67,12 +66,12 @@ public class ProductServiceTest {
     public void test_getProducts() throws NotFound {
         Category category1 = new Category(1,"fruits & vegetables", null, true);
         Category category = new Category(1,"vegetables", category1, true);
-        Product product = new Product(1,"Tomato", 100, true, category, "kg", 1, "pic");
+        Product product = new Product(1,"Tomato", 100, true, category, "kg", 1);
         List<Product> products = new ArrayList<>();
         products.add(product);
 
         when(productRepo.findAllAndIsActive(true)).thenReturn(products);
-        assertEquals(1,productService.getProducts().size());
+        assertEquals(1,productService.getProducts());
     }
 
     /**
@@ -89,7 +88,7 @@ public class ProductServiceTest {
         Category category1 = new Category(1,"bended", null, true);
         Category category = new Category(1,"bended", category1, true);
         List<StoreLocation> storeLocation = new ArrayList<>();
-        Product product = new Product(1,"medicine", 100, true, category, "pcs", 1, "pic");
+        Product product = new Product(1,"medicine", 100, true, category, "pcs", 1);
         List<Product> products = new ArrayList<>();
         products.add(product);
 
@@ -110,7 +109,7 @@ public class ProductServiceTest {
     @Test
     @Order(1)
     public void test_addProduct() throws NotFound, Existed {
-        ProductRequestDto productRequestDto = new ProductRequestDto(1, "Grapes", 100, "kg",1,1,"pic");
+        ProductRequestDto productRequestDto = new ProductRequestDto(1, "Grapes", 100, "kg",1,1);
         Product product = ProductMapper.toProduct(productRequestDto);
         Category category = new Category();
 
@@ -131,8 +130,8 @@ public class ProductServiceTest {
     @Test
     @Order(4)
     public void test_updateProduct() throws Existed, NotFound {
-        ProductRequestDto productRequestDto = new ProductRequestDto(1, "PineApple", 150, "kg", 1, 1,  "pic");
-        Product product = new Product(1, "apple", 100, true, null, "kg", 1, "pic");
+        ProductRequestDto productRequestDto = new ProductRequestDto(1, "PineApple", 150, "kg", 1, 1);
+        Product product = new Product(1, "apple", 100, true, null, "kg", 1);
         product.setName(productRequestDto.getName());
 
         when(productRepo.findByIdAndIsActive(1, true)).thenReturn(product);
@@ -149,7 +148,7 @@ public class ProductServiceTest {
     @Test
     @Order(5)
     public void test_deleteProduct() throws NotFound {
-        Product product = new Product(1, "apple", 100, true, null, "kg", 1, "pic");
+        Product product = new Product(1, "apple", 100, true, null, "kg", 1);
         product.setActive(false);
 
         when(productRepo.findByIdAndIsActive(2, true)).thenReturn(product);
