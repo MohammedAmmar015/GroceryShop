@@ -15,6 +15,15 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
+/**
+ * <p>
+ *     This is Audit class used to Store Audit Columns
+ *     with other entities
+ * </p>
+ * @author Mohammed Ammar
+ * @since 15-11-2022
+ * @version 1.0
+ */
 @Getter
 @Setter
 @NoArgsConstructor

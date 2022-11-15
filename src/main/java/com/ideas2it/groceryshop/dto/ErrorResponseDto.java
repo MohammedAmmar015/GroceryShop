@@ -9,12 +9,17 @@ import lombok.Setter;
  * <p>
  *     Error DTO, to hold error message and Status Code
  * </p>
+ * @author Mohammed Ammar
+ * @since 10-11-2022
+ * @version 1.0
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorDto {
+public class ErrorResponseDto {
+
     private Integer statusCode;
+
     private String errorMessage;
 }

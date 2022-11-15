@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 /**
  * <p>
  *     Store Location Response DTO, to hold response details
@@ -20,6 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class StoreResponseDto {
+
     private Integer id;
 
     private Integer pinCode;

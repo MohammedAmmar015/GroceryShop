@@ -1,12 +1,15 @@
 package com.ideas2it.groceryshop.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- *     Cart Request DTO
+ *     Cart Request DTO, to get cart details in Request
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022
@@ -18,6 +21,6 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class CartRequestDto {
 
-    @NotEmpty(message = "Cart details cannot be empty")
+    @NotNull(message = "Cart details cannot be empty")
     private CartDetailsRequestDto cartDetails;
 }

@@ -1,6 +1,8 @@
 package com.ideas2it.groceryshop.helper;
 
+import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.model.OrderDetails;
+import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.model.UserOrder;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.repository.StoreRepo;
@@ -24,32 +26,20 @@ public class StockHelper {
     /**
      * <p>
      *     To remove Stock for products, when user Ordered
+     *     based on order details
      * </p>
      * @param order - order details
+     * @throws NotFound if location not found
      */
-    public void removeStockByOrderDetails(UserOrder order, Integer pinCode) {
-        Boolean isStoreAvailable = storeRepo.existsByPinCode(pinCode);
-        Integer locationId = 0;
-        if (!isStoreAvailable) {
-            locationId = storeRepo.findByIsActiveAndId(true, 2).getId();
+    public void removeStockByOrderDetails(UserOrder order, Integer pinCode) throws NotFound {
+        StoreLocation store = storeRepo.findByIsActiveAndPinCode(true, pinCode);
+        if (store == null) {
+            throw new NotFound("Stock not available Try any other location");
         }
         for (OrderDetails orderDetail : order.getOrderDetails()) {
             stockRepo.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
                                                         orderDetail.getProduct(),
-                                                        locationId);
-        }
-    }
-
-    public void updateStockByOrderDetails(UserOrder order, Integer pinCode) {
-        Boolean isStoreAvailable = storeRepo.existsByPinCode(pinCode);
-        Integer locationId = 0;
-        if (!isStoreAvailable) {
-            locationId = storeRepo.findByIsActiveAndId(true, 2).getId();
-        }
-        for (OrderDetails orderDetail : order.getOrderDetails()) {
-            stockRepo.increaseStockByProductsAndLocation(orderDetail.getQuantity(),
-                    orderDetail.getProduct(),
-                    locationId);
+                                                        store.getId());
         }
     }
 }

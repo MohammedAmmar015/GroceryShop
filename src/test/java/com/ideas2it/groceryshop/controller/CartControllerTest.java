@@ -15,6 +15,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+/**
+ * <p>
+ *     This is Test Class for Cart Controller
+ *     used to test methods in controller
+ * </p>
+ * @author Mohammed Ammar
+ * @since 15-11-2022
+ * @version 1.0
+ */
 @SpringBootTest
 public class CartControllerTest {
 
@@ -24,6 +33,14 @@ public class CartControllerTest {
     @Mock
     CartService cartService;
 
+    /**
+     * <p>
+     *     This method is used to test createCart() method
+     *     in cart controller
+     * </p>
+     * @throws Existed - exception will be thrown if product already exists in Cart
+     * @throws NotFound - exception will be thrown if product not found
+     */
     @Test
     public void testCreateCart() throws Existed, NotFound {
         Integer userId = 1;
@@ -35,6 +52,13 @@ public class CartControllerTest {
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test viewCart method
+     *     in Cart Controller
+     * </p>
+     * @throws NotFound - exception will be thrown if Cart not found (if it's admin userId)
+     */
     @Test
     public void testViewCart() throws NotFound {
         Integer userId = 1;
@@ -54,6 +78,13 @@ public class CartControllerTest {
         assertEquals(cartResponseDto.getId(), result.getId());
     }
 
+    /**
+     * <p>
+     *     This method is used to test updateCart() method,
+     *     in Cart Controller
+     * </p>
+     * @throws NotFound - exception will be thrown if Cart not found
+     */
     @Test
     public void testUpdateCart() throws NotFound {
         Integer userId = 1;
@@ -65,6 +96,13 @@ public class CartControllerTest {
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test deleteCart()
+     *     method in Cart Controller
+     * </p>
+     * @throws NotFound - exception will be thrown if Cart not found
+     */
     @Test
     public void testDeleteCart() throws NotFound {
         Integer userId = 1;
@@ -74,6 +112,13 @@ public class CartControllerTest {
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test deleteProductFromCart()
+     *     method in Cart Controller
+     * </p>
+     * @throws NotFound - exception will be thrown if Cart not found
+     */
     @Test
     public void testDeleteProductFromCart() throws NotFound {
         Integer userId = 1;

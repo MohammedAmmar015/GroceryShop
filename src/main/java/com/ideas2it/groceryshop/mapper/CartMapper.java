@@ -1,8 +1,6 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.CartDetailsRequestDto;
 import com.ideas2it.groceryshop.dto.CartDetailsResponseDto;
-import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.CartDetails;
@@ -27,31 +25,16 @@ public class CartMapper {
      * @param cart - cart object
      * @return - CartResponse
      */
-    public static CartResponseDto convertCartToCartResponse(Cart cart) {
+    public static CartResponseDto toCartResponse(Cart cart) {
         CartResponseDto cartResponse = new CartResponseDto();
         cartResponse.setId(cart.getId());
         cartResponse.setTotalPrice(cart.getTotalPrice());
         cartResponse.setCreatedAt(cart.getCreatedAt());
         List<CartDetailsResponseDto> cartDetailsResponse = new ArrayList<>();
         for (CartDetails cartDetails : cart.getCartDetails()) {
-            cartDetailsResponse.add(CartDetailsMapper.convertCartDetailsToCartDetailsResponse(cartDetails));
+            cartDetailsResponse.add(CartDetailsMapper.toCartDetailsResponse(cartDetails));
         }
         cartResponse.setCartDetails(cartDetailsResponse);
         return cartResponse;
-    }
-
-    /**
-     * <p>
-     *     It is used to convert CartRequest to Cart object
-     * </p>
-     * @param cartRequest - cart request dto
-     * @return - Cart
-     */
-    public static Cart convertCartRequestToCart(CartRequestDto cartRequest) {
-        Cart cart = new Cart();
-        List<CartDetails> cartDetails = new ArrayList<>();
-        CartDetailsRequestDto cartDetailsRequest = cartRequest.getCartDetails();
-        cartDetails.add(CartDetailsMapper.toCartDetails(cartDetailsRequest));
-        return cart;
     }
 }

@@ -1,5 +1,6 @@
 package com.ideas2it.groceryshop.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *     Cart response DTO
+ *     Cart response DTO, to hold cart details for response
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

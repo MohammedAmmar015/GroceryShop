@@ -3,14 +3,13 @@ package com.ideas2it.groceryshop.helper;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.User;
-import com.ideas2it.groceryshop.repository.CartRepo;
 import com.ideas2it.groceryshop.service.CartService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *     Cart Helper
+ *     Cart Helper, It has Common methods related to Cart
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

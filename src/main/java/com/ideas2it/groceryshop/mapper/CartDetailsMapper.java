@@ -35,7 +35,7 @@ public class CartDetailsMapper {
      * @param cartDetails - cart details
      * @return - CartDetailsResponse
      */
-    public static CartDetailsResponseDto convertCartDetailsToCartDetailsResponse(CartDetails cartDetails) {
+    public static CartDetailsResponseDto toCartDetailsResponse(CartDetails cartDetails) {
         CartDetailsResponseDto cartDetailsResponse = new CartDetailsResponseDto();
         Product product = cartDetails.getProduct();
         cartDetailsResponse.setProductName(product.getName());
