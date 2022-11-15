@@ -9,15 +9,18 @@ import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.StoreService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
  *     Implementation class for Store Service
+ *     This class is used to do add, get,
+ *     update, delete stores location details
+ *     using different methods
  * </p>
  * @author Mohammed Ammar
  * @since 05-11-2022
@@ -30,36 +33,38 @@ public class StoreServiceImpl implements StoreService {
 
     /**
      * <p>
-     * To add Store Location
+     *     This method is used to add new Store Location
+     *     based on storeRequestDTO
      * </p>
-     *
      * @param storeLocationRequest request DTO to be passed
-     * @return
+     * @return - SuccessDto if store created
+     * @throws Existed - if area or location already exists
      */
     @Override
     public SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed {
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
         if (storeRepo.existsByAreaOrPinCode(area, pinCode)) {
-            throw new Existed("Area or PinCode Already exists");
+            throw new Existed("Area or PinCode already exists");
         }
         StoreLocation storeLocation = StoreLocationMapper.toStoreLocation(storeLocationRequest);
         storeRepo.save(storeLocation);
-        return new SuccessDto(201, "Store Location Created Successfully");
+        return new SuccessDto(201, "Store created successfully");
     }
 
     /**
      * <p>
-     *     To get List of Stores
+     *     This method is used to get all active stores
      * </p>
-     * @return list of Store Location
+     * @return list of store response DTO
+     * @throws NotFound if no data found
      */
     @Override
     public List<StoreResponseDto> getStores() throws NotFound {
         List<StoreResponseDto> storesResponse = new ArrayList<>();
         List<StoreLocation> stores = storeRepo.findByIsActive(true);
         if (stores.isEmpty()) {
-            throw new NotFound("Store Location Not Found");
+            throw new NotFound("Store not found");
         }
         for (StoreLocation storeLocation : stores) {
             storesResponse.add(StoreLocationMapper.toStoreLocationResponse(storeLocation));
@@ -69,63 +74,67 @@ public class StoreServiceImpl implements StoreService {
 
     /**
      * <p>
-     * To remove Store Location
+     *     This method is used to remove store
+     *     based on store location id
      * </p>
-     *
-     * @param storeId store id has to be passes
-     * @return
+     * @param storeId store id has to be passed
+     * @return - SuccessDto if deleted
+     * @throws NotFound - if store not found
      */
     @Override
     public SuccessDto removeStore(Integer storeId) throws NotFound {
         Integer rowsAffected = storeRepo.deleteStoreById(storeId);
         if (rowsAffected == 0) {
-            throw new NotFound("Store Location Not Found");
+            throw new NotFound("Store not found");
         }
-        return new SuccessDto(200, "Store Location deleted Successfully");
+        return new SuccessDto(200, "Store deleted successfully");
     }
-
 
     /**
      * <p>
-     *     To get Particular Store details by StoreId
+     *     This method is used get particular active store
+     *     based on given location id
      * </p>
      * @param storeId store id has to be passed
-     * @return StoreLocationResponse Object
+     * @return Store Response DTO
+     * @throws NotFound if store not found
      */
     @Override
     public StoreResponseDto getStoreById(Integer storeId) throws NotFound {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
-            throw new NotFound("Store Location Not Found");
+            throw new NotFound("Store not found");
         }
         StoreResponseDto storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
         return storeResponse;
     }
 
     /**
-     * <p>
-     * To Modify Store Location details
-     * </p>
-     *
+     * <P>
+     *     This method is used to update store location details
+     *     based on location id
+     * </P>
      * @param storeLocationRequest Store Location details to update
      * @param storeId              store id to be passed
      * @return
+     * @throws NotFound - if store not found
+     * @throws Existed - if given new details already exist
      */
     @Override
     public SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
                                   Integer storeId) throws NotFound, Existed {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
+        if (storeLocation == null) {
+            throw new NotFound("Store not found");
+        }
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
-        if(storeRepo.existsByAreaOrPinCode(area, pinCode)) {
+        if(storeRepo.existsByAreaOrPinCodeAndIdNot(area, pinCode, storeId)) {
             throw new Existed("Area or PinCode already exists");
-        }
-        if (storeLocation == null) {
-            throw new NotFound("Store Location Not Found");
         }
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
         storeRepo.save(storeLocation);
-        return new SuccessDto(200, "Store Location Updated Successfully");
+        return new SuccessDto(200, "Store updated successfully");
     }
 }

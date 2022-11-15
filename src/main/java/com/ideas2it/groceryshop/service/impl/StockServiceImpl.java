@@ -22,6 +22,8 @@ import java.util.List;
 /**
  * <p>
  *     Implementation class for Stock Service
+ *     This class is used to do add, update,
+ *     get stock details for different product and location
  * </p>
  * @author Mohammed Ammar
  * @since 05-11-2022
@@ -38,13 +40,16 @@ public class StockServiceImpl implements StockService {
 
     /**
      * <p>
-     * It is used to add Stock for Particular product based on Location
+     *     This method is used to add Stock for particular product
+     *     based on Location
      * </p>
      *
      * @param stockRequest stock details to add
      * @param locationId   To add stock to particular location
      * @param productId    To add Stock to the Product
-     * @return
+     * @return successDto if stock created
+     * @throws NotFound if store or product not found
+     * @throws Existed if stock already exist for given product and location
      */
     @Override
     public SuccessDto addStock(StockRequestDto stockRequest,
@@ -56,12 +61,12 @@ public class StockServiceImpl implements StockService {
         Stock stock = StockMapper.toStock(stockRequest);
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, locationId);
         if (storeLocation == null) {
-            throw new NotFound("Store Location Not Found");
+            throw new NotFound("Store not found");
         }
         stock.setStoreLocation(storeLocation);
         Product product = productHelper.getProductById(productId);
         if (product == null) {
-            throw new NotFound("Product Not Found");
+            throw new NotFound("Product not found");
         }
         stock.setProduct(product);
         stock.setUnit(product.getUnit().substring(2));
@@ -72,18 +77,18 @@ public class StockServiceImpl implements StockService {
 
     /**
      * <p>
-     *     It is used to get Stock details for particular product,
-     *     on different location
+     *     This method is used to get Stock details for particular product,
+     *     available on different location
      * </p>
      * @param productId id to view Stock details
      * @return List of Stock details
+     * @throws NotFound if stock not found for given product id
      */
     @Override
-
     public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFound {
         List<Stock> stocks = stockRepo.findByProductId(productId);
         if (stocks.isEmpty()) {
-            throw new NotFound("No Data Found");
+            throw new NotFound("No data found");
         }
         List<StockResponseDto> stockResponse = new ArrayList<>();
         for (Stock stock : stocks) {
@@ -94,17 +99,20 @@ public class StockServiceImpl implements StockService {
 
     /**
      * <p>
-     *     To view stock details, for particular product on particular location
+     *     This method is used to view stock details,
+     *     for particular product on particular location
+     *     based on product id and location id
      * </p>
      * @param productId - to view Stock details
      * @param locationId - to view stock by product and location
-     * @return
+     * @return Store Response DTO
+     * @throws NotFound if stock not found for given ids
      */
     @Override
     public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
-            throw new NotFound("Stock Not found");
+            throw new NotFound("Stock not found");
         }
         StockResponseDto stockResponse = StockMapper.toStockResponse(stock);
         return stockResponse;
@@ -112,13 +120,16 @@ public class StockServiceImpl implements StockService {
 
     /**
      * <p>
-     * To update stock for particular product on particular location
+     *     This method is used to update stock
+     *     for particular product on particular location
+     *     based on product id and location id
      * </p>
      *
      * @param stockRequest - stock details to update
      * @param productId    - id to update stock for this product
      * @param locationId   - id to update stock on this location
-     * @return
+     * @return SuccessDto if Stock updated
+     * @throws NotFound if stock not found for product id and location id
      */
     @Override
     public SuccessDto updateStockByProductAndLocation(StockRequestDto stockRequest,
@@ -127,8 +138,8 @@ public class StockServiceImpl implements StockService {
         Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
                                                                     productId, locationId);
         if (rowsAffected == 0) {
-            throw new NotFound("Product or Location Not Found");
+            throw new NotFound("Product or Location not found");
         }
-        return new SuccessDto(200, "Stock Updated Successfully");
+        return new SuccessDto(200, "Stock updated successfully");
     }
 }

@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 /**
  * <p>
- *     Cart-Details Response DTO
+ *     Cart-Details Response DTO,
+ *     to hold Cart-details for Response
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

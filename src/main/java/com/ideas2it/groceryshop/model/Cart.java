@@ -30,8 +30,11 @@ public class Cart extends Audit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price", nullable = false, precision = 2)
     private Float totalPrice;
+
+    @Column(name = "total_quantity", nullable = false)
+    private Integer totalQuantity;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")

@@ -10,6 +10,8 @@ import com.ideas2it.groceryshop.model.Cart;
 /**
  * <p>
  *     Interface for Cart related Services
+ *     This class is used to add, remove,
+ *     update products from cart
  * </p>
  * @author Mohammed Ammar
  * @since 05-11-2022
@@ -24,9 +26,9 @@ public interface CartService {
      * @param cartRequest - product details to add into Cart
      * @param userId - user's id to add product to user's cart
      * @return - successDto with Message and status Code
+     * @throws NotFound - if user or cart not found
+     * @throws Existed if product already exist in cart
      */
-
-
     SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed;
 
 
@@ -36,6 +38,7 @@ public interface CartService {
      * </p>
      * @param userId - user's id to get Cart
      * @return - CartResponse with cart details
+     * @throws NotFound if cart not found
      */
     CartResponseDto getCartByUserId(Integer userId) throws NotFound;
 
@@ -45,18 +48,20 @@ public interface CartService {
      * </p>
      *
      * @param userId - user's id to remove products from cart
-     * @return
+     * @return successDto if cart deleted successfully
+     * @throws if cart not found
      */
     SuccessDto removeCart(Integer userId) throws NotFound;
 
     /**
      * <p>
-     * It is used to remove particular product from cart
+     *     It is used to remove particular product from cart
      * </p>
      *
      * @param userId    - user's id to remove product from cart
      * @param productId - product id to be removed
-     * @return
+     * @return successDto if product deleted from cart
+     * @throws NotFound if cart or product not found
      */
     SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound;
 
@@ -67,9 +72,19 @@ public interface CartService {
      *
      * @param cartRequest - cart details to be Updated
      * @param userId      - user's id to update cart product
-     * @return
+     * @return successDto if cart updated successfully
+     * @throws NotFound if cart or product not found
      */
     SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound;
 
+    /**
+     * <p>
+     *     This method is used to get Cart by Cart Id
+     * </p>
+     * @param cartId - cart id to be retrieved
+     * @param status - true or false
+     * @return Cart
+     * @throws NotFound - throws exception if cart not found
+     */
     Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound;
 }

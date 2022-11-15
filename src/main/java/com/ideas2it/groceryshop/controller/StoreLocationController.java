@@ -14,7 +14,13 @@ import java.util.List;
 
 /**
  * <p>
- *     This is Store Location Controller to do Store related CRUD Operations
+ *     This is Store Location Rest Controller
+ *     to do Store related CRUD Operations
+ *     1. To create store location
+ *     2. To update store location details
+ *     3. To view all stores
+ *     4. To view particular store by storeId
+ *     5. To delete store by storeId
  * </p>
  * @author Mohammed Ammar
  * @since 04-11-2022
@@ -29,9 +35,12 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This API is used to Create Store Location by Admin
+     *     This POST API api/v1/stores
+     *     is used to Create Store Location
      * </p>
      * @param storeLocationRequest - store location details
+     * @return successDto if store created successfully
+     * @throws Existed if store details already exist
      */
     @PostMapping
     public SuccessDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest) throws Existed {
@@ -40,10 +49,14 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This API is used to Update Store Location details, like area
+     *     This PUT API api/v1/stores/{storeId}
+     *     is used to Update Store Location details, like area
      * </p>
      * @param storeLocationRequest - store details to be updated
      * @param storeId - store id to update
+     * @return successDto if store updated successfully
+     * @throws NotFound if store not found
+     * @throws Existed if details to be updated is already exists
      */
     @PutMapping("/{storeId}")
     public SuccessDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
@@ -53,22 +66,25 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This API is used to View List of Stores available
+     *     This GET API api/v1/stores
+     *     is used to View List of Stores available
      * </p>
      * @return list of Store Location Response
+     * @throws NotFound if no data found
      */
     @GetMapping
     public List<StoreResponseDto> viewStores() throws NotFound {
-        System.out.println(storeService.getStores());
         return storeService.getStores();
     }
 
     /**
      * <p>
-     *     This API is used to view Particular Store Details
+     *     This GET API api/v1/stores/{storeId}
+     *     is used to view Particular Store Details
      * </p>
      * @param storeId - store id to view store details
      * @return - store response DTO
+     * @throws NotFound if store not found
      */
     @GetMapping("/{storeId}")
     public StoreResponseDto viewStoreById(@PathVariable Integer storeId) throws NotFound {
@@ -77,9 +93,12 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This API is used to Delete Particular Store by store id
+     *     This DELETE API api/v1/stores/{storeId}
+     *     is used to Delete Particular Store by store id
      * </p>
-     * @param storeId - id to delete store
+     * @param storeId id to delete store
+     * @return successDto if store deleted successfully
+     * @throws NotFound if store not found
      */
     @DeleteMapping("/{storeId}")
     public SuccessDto deleteStore(@PathVariable Integer storeId) throws NotFound {

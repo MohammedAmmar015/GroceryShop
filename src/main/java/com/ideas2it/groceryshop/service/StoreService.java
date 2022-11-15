@@ -11,6 +11,9 @@ import java.util.List;
 /**
  * <p>
  *     Interface for Store related Services
+ *     This class is used to do add, get,
+ *     update, delete stores location details
+ *     using different methods
  * </p>
  * @author Mohammed Ammar
  * @since 05-11-2022
@@ -20,50 +23,56 @@ public interface StoreService {
 
     /**
      * <p>
-     * To add Store Location
+     *     This method is used to add new Store Location
      * </p>
-     *
      * @param storeLocationRequest request DTO to be passed
-     * @return
+     * @return - SuccessDto if store created
+     * @throws Existed - if area or location already exists
      */
     SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed;
 
     /**
      * <p>
-     *     To get List of Stores
+     *     This method is used to get all active stores
      * </p>
-     * @return list of Store Location
+     * @return list of store response DTO
+     * @throws NotFound if no data found
      */
     List<StoreResponseDto> getStores() throws NotFound;
 
     /**
      * <p>
-     * To remove Store Location
+     *     This method is used to remove store
+     *     based on store location id
      * </p>
-     *
-     * @param storeId store id has to be passes
-     * @return
+     * @param storeId store id has to be passed
+     * @return - SuccessDto if deleted
+     * @throws NotFound - if store not found
      */
     SuccessDto removeStore(Integer storeId) throws NotFound;
 
 
     /**
      * <p>
-     *     To get Particular Store details by StoreId
+     *     This method is used get particular active store
+     *     based on given location id
      * </p>
      * @param storeId store id has to be passed
-     * @return StoreLocationResponse Object
+     * @return Store Response DTO
+     * @throws NotFound if store not found
      */
     StoreResponseDto getStoreById(Integer storeId) throws NotFound;
 
     /**
-     * <p>
-     * To Modify Store Location details
-     * </p>
-     *
+     * <P>
+     *     This method is used to update store location details
+     *     based on location id
+     * </P>
      * @param storeLocationRequest Store Location details to update
      * @param storeId              store id to be passed
      * @return
+     * @throws NotFound - if store not found
+     * @throws Existed - if given new details already exist
      */
     SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
                            Integer storeId) throws NotFound, Existed;

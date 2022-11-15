@@ -32,7 +32,7 @@ public class CartDetails extends Audit {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false, precision = 2)
     private Float price;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -43,4 +43,7 @@ public class CartDetails extends Audit {
             nullable = false,
             columnDefinition = "TINYINT")
     private Boolean isActive = true;
+
+    @ManyToOne
+    private Cart cart;
 }

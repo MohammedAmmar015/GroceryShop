@@ -1,21 +1,17 @@
 package com.ideas2it.groceryshop.exceptionhandler;
 
-import com.ideas2it.groceryshop.dto.ErrorDto;
+import com.ideas2it.groceryshop.dto.ErrorResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import javax.validation.UnexpectedTypeException;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
@@ -29,23 +25,21 @@ import java.util.Map;
  * @since  05/11/22
  *
  */
-@RestController
-@Component
-@ControllerAdvice
+@RestControllerAdvice
 public class ApplicationExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFound.class)
-    public ErrorDto handleNotFoundException(NotFound notFoundException) {
-        ErrorDto error = new ErrorDto();
+    public ErrorResponseDto handleNotFoundException(NotFound notFoundException) {
+        ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(notFoundException.getMessage());
         error.setStatusCode(404);
         return error;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto handleIOException(IOException ioException) {
-        ErrorDto errorDto = new ErrorDto();
+    public ErrorResponseDto handleIOException(IOException ioException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setStatusCode(404);
         errorDto.setErrorMessage(ioException.getMessage());
         return errorDto;
@@ -53,8 +47,8 @@ public class ApplicationExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Existed.class)
-    public ErrorDto handleAlReadyExistsException(Existed existed) {
-        ErrorDto error = new ErrorDto();
+    public ErrorResponseDto handleAlReadyExistsException(Existed existed) {
+        ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());
         error.setStatusCode(404);
         return error;
@@ -62,8 +56,8 @@ public class ApplicationExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ParseException.class)
-    public ErrorDto parseException(ParseException parseException) {
-        ErrorDto error = new ErrorDto();
+    public ErrorResponseDto parseException(ParseException parseException) {
+        ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(parseException.getMessage());
         error.setStatusCode(500);
         return error;
@@ -77,8 +71,8 @@ public class ApplicationExceptionHandler {
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
-    public ErrorDto handlerBadCredentials(BadCredentialsException badCredentialsException) {
-        ErrorDto errorDto = new ErrorDto();
+    public ErrorResponseDto handlerBadCredentials(BadCredentialsException badCredentialsException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(badCredentialsException.getMessage());
         errorDto.setStatusCode(401);
         return errorDto;
@@ -92,9 +86,9 @@ public class ApplicationExceptionHandler {
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ErrorDto handlerUsernameNotFound
+    public ErrorResponseDto handlerUsernameNotFound
             (UsernameNotFoundException usernameNotFoundException) {
-        ErrorDto errorDto = new ErrorDto();
+        ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(usernameNotFoundException.getMessage());
         errorDto.setStatusCode(404);
         return errorDto;
@@ -129,9 +123,9 @@ public class ApplicationExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ErrorDto handlerMessageNotReadableException
+    public ErrorResponseDto handlerMessageNotReadableException
     (HttpMessageNotReadableException httpMessageNotReadableException) {
-        ErrorDto errorDto = new ErrorDto();
+        ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(httpMessageNotReadableException.getMessage());
         errorDto.setStatusCode(400);
         return errorDto;
@@ -145,10 +139,10 @@ public class ApplicationExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ErrorDto handlerSQLIntegrityConstraintViolation
+    public ErrorResponseDto handlerSQLIntegrityConstraintViolation
             (SQLIntegrityConstraintViolationException
                      sqlIntegrityConstraintViolationException){
-        ErrorDto errorDto = new ErrorDto();
+        ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage
                 (sqlIntegrityConstraintViolationException.getMessage());
         errorDto.setStatusCode(400);
