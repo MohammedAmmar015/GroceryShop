@@ -23,17 +23,16 @@ import com.ideas2it.groceryshop.model.User;
  *
  * Address POJO is used Store and retrieve address data
  *
- * @version 1.0 31-10-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 31-10-2022
  */
 @Entity
-@Table(name = "Address")
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@NoArgsConstructor
+@Setter
+@Table(name = "Address")
 public class Address extends Audit{
 
     @Id
@@ -52,11 +51,11 @@ public class Address extends Audit{
     @Column(name = "land_mark", length = 30, nullable = false)
     private String landMark;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private Boolean isActive = Boolean.TRUE;
 
-    @Column(name = "is_default", nullable = false)
-    private Boolean isDefault = Boolean.TRUE;
+    @Column(name = "is_default", nullable = false, columnDefinition = "TINYINT")
+    private Boolean isDefault;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

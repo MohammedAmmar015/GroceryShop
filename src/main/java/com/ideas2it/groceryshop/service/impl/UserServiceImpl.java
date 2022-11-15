@@ -12,12 +12,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.groceryshop.configuration.CustomUserDetails;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
+import com.ideas2it.groceryshop.dto.UserUpdateDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.helper.AddressHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
+import com.ideas2it.groceryshop.mapper.RoleMapper;
 import com.ideas2it.groceryshop.mapper.UserMapper;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.Role;
@@ -31,10 +34,9 @@ import com.ideas2it.groceryshop.service.UserService;
  * It is used to have User business logics and
  * it is can contact to user repository
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -42,23 +44,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepo userRepo;
     private RoleRepo roleRepo;
     private UserHelper userHelper;
+    private AddressHelper addressHelper;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, UserHelper userHelper) {
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo,
+                           UserHelper userHelper, AddressHelper addressHelper) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.userHelper = userHelper;
+        this.addressHelper = addressHelper;
     }
 
     /**
      * it is used to create user
      *
      * @param userRequestDto it contains user details
-     * @return SuccessDto it contains success message
+     * @return SuccessResponseDto it contains success message
      * @throws Existed if username already exist
      */
     @Override
-    public SuccessDto addUser(UserRequestDto userRequestDto) throws Existed {
+    public SuccessResponseDto addUser(UserRequestDto userRequestDto) throws Existed {
         User user = UserMapper.userRequestDtoToUser(userRequestDto);
         if (userRepo.existsByUserName(userRequestDto.getUserName())) {
             throw new Existed("Username already exist");
@@ -71,7 +76,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setRole(role.get());
         }
         userRepo.save(user);
-        return new SuccessDto(200,"User created successfully");
+        return new SuccessResponseDto(200,"User created successfully");
     }
 
     /**
@@ -87,7 +92,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(user.isEmpty()) {
             throw new NotFound("User does not exist");
         }
-        UserResponseDto userResponseDto = UserMapper.userToUserResponseDto(user.get());
+        UserResponseDto userResponseDto =
+                UserMapper.userToUserResponseDto(user.get());
         return userResponseDto;
     }
 
@@ -115,10 +121,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public List<UserResponseDto> getUserByRole(String name) {
-        Optional<Role> role = roleRepo.findByIsActiveAndName(true, name);
         List<UserResponseDto> userResponseDtoList
                 = UserMapper.userToUserResponseDtoList
-                (userRepo.findByIsActiveAndRole(true, role.get()));
+                (userRepo.findByIsActiveAndRoleName(true,
+                        RoleMapper.roleDtoToRole(name).getName()));
         return userResponseDtoList;
     }
 
@@ -126,17 +132,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *  It is used to delete user by id
      *
      * @param id to be deleted
-     * @return SuccessDto it contains success message
+     * @return SuccessResponseDto it contains success message
      * @throws NotFound user does not exist
      */
     @Override
-    public SuccessDto deleteUserById(Integer id) throws NotFound {
+    public SuccessResponseDto deleteUserById(Integer id) throws NotFound {
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
-        if(user.get() == null) {
+        if(user.isEmpty()) {
             throw new NotFound("User not found");
         }
         userRepo.deactivateUser(id);
-        return new SuccessDto(200,"User Deleted successfully");
+        addressHelper.deleteAllAddressByUserId(id);
+        return new SuccessResponseDto(200,"User Deleted successfully");
     }
 
     /**
@@ -147,9 +154,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @throws UsernameNotFoundException it contains user not found
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
         Optional<User> user = userRepo.findByUserNameAndIsActive(username, true);
-        if (user == null) {
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("Username Not Found");
         }
         return new CustomUserDetails(user.get());
@@ -158,8 +166,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * This method is used to get user by mobile number
      *
-     * @param mobileNumber it contains user name or mobileNumber
-     * @return userName it is contains user name
+     * @param mobileNumber it contains username or mobileNumber
+     * @return userName it is contains username
      */
     @Override
     public String getUserByMobileNumber(String userNameOrMobileNumber){
@@ -175,5 +183,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userName = userNameOrMobileNumber;
         }
         return userName;
+    }
+
+    /**
+     * This method is used to get user object by name,
+     * update user object and store in database
+     *
+     * @param userUpdateDto it contains details to be updated
+     * @return SuccessResponseDto it contains success message
+     */
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) {
+        Optional<User> user = userRepo.findUserByUserNameAndIsActive
+                (userUpdateDto.getUserName(), Boolean.TRUE);
+        User updatedUser = UserMapper.userUpdateDtoToUser(userUpdateDto, user.get());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        updatedUser.setPassword(encoder.encode(userUpdateDto.getPassword()));
+        userRepo.save(updatedUser);
+        return new SuccessResponseDto(200,"User Updated successfully");
     }
 }

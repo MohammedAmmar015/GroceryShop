@@ -10,17 +10,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ideas2it.groceryshop.model.Role;
 import com.ideas2it.groceryshop.model.User;
 
 /**
  *
  * It is used to communicate User model with database
+ * for delete, update, create and view operations
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
@@ -46,10 +45,10 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * Find user by Role
      *
      * @param isActive active user
-     * @param role it is role of user
+     * @param name it is role name of user
      * @return users list of user
      */
-    List<User> findByIsActiveAndRole(Boolean isActive, Role role);
+    List<User> findByIsActiveAndRoleName(Boolean isActive, String name);
 
     /**
      * It is used to make user inactive
@@ -85,5 +84,14 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * @param isActive weather use is active or not
      * @return user it returns user object
      */
-    Optional<User> findUserByMobileNumberAndIsActive(Long mobileNumber , boolean isActive);
+    Optional<User> findUserByMobileNumberAndIsActive(Long mobileNumber , Boolean isActive);
+
+    /**
+     * This method is used to find user by userName
+     *
+     * @param userName it is name of user
+     * @param isActive weather use is active or not
+     * @return user it returns user object
+     */
+    Optional<User> findUserByUserNameAndIsActive(String userName, Boolean isActive);
 }

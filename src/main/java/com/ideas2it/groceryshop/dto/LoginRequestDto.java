@@ -13,10 +13,9 @@ import lombok.Setter;
  * LoginRequestDto class is used to set and
  * get user login credentials to login
  *
- * @version 1.0 11-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 11-11-2022
  */
 @Setter
 @Getter

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,12 +13,12 @@ import com.ideas2it.groceryshop.model.User;
 
 /**
  *
- * It is used to get UserName and Password
+ * It is used to get UserName and Password,
+ * it is implementation class of userDetails Interface
  *
- * @version 1.0 07-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 07-11-2022
  */
 @Getter
 public class CustomUserDetails implements UserDetails {

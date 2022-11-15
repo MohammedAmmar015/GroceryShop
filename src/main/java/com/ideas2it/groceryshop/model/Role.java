@@ -18,17 +18,16 @@ import com.ideas2it.groceryshop.audit.Audit;
  *
  * Role POJO is used Store and retrieve role data
  *
- * @version 1.0 31-10-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 31-10-2022
  */
 @Entity
-@Table(name = "Role")
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@NoArgsConstructor
+@Setter
+@Table(name = "Role")
 public class Role extends Audit{
 
     @Id
@@ -38,6 +37,6 @@ public class Role extends Audit{
     @Column(name = "name", length = 20, nullable = false)
     private String name;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private Boolean isActive = Boolean.TRUE;
 }

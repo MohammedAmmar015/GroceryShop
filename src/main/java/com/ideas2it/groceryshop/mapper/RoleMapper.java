@@ -1,16 +1,14 @@
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.RoleRequestDto;
 import com.ideas2it.groceryshop.model.Role;
 
 /**
  *
  * It is used to convert dto into model
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 public class RoleMapper {
 

@@ -11,8 +11,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.validation.UnexpectedTypeException;
 import java.io.IOException;
+import java.net.http.HttpClient;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -90,7 +97,7 @@ public class ApplicationExceptionHandler {
             (UsernameNotFoundException usernameNotFoundException) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(usernameNotFoundException.getMessage());
-        errorDto.setStatusCode(404);
+        errorDto.setStatusCode(400);
         return errorDto;
     }
 
@@ -146,6 +153,40 @@ public class ApplicationExceptionHandler {
         errorDto.setErrorMessage
                 (sqlIntegrityConstraintViolationException.getMessage());
         errorDto.setStatusCode(400);
+        return errorDto;
+    }
+
+    /**
+     * This method is used to handle exception thrown
+     * by spring boot and show error code and error message
+     *
+     * @param httpClientErrorException it contains error message
+     * @return errorDto it contains error message and error code
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ErrorResponseDto handlerHttpClientErrorException
+            (HttpClientErrorException httpClientErrorException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
+        errorDto.setErrorMessage(httpClientErrorException.getMessage());
+        errorDto.setStatusCode(401);
+        return errorDto;
+    }
+
+    /**
+     * This method is used to handle illegalArgumentException thrown
+     * while generating bearer token
+     *
+     * @param illegalArgumentException it contains error message
+     * @return errorDto it contains error message and error code
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResponseDto handleIllegalArgumentException
+            (IllegalArgumentException illegalArgumentException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
+        errorDto.setErrorMessage(illegalArgumentException.getMessage());
+        errorDto.setStatusCode(500);
         return errorDto;
     }
 }

@@ -14,11 +14,11 @@ import com.ideas2it.groceryshop.model.Role;
 /**
  *
  * It is used to communicate Address model with database
+ * for delete, update, create and view operations
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @Repository
 public interface RoleRepo extends JpaRepository<Role, Integer> {

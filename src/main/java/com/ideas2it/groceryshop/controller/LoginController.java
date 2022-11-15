@@ -19,29 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideas2it.groceryshop.dto.LoginRequestDto;
 import com.ideas2it.groceryshop.dto.LoginResponseDto;
 import com.ideas2it.groceryshop.service.UserService;
-import com.ideas2it.groceryshop.util.JwtUtil;
+import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
- * Jwt stands for JSON web token it is used to generate
- * token based on user details name and encoded password
+ * LoginController used to generate
+ * token based on userName and password
  *
- * @version 1.0 09-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
+ * @since 09-11-2022
  */
 @RestController
 @RequestMapping("api/v1/login")
-public class JwtController {
+public class LoginController {
 
     private DaoAuthenticationProvider authenticationProvider;
-    private JwtUtil jwtTokenUtil;
+    private SecurityUtil jwtTokenUtil;
     private UserDetailsService userDetailsService;
     private UserService userService;
 
     @Autowired
-    public JwtController(DaoAuthenticationProvider authenticationProvider,
-                         JwtUtil jwtTokenUtil, UserDetailsService userDetailsService,
-                         UserService userService) {
+    public LoginController(DaoAuthenticationProvider authenticationProvider,
+                           SecurityUtil jwtTokenUtil, UserDetailsService userDetailsService,
+                           UserService userService) {
         this.authenticationProvider = authenticationProvider;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

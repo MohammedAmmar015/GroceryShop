@@ -2,6 +2,7 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
 
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.AddressService;
 
@@ -32,7 +33,7 @@ import com.ideas2it.groceryshop.service.AddressService;
 public class AddressControllerTest {
 
     @InjectMocks
-    AddressController addressController = new AddressController();
+    AddressController addressController;
 
     @Mock
     AddressService addressService;
@@ -47,7 +48,8 @@ public class AddressControllerTest {
     public void createAddress() throws NotFound {
         AddressRequestDto addressRequestDto = new AddressRequestDto("Big street",
                 "triplicane", 600005, "near school");
-        when(addressService.addAddress(1, addressRequestDto)).thenReturn(new SuccessDto());
+        when(addressService.addAddress(1, addressRequestDto)).
+                thenReturn(new SuccessResponseDto());
     }
 
     /**
@@ -74,6 +76,6 @@ public class AddressControllerTest {
      */
     @Test
     public void deleteAddressById() throws NotFound {
-        when(addressService.deleteAddressById(1)).thenReturn(new SuccessDto());
+        when(addressService.deleteAddressById(1)).thenReturn(new SuccessResponseDto());
     }
 }

@@ -10,18 +10,19 @@ import lombok.Setter;
 
 /**
  *
- * It is used to set data and transfer to model object for creating.
- * It is used to create address for user
+ * It is used to set data and transfer to model object for
+ * updating address.
+ * It is used to update address for user
  *
  * @version 1.0
  * @author Rohit A P
- * @since 04-11-2022
+ * @since 15-11-2022
  */
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
 @Setter
-public class AddressRequestDto {
+public class AddressUpdateRequestDto {
 
     @NotNull
     @NotBlank(message = "Street Field cannot be empty")
@@ -37,4 +38,7 @@ public class AddressRequestDto {
     @NotNull
     @NotBlank(message = "landMark Field cannot be empty")
     private String landMark;
+
+    @NotNull(message = "default address option cannot be empty")
+    private Boolean isDefault;
 }

@@ -11,9 +11,9 @@ import com.ideas2it.groceryshop.model.User;
 /**
  *  This Class is used to help other service classes
  *
- * @version 19.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
+ * @since 07-11-2022
  */
 @Service
 public class UserHelper {
@@ -24,6 +24,7 @@ public class UserHelper {
     /**
      *  It is used to get user by id
      *
+     * @param id is user id
      * @return user
      */
     public Optional<User> findUserById(Integer id) {
