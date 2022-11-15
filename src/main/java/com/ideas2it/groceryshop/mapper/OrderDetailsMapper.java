@@ -8,16 +8,21 @@ import com.ideas2it.groceryshop.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * It is used to convert entity to dto and vice versa
+ * @author Dhanalakshmi.M
+ * @version 1.0
+ */
 public class OrderDetailsMapper {
 
     /**
      * This method is used to convert UserOrderRequestDto to OrderDetails Entity
-     * @param orderDetailsRequestDto
-     * @return OrderDetails
+     * @param orderDetailsRequest it contains quantity
+     * @return OrderDetails it contains quantity
      */
-    public static OrderDetails dtoToEntity(UserOrderRequestDto orderDetailsRequestDto) {
+    public static OrderDetails dtoToEntity(UserOrderRequestDto orderDetailsRequest) {
         OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setQuantity(orderDetailsRequestDto.getQuantity());
+        orderDetails.setQuantity(orderDetailsRequest.getQuantity());
         return orderDetails;
     }
 
@@ -27,15 +32,14 @@ public class OrderDetailsMapper {
      * @return OrderDetailsResponseDto
      */
     public static OrderDetailsResponseDto entityToDto(OrderDetails orderDetails){
-        OrderDetailsResponseDto orderDetailsResponseDto = new OrderDetailsResponseDto();
+        OrderDetailsResponseDto orderDetailsResponse = new OrderDetailsResponseDto();
         Product product = orderDetails.getProduct();
-        orderDetailsResponseDto.setQuantity(orderDetails.getQuantity());
-        orderDetailsResponseDto.setPrice(orderDetails.getPrice());
-//        orderDetailsResponseDto.setProductId(orderDetails.getProduct().getId());
-        orderDetailsResponseDto.setProductName(orderDetails.getProduct().getName());
-        orderDetailsResponseDto.setCategoryName(product.getCategory().getCategory().getName());
-        orderDetailsResponseDto.setSubCategoryName(product.getCategory().getName());
-        return orderDetailsResponseDto;
+        orderDetailsResponse.setQuantity(orderDetails.getQuantity());
+        orderDetailsResponse.setPrice(orderDetails.getPrice());
+        orderDetailsResponse.setProductName(orderDetails.getProduct().getName());
+        orderDetailsResponse.setCategoryName(product.getCategory().getCategory().getName());
+        orderDetailsResponse.setSubCategoryName(product.getCategory().getName());
+        return orderDetailsResponse;
     }
 
     /**
@@ -44,12 +48,12 @@ public class OrderDetailsMapper {
      * @return List<OrderDetailsResponseDto>
      */
     public static List<OrderDetailsResponseDto> getAllOrdersEntityToDto(List<OrderDetails> orderDescription) {
-        List<OrderDetailsResponseDto> orderDetailsDtos = new ArrayList<>();
+        List<OrderDetailsResponseDto> orderDetails = new ArrayList<>();
         for (OrderDetails orderDetail : orderDescription) {
             OrderDetailsResponseDto orderDetailsResponseDto = entityToDto(orderDetail);
-            orderDetailsDtos.add(orderDetailsResponseDto);
+            orderDetails.add(orderDetailsResponseDto);
         }
-        return orderDetailsDtos;
+        return orderDetails;
     }
 
 }

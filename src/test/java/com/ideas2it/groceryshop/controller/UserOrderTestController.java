@@ -1,6 +1,12 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.*;
+import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
+import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.AddressResponseDto;
+
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.impl.UserOrderServiceImpl;
@@ -25,102 +31,110 @@ public class UserOrderTestController {
     @InjectMocks
     UserOrderController userOrderController;
 
+    /**
+     * This method is used to test the placeOrder method
+     *
+     * @throws NotFound
+     */
     @Test
     public void placeOrder() throws NotFound {
-        SuccessDto successDto = new SuccessDto(202, "Order Placed Successfully");
+        SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202, "Order Placed Successfully");
         UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto(5,1,1,4);
-         when(userOrderService.placeOrder(userOrderRequestDto, 3)).thenReturn(successDto);
-         assertEquals(202, successDto.getStatusCode());
+         when(userOrderService.placeOrder(userOrderRequestDto, 3)).thenReturn(SuccessResponseDto);
+         assertEquals(202, SuccessResponseDto.getStatusCode());
     }
 
+    /**
+     * This method is used to test buyNow method
+     *
+     * @throws NotFound
+     */
     @Test
     public void buyNow() throws NotFound {
-        SuccessDto successDto = new SuccessDto(202, "Order Placed Successfully");
+        SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202, "Order Placed Successfully");
         UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto(5,1,1,4);
-        when(userOrderService.buyNow(userOrderRequestDto, 4)).thenReturn(successDto);
-        assertEquals(202, successDto.getStatusCode());
+        when(userOrderService.buyNow(userOrderRequestDto, 4)).thenReturn(SuccessResponseDto);
+        assertEquals(202, SuccessResponseDto.getStatusCode());
     }
 
+    /**
+     * This method is used test statusUpdate method
+     *
+     * @throws NotFound
+     */
     @Test
     public void statusUpdate() throws NotFound{
-        SuccessDto successDto = new SuccessDto(202, "Order Delivered Successfully");
-        when(userOrderService.statusUpdate(1)).thenReturn(successDto);
-        assertEquals(202, successDto.getStatusCode());
+        SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202, "Order Delivered Successfully");
+        when(userOrderService.statusUpdate(1)).thenReturn(SuccessResponseDto);
+        assertEquals(202, SuccessResponseDto.getStatusCode());
     }
 
-    @Test
-    public void viewAllActiveOrders() throws NotFound {
-        List<UserOrderResponseDto> userOrders = new ArrayList<>();
-        List<OrderDetailsResponseDto> orderDetailsResponseDtos =  new ArrayList<>();
-        orderDetailsResponseDtos.add(new OrderDetailsResponseDto("Fruits & Vegetables", "Fruits", "Apple", 2, 200f));
-        userOrders.add(new UserOrderResponseDto(1, new Date(2022/11/13),200f, orderDetailsResponseDtos,true));
-        when(userOrderService.viewAllActiveOrders()).thenReturn(userOrders);
-    }
-
-    @Test
-    public void viewAllCancelledOrders() throws NotFound {
-        List<UserOrderResponseDto> userOrders = new ArrayList<>();
-        List<OrderDetailsResponseDto> orderDetailsResponseDtos =  new ArrayList<>();
-        orderDetailsResponseDtos.add(new OrderDetailsResponseDto("Fruits & Vegetables", "Fruits", "Apple", 2, 200f));
-        userOrders.add(new UserOrderResponseDto(1, new Date(2022/11/13),200f, orderDetailsResponseDtos,false));
-        when(userOrderService.viewAllActiveOrders()).thenReturn(userOrders);
-    }
-
-    @Test
-    public void viewOrderById() throws NotFound {
-        List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
-        orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables", "Fruits", "Apple", 2, 200f));
-        UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto(1, new Date(2022/11/13), 230f, orderDetailsResponse, true);
-        Integer orderId = 1;
-        when(userOrderService.viewOrderById(orderId)).thenReturn(userOrderResponseDto);
-    }
+    /**
+     * This method is used to test viewOrderByUserId method
+     *
+     * @throws NotFound
+     */
     @Test
     public void viewOrderByUserId() throws NotFound {
         List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
         orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables", "Fruits", "Apple", 2, 200f));
         List<UserOrderResponseDto> userOrderResponse = new ArrayList<>();
-        userOrderResponse.add(new UserOrderResponseDto(1, new Date(2022/11/13), 230f, orderDetailsResponse, true));
+        userOrderResponse.add(new UserOrderResponseDto(1, new Date(2022/11/13), new Date(2022/11/15),230f, 5, orderDetailsResponse, true));
         Integer userId = 1;
         when(userOrderService.viewOrderByUserId(userId)).thenReturn(userOrderResponse);
         assertEquals(userId, userOrderResponse.get(0).getUserId());
     }
 
+    /**
+     * This method is used to test the cancelOrder method
+     *
+     * @throws NotFound
+     * @throws Existed
+     */
     @Test
     public void cancelOrder() throws NotFound, Existed {
         Integer orderId = 1;
-        SuccessDto successDto = new SuccessDto(202,"Order Cancelled Successfully");
-        when(userOrderService.cancelOrderById(orderId)).thenReturn(successDto);
-        assertEquals(202,successDto.getStatusCode());
+        SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202,"Order Cancelled Successfully");
+        when(userOrderService.cancelOrderById(orderId)).thenReturn(SuccessResponseDto);
+        assertEquals(202,SuccessResponseDto.getStatusCode());
     }
 
-    @Test
-    public void viewOrderByProductId() throws NotFound {
-        Integer productId = 1;
-        List<OrderDetailsResponseDto> orderDetailsResponseDto = new ArrayList<>();
-        orderDetailsResponseDto.add(new OrderDetailsResponseDto("Fruits & Vegetables","Fruits", "Apple", 1, 200f));
-        when(userOrderService.viewOrdersByProductId(productId)).thenReturn(orderDetailsResponseDto);
-    }
-
+    /**
+     * This method is used to test the getDeliveryOrder method
+     *
+     * @throws NotFound
+     */
     @Test
     public void getDeliveryOrder() throws NotFound {
         Integer userId = 1;
         AddressResponseDto addressResponseDto = new AddressResponseDto(1,"1st Street", "AnnaNagar", 600029, "VR Mall", new Date(2022/11/13), new Date(2022/11/13), 1, 1, true, true);
-        OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto(userId, 1, 200f, addressResponseDto, true);
+        OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto(userId, 1, 200f, 6, addressResponseDto, true);
         when(userOrderService.getDeliveryOrder(userId)).thenReturn(orderDeliveryResponseDto);
         assertEquals(userId, orderDeliveryResponseDto.getUserId());
     }
 
+    /**
+     * This method is used to test the viewOrderByDate method
+     *
+     * @throws NotFound
+     */
     @Test
     public void viewOrdersByDate() throws NotFound {
         Date date = new Date(2022/11/13);
         List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
         orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables", "Fruits", "Apple", 2, 200f));
         List<UserOrderResponseDto> userOrderResponse = new ArrayList<>();
-        userOrderResponse.add(new UserOrderResponseDto(1, new Date(2022/11/13), 230f, orderDetailsResponse, true));
+        userOrderResponse.add(new UserOrderResponseDto(1, new Date(2022/11/13), new Date(2022/11/15),230f, 5, orderDetailsResponse, true));
         when(userOrderService.viewOrdersByDate(date)).thenReturn(userOrderResponse);
         assertEquals(date, userOrderResponse.get(0).getOrderedDate());
     }
 
+    /**
+     * This method is used to test the viewOrdersByIdAndDate method
+     *
+     * @throws NotFound
+     * @throws ParseException
+     */
     @Test
     public void viewOrdersByIdAndDate() throws NotFound, ParseException {
         Integer userId = 1;
@@ -128,8 +142,9 @@ public class UserOrderTestController {
         List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
         orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables", "Fruits", "Apple", 2, 200f));
         List<UserOrderResponseDto> userOrderResponse = new ArrayList<>();
-        userOrderResponse.add(new UserOrderResponseDto(1, new Date(2022/11/13), 230f, orderDetailsResponse, true));
+        userOrderResponse.add(new UserOrderResponseDto(1, new Date(2022/11/13), new Date(2022/11/15),230f, 5, orderDetailsResponse, true));
         when(userOrderService.viewOrdersByIdAndDate(date, userId)).thenReturn(userOrderResponse);
         assertEquals(userId, userOrderResponse.get(0).getUserId());
     }
+    
 }

@@ -15,7 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+/**
+ * orderDetails class contains the order details
+ *
+ * @author Dhanalakshmi.M
+ * @version 1.0
+ */
 @Entity
 @Getter
 @Setter
@@ -27,10 +32,13 @@ public class OrderDetails extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
     @Column(name = "price", nullable = false)
     private Float price;
+
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
