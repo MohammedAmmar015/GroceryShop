@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.when;
 
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.dto.RoleUpdateRequestDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.RoleService;
@@ -43,7 +43,7 @@ public class RoleControllerTest {
     @Test
     public void createRole() throws Existed {
         RoleRequestDto roleRequestDto = new RoleRequestDto("admin");
-        when(roleService.addRole(roleRequestDto)).thenReturn(new SuccessDto());
+        when(roleService.addRole(roleRequestDto)).thenReturn(new SuccessResponseDto());
     }
 
     /**
@@ -53,9 +53,9 @@ public class RoleControllerTest {
      */
     @Test
     public void updateRole() throws NotFound {
-        UpdateRoleRequestDto updateRoleRequestDto =
-                new UpdateRoleRequestDto("ADMINI","ADMIN");
-        when(roleService.updateRole(updateRoleRequestDto)).thenReturn(new SuccessDto());
+        RoleUpdateRequestDto roleUpdateRequestDto =
+                new RoleUpdateRequestDto("ADMINI","ADMIN");
+        when(roleService.updateRole(roleUpdateRequestDto)).thenReturn(new SuccessResponseDto());
     }
 
     /**
@@ -66,6 +66,6 @@ public class RoleControllerTest {
     @Test
     public void deleteRole() throws NotFound {
         RoleRequestDto roleRequestDto = new RoleRequestDto("manager");
-        when(roleService.deleteRole(roleRequestDto)).thenReturn(new SuccessDto());
+        when(roleService.deleteRole(roleRequestDto)).thenReturn(new SuccessResponseDto());
     }
 }

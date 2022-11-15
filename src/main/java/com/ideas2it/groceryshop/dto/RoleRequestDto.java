@@ -12,10 +12,9 @@ import lombok.Setter;
  *
  * It is used to create role
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @AllArgsConstructor
 @Getter

@@ -4,20 +4,20 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import lombok.NoArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.AddressUpdateRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.AddressService;
 
@@ -26,13 +26,11 @@ import com.ideas2it.groceryshop.service.AddressService;
  * Address controller class is used to view,
  * delete and create address
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @RestController
-@NoArgsConstructor
 @RequestMapping("api/v1/addresses")
 public class AddressController {
 
@@ -51,9 +49,9 @@ public class AddressController {
      * @throws NotFound user not found
      */
     @PostMapping("/{userId}")
-    public SuccessDto createAddress(@PathVariable("userId") Integer id,
-                                    @Valid @RequestBody AddressRequestDto addressRequestDto)
-            throws NotFound {
+    public SuccessResponseDto createAddress(@PathVariable("userId") Integer id,
+                                    @Valid @RequestBody
+                                    AddressRequestDto addressRequestDto) throws NotFound {
         return addressService.addAddress(id, addressRequestDto);
     }
 
@@ -67,19 +65,35 @@ public class AddressController {
     @GetMapping("/{userId}")
     public List<AddressResponseDto> viewAddressesByUserId
     (@Valid @PathVariable("userId") Integer id) throws NotFound {
-        List<AddressResponseDto> addresses = addressService.getAddressesByUserId(id);
+        List<AddressResponseDto> addresses =
+                addressService.getAddressesByUserId(id);
         return addresses;
     }
 
     /**
-     * It used to delete address using address it
+     * It used to delete address using address id
      *
      * @param id it is id of address
      * @throws NotFound no address found
      */
     @DeleteMapping("/{addressId}")
-    public SuccessDto deleteAddressById(@Valid @PathVariable("addressId") Integer id)
-            throws NotFound {
+    public SuccessResponseDto deleteAddressById
+    (@Valid @PathVariable("addressId") Integer id) throws NotFound {
         return addressService.deleteAddressById(id);
+    }
+
+    /**
+     * This method is used to update user address by address id and
+     * update address request object
+     *
+     * @return SuccessResponseDto it contains success message
+     * @throws NotFound it contains address not found
+     */
+    @PutMapping("/{addressId}")
+    public SuccessResponseDto updateAddressByAddressId
+    (@RequestBody AddressUpdateRequestDto addressUpdateRequestDto,
+     @PathVariable("addressId") Integer id) throws NotFound {
+        return addressService.updateAddressByAddressId
+                (addressUpdateRequestDto, id);
     }
 }

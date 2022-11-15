@@ -11,8 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,17 +30,16 @@ import com.ideas2it.groceryshop.model.Role;
  *  User POJO is used to store and retrieve data common attributes of
  *  Admin, Customer and DeliveryMan object
  *
- * @version 1.0 31-10-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 31-10-2022
  */
 @Entity
-@Table(name = "User")
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@NoArgsConstructor
+@Setter
+@Table(name = "User")
 public class User {
 
     @Id
@@ -65,7 +64,7 @@ public class User {
     @Column(name = "email", length = 50, nullable = false, unique=true)
     private String email;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private Boolean isActive = Boolean.TRUE;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -88,11 +87,11 @@ public class User {
     @Column(name = "modified_by")
     private Integer modifiedBy;
 
-    @PrePersist
+    @PostPersist
     public void setCreator() {
         createdBy = id;
     }
-    @PreUpdate
+    @PostUpdate
     public void setModifier() {
         modifiedBy = id;
     }

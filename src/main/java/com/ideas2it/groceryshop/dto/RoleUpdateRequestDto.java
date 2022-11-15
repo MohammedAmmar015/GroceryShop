@@ -12,16 +12,15 @@ import lombok.Setter;
  *
  * It is used to update role name
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
 @Setter
-public class UpdateRoleRequestDto {
+public class RoleUpdateRequestDto {
 
     @NotNull
     @NotBlank(message = "Name to update Field cannot be empty")

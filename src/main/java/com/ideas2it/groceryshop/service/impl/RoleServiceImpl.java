@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.dto.RoleUpdateRequestDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.mapper.RoleMapper;
@@ -20,10 +20,9 @@ import com.ideas2it.groceryshop.service.RoleService;
  * It is implements class of RoleService
  * It is used to save, update and delete role from database
  *
- * @version 1.0 07-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 07-11-2022
  */
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -35,55 +34,55 @@ public class RoleServiceImpl implements RoleService {
      * It is used to create role
      *
      * @param roleRequestDto it contains role name
-     * @return SuccessDto it returns success message
+     * @return SuccessResponseDto it returns success message
      * @throws Existed role already exist
      */
     @Override
-    public SuccessDto addRole(RoleRequestDto roleRequestDto) throws Existed {
+    public SuccessResponseDto addRole(RoleRequestDto roleRequestDto) throws Existed {
         Role role = RoleMapper.roleDtoToRole(roleRequestDto.getName());
-        Boolean isAvailable = roleRepo.existsByNameAndIsActive( role.getName(),true);
-        System.out.print(isAvailable);
+        Boolean isAvailable = roleRepo.existsByNameAndIsActive( role.getName(),
+                true);
         if(isAvailable == true) {
             throw new Existed("Role already exist");
         }
         roleRepo.save(role);
-        return new SuccessDto(200,"Role created successfully");
+        return new SuccessResponseDto(200,"Role created successfully");
     }
 
     /**
      * it is used to update role
      *
-     * @param updateRoleRequestDto it contains role name and name to be updated
-     * @return SuccessDto it returns success message
+     * @param roleUpdateRequestDto it contains role name and name to be updated
+     * @return SuccessResponseDto it returns success message
      * @throws NotFound role not found
      */
     @Override
-    public SuccessDto updateRole(UpdateRoleRequestDto updateRoleRequestDto) throws NotFound {
+    public SuccessResponseDto updateRole(RoleUpdateRequestDto roleUpdateRequestDto) throws NotFound {
         Optional<Role> role = roleRepo.findByIsActiveAndName(true,
-                updateRoleRequestDto.getNameToUpdate());
+                RoleMapper.roleDtoToRole(roleUpdateRequestDto.getNameToUpdate()).getName());
         if(role.isEmpty()) {
             throw new NotFound("Role not found");
         }
-        roleRepo.updateRoleName(updateRoleRequestDto.getName(),
-                updateRoleRequestDto.getNameToUpdate());
-        return new SuccessDto(200,"Role updated successfully");
+        roleRepo.updateRoleName(RoleMapper.roleDtoToRole(roleUpdateRequestDto.getName()).getName(),
+                RoleMapper.roleDtoToRole(roleUpdateRequestDto.getNameToUpdate()).getName());
+        return new SuccessResponseDto(200,"Role updated successfully");
     }
 
     /**
      * It is uses to delete role
      *
      * @param roleRequestDto it is used to delete role
-     * @return SuccessDto it returns success message
+     * @return SuccessResponseDto it returns success message
      * @throws NotFound role not found
      */
     @Override
-    public SuccessDto deleteRole(RoleRequestDto roleRequestDto) throws NotFound {
+    public SuccessResponseDto deleteRole(RoleRequestDto roleRequestDto) throws NotFound {
         Optional<Role> role = roleRepo.findByIsActiveAndName
                 (true, roleRequestDto.getName());
         if(role.isEmpty()) {
             throw new NotFound("Role not found");
         }
         roleRepo.deactivateRole(roleRequestDto.getName());
-        return new SuccessDto(200,"Role deleted successfully");
+        return new SuccessResponseDto(200,"Role deleted successfully");
     }
 }
