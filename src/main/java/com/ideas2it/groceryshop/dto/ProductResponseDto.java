@@ -7,10 +7,11 @@ import lombok.Setter;
 
 /**
  * <p>
- *     This class is Product Response Dto and contains filtered fields.
+ *     This class is Product Response Dto model.
  * </p>
- * @author RUBAN 03/11/2022
+ * @author RUBAN
  * @version  1.0
+ * @since 03/11/22
  */
 @Getter
 @Setter
@@ -25,11 +26,11 @@ public class ProductResponseDto {
 
     private String unit;
 
+    private int perHead;
+
     private Boolean isStockAvailable;
 
     private String categoryName;
 
     private String subCategoryName;
-
-    private String image;
 }

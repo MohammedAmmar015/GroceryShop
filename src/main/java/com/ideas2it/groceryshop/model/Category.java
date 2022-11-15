@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 /**
  * <p>
- *   It is the Model object for category.
+ *   It is the Model pojo for category.
  * </p>
  *
  * @author Ruban
@@ -43,6 +43,6 @@ public class Category extends Audit {
     @JoinColumn(name = "parent_id")
     private Category category;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private boolean isActive = true;
 }

@@ -9,10 +9,12 @@ import java.util.List;
 
 /**
  * @author  RUBAN
- * @version  1.0 05/11/22
+ * @version  1.0
+ * @since 05/11/22
  */
 @Repository
 public interface CategoryRepo extends JpaRepository<Category, Integer> {
+
 
     @Query(value = "select * from category  where parent_id is not null and is_active = ?1",
             nativeQuery = true)
@@ -31,15 +33,15 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
             nativeQuery = true)
     List<Category> findByParentIdAndIsActive( Boolean status);
 
-    @Query(value = "select * from category where id = ?1 and parent_id = ?2 and is_active = ?3",
+    @Query(value = "select * from category where parent_id = ?1 and id = ?2 and is_active = ?3",
             nativeQuery = true)
-    Category findSubCategoryByParentIdAndIdAndIsActive(Integer subCategoryId, Integer id, Boolean status);
+    Category findSubCategoryByParentIdAndCategoryIdAndIsActive(Integer parentId, Integer categoryId, Boolean status);
 
     @Query(value = "select * from category where id = ?1 and parent_id = ?2 and is_active = ?3",
             nativeQuery = true)
     Category findByCategoryIdAndParentIdAndIsActive(Integer categoryId, Integer parentId, Boolean status);
 
-    boolean existsByName(String name);
+    Boolean existsByName(String name);
 }
 
 

@@ -7,19 +7,20 @@ import lombok.Setter;
 
 /**
  * <p>
- *     This class is Category Response Dto model.
+ *     This class is Sub Category Response Dto model.
  * </p>
- * @author RUBAN
+ * @author RUBAN 03/11/2022
  * @version  1.0
- * @since 03/11/22
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryResponseDto {
+public class SubCategoryResponseDto {
 
     private int id;
 
     private String name;
+
+    private String categoryName;
 }
