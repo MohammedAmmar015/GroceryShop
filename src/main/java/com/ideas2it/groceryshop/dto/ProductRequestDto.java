@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
  *     Product Request Dto class.
  * </p>
- * @author RUBAN 03/11/2022
+ * @author RUBAN
  * @version  1.0
+ * @since 03/11/22
  */
 @Getter
 @Setter
@@ -19,13 +21,14 @@ import lombok.Setter;
 public class ProductRequestDto {
     private int categoryId;
 
+    @NotBlank(message = "Name cannot be Empty")
     private String name;
 
     private float price;
 
     private String unit;
 
-    private int subCategoryId;
+    private int perHead;
 
-    private String image;
+    private int subCategoryId;
 }

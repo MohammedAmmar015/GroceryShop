@@ -2,10 +2,9 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
-import org.springframework.core.io.Resource;
 
 import java.util.List;
 
@@ -15,9 +14,7 @@ import java.util.List;
  */
 public interface ProductService {
 
-    Resource loadFileAsResource(String fileName);
-
-    SuccessDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound;
+    SuccessResponseDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound;
 
     List<ProductResponseDto> getProducts() throws NotFound;
 
@@ -25,9 +22,15 @@ public interface ProductService {
 
     List<ProductResponseDto> getProductsByLocationIdAndSubCategoryId(Integer locationId, Integer subCategoryId) throws NotFound;
 
-    SuccessDto deleteProductById(Integer id) throws NotFound;
+    SuccessResponseDto deleteProductById(Integer id) throws NotFound;
 
-    SuccessDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFound, Existed;
+    SuccessResponseDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFound, Existed;
 
     List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFound;
+
+    ProductResponseDto getProductById(Integer productId) throws NotFound;
+
+    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFound;
+
+    List<ProductResponseDto> getProductsBySubCategoryId( Integer subCategoryId) throws NotFound;
 }

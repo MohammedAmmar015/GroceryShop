@@ -3,6 +3,7 @@ package com.ideas2it.groceryshop.exceptionhandler;
 import com.ideas2it.groceryshop.dto.ErrorResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,6 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.UnexpectedTypeException;
-import java.io.IOException;
 import java.net.http.HttpClient;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
@@ -27,6 +30,9 @@ import java.util.Map;
 
 
 /**
+ * <p>
+ *     This class is to handle Exception.
+ * </p>
  * @author  RUBAN
  * @version  1.0
  * @since  05/11/22
@@ -35,15 +41,29 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
+    /**
+     * <p>
+     *     This method to handle not found exception
+     * </p>
+     * @param notFoundException It contains message
+     * @return ErrorDto
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFound.class)
     public ErrorResponseDto handleNotFoundException(NotFound notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(notFoundException.getMessage());
-        error.setStatusCode(404);
+        error.setStatusCode(202);
         return error;
     }
 
+    /**
+     * <p>
+     *     This method will handle IO Exception
+     * </p>
+     * @param ioException contains message
+     * @return ErrorDto
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseDto handleIOException(IOException ioException) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
@@ -52,12 +72,19 @@ public class ApplicationExceptionHandler {
         return errorDto;
     }
 
+    /**
+     * <p>
+     *     This method handles exist type exception
+     * </p>
+     * @param existed contains message
+     * @return ErrorDto
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Existed.class)
     public ErrorResponseDto handleAlReadyExistsException(Existed existed) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());
-        error.setStatusCode(404);
+        error.setStatusCode(202);
         return error;
     }
 

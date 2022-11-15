@@ -8,8 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * <p>
+ *     Thsi
+ * </p>
  * @author  RUBAN
- * @version  1.0 05/11/22
+ * @version  1.0
+ * @since 05/11/22
  */
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
@@ -19,20 +23,25 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
             nativeQuery = true)
     List<Product> findAllAndIsActive(Boolean status);
 
-    @Query("Select p from Product p LEFT JOIN p.storeLocations s " +
-            " where p.isActive = ?1 and s.id = 1")
-    List<Product> findByLocation( Boolean status);
 
+    @Query(value ="select * from product p join category sc on sc.id = p.sub_category_id join category c on c.id = sc.parent_id where c.id = ?1 and p.is_active = true", nativeQuery = true)
     List<Product> findByCategoryIdAndIsActive(Integer categoryId, Boolean status);
+
+    @Query(value ="select * from product p join category c on p.sub_category_id = c.id where c.id= ?1", nativeQuery = true)
+    List<Product> findBySubCategoryIdAndIsActive( Integer subCategoryId, Boolean status);
 
     @Query(value = "select * from product where sub_category_id = ?1", nativeQuery = true)
     List<Product> findBySubCategoryIDAndIsActive(Integer subCategoryId, Boolean status);
 
-    List<Product> findAllProductByCategoryIdAndIsActive(Integer id, Boolean status);
-
-    @Query(value  = "select * from product where sub_category_id = ?1 and is_active = ?2",
+    @Query(value ="select * from product p join category sc on sc.id = p.sub_category_id join category c on c.id = sc.parent_id where c.id = ?1 and p.is_active = true",
             nativeQuery = true)
-    List<Product> findAllProductBySubCategoryIdAndIsActive(Integer subCategoryId, Boolean status);
+    List<Product> findAllProductByCategory(Integer id);
+
+    @Query(value  = "select * from product where sub_category_id = ?1",
+            nativeQuery = true)
+    List<Product> findAllProductBySubCategoryId(Integer categoryId);
+
+    boolean existsByNameAndPriceAndUnit(String name, float price, String unit);
 
     boolean existsByName(String name);
 }

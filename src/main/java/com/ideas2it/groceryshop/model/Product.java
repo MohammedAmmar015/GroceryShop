@@ -1,11 +1,11 @@
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,11 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
  * <p>
- *   It is the Model object for Product.
+ *   It is the Model pojo for Product.
  * </p>
  *
  * @author Ruban
@@ -33,7 +34,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name ="product")
-//@Where(clause = "isActive='true")
 public class Product extends Audit {
 
     @Id
@@ -46,23 +46,16 @@ public class Product extends Audit {
     @Column(name ="price", nullable = false)
     private float price;
 
-    @Column(name = "is_active")
-    private boolean isActive = true;
+    @Column(name = "is_active", columnDefinition = "TINYINT")
+    private boolean isActive;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="sub_category_id")
     private Category category;
 
-    @Column(name ="unit")
+    @Column(name ="unit", length = 10)
     private String unit;
 
-    @Column(name = "image")
-    private String image;
-
-    @Column(name = "category_id")
-    private int categoryId;
-
-    @ManyToMany(mappedBy = "products")
-    private List<StoreLocation> storeLocations;
-
+    @Column(name = "per_Head")
+    private int perHead;
 }

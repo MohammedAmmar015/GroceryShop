@@ -2,6 +2,7 @@ package com.ideas2it.groceryshop.mapper;
 
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
+import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
 import com.ideas2it.groceryshop.model.Category;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Component;
  *      and model object to dto object.
  * </p>
  *
- * @author RUBAN 03/11/2022
+ * @author RUBAN
  * @version 1.0
+ * @since 03/11/22
  */
 @Component
 public class CategoryMapper {
@@ -35,12 +37,27 @@ public class CategoryMapper {
      *     This method will convert model object to dto object.
      * </p>
      * @param category model type object
-     * @return Dto object.
+     * @return CategoryResponseDto object.
      */
     public static CategoryResponseDto toCategoryDto(Category category) {
         CategoryResponseDto categoryResponseDto1 = new CategoryResponseDto();
         categoryResponseDto1.setId(category.getId());
         categoryResponseDto1.setName(category.getName());
         return categoryResponseDto1;
+    }
+
+    /**
+     * <p>
+     *     This method will convert model object to dto object.
+     * </p>
+     * @param category model type object
+     * @return SubCategoryResponseDto object.
+     */
+    public static SubCategoryResponseDto toSubCategoryDto(Category category) {
+        SubCategoryResponseDto subCategoryResponseDto1 = new SubCategoryResponseDto();
+        subCategoryResponseDto1.setId(category.getId());
+        subCategoryResponseDto1.setName(category.getName());
+        subCategoryResponseDto1.setCategoryName(category.getCategory().getName());
+        return subCategoryResponseDto1;
     }
 }

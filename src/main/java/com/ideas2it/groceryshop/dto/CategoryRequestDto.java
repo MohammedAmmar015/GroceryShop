@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
- *     Category Request Dto class.
+ *     Category Request Dto model.
  * </p>
- * @author RUBAN 03/11/2022
+ * @author RUBAN
  * @version  1.0
+ * @since 03/11/22
  */
 @Setter
 @Getter
@@ -18,8 +21,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CategoryRequestDto {
 
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
     private Integer parentId;
+
 }
 
