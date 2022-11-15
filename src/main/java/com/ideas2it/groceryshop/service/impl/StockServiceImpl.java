@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.StockRequestDto;
 import com.ideas2it.groceryshop.dto.StockResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.ProductHelper;
@@ -47,12 +47,12 @@ public class StockServiceImpl implements StockService {
      * @param stockRequest stock details to add
      * @param locationId   To add stock to particular location
      * @param productId    To add Stock to the Product
-     * @return successDto if stock created
+     * @return SuccessResponseDto if stock created
      * @throws NotFound if store or product not found
      * @throws Existed if stock already exist for given product and location
      */
     @Override
-    public SuccessDto addStock(StockRequestDto stockRequest,
+    public SuccessResponseDto addStock(StockRequestDto stockRequest,
                                Integer locationId,
                                Integer productId) throws NotFound, Existed {
         if (stockRepo.existsByStoreLocationIdAndProductId(locationId, productId)) {
@@ -71,7 +71,7 @@ public class StockServiceImpl implements StockService {
         stock.setProduct(product);
         stock.setUnit(product.getUnit().substring(2));
         stockRepo.save(stock);
-        return new SuccessDto(201,
+        return new SuccessResponseDto(201,
                 "Stock created successfully");
     }
 
@@ -128,11 +128,11 @@ public class StockServiceImpl implements StockService {
      * @param stockRequest - stock details to update
      * @param productId    - id to update stock for this product
      * @param locationId   - id to update stock on this location
-     * @return SuccessDto if Stock updated
+     * @return SuccessResponseDto if Stock updated
      * @throws NotFound if stock not found for product id and location id
      */
     @Override
-    public SuccessDto updateStockByProductAndLocation(StockRequestDto stockRequest,
+    public SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                       Integer productId,
                                                       Integer locationId) throws NotFound {
         Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
@@ -140,6 +140,6 @@ public class StockServiceImpl implements StockService {
         if (rowsAffected == 0) {
             throw new NotFound("Product or Location not found");
         }
-        return new SuccessDto(200, "Stock updated successfully");
+        return new SuccessResponseDto(200, "Stock updated successfully");
     }
 }

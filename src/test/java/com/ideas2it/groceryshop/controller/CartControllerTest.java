@@ -46,9 +46,9 @@ public class CartControllerTest {
         Integer userId = 1;
         CartDetailsRequestDto cartDetail = new CartDetailsRequestDto(1, 10);
         CartRequestDto cartRequestDto = new CartRequestDto(cartDetail);
-        SuccessDto successDto = new SuccessDto(201,"Cart created successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(201,"Cart created successfully");
         when(cartService.addCart(cartRequestDto, userId)).thenReturn(successDto);
-        SuccessDto result = cartController.createCart(cartRequestDto, userId);
+        SuccessResponseDto result = cartController.createCart(cartRequestDto, userId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
@@ -90,9 +90,9 @@ public class CartControllerTest {
         Integer userId = 1;
         CartDetailsRequestDto cartDetail = new CartDetailsRequestDto(1, 10);
         CartRequestDto cartRequestDto = new CartRequestDto(cartDetail);
-        SuccessDto successDto = new SuccessDto(200,"Cart Updated successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(200,"Cart Updated successfully");
         when(cartService.updateCartByUser(cartRequestDto, userId)).thenReturn(successDto);
-        SuccessDto result = cartController.updateCart(cartRequestDto, userId);
+        SuccessResponseDto result = cartController.updateCart(cartRequestDto, userId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
@@ -106,9 +106,9 @@ public class CartControllerTest {
     @Test
     public void testDeleteCart() throws NotFound {
         Integer userId = 1;
-        SuccessDto successDto = new SuccessDto(200,"Cart deleted successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(200,"Cart deleted successfully");
         when(cartService.removeCart(userId)).thenReturn(successDto);
-        SuccessDto result = cartController.deleteCart(userId);
+        SuccessResponseDto result = cartController.deleteCart(userId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
@@ -123,9 +123,9 @@ public class CartControllerTest {
     public void testDeleteProductFromCart() throws NotFound {
         Integer userId = 1;
         Integer productId = 1;
-        SuccessDto successDto = new SuccessDto(200,"Product from Cart deleted successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(200,"Product from Cart deleted successfully");
         when(cartService.removeProductFromCart(userId, productId)).thenReturn(successDto);
-        SuccessDto result = cartController.deleteProductFromCart(userId, productId);
+        SuccessResponseDto result = cartController.deleteProductFromCart(userId, productId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 }

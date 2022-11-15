@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.model.Cart;
@@ -25,11 +25,11 @@ public interface CartService {
      * </p>
      * @param cartRequest - product details to add into Cart
      * @param userId - user's id to add product to user's cart
-     * @return - successDto with Message and status Code
+     * @return - SuccessResponseDto with Message and status Code
      * @throws NotFound - if user or cart not found
      * @throws Existed if product already exist in cart
      */
-    SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed;
+    SuccessResponseDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed;
 
 
     /**
@@ -48,10 +48,10 @@ public interface CartService {
      * </p>
      *
      * @param userId - user's id to remove products from cart
-     * @return successDto if cart deleted successfully
+     * @return SuccessResponseDto if cart deleted successfully
      * @throws if cart not found
      */
-    SuccessDto removeCart(Integer userId) throws NotFound;
+    SuccessResponseDto removeCart(Integer userId) throws NotFound;
 
     /**
      * <p>
@@ -60,10 +60,10 @@ public interface CartService {
      *
      * @param userId    - user's id to remove product from cart
      * @param productId - product id to be removed
-     * @return successDto if product deleted from cart
+     * @return SuccessResponseDto if product deleted from cart
      * @throws NotFound if cart or product not found
      */
-    SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound;
+    SuccessResponseDto removeProductFromCart(Integer userId, Integer productId) throws NotFound;
 
     /**
      * <p>
@@ -72,10 +72,10 @@ public interface CartService {
      *
      * @param cartRequest - cart details to be Updated
      * @param userId      - user's id to update cart product
-     * @return successDto if cart updated successfully
+     * @return SuccessResponseDto if cart updated successfully
      * @throws NotFound if cart or product not found
      */
-    SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound;
+    SuccessResponseDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound;
 
     /**
      * <p>
