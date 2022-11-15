@@ -54,6 +54,12 @@ public class ApplicationExceptionHandler {
         return error;
     }
 
+    /**
+     * This method is used to handle ParseException
+     *
+     * @param parseException
+     * @return errorDto it contains error message and error status code
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ParseException.class)
     public ErrorResponseDto parseException(ParseException parseException) {

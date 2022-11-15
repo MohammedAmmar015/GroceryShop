@@ -3,21 +3,28 @@ package com.ideas2it.groceryshop.mapper;
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.model.OrderDelivery;
 
+/**
+ * It is used to convert entity to dto
+ * @author Dhanalakshmi.M
+ * @version 1.0
+ */
 public class OrderDeliveryMapper {
 
     /**
      * This method is used to convert orderDelivery Entity to OrderDeliveryResponseDto
-     * @param orderDelivery
-     * @return OrderDeliveryResponseDto
+     * @param orderDelivery it contains userId, orderId, shippingAddress, orderStatus, totalPrice, totalQuantity
+     * @return OrderDeliveryResponseDto userId, orderId, totalPrice, shippingAddress, orderStatus, totalQuantity
      */
     public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery) {
-        OrderDeliveryResponseDto orderDeliveryResponseDto = new OrderDeliveryResponseDto();
-        orderDeliveryResponseDto.setOrderId(orderDelivery.getUserOrder().getId());
-        orderDeliveryResponseDto.setShippingAddress(AddressMapper.addressResponseDto(orderDelivery.getShippingAddress()));
-        orderDeliveryResponseDto.setUserId(orderDelivery.getUserOrder().getUser().getId());
-        orderDeliveryResponseDto.setOrderStatus(orderDelivery.getUserOrder().getIsActive());
-        orderDeliveryResponseDto.setTotalPrice(orderDelivery.getUserOrder().getTotalPrice());
-        return orderDeliveryResponseDto;
+        OrderDeliveryResponseDto orderDeliveryResponse = new OrderDeliveryResponseDto();
+        orderDeliveryResponse.setOrderId(orderDelivery.getUserOrder().getId());
+        orderDeliveryResponse.setShippingAddress(AddressMapper.addressResponseDto
+                (orderDelivery.getShippingAddress()));
+        orderDeliveryResponse.setUserId(orderDelivery.getUserOrder().getUser().getId());
+        orderDeliveryResponse.setOrderStatus(orderDelivery.getUserOrder().getIsActive());
+        orderDeliveryResponse.setTotalPrice(orderDelivery.getUserOrder().getTotalPrice());
+        orderDeliveryResponse.setTotalQuantity(orderDelivery.getUserOrder().getTotalQuantity());
+        return orderDeliveryResponse;
     }
 
 }
