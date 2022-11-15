@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
@@ -37,11 +37,11 @@ public class StoreServiceImpl implements StoreService {
      *     based on storeRequestDTO
      * </p>
      * @param storeLocationRequest request DTO to be passed
-     * @return - SuccessDto if store created
+     * @return - SuccessResponseDto if store created
      * @throws Existed - if area or location already exists
      */
     @Override
-    public SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed {
+    public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws Existed {
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
         if (storeRepo.existsByAreaOrPinCode(area, pinCode)) {
@@ -49,7 +49,7 @@ public class StoreServiceImpl implements StoreService {
         }
         StoreLocation storeLocation = StoreLocationMapper.toStoreLocation(storeLocationRequest);
         storeRepo.save(storeLocation);
-        return new SuccessDto(201, "Store created successfully");
+        return new SuccessResponseDto(201, "Store created successfully");
     }
 
     /**
@@ -78,16 +78,16 @@ public class StoreServiceImpl implements StoreService {
      *     based on store location id
      * </p>
      * @param storeId store id has to be passed
-     * @return - SuccessDto if deleted
+     * @return - SuccessResponseDto if deleted
      * @throws NotFound - if store not found
      */
     @Override
-    public SuccessDto removeStore(Integer storeId) throws NotFound {
+    public SuccessResponseDto removeStore(Integer storeId) throws NotFound {
         Integer rowsAffected = storeRepo.deleteStoreById(storeId);
         if (rowsAffected == 0) {
             throw new NotFound("Store not found");
         }
-        return new SuccessDto(200, "Store deleted successfully");
+        return new SuccessResponseDto(200, "Store deleted successfully");
     }
 
     /**
@@ -121,7 +121,7 @@ public class StoreServiceImpl implements StoreService {
      * @throws Existed - if given new details already exist
      */
     @Override
-    public SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
+    public SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
                                   Integer storeId) throws NotFound, Existed {
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
@@ -135,6 +135,6 @@ public class StoreServiceImpl implements StoreService {
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
         storeRepo.save(storeLocation);
-        return new SuccessDto(200, "Store updated successfully");
+        return new SuccessResponseDto(200, "Store updated successfully");
     }
 }

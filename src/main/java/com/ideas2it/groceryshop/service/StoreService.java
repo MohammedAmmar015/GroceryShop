@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 
@@ -26,10 +26,10 @@ public interface StoreService {
      *     This method is used to add new Store Location
      * </p>
      * @param storeLocationRequest request DTO to be passed
-     * @return - SuccessDto if store created
+     * @return - SuccessResponseDto if store created
      * @throws Existed - if area or location already exists
      */
-    SuccessDto addStore(StoreRequestDto storeLocationRequest) throws Existed;
+    SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws Existed;
 
     /**
      * <p>
@@ -46,10 +46,10 @@ public interface StoreService {
      *     based on store location id
      * </p>
      * @param storeId store id has to be passed
-     * @return - SuccessDto if deleted
+     * @return - SuccessResponseDto if deleted
      * @throws NotFound - if store not found
      */
-    SuccessDto removeStore(Integer storeId) throws NotFound;
+    SuccessResponseDto removeStore(Integer storeId) throws NotFound;
 
 
     /**
@@ -74,6 +74,6 @@ public interface StoreService {
      * @throws NotFound - if store not found
      * @throws Existed - if given new details already exist
      */
-    SuccessDto modifyStore(StoreRequestDto storeLocationRequest,
+    SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
                            Integer storeId) throws NotFound, Existed;
 }

@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StoreService;
@@ -39,11 +39,11 @@ public class StoreLocationController {
      *     is used to Create Store Location
      * </p>
      * @param storeLocationRequest - store location details
-     * @return successDto if store created successfully
+     * @return SuccessResponseDto if store created successfully
      * @throws Existed if store details already exist
      */
     @PostMapping
-    public SuccessDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest) throws Existed {
+    public SuccessResponseDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest) throws Existed {
         return storeService.addStore(storeLocationRequest);
     }
 
@@ -54,12 +54,12 @@ public class StoreLocationController {
      * </p>
      * @param storeLocationRequest - store details to be updated
      * @param storeId - store id to update
-     * @return successDto if store updated successfully
+     * @return SuccessResponseDto if store updated successfully
      * @throws NotFound if store not found
      * @throws Existed if details to be updated is already exists
      */
     @PutMapping("/{storeId}")
-    public SuccessDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
+    public SuccessResponseDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
                                   @PathVariable Integer storeId) throws Existed, NotFound {
         return storeService.modifyStore(storeLocationRequest, storeId);
     }
@@ -97,11 +97,11 @@ public class StoreLocationController {
      *     is used to Delete Particular Store by store id
      * </p>
      * @param storeId id to delete store
-     * @return successDto if store deleted successfully
+     * @return SuccessResponseDto if store deleted successfully
      * @throws NotFound if store not found
      */
     @DeleteMapping("/{storeId}")
-    public SuccessDto deleteStore(@PathVariable Integer storeId) throws NotFound {
+    public SuccessResponseDto deleteStore(@PathVariable Integer storeId) throws NotFound {
         return storeService.removeStore(storeId);
     }
 

@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.StockRequestDto;
 import com.ideas2it.groceryshop.dto.StockResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 
@@ -28,11 +28,11 @@ public interface StockService {
      * @param stockRequest stock details to add
      * @param locationId   To add stock to particular location
      * @param productId    To add Stock to the Product
-     * @return successDto if stock created
+     * @return SuccessResponseDto if stock created
      * @throws NotFound if store or product not found
      * @throws Existed if stock already exist for given product and location
      */
-    SuccessDto addStock(StockRequestDto stockRequest, Integer locationId, Integer productId)
+    SuccessResponseDto addStock(StockRequestDto stockRequest, Integer locationId, Integer productId)
             throws NotFound, Existed;
 
     /**
@@ -68,10 +68,10 @@ public interface StockService {
      * @param stockRequest - stock details to update
      * @param productId    - id to update stock for this product
      * @param locationId   - id to update stock on this location
-     * @return SuccessDto if Stock updated
+     * @return SuccessResponseDto if Stock updated
      * @throws NotFound if stock not found for product id and location id
      */
-    SuccessDto updateStockByProductAndLocation(StockRequestDto stockRequest,
+    SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                Integer productId,
                                                Integer locationId)
             throws NotFound, NotFound;

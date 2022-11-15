@@ -3,7 +3,7 @@ package com.ideas2it.groceryshop.service.impl;
 import com.ideas2it.groceryshop.dto.CartDetailsRequestDto;
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.ProductHelper;
@@ -51,12 +51,12 @@ public class CartServiceImpl implements CartService {
      * </p>
      * @param cartRequest - product details to add into Cart
      * @param userId - user's id to add product to user's cart
-     * @return - successDto with Message and status Code
+     * @return - SuccessResponseDto with Message and status Code
      * @throws NotFound - if user or cart not found
      * @throws Existed if product already exist in cart
      */
     @Override
-    public SuccessDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed {
+    public SuccessResponseDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed {
         Optional<User> mayBeUser = userHelper.findUserById(userId);
         if (mayBeUser.isEmpty()) {
             throw new NotFound("User Not Found");
@@ -68,7 +68,7 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
         Cart cart = createCart(cartRequest, user, carts);
         cartRepo.save(cart);
-        return new SuccessDto(200, "Product added to cart successfully");
+        return new SuccessResponseDto(200, "Product added to cart successfully");
     }
 
     /**
@@ -190,18 +190,18 @@ public class CartServiceImpl implements CartService {
      * </p>
      *
      * @param userId - user's id to remove products from cart
-     * @return successDto if cart deleted successfully
+     * @return SuccessResponseDto if cart deleted successfully
      * @throws if cart not found
      */
     @Override
-    public SuccessDto removeCart(Integer userId) throws NotFound {
+    public SuccessResponseDto removeCart(Integer userId) throws NotFound {
         Optional<User> user = userHelper.findUserById(userId);
         if (user.isEmpty()) {
             throw new NotFound("User not found");
         }
         cartDetailsRepo.deleteCartDetailsByUserId(user.get().getId());
         cartRepo.deleteCartByUserId(user.get().getId());
-        return new SuccessDto(200, "Cart deleted successfully");
+        return new SuccessResponseDto(200, "Cart deleted successfully");
     }
 
     /**
@@ -213,11 +213,11 @@ public class CartServiceImpl implements CartService {
      *
      * @param userId    - user's id to remove product from cart
      * @param productId - product id to be removed
-     * @return successDto if product deleted from cart
+     * @return SuccessResponseDto if product deleted from cart
      * @throws NotFound if cart or product not found
      */
     @Override
-    public SuccessDto removeProductFromCart(Integer userId, Integer productId) throws NotFound {
+    public SuccessResponseDto removeProductFromCart(Integer userId, Integer productId) throws NotFound {
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
         if (carts.isEmpty()) {
             throw new NotFound("Cart not found");
@@ -226,7 +226,7 @@ public class CartServiceImpl implements CartService {
         if (!isDeleted) {
             throw new NotFound("Product not found");
         }
-        return new SuccessDto(200, "Product from cart deleted successfully");
+        return new SuccessResponseDto(200, "Product from cart deleted successfully");
     }
 
     /**
@@ -268,11 +268,11 @@ public class CartServiceImpl implements CartService {
      *
      * @param cartRequest - cart details to be Updated
      * @param userId      - user's id to update cart product
-     * @return successDto if cart updated successfully
+     * @return SuccessResponseDto if cart updated successfully
      * @throws NotFound if cart or product not found
      */
     @Override
-    public SuccessDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound {
+    public SuccessResponseDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound {
         Integer newQuantity = cartRequest.getCartDetails().getQuantity();
         Integer productId = cartRequest.getCartDetails().getProductId();
         Optional<Cart> cartContainer = cartRepo.findByUserIdAndIsActive(userId, true);
@@ -295,7 +295,7 @@ public class CartServiceImpl implements CartService {
         cart.setTotalPrice(calculateTotalPrice(cartDetails));
         cart.setCartDetails(cartDetails);
         cartRepo.save(cart);
-        return new SuccessDto(200, "Quantity updated successfully");
+        return new SuccessResponseDto(200, "Quantity updated successfully");
     }
 
     /**

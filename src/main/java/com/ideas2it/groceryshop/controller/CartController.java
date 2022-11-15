@@ -2,7 +2,7 @@ package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.CartService;
@@ -39,12 +39,12 @@ public class CartController {
      * </p>
      * @param cartRequest - Cart details to be added to cart
      * @param userId - user's id to add product to user's cart
-     * @return SuccessDto with Message and Status Code
+     * @return SuccessResponseDto with Message and Status Code
      * @throws NotFound if Cart or Product Not found
      * @throws Existed if product already exist in Cart
      */
     @PostMapping("/{userId}")
-    public SuccessDto createCart(@Valid @RequestBody CartRequestDto cartRequest,
+    public SuccessResponseDto createCart(@Valid @RequestBody CartRequestDto cartRequest,
                                  @PathVariable Integer userId) throws NotFound, Existed {
         return cartService.addCart(cartRequest, userId);
     }
@@ -72,11 +72,11 @@ public class CartController {
      * </p>
      * @param cartRequest - cart details to be updated
      * @param userId - user's id to update cart details
-     * @return successDto if cart updated successfully
+     * @return SuccessResponseDto if cart updated successfully
      * @throws NotFound if cart not found
      */
     @PutMapping("/{userId}")
-    public SuccessDto updateCart(@Valid @RequestBody CartRequestDto cartRequest,
+    public SuccessResponseDto updateCart(@Valid @RequestBody CartRequestDto cartRequest,
                                 @PathVariable Integer userId) throws NotFound {
         return cartService.updateCartByUser(cartRequest, userId);
     }
@@ -88,11 +88,11 @@ public class CartController {
      *     based on userId
      * </p>
      * @param userId user's id to delete all products from cart
-     * @return successDto if cart deleted successfully
+     * @return SuccessResponseDto if cart deleted successfully
      * @throws NotFound if Cart not found
      */
     @DeleteMapping("/{userId}")
-    public SuccessDto deleteCart(@PathVariable Integer userId) throws NotFound {
+    public SuccessResponseDto deleteCart(@PathVariable Integer userId) throws NotFound {
         return cartService.removeCart(userId);
     }
 
@@ -104,11 +104,11 @@ public class CartController {
      * </p>
      * @param userId - user's id
      * @param productId - product id to delete from cart
-     * @return successDto if product from cart deleted successfully
+     * @return SuccessResponseDto if product from cart deleted successfully
      * @throws NotFound if cart not found
      */
     @DeleteMapping("/{userId}/{productId}")
-    public SuccessDto deleteProductFromCart(@PathVariable Integer userId,
+    public SuccessResponseDto deleteProductFromCart(@PathVariable Integer userId,
                                             @PathVariable Integer productId) throws NotFound {
         return cartService.removeProductFromCart(userId,productId);
     }
