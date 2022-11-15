@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.AddressUpdateRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFound;
 
 /**
  *
- * It is interface of AddressService implements
+ * It is interface of AddressService
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 public interface AddressService {
 
@@ -25,7 +25,8 @@ public interface AddressService {
      * @param addressRequestDto it contains address details
      * @throws NotFound user not found
      */
-    SuccessDto addAddress(Integer id, AddressRequestDto addressRequestDto) throws NotFound;
+    SuccessResponseDto addAddress(Integer id, AddressRequestDto addressRequestDto)
+            throws NotFound;
 
     /**
      *  It is used to retrieve list of user address by user id;
@@ -42,5 +43,16 @@ public interface AddressService {
      * @param id it is id to be deleted
      * @throws NotFound no address found exception
      */
-    SuccessDto deleteAddressById(Integer id) throws NotFound;
+    SuccessResponseDto deleteAddressById(Integer id) throws NotFound;
+
+    /**
+     * This method is used to update address by address id
+     *
+     * @param addressUpdateRequestDto it contains updated address details
+     * @param id it is address of id
+     * @return Success it contains success message
+     * @throws NotFound it contains address not found
+     */
+    SuccessResponseDto updateAddressByAddressId
+    (AddressUpdateRequestDto addressUpdateRequestDto, Integer id) throws NotFound;
 }

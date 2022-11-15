@@ -1,23 +1,21 @@
 package com.ideas2it.groceryshop.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.ideas2it.groceryshop.dto.LoginRequestDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
+import com.ideas2it.groceryshop.dto.UserUpdateDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 
 /**
  *
- * It is interface of UserService implements
+ * It is interface of UserService
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 public interface UserService {
 
@@ -25,10 +23,10 @@ public interface UserService {
      * it is used to create user
      *
      * @param userRequestDto it contains user details
-     * @return SuccessDto returns success message
+     * @return SuccessResponseDto returns success message
      * @throws Existed if username already exist
      */
-    SuccessDto addUser(UserRequestDto userRequestDto) throws Existed;
+    SuccessResponseDto addUser(UserRequestDto userRequestDto) throws Existed;
 
     /**
      * It is used to get user by id
@@ -59,10 +57,10 @@ public interface UserService {
      *  It is used to delete user by id
      *
      * @param id to be deleted
-     * @return successDto returns success message
+     * @return SuccessResponseDto returns success message
      * @throws NotFound user does not exist
      */
-    SuccessDto deleteUserById(Integer id) throws NotFound;
+    SuccessResponseDto deleteUserById(Integer id) throws NotFound;
 
     /**
      * This method is used to get user by mobile number
@@ -71,4 +69,13 @@ public interface UserService {
      * @return userName it is contains user name
      */
     String getUserByMobileNumber(String mobileNumber);
+
+    /**
+     * This method is used to get user object by name,
+     * update user object and store in database
+     *
+     * @param userUpdateDto it contains details to be updated
+     * @return SuccessResponseDto it contains success message
+     */
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto);
 }

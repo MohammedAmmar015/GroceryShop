@@ -5,16 +5,16 @@ import java.util.List;
 
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
+import com.ideas2it.groceryshop.dto.AddressUpdateRequestDto;
 import com.ideas2it.groceryshop.model.Address;
 
 /**
  *
  * It is used to convert dto into model and vice versa
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 public class AddressMapper {
 
@@ -46,8 +46,8 @@ public class AddressMapper {
         addressResponseDto.setStreet(address.getStreet());
         addressResponseDto.setArea(address.getArea());
         addressResponseDto.setPinCode(address.getPinCode());
-        addressResponseDto.setLandMark(addressResponseDto.getLandMark());
-        addressResponseDto.setCreatedAt(addressResponseDto.getCreatedAt());
+        addressResponseDto.setLandMark(address.getLandMark());
+        addressResponseDto.setCreatedAt(address.getCreatedAt());
         addressResponseDto.setModifiedAt(address.getModifiedAt());
         addressResponseDto.setModifiedBy(address.getModifiedBy());
         addressResponseDto.setIsActive(address.getIsActive());

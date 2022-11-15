@@ -5,16 +5,16 @@ import java.util.List;
 
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
+import com.ideas2it.groceryshop.dto.UserUpdateDto;
 import com.ideas2it.groceryshop.model.User;
 
 /**
  *
  * It is used to convert dto into model and vice versa
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 public class UserMapper {
 
@@ -25,6 +25,7 @@ public class UserMapper {
      * @return user it returns user object
      */
     public static User userRequestDtoToUser(UserRequestDto userRequestDto) {
+
         User user = new User();
         user.setUserName(userRequestDto.getUserName());
         user.setFirstName(userRequestDto.getFirstName());
@@ -33,7 +34,6 @@ public class UserMapper {
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(userRequestDto.getPassword());
         user.setRole(RoleMapper.roleDtoToRole(userRequestDto.getRole()));
-        System.out.print(user);
         return user;
     }
 
@@ -44,7 +44,7 @@ public class UserMapper {
      * @return userResponseDto it returns user details in object
      */
     public static UserResponseDto userToUserResponseDto(User user) {
-        UserResponseDto userResponseDto = null;
+        UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setId(user.getId());
         userResponseDto.setUserName(user.getUserName());
         userResponseDto.setFirstName(user.getFirstName());
@@ -55,9 +55,25 @@ public class UserMapper {
         userResponseDto.setModifiedAt(user.getModifiedAt());
         userResponseDto.setCreatedBy(user.getCreatedBy());
         userResponseDto.setModifiedBy(user.getModifiedBy());
-        userResponseDto.setRole(user.getRole());
+        userResponseDto.setRole(user.getRole().getName());
         userResponseDto.setIsActive(user.getIsActive());
         return userResponseDto;
+    }
+
+    /**
+     * This method is used to convert UserUpdateDto to user object
+     *
+     * @param userUpdateDto it contains details to update
+     * @param user it contains old details
+     * @return user it contains updated deatails
+     */
+    public static User userUpdateDtoToUser(UserUpdateDto userUpdateDto,
+                                           User user) {
+        user.setFirstName(userUpdateDto.getFirstName());
+        user.setLastName(userUpdateDto.getLastName());
+        user.setPassword(userUpdateDto.getPassword());
+        user.setMobileNumber(user.getMobileNumber());
+        return user;
     }
 
     /**

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
-import com.ideas2it.groceryshop.dto.UpdateRoleRequestDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.dto.RoleUpdateRequestDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.RoleService;
@@ -22,10 +22,9 @@ import com.ideas2it.groceryshop.service.RoleService;
  * Role controller class is used to do create,
  * update and delete role.
  *
- * @version 1.0 14-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 11-11-2022
  */
 @RestController
 @RequestMapping("api/v1/roles")
@@ -38,10 +37,10 @@ public class RoleController {
      * It is used to create role
      *
      * @param roleRequestDto it is contains name of role
-     * @return SuccessDto it returns success message
+     * @return SuccessResponseDto it returns success message
      */
     @PostMapping
-    public SuccessDto createRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
+    public SuccessResponseDto createRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
             throws Existed {
         return roleService.addRole(roleRequestDto);
     }
@@ -49,24 +48,24 @@ public class RoleController {
     /**
      * It is used to update name of existing role
      *
-     * @param updateRoleRequestDto it contains old name of role to
+     * @param roleUpdateRequestDto it contains old name of role to
      *                            be updated and name of role
-     * @return SuccessDto it returns success message
+     * @return SuccessResponseDto it returns success message
      */
     @PutMapping
-    public SuccessDto updateRole
-    (@Valid @RequestBody UpdateRoleRequestDto updateRoleRequestDto) throws NotFound {
-        return roleService.updateRole(updateRoleRequestDto);
+    public SuccessResponseDto updateRole
+    (@Valid @RequestBody RoleUpdateRequestDto roleUpdateRequestDto) throws NotFound {
+        return roleService.updateRole(roleUpdateRequestDto);
     }
 
     /**
      * It is used to delete role by name
      *
      * @param roleRequestDto it contains role name
-     * @return SuccessDto it returns success message
+     * @return SuccessResponseDto it returns success message
      */
     @DeleteMapping
-    public SuccessDto deleteRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
+    public SuccessResponseDto deleteRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
             throws NotFound {
         return roleService.deleteRole(roleRequestDto);
     }

@@ -1,6 +1,6 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
@@ -46,10 +46,10 @@ public class UserControllerTest {
         UserRequestDto userRequestDto = new UserRequestDto("Rohit",
                 "Rohit", "AP", 9876543211L,
                 "rohit@gmail.com", "123456", "ADMIN");
-         SuccessDto successDto = new  SuccessDto();
-         successDto.setStatusCode(200);
-         successDto.setMessage("User created successfully");
-         when(userService.addUser(userRequestDto)).thenReturn(successDto);
+         SuccessResponseDto SuccessResponseDto = new  SuccessResponseDto();
+         SuccessResponseDto.setStatusCode(200);
+         SuccessResponseDto.setMessage("User created successfully");
+         when(userService.addUser(userRequestDto)).thenReturn(SuccessResponseDto);
     }
 
     /**
@@ -62,9 +62,9 @@ public class UserControllerTest {
         Role role = new Role(1,"admin", true);
         UserResponseDto userResponseDto = new UserResponseDto(1,
                 "Rohit", "Rohit", "AP",
-                9876543211L, "rohit@gmail.com", null,
-                null, 1, 1,true,  role,
-                null);
+                9876543211L, "rohit@gmail.com",
+                null, null, null,
+                null, true, "admin");
         when(userService.getUserById(1)).thenReturn(userResponseDto);
         Assertions.assertEquals(1, userResponseDto.getId());
     }
@@ -77,11 +77,11 @@ public class UserControllerTest {
     @Test
     public void viewAllUser() throws NotFound {
         List<UserResponseDto> userResponseDtoList = new ArrayList<UserResponseDto>();
-        Role role = new Role(1,"admin", true);
         UserResponseDto userResponseDto = new UserResponseDto(1,
-                "Rohit", "Rohit", "AP", 9876543211L,
-                "rohit@gmail.com", null, null,
-                1, 1,true,  role, null);
+                "Rohit", "Rohit", "AP",
+                9876543211L, "rohit@gmail.com",
+                null, null, null,
+                null, true, "admin");
         userResponseDtoList.add(userResponseDto);
         when(userService.getAllUser()).thenReturn(userResponseDtoList);
         Assertions.assertEquals(1, userResponseDtoList.size());
@@ -95,11 +95,11 @@ public class UserControllerTest {
     @Test
     public void viewUsersByRole() {
         List<UserResponseDto> userResponseDtoList = new ArrayList<UserResponseDto>();
-        Role role = new Role(1,"admin", true);
         UserResponseDto userResponseDto = new UserResponseDto(1,
-                "Rohit", "Rohit", "AP", 9876543211L,
-                "rohit@gmail.com", null, null,
-                1, 1,true,  role, null);
+                "Rohit", "Rohit", "AP",
+                9876543211L, "rohit@gmail.com",
+                null, null, null,
+                null, true, "admin");
         userResponseDtoList.add(userResponseDto);
         when(userService.getUserByRole("admin")).thenReturn(userResponseDtoList);
         Assertions.assertEquals(1, userResponseDtoList.size());
@@ -112,9 +112,9 @@ public class UserControllerTest {
      */
     @Test
     public void deleteUserById() throws NotFound {
-        SuccessDto successDto = new  SuccessDto();
-        successDto.setStatusCode(200);
-        successDto.setMessage("User deleted successfully");
-        when(userService.deleteUserById(1)).thenReturn(successDto);
+        SuccessResponseDto SuccessResponseDto = new  SuccessResponseDto();
+        SuccessResponseDto.setStatusCode(200);
+        SuccessResponseDto.setMessage("User deleted successfully");
+        when(userService.deleteUserById(1)).thenReturn(SuccessResponseDto);
     }
 }

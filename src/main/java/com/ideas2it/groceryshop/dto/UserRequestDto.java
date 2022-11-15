@@ -13,10 +13,9 @@ import lombok.Setter;
  * It is used to set data and store in model object.
  * It is used to create user profile.
  *
- * @version 1.0 04-11-2022
- *
+ * @version 1.0
  * @author Rohit A P
- *
+ * @since 04-11-2022
  */
 @AllArgsConstructor
 @Getter
