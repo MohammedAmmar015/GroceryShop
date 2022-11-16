@@ -77,7 +77,7 @@ public class LoginController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
         logger.debug("Logged in successfully");
-        return new LoginResponseDto(token, "Logged in successfully");
+        return new LoginResponseDto(token, "Logged in successfully", 201);
     }
 
     /**

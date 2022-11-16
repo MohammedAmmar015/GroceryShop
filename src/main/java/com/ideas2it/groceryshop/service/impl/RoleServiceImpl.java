@@ -62,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
         }
         roleRepo.save(role);
         logger.debug("Role created successfully");
-        return new SuccessResponseDto(200,"Role created successfully");
+        return new SuccessResponseDto(201,"Role created successfully");
     }
 
     /**
