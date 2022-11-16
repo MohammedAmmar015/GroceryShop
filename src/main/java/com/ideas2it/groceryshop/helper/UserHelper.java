@@ -7,7 +7,10 @@ package com.ideas2it.groceryshop.helper;
 
 import java.util.Optional;
 
+import com.ideas2it.groceryshop.configuration.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.groceryshop.repository.UserRepo;
@@ -35,5 +38,17 @@ public class UserHelper {
     public Optional<User> findUserById(Integer id) {
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
         return user;
+    }
+
+    /**
+     *
+     *
+     *
+     * @return
+     */
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+        return user.getUser();
     }
 }
