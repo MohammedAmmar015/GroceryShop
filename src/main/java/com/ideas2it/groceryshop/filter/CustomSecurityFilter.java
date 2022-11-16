@@ -29,7 +29,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author Rohit A P
  */
 @Component
-public class CustomSecurityFilter extends OncePerRequestFilter {
+public class
+CustomSecurityFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     private SecurityUtil securityUtil;
 

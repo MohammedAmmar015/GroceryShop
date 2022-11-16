@@ -34,9 +34,9 @@ import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    private CustomSecurityFilter customSecurityFilter;
+    private final CustomSecurityFilter customSecurityFilter;
 
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService,
@@ -64,7 +64,8 @@ public class SecurityConfig {
      * @throws AuthenticationException it contains invalid credentials message
      */
     @Bean
-    public DaoAuthenticationProvider authenticationManagerBean() throws AuthenticationException {
+    public DaoAuthenticationProvider authenticationManagerBean()
+            throws AuthenticationException {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(getPasswordEncoder());
