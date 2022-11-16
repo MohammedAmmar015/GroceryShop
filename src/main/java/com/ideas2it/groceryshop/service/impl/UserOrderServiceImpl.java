@@ -6,45 +6,27 @@
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.*;
-import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
-
 import com.ideas2it.groceryshop.helper.CartHelper;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.helper.StockHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
-
 import com.ideas2it.groceryshop.mapper.OrderDeliveryMapper;
 import com.ideas2it.groceryshop.mapper.OrderDetailsMapper;
 import com.ideas2it.groceryshop.mapper.UserOrderMapper;
-
-import com.ideas2it.groceryshop.model.UserOrder;
-import com.ideas2it.groceryshop.model.OrderDelivery;
-import com.ideas2it.groceryshop.model.OrderDetails;
-import com.ideas2it.groceryshop.model.Cart;
-import com.ideas2it.groceryshop.model.CartDetails;
-import com.ideas2it.groceryshop.model.Product;
-import com.ideas2it.groceryshop.model.User;
-import com.ideas2it.groceryshop.model.Address;
-
+import com.ideas2it.groceryshop.model.*;
 import com.ideas2it.groceryshop.repository.AddressRepo;
 import com.ideas2it.groceryshop.repository.OrderDeliveryRepo;
 import com.ideas2it.groceryshop.repository.UserOrderRepo;
-
 import com.ideas2it.groceryshop.service.UserOrderService;
-
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Calendar;
+import java.util.*;
 
 
 /**
@@ -66,8 +48,7 @@ public class UserOrderServiceImpl implements UserOrderService {
     private final ProductHelper productHelper;
     private final UserHelper userHelper;
     private final StockHelper stockHelper;
-
-    private final Logger logger;
+    private final Logger logger = LogManager.getLogger(UserOrderService.class);
 
     /**
      * <p>

@@ -9,6 +9,7 @@ import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.UserOrderService;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +41,7 @@ import java.util.List;
 @RequestMapping("/api/v1/orders")
 public class UserOrderController {
     private final UserOrderService userOrderService;
-
-    private final Logger logger;
+    private final Logger logger = LogManager.getLogger(UserOrderController.class);
 
     /**
      * <p>
