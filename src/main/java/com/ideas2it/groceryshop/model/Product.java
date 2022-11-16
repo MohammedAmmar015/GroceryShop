@@ -1,6 +1,12 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +27,8 @@ import javax.persistence.Table;
  * </p>
  *
  * @author Ruban
- * @version 1.0  01/11/22
+ * @version 1.0
+ * @since 03/11/22
  *
  **/
 @Entity
@@ -43,7 +50,7 @@ public class Product extends Audit {
     private float price;
 
     @Column(name = "is_active", columnDefinition = "TINYINT")
-    private boolean isActive;
+    private boolean isActive = true;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="sub_category_id")
