@@ -1,8 +1,15 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +38,13 @@ public class AddressServiceImpl implements AddressService {
 
     private AddressRepo addressRepo;
     private UserHelper userHelper;
+    private Logger logger;
 
     @Autowired
     public AddressServiceImpl(AddressRepo addressRepo, UserHelper userHelper) {
         this.addressRepo = addressRepo;
         this.userHelper = userHelper;
+        this.logger = LogManager.getLogger(AddressServiceImpl.class);
     }
 
     /**
@@ -49,8 +58,10 @@ public class AddressServiceImpl implements AddressService {
     public SuccessResponseDto addAddress(Integer id,
                                  AddressRequestDto addressRequestDto)
             throws NotFound {
+        logger.debug("Entered addAddress method");
         Optional<User> user = userHelper.findUserById(id);
         if(user.isEmpty()) {
+            logger.debug("User not found");
             throw new NotFound("User not found");
         }
         Address address =
@@ -64,6 +75,7 @@ public class AddressServiceImpl implements AddressService {
         }
         address.setUser(user.get());
         addressRepo.save(address);
+        logger.debug("Address added successfully");
         return new SuccessResponseDto(200,"Address added successfully");
     }
 
@@ -78,14 +90,17 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<AddressResponseDto> getAddressesByUserId(Integer id)
             throws NotFound {
-       List<Address> address =
+        logger.debug("Entered getAddressesByUserId method");
+        List<Address> address =
                addressRepo.findByIsActiveAndUserId(true, id);
         if(address.isEmpty()){
+            logger.debug("Address not found");
             throw new NotFound("Address not found");
         }
-       List<AddressResponseDto> addressResponseDtoList =
+        List<AddressResponseDto> addressResponseDtoList =
                AddressMapper.addressResponseDtoList(address);
-       return addressResponseDtoList;
+        logger.debug("Got list of users");
+        return addressResponseDtoList;
     }
 
     /**
@@ -97,15 +112,17 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public SuccessResponseDto deleteAddressById(Integer id) throws NotFound {
+        logger.debug("Entered deleteAddressById method");
         SuccessResponseDto SuccessResponseDto;
         Optional<Address> address = addressRepo.findByIsActiveAndId(true, id);
         if(address.isEmpty()) {
+            logger.debug("Address not found");
             throw new NotFound("Address not found");
         }
         addressRepo.deactivateAddress(id);
-        SuccessResponseDto = new SuccessResponseDto(200,"Address " +
-                    " deleted successfully");
-        return SuccessResponseDto;
+        logger.debug("Address deleted successfully");
+        return new SuccessResponseDto(200,"Address " +
+                " deleted successfully");
     }
 
     /**
@@ -119,12 +136,19 @@ public class AddressServiceImpl implements AddressService {
     public SuccessResponseDto updateAddressByAddressId
             (AddressUpdateRequestDto addressUpdateRequestDto,
              Integer id) throws NotFound{
+        logger.debug("Entered updateAddressByAddressId method");
+        Optional<Address> address = addressRepo.findByIsActiveAndId(true, id);
+        if(address.isEmpty()) {
+            logger.debug("Address not found");
+            throw new NotFound("Address not found");
+        }
         addressRepo.updateAddressByAddressId(id,
                 addressUpdateRequestDto.getStreet(),
                 addressUpdateRequestDto.getArea(),
                 addressUpdateRequestDto.getPinCode(),
                 addressUpdateRequestDto.getLandMark(),
                 addressUpdateRequestDto.getIsDefault());
+        logger.debug("Address Updated successfully");
         return new SuccessResponseDto(200,"Address updated successfully");
     }
 }

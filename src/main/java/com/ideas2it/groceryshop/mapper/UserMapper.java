@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.mapper;
 
 import java.util.ArrayList;
@@ -65,14 +70,14 @@ public class UserMapper {
      *
      * @param userUpdateDto it contains details to update
      * @param user it contains old details
-     * @return user it contains updated deatails
+     * @return user it contains updated details
      */
     public static User userUpdateDtoToUser(UserUpdateDto userUpdateDto,
                                            User user) {
         user.setFirstName(userUpdateDto.getFirstName());
         user.setLastName(userUpdateDto.getLastName());
         user.setPassword(userUpdateDto.getPassword());
-        user.setMobileNumber(user.getMobileNumber());
+        user.setEmail(userUpdateDto.getEmail());
         return user;
     }
 
