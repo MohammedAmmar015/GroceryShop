@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.helper;
 
 import com.ideas2it.groceryshop.model.Product;
@@ -7,7 +12,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author  RUBAN
- * @version  1.0 05/11/22
+ * @version  1.0
+ * @since 05/11/22
  */
 @Service
 public class ProductHelper {
