@@ -7,6 +7,7 @@ package com.ideas2it.groceryshop.service.impl;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,9 @@ public class RoleServiceImpl implements RoleService {
     private Logger logger;
 
     @Autowired
-    public RoleServiceImpl(RoleRepo roleRepo, Logger logger) {
+    public RoleServiceImpl(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;
-        this.logger = logger;
+        this.logger = LogManager.getLogger(RoleServiceImpl.class);
     }
 
     /**

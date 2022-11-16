@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -48,12 +49,12 @@ public class LoginController {
     @Autowired
     public LoginController(DaoAuthenticationProvider authenticationProvider,
                            SecurityUtil jwtTokenUtil, UserDetailsService userDetailsService,
-                           UserService userService, Logger logger) {
+                           UserService userService) {
         this.authenticationProvider = authenticationProvider;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
-        this.logger = logger;
+        this.logger = LogManager.getLogger(LoginController.class);
     }
 
     /**

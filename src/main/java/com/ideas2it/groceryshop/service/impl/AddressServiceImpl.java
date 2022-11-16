@@ -8,6 +8,7 @@ package com.ideas2it.groceryshop.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,10 @@ public class AddressServiceImpl implements AddressService {
     private Logger logger;
 
     @Autowired
-    public AddressServiceImpl(AddressRepo addressRepo, UserHelper userHelper,
-                              Logger logger) {
+    public AddressServiceImpl(AddressRepo addressRepo, UserHelper userHelper) {
         this.addressRepo = addressRepo;
         this.userHelper = userHelper;
-        this.logger = logger;
+        this.logger = LogManager.getLogger(AddressServiceImpl.class);
     }
 
     /**

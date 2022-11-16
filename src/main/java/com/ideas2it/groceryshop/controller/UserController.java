@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,9 +45,9 @@ public class UserController {
     private Logger logger;
 
     @Autowired
-    public UserController(UserService userService, Logger logger) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.logger = logger;
+        this.logger = LogManager.getLogger(UserController.class);
     }
 
     /**

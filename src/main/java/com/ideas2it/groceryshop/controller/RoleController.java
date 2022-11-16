@@ -7,6 +7,7 @@ package com.ideas2it.groceryshop.controller;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,9 +41,9 @@ public class RoleController {
     private Logger logger;
 
     @Autowired
-    public RoleController(RoleService roleService, Logger logger) {
+    public RoleController(RoleService roleService) {
         this.roleService = roleService;
-        this.logger = logger;
+        this.logger = LogManager.getLogger(RoleController.class);
     }
 
     /**

@@ -93,7 +93,7 @@ public class UserControllerTest {
      * @return userResponseDtoList it returns list of user
      */
     @Test
-    public void viewUsersByRole() {
+    public void viewUsersByRole() throws NotFound {
         List<UserResponseDto> userResponseDtoList = new ArrayList<UserResponseDto>();
         UserResponseDto userResponseDto = new UserResponseDto(1,
                 "Rohit", "Rohit", "AP",

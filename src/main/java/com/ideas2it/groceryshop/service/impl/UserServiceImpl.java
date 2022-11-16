@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,13 +55,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo,
-                           UserHelper userHelper, AddressHelper addressHelper,
-                           Logger logger) {
+                           UserHelper userHelper, AddressHelper addressHelper) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.userHelper = userHelper;
         this.addressHelper = addressHelper;
-        this.logger = logger;
+        this.logger = LogManager.getLogger(UserServiceImpl.class);
     }
 
     /**
