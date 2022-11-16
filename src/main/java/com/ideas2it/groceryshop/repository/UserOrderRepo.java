@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.OrderDetails;
@@ -10,30 +15,44 @@ import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * <p>
+ *     Order repository is used for doing CRUD of order module
+ * </p>
+ * @author Dhanalakshmi.M
+ * @version 1.0
+ */
 public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
 
     /**
-     * This method is used to retrieve all the active orders
+     * <p>
+     *     This method is used to retrieve all the active orders
+     * </p>
      *
-     * @param status it contains true
-     * @return List<UserOrder> orderedDate, totalPrice,
+     * @param status it contains true which denotes all active orders
+     * @return List<UserOrder> it returns list of order which contains orderedDate, totalPrice,
      * totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     List<UserOrder> findByIsActive(Boolean status);
     /**
-     * This method is used to retrieve order using userId
+     * <p>
+     *     This method is used to retrieve list of orders using user id
+     * </p>
      *
-     * @param userId It contains user id
-     * @return List<UserOrder> orderedDate, totalPrice,
-     * totalQuantity, isActive, orderDetails, cart, user, orderDelivery
+     * @param userId to get list of orders with user id
+     * @return List<UserOrder> it returns list of order which contains orderedDate, totalPrice,
+     *                        totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     List<UserOrder> findByUserId(Integer userId);
 
     /**
-     * This method is used to make a soft delete
+     * <p>
+     *     This method is used to cancel the order
+     * </p>
      *
-     * @param orderId It contains order id
-     * @return 0 or 1
+     * @param orderId cancel order with order id
+     * @return Integer it returns 1 if order is cancelled successfully
+     *                 and returns 0 if order is not cancelled
      */
     @Modifying
     @Transactional
@@ -41,31 +60,38 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
     Integer cancelOrderbyId(Integer orderId);
 
     /**
-     * This method is used to retrieve order using productId
+     * <p>
+     *     This method is used to retrieve list of order details which is of particular product
+     * </p>
      *
-     * @param productId It contains product id
-     * @return List<OrderDetails> It contains quantity, price, product
+     * @param productId to get list of order details by product id
+     * @return List<OrderDetails> It returns list of order details which contains quantity, price, product
      */
     @Query(value = "Select o from OrderDetails o where o.product.id = ?1")
     List<OrderDetails> findByProductId(Integer productId);
 
     /**
-     * This method is used to retrieve user order by ordered date
+     * <p>
+     *     This method is used to retrieve order of particular date
+     * </p>
      *
-     * @param orderedDate It contains order date
-     * @return List<UserOrder> orderedDate, totalPrice,
-     * totalQuantity, isActive, orderDetails, cart, user, orderDelivery
+     * @param orderedDate to get list of orders of a particular date using ordered date
+     * @return List<UserOrder> It returns list of orders which contains orderedDate, totalPrice,
+     *                         totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     @Query("Select o from UserOrder o where date(o.orderedDate) = ?1")
     List<UserOrder> findByOrderedDate(Date orderedDate);
 
     /**
-     * This method is used to retrieve user order by using userId and orderedDate
+     * <p>
+     *     This method is used to retrieve order by using userId and orderedDate
+     * </p>
      *
-     * @param orderedDate It contains order date
-     * @param userId It contains user id
-     * @return List<UserOrder> orderedDate, totalPrice,
-     * totalQuantity, isActive, orderDetails, cart, user, orderDelivery
+     * @param orderedDate
+     * @param userId to get list of orders of particular user on particular date
+     *               by using order date and userId
+     * @return List<UserOrder> to get list of orders which contains orderedDate, totalPrice,
+     *                         totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     @Query("Select o from UserOrder o where Date(o.orderedDate) = ?1 AND o.user.id = ?2")
     List<UserOrder> findByOrderedDateAndUserId(Date orderedDate, Integer userId);

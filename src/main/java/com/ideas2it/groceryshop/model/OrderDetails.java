@@ -16,7 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * orderDetails class contains the order details
+ * <p>
+ *     orderDetails class contains the order details
+ * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
