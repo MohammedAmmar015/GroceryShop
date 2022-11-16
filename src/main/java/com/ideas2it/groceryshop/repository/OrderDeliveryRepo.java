@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.OrderDelivery;
@@ -7,6 +12,14 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 
+/**
+ * <p>
+ *     orderDelivery repository is used for doing CRUD operation of orderDelivery module
+ * </p>
+ *
+ * @author Dhanalakshmi.M
+ * @version 1.0
+ */
 public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer> {
 
     /**

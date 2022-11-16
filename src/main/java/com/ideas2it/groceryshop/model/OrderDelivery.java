@@ -21,7 +21,9 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * orderDelivery class contains all the delivery details
+ * <p>
+ *     orderDelivery class contains all the delivery details
+ * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
@@ -44,7 +46,7 @@ public class OrderDelivery extends Audit {
     @Column(name = "delivered_date")
     private Date deliveryDate;
 
-    @Column(name = "expected_date")
+    @Column(name = "expected_delivery_date")
     private Date expectedDeliveryDate;
 
     @OneToOne(mappedBy = "orderDelivery")

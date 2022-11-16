@@ -26,7 +26,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * UserOrder class contains the order details
+ * <p>
+ *     UserOrder class contains the order details
+ * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
@@ -65,7 +67,7 @@ public class UserOrder extends Audit {
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user ;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
