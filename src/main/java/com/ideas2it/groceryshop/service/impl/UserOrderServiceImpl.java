@@ -319,9 +319,11 @@ public class UserOrderServiceImpl implements UserOrderService {
     @Override
     public SuccessResponseDto cancelOrderById(Integer orderId) throws NotFound, Existed {
         logger.debug("Entered cancelOrderById method in UserOrderServiceImpl");
-        Boolean isActive = viewOrderById(orderId).getIsDelivered();
+        Optional<UserOrder> userOrder = userOrderRepo.findById(orderId);
+        Boolean isActive = userOrder.get().getOrderDelivery().getIsDelivered();
         if(!isActive) {
             Integer isCancelled = userOrderRepo.cancelOrderbyId(orderId);
+            stockHelper.updateStockByOrderDetails(userOrder);
             if (isCancelled != 0) {
                 logger.debug("Order cancelled successfully");
                 return new SuccessResponseDto(202, "Order cancelled successfully");
