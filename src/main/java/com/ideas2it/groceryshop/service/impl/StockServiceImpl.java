@@ -45,7 +45,7 @@ public class StockServiceImpl implements StockService {
     private final StockRepo stockRepo;
     private final ProductHelper productHelper;
 
-    public StockServiceImpl(Logger logger, StoreRepo storeRepo,
+    public StockServiceImpl(StoreRepo storeRepo,
                             StockRepo stockRepo,
                             ProductHelper productHelper) {
         this.logger = LogManager.getLogger(StockServiceImpl.class);
