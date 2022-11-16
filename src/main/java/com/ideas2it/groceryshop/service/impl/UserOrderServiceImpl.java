@@ -323,7 +323,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         Boolean isActive = userOrder.get().getOrderDelivery().getIsDelivered();
         if(!isActive) {
             Integer isCancelled = userOrderRepo.cancelOrderbyId(orderId);
-            stockHelper.updateStockByOrderDetails(userOrder);
+            stockHelper.updateStockByOrderDetails(userOrder.get());
             if (isCancelled != 0) {
                 logger.debug("Order cancelled successfully");
                 return new SuccessResponseDto(202, "Order cancelled successfully");
