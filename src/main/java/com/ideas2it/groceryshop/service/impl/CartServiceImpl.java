@@ -87,10 +87,8 @@ public class CartServiceImpl implements CartService {
             throw new NotFound("Cart Not Found");
         }
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
-        if (carts.isPresent()) {
-            Cart cart = createCart(cartRequest, user, carts.get());
-            cartRepo.save(cart);
-        }
+        Cart cart = createCart(cartRequest, user, carts);
+        cartRepo.save(cart);
         logger.debug("product added to cart");
         return new SuccessResponseDto(200, "Product added to cart successfully");
     }
@@ -103,21 +101,23 @@ public class CartServiceImpl implements CartService {
      * </p>
      * @param cartRequest product details and quantity to add
      * @param user user details
-     * @param cart user's cart
+     * @param carts user's cart
      * @return Cart will be returned if created successfully
      * @throws NotFound throws if product not found
      * @throws Existed throws if product already exist in Cart
      */
-    private Cart createCart(CartRequestDto cartRequest, User user, Cart cart) throws NotFound, Existed {
+    private Cart createCart(CartRequestDto cartRequest, User user, Optional<Cart> carts) throws NotFound, Existed {
         logger.debug("Entered createCart private method in cartServiceImpl");
         List<CartDetails> cartDetails;
-        if (cart == null) {
+        Cart cart;
+        if (carts.isEmpty()) {
             cart = new Cart();
             cartDetails = new ArrayList<>();
             cart.setUser(user);
             cartDetails = addCartDetails(cartRequest.getCartDetails(),
                     cartDetails);
         } else {
+            cart = carts.get();
             cartDetails = addCartDetails(cartRequest.getCartDetails(),
                     cart.getCartDetails());
         }

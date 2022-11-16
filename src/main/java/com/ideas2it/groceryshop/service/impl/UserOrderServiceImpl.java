@@ -127,11 +127,13 @@ public class UserOrderServiceImpl implements UserOrderService {
             List<OrderDetails> orderDetails = setOrderDetails(userOrderRequest);
             userOrder.setOrderDetails(orderDetails);
             userOrder.setTotalPrice(orderDetails.get(0).getPrice());
-            userOrder.setTotalQuantity(orderDetails.get(1).getQuantity());
+            userOrder.setTotalQuantity(orderDetails.get(0).getQuantity());
             userOrder.setUser(user.get());
             OrderDelivery orderDelivery = orderDelivery(userOrderRequest);
             userOrder.setOrderDelivery(orderDelivery);
             userOrderRepo.save(userOrder);
+            stockHelper.removeStockByOrderDetails(userOrder,
+                    orderDelivery.getShippingAddress().getPinCode());
             logger.debug("Order placed successfully");
             return new SuccessResponseDto(202, "Order placed successfully");
         } else {

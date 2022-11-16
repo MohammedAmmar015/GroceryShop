@@ -89,7 +89,7 @@ public class StockServiceImpl implements StockService {
             throw new NotFound("Product not found");
         }
         stock.setProduct(product);
-        stock.setUnit(product.getUnit().substring(2));
+        stock.setUnit(product.getUnit());
         stockRepo.save(stock);
         logger.debug("stock created successfully");
         return new SuccessResponseDto(201,

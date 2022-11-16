@@ -49,16 +49,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepo userRepo;
     private RoleRepo roleRepo;
-    private UserHelper userHelper;
     private AddressHelper addressHelper;
     private Logger logger;
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo,
-                           UserHelper userHelper, AddressHelper addressHelper) {
+                           AddressHelper addressHelper) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
-        this.userHelper = userHelper;
         this.addressHelper = addressHelper;
         this.logger = LogManager.getLogger(UserServiceImpl.class);
     }
@@ -87,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         userRepo.save(user);
         logger.debug("User created successfully");
-        return new SuccessResponseDto(200,"User created successfully");
+        return new SuccessResponseDto(201,"User created successfully");
     }
 
     /**
@@ -196,7 +194,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * This method is used to get user by mobile number
      *
-     * @param mobileNumber it contains username or mobileNumber
+     * @param userNameOrMobileNumber it contains username or mobileNumber
      * @return userName it is contains username
      */
     @Override
@@ -227,7 +225,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @return SuccessResponseDto it contains success message
      * @throws NotFound user does not exist
      */
-    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) throws NotFound {
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
+            throws NotFound {
         logger.debug("Entered updateUserByUserName method");
         Optional<User> user = userRepo.findUserByUserNameAndIsActive
                 (userUpdateDto.getUserName(), Boolean.TRUE);
