@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.helper;
 
 import com.ideas2it.groceryshop.exception.NotFound;
@@ -31,16 +36,15 @@ public class CartHelper {
      * @throws NotFound - if cart not found by id
      */
     public Cart getCartById(Integer cartId, Boolean status) throws NotFound {
-        Cart cart = cartService.getCartByCartId(cartId, status);
-        return cart;
+        return cartService.getCartByCartId(cartId, status);
     }
 
     /**
      * <p>
      *     To delete cart details for Particular user's cart
      * </p>
-     * @param user
-     * @throws NotFound
+     * @param user user details to delete user's cart
+     * @throws NotFound if cart not found for given user
      */
     public void deleteAllProductsFromCart(User user) throws NotFound {
          cartService.removeCart(user.getId());

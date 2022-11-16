@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.Cart;
@@ -45,7 +50,7 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
      * <p>
      *     This method is used to delete cart by user id 
      * </p>
-     * @param userId
+     * @param userId user's id to delete cart
      */
     @Modifying
     @Transactional

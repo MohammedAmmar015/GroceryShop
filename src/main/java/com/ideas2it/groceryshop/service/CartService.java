@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.CartRequestDto;
@@ -49,7 +54,7 @@ public interface CartService {
      *
      * @param userId - user's id to remove products from cart
      * @return SuccessResponseDto if cart deleted successfully
-     * @throws if cart not found
+     * @throws NotFound throws if cart not found
      */
     SuccessResponseDto removeCart(Integer userId) throws NotFound;
 

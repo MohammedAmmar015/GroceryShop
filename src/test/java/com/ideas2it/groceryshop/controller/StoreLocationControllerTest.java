@@ -1,8 +1,13 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StoreService;
@@ -17,6 +22,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+/**
+ * <p>
+ *     This is test class for StoreLocationController
+ *     It has method to test StoreLocationController
+ *     methods
+ * </p>
+ * @author Mohammed Ammar
+ * @since 15-11-2022
+ * @version 1.0
+ */
 @SpringBootTest
 public class StoreLocationControllerTest {
 
@@ -26,15 +41,29 @@ public class StoreLocationControllerTest {
     @Mock
     private StoreService storeService;
 
+    /**
+     * <p>
+     *     This method is used to test createStore
+     *     method in StoreLocationController
+     * </p>
+     * @throws Existed throws if store already exist
+     */
     @Test
     public void testCreateStore() throws Existed {
         StoreRequestDto storeRequestDto = new StoreRequestDto(600001, "Guindy");
-        SuccessDto successDto = new SuccessDto(201, "Store Created Successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(201, "Store Created Successfully");
         when(storeService.addStore(storeRequestDto)).thenReturn(successDto);
-        SuccessDto result = storeLocationController.createStore(storeRequestDto);
+        SuccessResponseDto result = storeLocationController.createStore(storeRequestDto);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test
+     *     viewStores method in StoreLocationController
+     * </p>
+     * @throws NotFound throws if stores not found
+     */
     @Test
     public void testViewStores() throws NotFound {
         List<StoreResponseDto> stores = new ArrayList<>();
@@ -48,6 +77,14 @@ public class StoreLocationControllerTest {
         assertEquals(stores.size(), storeLocationController.viewStores().size());
     }
 
+    /**
+     * <p>
+     *     This method is used to test
+     *     viewStoreById method in
+     *     StoreLocationController
+     * </p>
+     * @throws NotFound throws if store not found for given id
+     */
     @Test
     public void testViewStoreById() throws NotFound {
         Integer storeId = 1 ;
@@ -57,24 +94,37 @@ public class StoreLocationControllerTest {
         assertEquals(storeId, storeLocationController.viewStoreById(storeId).getId());
     }
 
-
-
+    /**
+     * <p>
+     *     This method is used to test updateStore
+     *     method in StoreLocationController
+     * </p>
+     * @throws Existed throws if new given data is already exist
+     * @throws NotFound throws if store not found for given id
+     */
     @Test
     public void testUpdateStore() throws Existed, NotFound {
         Integer storeId = 1;
         StoreRequestDto storeRequestDto = new StoreRequestDto(600001, "Guindy");
-        SuccessDto successDto = new SuccessDto(200, "Store Updated Successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(200, "Store Updated Successfully");
         when(storeService.modifyStore(storeRequestDto, storeId)).thenReturn(successDto);
-        SuccessDto result = storeLocationController.updateStore(storeRequestDto, storeId);
+        SuccessResponseDto result = storeLocationController.updateStore(storeRequestDto, storeId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test deleteStore method
+     *     in StoreLocationController
+     * </p>
+     * @throws NotFound throws if store not found for given id
+     */
     @Test
-    public void testDeleteStore() throws Existed, NotFound {
+    public void testDeleteStore() throws NotFound {
         Integer storeId = 1;
-        SuccessDto successDto = new SuccessDto(200, "Store Deleted Successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(200, "Store Deleted Successfully");
         when(storeService.removeStore(storeId)).thenReturn(successDto);
-        SuccessDto result = storeLocationController.deleteStore(storeId);
+        SuccessResponseDto result = storeLocationController.deleteStore(storeId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 }

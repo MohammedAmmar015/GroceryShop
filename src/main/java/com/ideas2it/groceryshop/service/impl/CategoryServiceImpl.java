@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
@@ -13,7 +18,8 @@ import com.ideas2it.groceryshop.repository.CategoryRepo;
 import com.ideas2it.groceryshop.repository.ProductRepo;
 import com.ideas2it.groceryshop.service.CategoryService;
 
-import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +30,29 @@ import java.util.Optional;
  *     This class implement method for crud operations for Category.
  * </p>
  *
- * @author RUBAN  03/11/2022
+ * @author RUBAN
  * @version  1.0
+ * @since 03/11/22
  */
 @Service
-@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
 
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
+
+    private final Logger logger;
+
+    public CategoryServiceImpl(CategoryRepo categoryRepo, ProductRepo productRepo) {
+        this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
+        this.logger = LogManager.getLogger(CategoryServiceImpl.class);
+    }
 
     /**
      * <p>
-     *     This method to add category to data base.
+     *     This method to add category to data base,
+     *     before that will validate name, id and finally
+     *     will allow to add in data base.
      * </p>
      *
      * @param categoryRequestDto dto type object.
@@ -44,6 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws Existed will be thrown if category already Exists.
      */
     public SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed {
+        logger.debug("Entered into addCategory method in category service");
         if(categoryRepo.existsByName(categoryRequestDto.getName())) {
             throw new Existed("Category already added");
         }
@@ -53,18 +70,22 @@ public class CategoryServiceImpl implements CategoryService {
             category.ifPresent(categories::setCategory);
         }
         categoryRepo.save(categories);
+        logger.debug("addCategory method successfully executed");
         return new SuccessResponseDto(201, "Category added successfully");
     }
 
     /**
      * <p>
-     *     This method to retrieve all category list.
+     *     This method to retrieve all category list from
+     *     the data base and convert it into dto type object
+     *     in category mapper and then return it to controller.
      * </p>
      *
      * @return Category List.
      * @throws NotFound will be thrown if no category is added.
      */
     public List<CategoryResponseDto> getCategory() throws NotFound {
+        logger.debug("Entered into getCategory method in category service");
         List<Category> resultCategories = categoryRepo.findByParentIdAndIsActive( true);
         if (resultCategories == null || resultCategories.isEmpty()) {
             throw new NotFound("Category not added");
@@ -73,19 +94,23 @@ public class CategoryServiceImpl implements CategoryService {
         for(Category category:resultCategories) {
             categoriesList.add(CategoryMapper.toCategoryDto(category));
         }
+        logger.debug("getCategory method successfully executed");
         return categoriesList;
     }
 
     /**
      * <p>
-     *     This method will get all sub categories which are in exist.
+     *     This method will get all sub categories which are in exist
+     *     from the data base and convert into dto type object with
+     *     the help of category mapper and then will return it to controller
      * </p>
      *
      * @return sub category list if exist otherwise exception will be thrown.
      * @throws NotFound exception will be thrown if no sub category exists.
      */
     public List<SubCategoryResponseDto> getAllSubCategory() throws NotFound {
-        List<Category> categories = categoryRepo.findByParentIdSubCategoryAndIsActive(true);
+        logger.debug("Entered into getAllSubCategory method in category service");
+        List<Category> categories = categoryRepo.findByParentIdNotNullAndIsActive(true);
         if (categories == null || categories.isEmpty()) {
             throw new NotFound("Subcategory not added");
         }
@@ -93,12 +118,14 @@ public class CategoryServiceImpl implements CategoryService {
         for(Category category:categories) {
             categoriesList.add(CategoryMapper.toSubCategoryDto(category));
         }
+        logger.debug("getAllSubCategory method executed successfully");
         return categoriesList;
     }
 
     /**
      * <p>
-     *     This method will delete category using id.
+     *     This method will delete(soft delete) category from the data base
+     *     and return success response dto to controller.
      * </p>
      *
      * @param id to find which object to get deleted.
@@ -107,6 +134,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public SuccessResponseDto deleteCategory(Integer id) throws NotFound {
+        logger.debug("Entered into deleteCategory method in category service");
         Category categories = categoryRepo.findByIdAndIsActive(id, true);
         if (categories == null) {
             throw new NotFound("Category id not found");
@@ -117,18 +145,20 @@ public class CategoryServiceImpl implements CategoryService {
             category.setActive(false);
             categoryRepo.save(category);
         }
-        List<Product> products = productRepo.findAllProductByCategory(id);
+        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive(id, true);
         for(Product product: products) {
             product.setActive(false);
             productRepo.save(product);
         }
         categoryRepo.save(categories);
+        logger.debug("deleteCategory method successfully executed");
         return new SuccessResponseDto(200, "category deleted Successfully");
     }
 
     /**
      * <p>
-     *     This method will delete sub category using id.
+     *     This method will delete(soft delete) sub category from the data base
+     *      and return success response dto to controller.
      * </p>
      *
      * @param parentId to find which object to get deleted.
@@ -137,23 +167,27 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws NotFound exception will be thrown if sub category doesn't exist.
      */
     public SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId) throws NotFound {
-        Category category = categoryRepo.findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId, categoryId, true);
+        logger.debug("Entered into deleteSubCategory method in category service");
+        Category category = categoryRepo.findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId,
+                categoryId, true);
         if (category == null) {
             throw new NotFound("Subcategory id not found");
         }
         category.setActive(false);
         categoryRepo.save(category);
-        List<Product> products = productRepo.findAllProductBySubCategoryId(categoryId);
+        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(categoryId, true);
         for(Product product: products) {
             product.setActive(false);
             productRepo.save(product);
         }
+        logger.debug("deleteSubCategory method successfully executed");
         return new SuccessResponseDto(200, "Subcategory deleted successfully");
     }
 
     /**
      * <p>
-     *     This method used to update Category.
+     *     This method used to update particular category using
+     *     its id and return success response dto which includes success message.
      * </p>
      *
      * @param id to find which object to update.
@@ -163,7 +197,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws Existed exception will be thrown if values are already exist.
      */
     @Override
-    public SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws NotFound, Existed {
+    public SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
+            throws NotFound, Existed {
+        logger.debug("Entered into updateCategory method in category service");
         Category category = categoryRepo.findByIdAndParentIdAndIsActive(id, true);
         if(category == null) {
             throw new NotFound("Category id not found");
@@ -173,12 +209,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category.setName(categoryRequestDto.getName());
         categoryRepo.save(category);
+        logger.debug("updateCategory method successfully executed");
         return new SuccessResponseDto(200, "Category details updated successfully");
     }
 
     /**
      * <p>
-     *     This method used to update Sub Category.
+     *     This method used to update particular sub category using
+     *     its id and return success response dto which includes success message.
      * </p>
      *
      * @param categoryId to find object to get update.
@@ -189,8 +227,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws Existed exception will be thrown if values are already exist.
      */
     @Override
-    public SuccessResponseDto updateSubCategory(Integer categoryId, Integer parentId, CategoryRequestDto categoryRequestDto) throws NotFound, Existed {
-        Category category = categoryRepo.findByCategoryIdAndParentIdAndIsActive(categoryId, parentId, true);
+    public SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId,
+                                                CategoryRequestDto categoryRequestDto)
+            throws NotFound, Existed {
+        logger.debug("Entered into updateSubCategory method in category service");
+        Category category = categoryRepo.findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId, categoryId, true);
         if(category == null) {
             throw new NotFound("Subcategory id not found");
         }
@@ -199,6 +240,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category.setName(categoryRequestDto.getName());
         categoryRepo.save(category);
+        logger.debug("updateSubCategory method successfully executed");
         return new SuccessResponseDto(200, "Subcategory details updated successfully");
     }
 }

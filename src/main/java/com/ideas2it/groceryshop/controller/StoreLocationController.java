@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
@@ -7,6 +12,8 @@ import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StoreService;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,12 +33,17 @@ import java.util.List;
  * @since 04-11-2022
  * @version 1.0
  */
-@AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/stores")
 public class StoreLocationController {
+    
+    private final Logger logger;
+    private final StoreService storeService;
 
-    private StoreService storeService;
+    public StoreLocationController(StoreService storeService) {
+        this.logger = LogManager.getLogger(StoreLocationController.class);
+        this.storeService = storeService;
+    }
 
     /**
      * <p>
@@ -44,6 +56,7 @@ public class StoreLocationController {
      */
     @PostMapping
     public SuccessResponseDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest) throws Existed {
+        logger.debug("Entered createStore method in StoreLocationController");
         return storeService.addStore(storeLocationRequest);
     }
 
@@ -61,6 +74,7 @@ public class StoreLocationController {
     @PutMapping("/{storeId}")
     public SuccessResponseDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
                                   @PathVariable Integer storeId) throws Existed, NotFound {
+        logger.debug("Entered updateStore method in StoreLocationController");
         return storeService.modifyStore(storeLocationRequest, storeId);
     }
 
@@ -74,6 +88,7 @@ public class StoreLocationController {
      */
     @GetMapping
     public List<StoreResponseDto> viewStores() throws NotFound {
+        logger.debug("Entered viewStores method in StoreLocationController");
         return storeService.getStores();
     }
 
@@ -88,6 +103,7 @@ public class StoreLocationController {
      */
     @GetMapping("/{storeId}")
     public StoreResponseDto viewStoreById(@PathVariable Integer storeId) throws NotFound {
+        logger.debug("Entered viewStoreById method in StoreLocationController");
         return storeService.getStoreById(storeId);
     }
 
@@ -102,6 +118,7 @@ public class StoreLocationController {
      */
     @DeleteMapping("/{storeId}")
     public SuccessResponseDto deleteStore(@PathVariable Integer storeId) throws NotFound {
+        logger.debug("Entered deleteDtore method in StoreLocationController");
         return storeService.removeStore(storeId);
     }
 

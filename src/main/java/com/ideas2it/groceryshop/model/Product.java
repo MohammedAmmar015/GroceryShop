@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
@@ -13,11 +18,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
  * <p>
@@ -25,7 +27,8 @@ import java.util.List;
  * </p>
  *
  * @author Ruban
- * @version 1.0  01/11/22
+ * @version 1.0
+ * @since 03/11/22
  *
  **/
 @Entity
@@ -47,7 +50,7 @@ public class Product extends Audit {
     private float price;
 
     @Column(name = "is_active", columnDefinition = "TINYINT")
-    private boolean isActive;
+    private boolean isActive = true;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="sub_category_id")

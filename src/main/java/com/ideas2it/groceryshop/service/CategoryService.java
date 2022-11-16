@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
@@ -10,8 +15,13 @@ import com.ideas2it.groceryshop.exception.NotFound;
 import java.util.List;
 
 /**
- * @author RUBAN  03/11/2022
+ * <p>
+ *     This class is an interface holds methods to be implemented in category service layer
+ *     which implements this interface.
+ * </p>
+ * @author RUBAN
  * @version  1.0
+ * @since 03/11/22
  */
 public interface CategoryService {
     SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed;
@@ -24,7 +34,9 @@ public interface CategoryService {
 
     SuccessResponseDto deleteSubCategory(Integer id, Integer subCategoryId) throws NotFound;
 
-    SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto) throws Existed, NotFound;
+    SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
+            throws Existed, NotFound;
 
-    SuccessResponseDto updateSubCategory(Integer categoryId, Integer subCategoryId, CategoryRequestDto categoryRequestDto) throws NotFound, Existed;
+    SuccessResponseDto updateSubCategory(Integer categoryId, Integer subCategoryId, CategoryRequestDto
+            categoryRequestDto) throws NotFound, Existed;
 }

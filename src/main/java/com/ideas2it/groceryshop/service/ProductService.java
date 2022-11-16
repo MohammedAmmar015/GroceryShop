@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
@@ -18,13 +23,10 @@ public interface ProductService {
 
     List<ProductResponseDto> getProducts() throws NotFound;
 
-    List<ProductResponseDto> getProductsByLocationIdAndCategoryId(Integer locationId, Integer categoryId) throws NotFound;
-
-    List<ProductResponseDto> getProductsByLocationIdAndSubCategoryId(Integer locationId, Integer subCategoryId) throws NotFound;
-
     SuccessResponseDto deleteProductById(Integer id) throws NotFound;
 
-    SuccessResponseDto updateProductById(Integer id, ProductRequestDto productRequestDto) throws NotFound, Existed;
+    SuccessResponseDto updateProductById(Integer id, ProductRequestDto productRequestDto)
+            throws NotFound, Existed;
 
     List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFound;
 
