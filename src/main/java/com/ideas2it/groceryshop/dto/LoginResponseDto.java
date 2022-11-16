@@ -25,4 +25,5 @@ import lombok.Setter;
 public class LoginResponseDto {
     private String token;
     private String successMessage;
+    private Integer successCode;
 }

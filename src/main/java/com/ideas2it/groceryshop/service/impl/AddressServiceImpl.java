@@ -76,7 +76,7 @@ public class AddressServiceImpl implements AddressService {
         address.setUser(user.get());
         addressRepo.save(address);
         logger.debug("Address added successfully");
-        return new SuccessResponseDto(200,"Address added successfully");
+        return new SuccessResponseDto(201,"Address added successfully");
     }
 
     /**

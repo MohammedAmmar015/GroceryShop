@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         userRepo.save(user);
         logger.debug("User created successfully");
-        return new SuccessResponseDto(200,"User created successfully");
+        return new SuccessResponseDto(201,"User created successfully");
     }
 
     /**
@@ -225,7 +225,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @return SuccessResponseDto it contains success message
      * @throws NotFound user does not exist
      */
-    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) throws NotFound {
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
+            throws NotFound {
         logger.debug("Entered updateUserByUserName method");
         Optional<User> user = userRepo.findUserByUserNameAndIsActive
                 (userUpdateDto.getUserName(), Boolean.TRUE);
