@@ -71,7 +71,10 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryRepo.save(categories);
         logger.debug("addCategory method successfully executed");
-        return new SuccessResponseDto(201, "Category added successfully");
+        if (categoryRequestDto.getParentId() == 0) {
+            return new SuccessResponseDto(201, "Category added successfully");
+        }
+        return new SuccessResponseDto(201, "Sub category added successfully");
     }
 
     /**
