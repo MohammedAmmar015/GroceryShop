@@ -49,16 +49,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepo userRepo;
     private RoleRepo roleRepo;
-    private UserHelper userHelper;
     private AddressHelper addressHelper;
     private Logger logger;
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo,
-                           UserHelper userHelper, AddressHelper addressHelper) {
+                           AddressHelper addressHelper) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
-        this.userHelper = userHelper;
         this.addressHelper = addressHelper;
         this.logger = LogManager.getLogger(UserServiceImpl.class);
     }
@@ -196,7 +194,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     /**
      * This method is used to get user by mobile number
      *
-     * @param mobileNumber it contains username or mobileNumber
+     * @param userNameOrMobileNumber it contains username or mobileNumber
      * @return userName it is contains username
      */
     @Override
