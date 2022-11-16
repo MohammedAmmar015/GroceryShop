@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.Product;
@@ -26,7 +31,7 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * </p>
      * @param productId - product id
      * @param locationId - location id(store location)
-     * @return
+     * @return Stock details for given product id and location id
      */
     Stock findByProductIdAndStoreLocationId(Integer productId, Integer locationId);
 
@@ -37,11 +42,10 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param stock - stock to update
      * @param productId - to which product
      * @param locationId - in which location
-     * @return
+     * @return number of rows affected
      */
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product.id = ?2 AND s.storeLocation.id = ?3")
     @Modifying
-    @Transactional
     Integer updateStockByProductAndLocation(Integer stock, Integer productId, Integer locationId);
 
     /**
@@ -51,26 +55,11 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param quantity - quantity to decrease
      * @param product - to which product
      * @param locationId - in which location
-     * @return number of rows affected
      */
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock - ?1 where s.product = ?2 AND s.storeLocation.id = ?3")
     @Modifying
     @Transactional
-    Integer decreaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
-
-    /**
-     * <p>
-     *     This method is used to increase stock based on order cancel
-     * </p>
-     * @param quantity - quantity to increase stock
-     * @param product - to which product
-     * @param locationId - in which location
-     * @return number of rows affected
-     */
-    @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product = ?2 AND s.storeLocation.id = ?3")
-    @Modifying
-    @Transactional
-    Integer increaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
+    void decreaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
 
     /**
      * <p>
@@ -90,17 +79,8 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * </p>
      * @param locationId - in which location
      * @param productId - for which product
-     * @param number - minimum stock to check
-     * @return
+     * @param expectedNumber - minimum stock to check
+     * @return true if stock is greater that expected number
      */
-    Boolean existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan(Integer locationId, Integer productId, Integer number);
-
-    /**
-     * <p>
-     *     This method is used to find stocks by store location id
-     * </p>
-     * @param id - for which locations
-     * @return - list of stocks for different products
-     */
-    List<Stock> findByStoreLocationId(Integer id);
+    Boolean existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan(Integer locationId, Integer productId, Integer expectedNumber);
 }

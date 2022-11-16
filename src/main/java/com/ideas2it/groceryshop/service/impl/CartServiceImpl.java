@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *      Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.CartDetailsRequestDto;
@@ -17,7 +22,8 @@ import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.repository.CartDetailsRepo;
 import com.ideas2it.groceryshop.repository.CartRepo;
 import com.ideas2it.groceryshop.service.CartService;
-import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,38 +42,56 @@ import java.util.Optional;
  * @version 1.0
  */
 @Service
-@AllArgsConstructor
 public class CartServiceImpl implements CartService {
-    private CartRepo cartRepo;
-    private UserHelper userHelper;
-    private ProductHelper productHelper;
-    private CartDetailsRepo cartDetailsRepo;
+
+    private final Logger logger;
+    private final CartRepo cartRepo;
+    private final UserHelper userHelper;
+    private final ProductHelper productHelper;
+    private final CartDetailsRepo cartDetailsRepo;
+
+    public CartServiceImpl(CartRepo cartRepo, UserHelper userHelper,
+                           ProductHelper productHelper,
+                           CartDetailsRepo cartDetailsRepo) {
+        this.logger = LogManager.getLogger(CartServiceImpl.class);
+        this.cartRepo = cartRepo;
+        this.userHelper = userHelper;
+        this.productHelper = productHelper;
+        this.cartDetailsRepo = cartDetailsRepo;
+    }
 
     /**
      * <p>
      *     This method is used to add Product to the Cart
      *     of particular user based on user id
-     *     and product id
+     *     and cart details which has product id
+     *     and quantity
      * </p>
-     * @param cartRequest - product details to add into Cart
+     * @param cartRequest - product id and quantity to add into Cart
      * @param userId - user's id to add product to user's cart
-     * @return - SuccessResponseDto with Message and status Code
+     * @return - SuccessResponseDto with Message and status Code if product added to cart
      * @throws NotFound - if user or cart not found
      * @throws Existed if product already exist in cart
      */
     @Override
     public SuccessResponseDto addCart(CartRequestDto cartRequest, Integer userId) throws NotFound, Existed {
+        logger.debug("Entered addCart method in CartServiceImpl");
         Optional<User> mayBeUser = userHelper.findUserById(userId);
         if (mayBeUser.isEmpty()) {
+            logger.error("user not found");
             throw new NotFound("User Not Found");
         }
         User user = mayBeUser.get();
         if (!user.getRole().getName().equals("ROLE_CUSTOMER")) {
+            logger.error("cart not found");
             throw new NotFound("Cart Not Found");
         }
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
-        Cart cart = createCart(cartRequest, user, carts);
-        cartRepo.save(cart);
+        if (carts.isPresent()) {
+            Cart cart = createCart(cartRequest, user, carts.get());
+            cartRepo.save(cart);
+        }
+        logger.debug("product added to cart");
         return new SuccessResponseDto(200, "Product added to cart successfully");
     }
 
@@ -77,24 +101,23 @@ public class CartServiceImpl implements CartService {
      *     if cart not available, it will create new Cart
      *     and add products to it
      * </p>
-     * @param cartRequest cart details to add into Cart
+     * @param cartRequest product details and quantity to add
      * @param user user details
-     * @param carts carts container
-     * @return Cart
+     * @param cart user's cart
+     * @return Cart will be returned if created successfully
      * @throws NotFound throws if product not found
-     * @throws Existed if product already exist in Cart
+     * @throws Existed throws if product already exist in Cart
      */
-    private Cart createCart(CartRequestDto cartRequest, User user, Optional<Cart> carts) throws NotFound, Existed {
-        Cart cart;
+    private Cart createCart(CartRequestDto cartRequest, User user, Cart cart) throws NotFound, Existed {
+        logger.debug("Entered createCart private method in cartServiceImpl");
         List<CartDetails> cartDetails;
-        if (carts.isEmpty()) {
+        if (cart == null) {
             cart = new Cart();
             cartDetails = new ArrayList<>();
             cart.setUser(user);
             cartDetails = addCartDetails(cartRequest.getCartDetails(),
                     cartDetails);
         } else {
-            cart = carts.get();
             cartDetails = addCartDetails(cartRequest.getCartDetails(),
                     cart.getCartDetails());
         }
@@ -106,25 +129,29 @@ public class CartServiceImpl implements CartService {
 
     /**
      * <p>
-     *     It is used to find product and add product details to Cart details
-     *     To calculate price based on quantity
+     *     It is used to find product and to verify if already exist in cart or not
+     *     then add product details to Cart
+     *     and to calculate price based on quantity
      * </p>
      * @param cartDetailsRequest - cart details to add
      * @param cartDetails - List of cart details in user's cart
-     * @return - List of cart details
+     * @return - List of cart details which added successfully
      * @throws NotFound if product not found
      * @throws Existed if product already exist in cart
      */
     private List<CartDetails> addCartDetails(CartDetailsRequestDto cartDetailsRequest,
                                              List<CartDetails> cartDetails) throws NotFound, Existed {
+        logger.debug("Entered addCartDetails private method in cartServiceImpl");
         for (CartDetails cartDetail1 : cartDetails) {
             if (cartDetail1.getProduct().getId() == cartDetailsRequest.getProductId()) {
+                logger.error("already added to cart");
                 throw new Existed("Already added to cart");
             }
         }
         CartDetails cartDetail = CartDetailsMapper.toCartDetails(cartDetailsRequest);
         Product product = productHelper.getProductById(cartDetailsRequest.getProductId());
         if (product == null) {
+            logger.error("product not found");
             throw new NotFound("Product not found");
         }
         cartDetail.setProduct(product);
@@ -142,6 +169,7 @@ public class CartServiceImpl implements CartService {
      * @return Float - totalPrice
      */
     private Float calculateTotalPrice(List<CartDetails> cartDetails) {
+        logger.debug("Entered calculateTotalPrice private method in cartServiceImpl");
         Float totalPrice = 0F;
         for (CartDetails cartDetail : cartDetails) {
             totalPrice += cartDetail.getPrice();
@@ -158,6 +186,7 @@ public class CartServiceImpl implements CartService {
      * @return - totalQuantity
      */
     private Integer calculateTotalQuantity(List<CartDetails> cartDetails) {
+        logger.debug("Entered calculateTotalQuantity private method in cartServiceImpl");
         Integer totalQuantity = 0;
         for (CartDetails cartDetail : cartDetails) {
             totalQuantity += cartDetail.getQuantity();
@@ -176,8 +205,10 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public CartResponseDto getCartByUserId(Integer userId) throws NotFound {
+        logger.debug("Entered getCartByUserId method in cartServiceImpl");
         Optional<Cart> cart = cartRepo.findByUserIdAndIsActive(userId, true);
         if (cart.isEmpty()) {
+            logger.error("cart not found");
             throw new NotFound("Cart not found");
         }
         return CartMapper.toCartResponse(cart.get());
@@ -191,16 +222,19 @@ public class CartServiceImpl implements CartService {
      *
      * @param userId - user's id to remove products from cart
      * @return SuccessResponseDto if cart deleted successfully
-     * @throws if cart not found
+     * @throws NotFound throws if cart not found
      */
     @Override
     public SuccessResponseDto removeCart(Integer userId) throws NotFound {
+        logger.debug("Entered removeCart method in cartServiceImpl");
         Optional<User> user = userHelper.findUserById(userId);
         if (user.isEmpty()) {
+            logger.error("user not found");
             throw new NotFound("User not found");
         }
         cartDetailsRepo.deleteCartDetailsByUserId(user.get().getId());
         cartRepo.deleteCartByUserId(user.get().getId());
+        logger.debug("cart deleted successfully");
         return new SuccessResponseDto(200, "Cart deleted successfully");
     }
 
@@ -218,14 +252,18 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public SuccessResponseDto removeProductFromCart(Integer userId, Integer productId) throws NotFound {
+        logger.debug("Entered removeProductFromCart method in cartServiceImpl");
         Optional<Cart> carts = cartRepo.findByUserIdAndIsActive(userId, true);
         if (carts.isEmpty()) {
+            logger.error("cart not found");
             throw new NotFound("Cart not found");
         }
-        Boolean isDeleted = deleteProduct(productId, carts);
+        Boolean isDeleted = deleteProduct(productId, carts.get());
         if (!isDeleted) {
+            logger.error("product not found");
             throw new NotFound("Product not found");
         }
+        logger.debug("product from cart deleted successfully");
         return new SuccessResponseDto(200, "Product from cart deleted successfully");
     }
 
@@ -236,11 +274,11 @@ public class CartServiceImpl implements CartService {
      *     based on user id and product id
      * </p>
      * @param productId - product id to delete from cart
-     * @param carts - user's Cart
+     * @param cart - user's Cart
      * @return isDeleted or Not
      */
-    private Boolean deleteProduct(Integer productId, Optional<Cart> carts) {
-        Cart cart = carts.get();
+    private Boolean deleteProduct(Integer productId, Cart cart) {
+        logger.debug("Entered deleteProduct private method in cartServiceImpl");
         Boolean isDeleted = false;
         for (CartDetails cartDetails : cart.getCartDetails()) {
             Integer itemsInCart = cart.getCartDetails().size();
@@ -272,11 +310,14 @@ public class CartServiceImpl implements CartService {
      * @throws NotFound if cart or product not found
      */
     @Override
-    public SuccessResponseDto updateCartByUser(CartRequestDto cartRequest, Integer userId) throws NotFound {
+    public SuccessResponseDto updateCartByUser(CartRequestDto cartRequest,
+                                               Integer userId) throws NotFound {
+        logger.debug("Entered updateCartByUser method in cartServiceImpl");
         Integer newQuantity = cartRequest.getCartDetails().getQuantity();
         Integer productId = cartRequest.getCartDetails().getProductId();
         Optional<Cart> cartContainer = cartRepo.findByUserIdAndIsActive(userId, true);
         if (cartContainer.isEmpty()) {
+            logger.error("cart not found");
             throw new NotFound("Cart not found");
         }
         Cart cart = cartContainer.get();
@@ -289,12 +330,14 @@ public class CartServiceImpl implements CartService {
                 cartDetails.add(cartDetail);
                 break;
             } else {
+                logger.error("product not found");
                 throw new NotFound("Product not found");
             }
         }
         cart.setTotalPrice(calculateTotalPrice(cartDetails));
         cart.setCartDetails(cartDetails);
         cartRepo.save(cart);
+        logger.debug("cart updated successfully");
         return new SuccessResponseDto(200, "Quantity updated successfully");
     }
 
@@ -309,8 +352,10 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public Cart getCartByCartId(Integer cartId, Boolean status) throws NotFound {
+        logger.debug("Entered getCartByCartId method in cartServiceImpl");
         Cart cart = cartRepo.findByIdAndIsActive(cartId, status);
         if (cart == null) {
+            logger.error("cart not found");
             throw new NotFound("Cart not found");
         }
         return cart;

@@ -3,7 +3,6 @@ package com.ideas2it.groceryshop.exceptionhandler;
 import com.ideas2it.groceryshop.dto.ErrorResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;

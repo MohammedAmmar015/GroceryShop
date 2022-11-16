@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.StockRequestDto;
@@ -5,6 +10,8 @@ import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.model.StoreLocation;
+import com.ideas2it.groceryshop.model.UserOrder;
 
 import java.util.List;
 
@@ -74,5 +81,15 @@ public interface StockService {
     SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                Integer productId,
                                                Integer locationId)
-            throws NotFound, NotFound;
+            throws NotFound;
+
+    /**
+     * <p>
+     *     This method is used to decrease stock by
+     *     user order details, and location details
+     * </p>
+     * @param order it has product details, user ordered
+     * @param store store location that user ordered for
+     */
+    void removeStockByOrderDetails(UserOrder order, StoreLocation store);
 }

@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.*;
@@ -64,7 +69,7 @@ public class CartControllerTest {
         Integer userId = 1;
         CartResponseDto cartResponseDto = new CartResponseDto();
         cartResponseDto.setId(1);
-        cartResponseDto.setCreatedAt(new Date(2022-12-02));
+        cartResponseDto.setCreatedAt(new Date(2022-12-2));
         cartResponseDto.setTotalPrice(200F);
         CartDetailsResponseDto cartDetail = new CartDetailsResponseDto();
         cartDetail.setProductName("GoodDay");
@@ -74,7 +79,7 @@ public class CartControllerTest {
         cartDetail.setQuantity(2);
         cartResponseDto.setCartDetails(List.of(cartDetail));
         when(cartService.getCartByUserId(userId)).thenReturn(cartResponseDto);
-        CartResponseDto result = cartController.viewCarts(userId);
+        CartResponseDto result = cartController.viewCart(userId);
         assertEquals(cartResponseDto.getId(), result.getId());
     }
 

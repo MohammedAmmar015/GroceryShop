@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
@@ -9,7 +14,8 @@ import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.StoreService;
-import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,9 +33,15 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-@AllArgsConstructor
 public class StoreServiceImpl implements StoreService {
-    private StoreRepo storeRepo;
+
+    private final Logger logger;
+    private final StoreRepo storeRepo;
+
+    public StoreServiceImpl(StoreRepo storeRepo) {
+        this.logger = LogManager.getLogger(StoreServiceImpl.class);
+        this.storeRepo = storeRepo;
+    }
 
     /**
      * <p>
@@ -42,13 +54,16 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws Existed {
+        logger.debug("Entered addStore method in StoreServiceImpl");
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
         if (storeRepo.existsByAreaOrPinCode(area, pinCode)) {
+            logger.error("area or pin code already exist");
             throw new Existed("Area or PinCode already exists");
         }
         StoreLocation storeLocation = StoreLocationMapper.toStoreLocation(storeLocationRequest);
         storeRepo.save(storeLocation);
+        logger.debug("store created successfully");
         return new SuccessResponseDto(201, "Store created successfully");
     }
 
@@ -61,9 +76,11 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public List<StoreResponseDto> getStores() throws NotFound {
+        logger.debug("Entered getStores method in StoreServiceImpl");
         List<StoreResponseDto> storesResponse = new ArrayList<>();
         List<StoreLocation> stores = storeRepo.findByIsActive(true);
         if (stores.isEmpty()) {
+            logger.error("store not found");
             throw new NotFound("Store not found");
         }
         for (StoreLocation storeLocation : stores) {
@@ -83,10 +100,13 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public SuccessResponseDto removeStore(Integer storeId) throws NotFound {
+        logger.debug("Entered removeStore method in StoreServiceImpl");
         Integer rowsAffected = storeRepo.deleteStoreById(storeId);
         if (rowsAffected == 0) {
+            logger.error("store not found");
             throw new NotFound("Store not found");
         }
+        logger.debug("store deleted successfully");
         return new SuccessResponseDto(200, "Store deleted successfully");
     }
 
@@ -101,12 +121,13 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public StoreResponseDto getStoreById(Integer storeId) throws NotFound {
+        logger.debug("Entered getStoreById method in StoreServiceImpl");
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
+            logger.error("store not found");
             throw new NotFound("Store not found");
         }
-        StoreResponseDto storeResponse = StoreLocationMapper.toStoreLocationResponse(storeLocation);
-        return storeResponse;
+        return StoreLocationMapper.toStoreLocationResponse(storeLocation);
     }
 
     /**
@@ -116,25 +137,29 @@ public class StoreServiceImpl implements StoreService {
      * </P>
      * @param storeLocationRequest Store Location details to update
      * @param storeId              store id to be passed
-     * @return
+     * @return successResponseDto if store details modified successfully
      * @throws NotFound - if store not found
      * @throws Existed - if given new details already exist
      */
     @Override
     public SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
                                   Integer storeId) throws NotFound, Existed {
+        logger.debug("Entered modifyStore method in StoreServiceImpl");
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
+            logger.error("store not found");
             throw new NotFound("Store not found");
         }
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
         if(storeRepo.existsByAreaOrPinCodeAndIdNot(area, pinCode, storeId)) {
+            logger.error("area or pin code already exist");
             throw new Existed("Area or PinCode already exists");
         }
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
         storeRepo.save(storeLocation);
+        logger.debug("store updated successfully");
         return new SuccessResponseDto(200, "Store updated successfully");
     }
 }
