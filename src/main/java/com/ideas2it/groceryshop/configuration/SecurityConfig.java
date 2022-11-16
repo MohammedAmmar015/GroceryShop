@@ -89,7 +89,7 @@ public class SecurityConfig {
                         "/api/v1/roles")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/*",
-                        "/api/v1/orders/activeOrders", "/api/v1/orders/cancelledOrders",
+                        "/api/v1/orders/cancelledOrders",
                         "/api/v1/orders/date/*", "/api/v1/stocks/*",
                         "/api/v1/stocks/*/*", "/api/v1/stores", "/api/v1/orders/products/*",
                         "/api/v1/users/*/role")
@@ -108,6 +108,8 @@ public class SecurityConfig {
                 .hasRole("ADMIN")
                 .antMatchers("/api/v1/orders/ordersDelivery/*").
                 hasRole("DELIVERY_PERSON")
+                .antMatchers("/api/v1/orders/activeOrders")
+                .hasAnyRole("ADMIN", "DELIVERY_PERSON")
                 .anyRequest().authenticated()
                 .and().httpBasic();
         http.addFilterBefore(customSecurityFilter, UsernamePasswordAuthenticationFilter.class);
