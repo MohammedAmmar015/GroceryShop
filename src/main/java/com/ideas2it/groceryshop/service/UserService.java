@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service;
 
 import java.util.List;
@@ -50,8 +55,9 @@ public interface UserService {
      *
      * @param name used to search users by role name
      * @return userResponseDtoList list of user
+     * @throws NotFound users not found
      */
-    List<UserResponseDto> getUserByRole(String name);
+    List<UserResponseDto> getUserByRole(String name) throws NotFound;
 
     /**
      *  It is used to delete user by id
@@ -65,8 +71,8 @@ public interface UserService {
     /**
      * This method is used to get user by mobile number
      *
-     * @param mobileNumber it contains user name or
-     * @return userName it is contains user name
+     * @param mobileNumber it contains username or
+     * @return userName it is contains username
      */
     String getUserByMobileNumber(String mobileNumber);
 
@@ -77,5 +83,5 @@ public interface UserService {
      * @param userUpdateDto it contains details to be updated
      * @return SuccessResponseDto it contains success message
      */
-    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto);
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) throws NotFound;
 }

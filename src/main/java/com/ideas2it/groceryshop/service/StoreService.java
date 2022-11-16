@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
@@ -70,7 +75,7 @@ public interface StoreService {
      * </P>
      * @param storeLocationRequest Store Location details to update
      * @param storeId              store id to be passed
-     * @return
+     * @return successResponseDto if store details modified successfully
      * @throws NotFound - if store not found
      * @throws Existed - if given new details already exist
      */

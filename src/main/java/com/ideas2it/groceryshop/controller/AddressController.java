@@ -1,9 +1,16 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,14 +42,16 @@ import com.ideas2it.groceryshop.service.AddressService;
 public class AddressController {
 
     private AddressService addressService;
+    private Logger logger;
 
     @Autowired
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
+        this.logger = LogManager.getLogger(AddressController.class);
     }
 
     /**
-     * it is used to create address
+     * It is used to create address
      *
      * @param id it is id of user
      * @param addressRequestDto it contains address of user
@@ -52,6 +61,7 @@ public class AddressController {
     public SuccessResponseDto createAddress(@PathVariable("userId") Integer id,
                                     @Valid @RequestBody
                                     AddressRequestDto addressRequestDto) throws NotFound {
+        logger.debug("Entered createAddress method");
         return addressService.addAddress(id, addressRequestDto);
     }
 
@@ -65,6 +75,7 @@ public class AddressController {
     @GetMapping("/{userId}")
     public List<AddressResponseDto> viewAddressesByUserId
     (@Valid @PathVariable("userId") Integer id) throws NotFound {
+        logger.debug("Entered viewAddressesByUserId method");
         List<AddressResponseDto> addresses =
                 addressService.getAddressesByUserId(id);
         return addresses;
@@ -79,6 +90,7 @@ public class AddressController {
     @DeleteMapping("/{addressId}")
     public SuccessResponseDto deleteAddressById
     (@Valid @PathVariable("addressId") Integer id) throws NotFound {
+        logger.debug("Entered deleteAddressById method");
         return addressService.deleteAddressById(id);
     }
 
@@ -93,6 +105,7 @@ public class AddressController {
     public SuccessResponseDto updateAddressByAddressId
     (@RequestBody AddressUpdateRequestDto addressUpdateRequestDto,
      @PathVariable("addressId") Integer id) throws NotFound {
+        logger.debug("Entered UpdateAddressByAddressId method");
         return addressService.updateAddressByAddressId
                 (addressUpdateRequestDto, id);
     }

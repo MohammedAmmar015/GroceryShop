@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.StoreLocation;
@@ -38,7 +43,7 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      *     based on location id
      * </p>
      * @param storeId - id to delete
-     * @return - number of rows offected
+     * @return - number of rows affected
      */
     @Modifying
     @Transactional
@@ -47,7 +52,7 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     *     This method is used to check if area or pincode
+     *     This method is used to check if area or pin code
      *     is already exist in database or not
      * </p>
      * @param area - area details
@@ -63,7 +68,7 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      * </p>
      * @param locationId - location id to check
      * @param status - true or false
-     * @return - true if exist else false
+     * @return - true if store exist else false
      */
     Boolean existsByIdAndIsActive(Integer locationId, Boolean status);
 
@@ -74,7 +79,7 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      * </p>
      * @param status true or false
      * @param pinCode - area pin code to retrieve
-     * @return
+     * @return storeLocation based on status and pinCode
      */
     StoreLocation findByIsActiveAndPinCode(Boolean status, Integer pinCode);
 

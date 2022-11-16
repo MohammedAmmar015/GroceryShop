@@ -1,6 +1,10 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.configuration;
 
-import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 
 /**
  *
@@ -28,11 +34,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
     private CustomSecurityFilter customSecurityFilter;
+
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService,
+                          CustomSecurityFilter customSecurityFilter) {
+        this.userDetailsService = userDetailsService;
+        this.customSecurityFilter = customSecurityFilter;
+    }
 
     /**
      * This method is used to create bean for BCryptPasswordEncoder

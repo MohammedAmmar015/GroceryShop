@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.CartRequestDto;
@@ -6,8 +11,16 @@ import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.CartService;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -24,12 +37,17 @@ import javax.validation.Valid;
  * @since 04-11-2022
  * @version 1.0
  */
-@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/carts")
 public class CartController {
 
-    private CartService cartService;
+    private final Logger logger;
+    private final CartService cartService;
+
+    public CartController(CartService cartService) {
+        this.logger = LogManager.getLogger(CartController.class);
+        this.cartService = cartService;
+    }
 
     /**
      * <p>
@@ -45,7 +63,8 @@ public class CartController {
      */
     @PostMapping("/{userId}")
     public SuccessResponseDto createCart(@Valid @RequestBody CartRequestDto cartRequest,
-                                 @PathVariable Integer userId) throws NotFound, Existed {
+                                         @PathVariable Integer userId) throws NotFound, Existed {
+        logger.debug("Entered createCart method in CartController");
         return cartService.addCart(cartRequest, userId);
     }
 
@@ -60,7 +79,8 @@ public class CartController {
      * @throws NotFound if Cart not found
      */
     @GetMapping("/{userId}")
-    public CartResponseDto viewCarts(@PathVariable Integer userId) throws NotFound {
+    public CartResponseDto viewCart(@PathVariable Integer userId) throws NotFound {
+        logger.debug("Entered viewCart method in CartController");
         return cartService.getCartByUserId(userId);
     }
 
@@ -78,6 +98,7 @@ public class CartController {
     @PutMapping("/{userId}")
     public SuccessResponseDto updateCart(@Valid @RequestBody CartRequestDto cartRequest,
                                 @PathVariable Integer userId) throws NotFound {
+        logger.debug("Entered updateCart method in CartController");
         return cartService.updateCartByUser(cartRequest, userId);
     }
 
@@ -93,6 +114,7 @@ public class CartController {
      */
     @DeleteMapping("/{userId}")
     public SuccessResponseDto deleteCart(@PathVariable Integer userId) throws NotFound {
+        logger.debug("Entered deleteCart method in CartController");
         return cartService.removeCart(userId);
     }
 
@@ -110,6 +132,7 @@ public class CartController {
     @DeleteMapping("/{userId}/{productId}")
     public SuccessResponseDto deleteProductFromCart(@PathVariable Integer userId,
                                             @PathVariable Integer productId) throws NotFound {
+        logger.debug("Entered deleteProductFromCart method in CartController");
         return cartService.removeProductFromCart(userId,productId);
     }
 

@@ -1,9 +1,16 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,6 +44,7 @@ public class LoginController {
     private SecurityUtil jwtTokenUtil;
     private UserDetailsService userDetailsService;
     private UserService userService;
+    private Logger logger;
 
     @Autowired
     public LoginController(DaoAuthenticationProvider authenticationProvider,
@@ -46,6 +54,7 @@ public class LoginController {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
+        this.logger = LogManager.getLogger(LoginController.class);
     }
 
     /**
@@ -59,6 +68,7 @@ public class LoginController {
     public LoginResponseDto createAuthenticationToken
             (@Valid @RequestBody Optional<LoginRequestDto> loginRequestDto)
             throws BadCredentialsException {
+        logger.debug("Entered createAuthenticationToken");
         SecurityContextHolder.clearContext();
         String userName = null;
         userName = userService.getUserByMobileNumber
@@ -66,6 +76,7 @@ public class LoginController {
         authenticate(userName, loginRequestDto.get().getPassword());
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
+        logger.debug("Logged in successfully");
         return new LoginResponseDto(token, "Logged in successfully");
     }
 
@@ -78,6 +89,7 @@ public class LoginController {
      */
     private void authenticate(String username, String password)
             throws BadCredentialsException {
+        logger.debug("Entered authenticate method");
         try {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken
                     (username, password));

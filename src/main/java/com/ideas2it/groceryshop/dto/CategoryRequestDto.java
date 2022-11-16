@@ -1,10 +1,14 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -25,6 +29,5 @@ public class CategoryRequestDto {
     private String name;
 
     private Integer parentId;
-
 }
 

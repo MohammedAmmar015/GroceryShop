@@ -1,9 +1,16 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +41,14 @@ import com.ideas2it.groceryshop.service.UserService;
 @RequestMapping("api/v1/users")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+    private Logger logger;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+        this.logger = LogManager.getLogger(UserController.class);
+    }
 
     /**
      *  It is used to create user
@@ -45,6 +58,7 @@ public class UserController {
     @PostMapping
     public SuccessResponseDto createUser(@Valid @RequestBody UserRequestDto userRequestDto)
             throws Existed {
+        logger.debug("Entered createUser method");
         return userService.addUser(userRequestDto);
     }
 
@@ -58,6 +72,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public UserResponseDto getUserById(@PathVariable("userId") Integer id)
             throws NotFound {
+        logger.debug("Entered getUserById method");
         UserResponseDto userResponseDto = userService.getUserById(id);
         return userResponseDto;
     }
@@ -66,10 +81,11 @@ public class UserController {
      * It is used get all users
      *
      * @return userResponseDtoList
-     * @throws NotFound user does not found
+     * @throws NotFound users does not found
      */
     @GetMapping
     public List<UserResponseDto> viewAllUser() throws NotFound {
+        logger.debug("Entered viewAllUser method");
         List<UserResponseDto> userResponseDtoList = userService.getAllUser();
         return userResponseDtoList;
     }
@@ -79,12 +95,13 @@ public class UserController {
      *
      * @param name it is name of role
      * @return userResponseDtoList it returns list of user
+     * @throws NotFound users not found
      */
     @GetMapping("/{roleName}/role")
     public List<UserResponseDto> viewUsersByRole
-    (@PathVariable("roleName") String name) {
-        List<UserResponseDto> userResponseDtoList =
-                userService.getUserByRole(name);
+    (@PathVariable("roleName") String name) throws NotFound {
+        logger.debug("Entered viewUsersByRole method");
+        List<UserResponseDto> userResponseDtoList = userService.getUserByRole(name);
         return userResponseDtoList;
     }
 
@@ -98,19 +115,22 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public SuccessResponseDto deleteUserById(@PathVariable("userId") Integer id)
             throws NotFound {
+        logger.debug("Entered deleteUserById method");
         return userService.deleteUserById(id);
     }
 
     /**
      * This method is used to update user by username.
      * Following are the fields that can be updated by this method,
-     * firstName, lastName, password and phoneNumber
+     * firstName, lastName, password and email
      *
      * @return SuccessResponseDto it contains success message
+     * @throws NotFound user does not exist
      */
     @PutMapping
     public SuccessResponseDto updateUserByUserName
-                      (@Valid @RequestBody UserUpdateDto userUpdateDto){
+                      (@Valid @RequestBody UserUpdateDto userUpdateDto) throws NotFound {
+        logger.debug("Entered updateUserByUserName");
         return userService.updateUserByUserName(userUpdateDto);
     }
 }

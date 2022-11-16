@@ -1,10 +1,14 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.mapper;
 
 import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
 import com.ideas2it.groceryshop.model.Category;
-import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -16,7 +20,6 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 03/11/22
  */
-@Component
 public class CategoryMapper {
 
     /**

@@ -1,11 +1,16 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,8 +26,8 @@ import javax.persistence.Table;
  * </p>
  *
  * @author Ruban
- * @version 1.0  01/11/22
- *
+ * @version 1.0
+ * @since 03/11/22
  **/
 @Entity
 @Getter
