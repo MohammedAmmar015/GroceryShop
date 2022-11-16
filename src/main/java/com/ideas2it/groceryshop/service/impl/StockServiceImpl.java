@@ -188,4 +188,14 @@ public class StockServiceImpl implements StockService {
                     store.getId());
         }
     }
+
+    @Override
+    public void updateStockByOrderDetails(UserOrder order, StoreLocation store) {
+        logger.debug("Entered updateStockByOrderDetails method in StockServiceImpl");
+        for (OrderDetails orderDetail : order.getOrderDetails()) {
+            stockRepo.increaseStockByProductsAndLocation(orderDetail.getQuantity(),
+                    orderDetail.getProduct(),
+                    store.getId());
+        }
+    }
 }

@@ -92,4 +92,6 @@ public interface StockService {
      * @param store store location that user ordered for
      */
     void removeStockByOrderDetails(UserOrder order, StoreLocation store);
+
+    void updateStockByOrderDetails(UserOrder order, StoreLocation store);
 }

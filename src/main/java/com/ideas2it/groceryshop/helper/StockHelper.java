@@ -44,4 +44,9 @@ public class StockHelper {
         }
         stockService.removeStockByOrderDetails(order, store);
     }
+    public void updateStockByOrderDetails(UserOrder order) {
+        Integer pinCode = order.getOrderDelivery().getShippingAddress().getPinCode();
+        StoreLocation store = storeRepo.findByIsActiveAndPinCode(true, pinCode);
+        stockService.updateStockByOrderDetails(order, store);
+    }
 }
