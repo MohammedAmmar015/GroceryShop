@@ -3,7 +3,6 @@ package com.ideas2it.groceryshop.exceptionhandler;
 import com.ideas2it.groceryshop.dto.ErrorResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,15 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.validation.UnexpectedTypeException;
-import java.net.http.HttpClient;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -55,21 +47,6 @@ public class ApplicationExceptionHandler {
         error.setErrorMessage(notFoundException.getMessage());
         error.setStatusCode(202);
         return error;
-    }
-
-    /**
-     * <p>
-     *     This method will handle IO Exception
-     * </p>
-     * @param ioException contains message
-     * @return ErrorDto
-     */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponseDto handleIOException(IOException ioException) {
-        ErrorResponseDto errorDto = new ErrorResponseDto();
-        errorDto.setStatusCode(404);
-        errorDto.setErrorMessage(ioException.getMessage());
-        return errorDto;
     }
 
     /**

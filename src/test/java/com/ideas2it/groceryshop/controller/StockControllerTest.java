@@ -1,8 +1,13 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.StockRequestDto;
 import com.ideas2it.groceryshop.dto.StockResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.StockService;
@@ -17,6 +22,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+/**
+ * <p>
+ *     This is StockController Test Class
+ *     used to test methods available in
+ *     StoreController
+ * </p>
+ * @author Mohammed Ammar
+ * @since 15-11-2022
+ * @version 1.0
+ */
 @SpringBootTest
 public class StockControllerTest {
 
@@ -26,23 +41,40 @@ public class StockControllerTest {
     @Mock
     private StockService stockService;
 
+    /**
+     * <p>
+     *     This method is used to test createStock method
+     *     in StockController
+     * </p>
+     * @throws Existed throws if stock already available
+     *                  for given product and location
+     * @throws NotFound if product or location not found
+     */
     @Test
     public void testCreateStock() throws Existed, NotFound {
         Integer locationId = 1;
         Integer productId = 1;
         StockRequestDto stockRequestDto = new StockRequestDto(100);
-        SuccessDto successDto = new SuccessDto(201, "Stock Created Successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(201, "Stock Created Successfully");
         when(stockService.addStock(stockRequestDto, locationId, productId)).thenReturn(successDto);
         assertEquals(successDto.getStatusCode(),
                 stockController.createStock(stockRequestDto, locationId, productId).getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test updateStock method
+     *     in StockController
+     * </p>
+     * @throws NotFound throws if stock not found for
+     *                  given product and location
+     */
     @Test
-    public void testUpdateStock() throws Existed, NotFound {
+    public void testUpdateStock() throws NotFound {
         Integer locationId = 1;
         Integer productId = 1;
         StockRequestDto stockRequestDto = new StockRequestDto(100);
-        SuccessDto successDto = new SuccessDto(200, "Stock Updated Successfully");
+        SuccessResponseDto successDto = new SuccessResponseDto(200, "Stock Updated Successfully");
         when(stockService.updateStockByProductAndLocation(stockRequestDto, locationId, productId))
                 .thenReturn(successDto);
         assertEquals(successDto.getStatusCode(),
@@ -51,6 +83,13 @@ public class StockControllerTest {
                                                                     productId).getStatusCode());
     }
 
+    /**
+     * <p>
+     *     This method is used to test viewStockByProduct
+     *     in StockController
+     * </p>
+     * @throws NotFound throws if stocks not found for given product
+     */
     @Test
     public void testViewStockByProduct() throws NotFound {
         Integer productId = 1;
@@ -65,6 +104,15 @@ public class StockControllerTest {
         assertEquals(stocks.size(), stockController.viewStockByProduct(productId).size());
     }
 
+    /**
+     * <p>
+     *     This method is used to test
+     *     viewStockByProductAndLocation method
+     *     in StockController
+     * </p>
+     * @throws NotFound throws if stock not found
+     *                  for given product and location
+     */
     @Test
     public void testViewStockByProductAndLocation() throws NotFound {
         Integer productId = 1;
@@ -76,6 +124,5 @@ public class StockControllerTest {
         assertEquals(productId,
                 stockController.getStockByProductAndLocation(productId, locationId).getProductId());
     }
-
 
 }

@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *      Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.dto.StockRequestDto;
@@ -7,13 +12,16 @@ import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.StockMapper;
+import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.Stock;
 import com.ideas2it.groceryshop.model.StoreLocation;
+import com.ideas2it.groceryshop.model.UserOrder;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.StockService;
-import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,13 +38,21 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-@AllArgsConstructor
 public class StockServiceImpl implements StockService {
 
-    private StoreRepo storeRepo;
-    private StockRepo stockRepo;
-    private ProductHelper productHelper;
+    private final Logger logger;
+    private final StoreRepo storeRepo;
+    private final StockRepo stockRepo;
+    private final ProductHelper productHelper;
 
+    public StockServiceImpl(Logger logger, StoreRepo storeRepo,
+                            StockRepo stockRepo,
+                            ProductHelper productHelper) {
+        this.logger = LogManager.getLogger(StockServiceImpl.class);
+        this.storeRepo = storeRepo;
+        this.stockRepo = stockRepo;
+        this.productHelper = productHelper;
+    }
 
     /**
      * <p>
@@ -55,22 +71,27 @@ public class StockServiceImpl implements StockService {
     public SuccessResponseDto addStock(StockRequestDto stockRequest,
                                Integer locationId,
                                Integer productId) throws NotFound, Existed {
+        logger.debug("Entered addStock method in StockServiceImpl");
         if (stockRepo.existsByStoreLocationIdAndProductId(locationId, productId)) {
+            logger.error("stock already exist");
             throw new Existed("Stock already exists");
         }
         Stock stock = StockMapper.toStock(stockRequest);
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, locationId);
         if (storeLocation == null) {
+            logger.error("store not found");
             throw new NotFound("Store not found");
         }
         stock.setStoreLocation(storeLocation);
         Product product = productHelper.getProductById(productId);
         if (product == null) {
+            logger.error("product not found");
             throw new NotFound("Product not found");
         }
         stock.setProduct(product);
         stock.setUnit(product.getUnit().substring(2));
         stockRepo.save(stock);
+        logger.debug("stock created successfully");
         return new SuccessResponseDto(201,
                 "Stock created successfully");
     }
@@ -86,8 +107,10 @@ public class StockServiceImpl implements StockService {
      */
     @Override
     public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFound {
+        logger.debug("Entered getStockByProductId method in StockServiceImpl");
         List<Stock> stocks = stockRepo.findByProductId(productId);
         if (stocks.isEmpty()) {
+            logger.error("No stock data found");
             throw new NotFound("No data found");
         }
         List<StockResponseDto> stockResponse = new ArrayList<>();
@@ -109,13 +132,15 @@ public class StockServiceImpl implements StockService {
      * @throws NotFound if stock not found for given ids
      */
     @Override
-    public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId) throws NotFound {
+    public StockResponseDto getStockByProductAndLocation(Integer productId,
+                                                         Integer locationId) throws NotFound {
+        logger.debug("Entered getStockByProductAndLocation method in StockServiceImpl");
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
+            logger.error("stock not found");
             throw new NotFound("Stock not found");
         }
-        StockResponseDto stockResponse = StockMapper.toStockResponse(stock);
-        return stockResponse;
+        return StockMapper.toStockResponse(stock);
     }
 
     /**
@@ -135,11 +160,32 @@ public class StockServiceImpl implements StockService {
     public SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                       Integer productId,
                                                       Integer locationId) throws NotFound {
+        logger.debug("Entered updateStockByProductAndLocation method in StockServiceImpl");
         Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
                                                                     productId, locationId);
         if (rowsAffected == 0) {
+            logger.error("product or location not found");
             throw new NotFound("Product or Location not found");
         }
+        logger.debug("stock updated successfully");
         return new SuccessResponseDto(200, "Stock updated successfully");
+    }
+
+    /**
+     * <p>
+     *     This method is used to decrease stock by
+     *     user order details, and location details
+     * </p>
+     * @param order it has product details, user ordered
+     * @param store store location that user ordered for
+     */
+    @Override
+    public void removeStockByOrderDetails(UserOrder order, StoreLocation store) {
+        logger.debug("Entered removeStockByOrderDetails method in StockServiceImpl");
+        for (OrderDetails orderDetail : order.getOrderDetails()) {
+            stockRepo.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
+                    orderDetail.getProduct(),
+                    store.getId());
+        }
     }
 }

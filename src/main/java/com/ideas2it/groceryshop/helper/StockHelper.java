@@ -1,11 +1,15 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.helper;
 
 import com.ideas2it.groceryshop.exception.NotFound;
-import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.model.UserOrder;
-import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.repository.StoreRepo;
+import com.ideas2it.groceryshop.service.StockService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +24,15 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class StockHelper {
-    private StockRepo stockRepo;
     private StoreRepo storeRepo;
+    private StockService stockService;
 
     /**
      * <p>
-     *     To remove Stock for products, when user Ordered
+     *     This method is used to remove Stock for products,
+     *     that user has Ordered
      *     based on order details
+     *     and store location that user selected for
      * </p>
      * @param order - order details
      * @throws NotFound if location not found
@@ -36,10 +42,6 @@ public class StockHelper {
         if (store == null) {
             throw new NotFound("Stock not available Try any other location");
         }
-        for (OrderDetails orderDetail : order.getOrderDetails()) {
-            stockRepo.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
-                                                        orderDetail.getProduct(),
-                                                        store.getId());
-        }
+        stockService.removeStockByOrderDetails(order, store);
     }
 }
