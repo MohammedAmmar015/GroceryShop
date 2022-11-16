@@ -1,9 +1,15 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +28,6 @@ import com.ideas2it.groceryshop.helper.AddressHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.mapper.RoleMapper;
 import com.ideas2it.groceryshop.mapper.UserMapper;
-import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.Role;
 import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.repository.RoleRepo;
@@ -45,14 +50,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private RoleRepo roleRepo;
     private UserHelper userHelper;
     private AddressHelper addressHelper;
+    private Logger logger;
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo,
-                           UserHelper userHelper, AddressHelper addressHelper) {
+                           UserHelper userHelper, AddressHelper addressHelper,
+                           Logger logger) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.userHelper = userHelper;
         this.addressHelper = addressHelper;
+        this.logger = logger;
     }
 
     /**
@@ -64,8 +72,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public SuccessResponseDto addUser(UserRequestDto userRequestDto) throws Existed {
+        logger.debug("Entered addUser method");
         User user = UserMapper.userRequestDtoToUser(userRequestDto);
         if (userRepo.existsByUserName(userRequestDto.getUserName())) {
+            logger.debug("Username already exist");
             throw new Existed("Username already exist");
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -76,6 +86,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setRole(role.get());
         }
         userRepo.save(user);
+        logger.debug("User created successfully");
         return new SuccessResponseDto(200,"User created successfully");
     }
 
@@ -88,12 +99,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public UserResponseDto getUserById(Integer id) throws NotFound {
+        logger.debug("Entered getUserById method");
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
         if(user.isEmpty()) {
-            throw new NotFound("User does not exist");
+            logger.debug("Uses not found");
+            throw new NotFound("User not found");
         }
         UserResponseDto userResponseDto =
                 UserMapper.userToUserResponseDto(user.get());
+        logger.debug("Got users");
         return userResponseDto;
     }
 
@@ -101,15 +115,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * It is used to get all users
      *
      * @return userResponseDtoList is list of user
-     * @throws NotFound user not found
+     * @throws NotFound users not found
      */
     @Override
     public List<UserResponseDto> getAllUser() throws NotFound {
+        logger.debug("Entered getAllUser method");
         List<UserResponseDto> userResponseDtoList
                 = UserMapper.userToUserResponseDtoList(userRepo.findByIsActive(true));
         if(userResponseDtoList.isEmpty()) {
-            throw new NotFound("User not found");
+            logger.debug("Users not found");
+            throw new NotFound("Users not found");
         }
+        logger.debug("Got List of user");
         return userResponseDtoList;
     }
 
@@ -118,13 +135,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *
      * @param name used to search users by role name
      * @return userResponseDtoList list of user
+     * @throws NotFound users not found
      */
     @Override
-    public List<UserResponseDto> getUserByRole(String name) {
+    public List<UserResponseDto> getUserByRole(String name) throws NotFound {
+        logger.debug("Entered getUserByRole method");
         List<UserResponseDto> userResponseDtoList
                 = UserMapper.userToUserResponseDtoList
                 (userRepo.findByIsActiveAndRoleName(true,
                         RoleMapper.roleDtoToRole(name).getName()));
+        if(userResponseDtoList.isEmpty()) {
+            logger.debug("Users not found");
+            throw new NotFound("Users not found");
+        }
+        logger.debug("Got List of user");
         return userResponseDtoList;
     }
 
@@ -137,12 +161,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public SuccessResponseDto deleteUserById(Integer id) throws NotFound {
+        logger.debug("Entered deleteUserById method");
         Optional<User> user = userRepo.findByIsActiveAndId(true, id);
         if(user.isEmpty()) {
+            logger.debug("User not found");
             throw new NotFound("User not found");
         }
         userRepo.deactivateUser(id);
         addressHelper.deleteAllAddressByUserId(id);
+        logger.debug("User Deleted successfully");
         return new SuccessResponseDto(200,"User Deleted successfully");
     }
 
@@ -156,10 +183,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
+        logger.debug("Entered loadUserByUsername method");
         Optional<User> user = userRepo.findByUserNameAndIsActive(username, true);
         if (user.isEmpty()) {
+            logger.debug("Username Not Found");
             throw new UsernameNotFoundException("Username Not Found");
         }
+        logger.debug("Got user");
         return new CustomUserDetails(user.get());
     }
 
@@ -171,17 +201,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public String getUserByMobileNumber(String userNameOrMobileNumber){
+        logger.debug("Entered getUserByMobileNumber method");
         Long number = null;
         String userName = null;
         Boolean isTrue = Pattern.matches("^[7-9][0-9]{9}", userNameOrMobileNumber);
         if(isTrue == true){
+            logger.debug("mobile number");
             number = Long.parseLong(userNameOrMobileNumber);
             Optional<User> user = userRepo.findUserByMobileNumberAndIsActive(number,
                     true);
             userName = user.get().getUserName();
         } else {
+            logger.debug("username");
             userName = userNameOrMobileNumber;
         }
+        logger.debug("Got user name");
         return userName;
     }
 
@@ -191,14 +225,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      *
      * @param userUpdateDto it contains details to be updated
      * @return SuccessResponseDto it contains success message
+     * @throws NotFound user does not exist
      */
-    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) {
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) throws NotFound {
+        logger.debug("Entered updateUserByUserName method");
         Optional<User> user = userRepo.findUserByUserNameAndIsActive
                 (userUpdateDto.getUserName(), Boolean.TRUE);
+        if(user.isEmpty()) {
+            logger.debug("User not found");
+            throw new NotFound("User not found");
+        }
         User updatedUser = UserMapper.userUpdateDtoToUser(userUpdateDto, user.get());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         updatedUser.setPassword(encoder.encode(userUpdateDto.getPassword()));
         userRepo.save(updatedUser);
+        logger.debug("User Updated successfully");
         return new SuccessResponseDto(200,"User Updated successfully");
     }
 }

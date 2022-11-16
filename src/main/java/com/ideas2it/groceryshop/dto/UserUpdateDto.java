@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.dto;
 
 import lombok.AllArgsConstructor;
@@ -40,6 +45,6 @@ public class UserUpdateDto {
     private String password;
 
     @NotNull
-    @NotBlank(message = "Phone number Field cannot be empty")
-    private String phoneNumber;
+    @NotBlank(message = "Email number Field cannot be empty")
+    private String email;
 }

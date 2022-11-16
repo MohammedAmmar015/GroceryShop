@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.repository;
 
 import java.util.List;
@@ -5,6 +10,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.ideas2it.groceryshop.exception.NotFound;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -92,6 +98,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
      * @param userName it is name of user
      * @param isActive weather use is active or not
      * @return user it returns user object
+     * @throws NotFound user does not exist
      */
     Optional<User> findUserByUserNameAndIsActive(String userName, Boolean isActive);
 }

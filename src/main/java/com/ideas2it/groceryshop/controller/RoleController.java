@@ -1,7 +1,13 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.controller;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +36,14 @@ import com.ideas2it.groceryshop.service.RoleService;
 @RequestMapping("api/v1/roles")
 public class RoleController {
 
-    @Autowired
     private RoleService roleService;
+    private Logger logger;
+
+    @Autowired
+    public RoleController(RoleService roleService, Logger logger) {
+        this.roleService = roleService;
+        this.logger = logger;
+    }
 
     /**
      * It is used to create role
@@ -42,6 +54,7 @@ public class RoleController {
     @PostMapping
     public SuccessResponseDto createRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
             throws Existed {
+        logger.debug("Entered createRole method");
         return roleService.addRole(roleRequestDto);
     }
 
@@ -55,6 +68,7 @@ public class RoleController {
     @PutMapping
     public SuccessResponseDto updateRole
     (@Valid @RequestBody RoleUpdateRequestDto roleUpdateRequestDto) throws NotFound {
+        logger.debug("Entered updateRole method");
         return roleService.updateRole(roleUpdateRequestDto);
     }
 
@@ -67,6 +81,7 @@ public class RoleController {
     @DeleteMapping
     public SuccessResponseDto deleteRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
             throws NotFound {
+        logger.debug("Entered deleteRole method");
         return roleService.deleteRole(roleRequestDto);
     }
 }
