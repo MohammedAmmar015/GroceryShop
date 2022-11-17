@@ -68,7 +68,7 @@ public interface CartService {
 
     /**
      * <p>
-     * It is used to Update Cart Product Quantity of Particular user
+     *     It is used to Update Cart Product Quantity of Particular user
      * </p>
      *
      * @param cartRequest - cart details to be Updated
@@ -79,7 +79,8 @@ public interface CartService {
 
     /**
      * <p>
-     *     This method is used to get Cart by Cart Id
+     *     This method is used to get active
+     *     cart of currently logged-in user
      * </p>
      * @return Cart
      * @throws NotFound - throws exception if cart not found

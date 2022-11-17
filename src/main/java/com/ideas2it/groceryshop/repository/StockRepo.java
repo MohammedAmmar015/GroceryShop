@@ -97,5 +97,5 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
     @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product = ?2 AND s.storeLocation.id = ?3")
     @Modifying
     @Transactional
-    Integer increaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
+    void increaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
 }
