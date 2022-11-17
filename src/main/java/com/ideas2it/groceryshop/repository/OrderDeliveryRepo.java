@@ -26,9 +26,9 @@ public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer>
      * <p>
      *     This method is used to retrieve order using orderId
      * </p>
-     * @param OrderId it contains order id
-     * @return OrderDelivery it contains isDelivered, deliveryDate,
-     * expectedDeliveryDate, userOrder, shippingAddress
+     * @param OrderId - it contains order id
+     * @return OrderDelivery - it contains isDelivered, deliveryDate,
+     *                         expectedDeliveryDate, userOrder, shippingAddress
      */
     OrderDelivery findByUserOrderId(Integer OrderId);
 
@@ -36,8 +36,8 @@ public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer>
      * <p>
      *     This method is used to make change the delivery status and delivery date
      * </p>
-     * @param orderId it contains order id
-     * @return Integer 0 or 1
+     * @param orderId - it contains order id
+     * @return Integer - 0 or 1
      */
     @Modifying
     @Transactional

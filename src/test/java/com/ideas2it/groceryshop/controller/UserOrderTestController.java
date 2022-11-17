@@ -39,8 +39,9 @@ public class UserOrderTestController {
     @Test
     public void placeOrder() throws NotFound {
         SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202, "Order Placed Successfully");
-        UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto(5,1,1,4);
-         when(userOrderService.placeOrder(userOrderRequestDto, 3)).thenReturn(SuccessResponseDto);
+        UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto();
+        userOrderRequestDto.setAddressId(1);
+         when(userOrderService.placeOrder(userOrderRequestDto)).thenReturn(SuccessResponseDto);
          assertEquals(202, SuccessResponseDto.getStatusCode());
     }
 
@@ -52,8 +53,8 @@ public class UserOrderTestController {
     @Test
     public void buyNow() throws NotFound {
         SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202, "Order Placed Successfully");
-        UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto(5,1,1,4);
-        when(userOrderService.buyNow(userOrderRequestDto, 4)).thenReturn(SuccessResponseDto);
+        UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto(5,1,1);
+        when(userOrderService.buyNow(userOrderRequestDto)).thenReturn(SuccessResponseDto);
         assertEquals(202, SuccessResponseDto.getStatusCode());
     }
 

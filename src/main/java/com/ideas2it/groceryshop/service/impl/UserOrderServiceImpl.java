@@ -76,7 +76,7 @@ public class UserOrderServiceImpl implements UserOrderService {
             OrderDelivery orderDelivery = orderDelivery(userOrderRequest, cart.getUser().getId());
             userOrder.setOrderDelivery(orderDelivery);
             userOrderRepo.save(userOrder);
-            cartHelper.deleteAllProductsFromCart(cart.getUser());
+            cartHelper.deleteAllProductsFromCart();
             stockHelper.removeStockByOrderDetails(userOrder,
                     orderDelivery.getShippingAddress().getPinCode());
             logger.debug("Order placed successfully");
@@ -321,21 +321,18 @@ public class UserOrderServiceImpl implements UserOrderService {
     public SuccessResponseDto cancelOrderById(Integer orderId) throws NotFound, Existed {
         logger.debug("Entered cancelOrderById method in UserOrderServiceImpl");
         Integer userId = userHelper.getCurrentUser().getId();
-        Optional<UserOrder> userOrder = userOrderRepo.findByIdAndIsActiveAndUserIdAndOrderDeliveryIsActive
+        Optional<UserOrder> userOrder = userOrderRepo.findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered
                 (orderId, true , userId, false);
         if(userOrder.isPresent()) {
-            Integer isCancelled = userOrderRepo.cancelOrderById(orderId);
+            Integer isCancelled = userOrderRepo.cancelOrderById(orderId, userId);
             stockHelper.updateStockByOrderDetails(userOrder.get());
             if (isCancelled != 0) {
                 logger.debug("Order cancelled successfully");
-                return new SuccessResponseDto(202, "Order cancelled successfully");
-            } else {
-                logger.debug("Order not found");
-                throw new NotFound("Order not found");
             }
+            return new SuccessResponseDto(202, "Order cancelled successfully");
         } else {
-            logger.debug("Order already cancelled");
-            throw new Existed("Order already cancelled");
+            logger.debug("Order not found");
+            throw new Existed("Order not found");
         }
 
     }

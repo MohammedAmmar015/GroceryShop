@@ -138,7 +138,7 @@ public class UserOrderController {
      *                                      totalQuantity, orderDetails, isDelivered
      * @throws NotFound - if order of particular user is not available it shows No record found
      */
-    @GetMapping("/user/")
+    @GetMapping("/user")
     public List<UserOrderResponseDto> viewOrderByUserId() throws NotFound {
         Integer userId = userHelper.getCurrentUser().getId();
         logger.debug("Entered viewOrderByUserId method in UserOrderController");
