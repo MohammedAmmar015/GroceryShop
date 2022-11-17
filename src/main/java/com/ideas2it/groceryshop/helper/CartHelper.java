@@ -35,8 +35,8 @@ public class CartHelper {
      * @return Cart
      * @throws NotFound - if cart not found by id
      */
-    public Cart getCartById(Integer cartId, Boolean status) throws NotFound {
-        return cartService.getCartByCartId(cartId, status);
+    public Cart getCart() throws NotFound {
+        return cartService.getActiveCartOfCurrentUser();
     }
 
     /**
@@ -46,7 +46,7 @@ public class CartHelper {
      * @param user user details to delete user's cart
      * @throws NotFound if cart not found for given user
      */
-    public void deleteAllProductsFromCart(User user) throws NotFound {
-         cartService.removeCart(user.getId());
+    public void deleteAllProductsFromCart() throws NotFound {
+         cartService.removeCart();
     }
 }

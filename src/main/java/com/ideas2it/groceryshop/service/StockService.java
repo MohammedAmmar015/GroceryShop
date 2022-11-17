@@ -93,5 +93,14 @@ public interface StockService {
      */
     void removeStockByOrderDetails(UserOrder order, StoreLocation store);
 
+    /**
+     * <p>
+     *     This method is used to update stock
+     *     based on user order,
+     *     when user cancelled the order
+     * </p>
+     * @param order order details that is cancelled
+     * @param store store to update stock
+     */
     void updateStockByOrderDetails(UserOrder order, StoreLocation store);
 }

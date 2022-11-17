@@ -189,6 +189,15 @@ public class StockServiceImpl implements StockService {
         }
     }
 
+    /**
+     * <p>
+     *     This method is used to update stock
+     *     based on user order,
+     *     when user cancelled the order
+     * </p>
+     * @param order order details that is cancelled
+     * @param store store to update stock
+     */
     @Override
     public void updateStockByOrderDetails(UserOrder order, StoreLocation store) {
         logger.debug("Entered updateStockByOrderDetails method in StockServiceImpl");
