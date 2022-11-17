@@ -6,7 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * It is an order details response dto which is used for showing output to the user
+ * <p>
+ *     It is an order details response dto which is used for showing output to the user
+ * </p>
+ *
  * @author Dhanalakshmi.M
  * @version 1.0
  */

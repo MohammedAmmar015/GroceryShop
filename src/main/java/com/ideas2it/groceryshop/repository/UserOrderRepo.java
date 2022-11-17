@@ -64,7 +64,7 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * <p>
      *     This method is used to get order by using orderId and userId as parameter
      * </p>
-     * @param orderId
+     * @param orderId - it gets the order by using orderId
      * @param userId - it gets the order by using orderId and userId
      * @return UserOrder - it returns the user order which contains orderedDate, totalPrice,
      *                   totalQuantity, isActive, orderDetails, cart, user, orderDelivery
@@ -75,14 +75,17 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * <p>
      *     This method is used to get the user order by orderId, isActive, userId and isDelivered
      * </p>
-     * @param orderId
-     * @param isActive
-     * @param userId
+     * @param orderId - this used get order by checking orderId
+     * @param isActive - this used get order by checking isActive
+     * @param userId - this used get order by checking userId
      * @param isDelivered - this used get order by checking orderId, isActive, userId and isDelivered
      * @return UserOrder - it return the UserOrder which contains orderedDate, totalPrice,
      *                   totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    Optional<UserOrder> findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered(Integer orderId, Boolean isActive, Integer userId, Boolean isDelivered);
+    Optional<UserOrder> findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered(Integer orderId,
+                                                                                Boolean isActive,
+                                                                                Integer userId,
+                                                                                Boolean isDelivered);
 
     /**
      * <p>
@@ -112,7 +115,7 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      *     This method is used to retrieve order by using userId and orderedDate
      * </p>
      *
-     * @param orderedDate
+     * @param orderedDate - to get list of orders of particular user on particular date
      * @param userId - to get list of orders of particular user on particular date
      *                by using order date and userId
      * @return List<UserOrder> - to get list of orders which contains orderedDate, totalPrice,

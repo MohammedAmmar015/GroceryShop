@@ -152,11 +152,10 @@ public class UserOrderController {
      *
      * @param orderId - to cancel order by using order id
      * @return SuccessResponseDto - order cancelled successfully
-     * @throws NotFound - if order is not found it shows Order not found
      * @throws Existed - if order is already cancelled it shows Order already cancelled
      */
     @PutMapping("/cancelOrder/{orderId}")
-    public SuccessResponseDto cancelOrder(@PathVariable() Integer orderId) throws NotFound, Existed {
+    public SuccessResponseDto cancelOrder(@PathVariable() Integer orderId) throws Existed {
         logger.debug("Entered cancelOrder method in UserOrderController");
         return userOrderService.cancelOrderById(orderId);
     }
