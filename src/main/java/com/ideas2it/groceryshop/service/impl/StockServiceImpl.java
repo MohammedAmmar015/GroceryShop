@@ -69,8 +69,9 @@ public class StockServiceImpl implements StockService {
      */
     @Override
     public SuccessResponseDto addStock(StockRequestDto stockRequest,
-                               Integer locationId,
-                               Integer productId) throws NotFound, Existed {
+                                       Integer locationId,
+                                       Integer productId)
+                                       throws NotFound, Existed {
         logger.debug("Entered addStock method in StockServiceImpl");
         if (stockRepo.existsByStoreLocationIdAndProductId(locationId, productId)) {
             logger.error("stock already exist");
@@ -106,7 +107,8 @@ public class StockServiceImpl implements StockService {
      * @throws NotFound if stock not found for given product id
      */
     @Override
-    public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFound {
+    public List<StockResponseDto> getStockByProductId(Integer productId)
+                                                      throws NotFound {
         logger.debug("Entered getStockByProductId method in StockServiceImpl");
         List<Stock> stocks = stockRepo.findByProductId(productId);
         if (stocks.isEmpty()) {
@@ -133,7 +135,8 @@ public class StockServiceImpl implements StockService {
      */
     @Override
     public StockResponseDto getStockByProductAndLocation(Integer productId,
-                                                         Integer locationId) throws NotFound {
+                                                         Integer locationId)
+                                                         throws NotFound {
         logger.debug("Entered getStockByProductAndLocation method in StockServiceImpl");
         Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
@@ -157,12 +160,16 @@ public class StockServiceImpl implements StockService {
      * @throws NotFound if stock not found for product id and location id
      */
     @Override
-    public SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
-                                                      Integer productId,
-                                                      Integer locationId) throws NotFound {
+    public SuccessResponseDto updateStockByProductAndLocation
+                             (StockRequestDto stockRequest,
+                             Integer productId,
+                             Integer locationId)
+                             throws NotFound {
         logger.debug("Entered updateStockByProductAndLocation method in StockServiceImpl");
-        Integer rowsAffected = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
-                                                                    productId, locationId);
+        Integer rowsAffected
+                = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
+                                                            productId,
+                                                            locationId);
         if (rowsAffected == 0) {
             logger.error("product or location not found");
             throw new NotFound("Product or Location not found");
@@ -180,7 +187,8 @@ public class StockServiceImpl implements StockService {
      * @param store store location that user ordered for
      */
     @Override
-    public void removeStockByOrderDetails(UserOrder order, StoreLocation store) {
+    public void removeStockByOrderDetails(UserOrder order,
+                                          StoreLocation store) {
         logger.debug("Entered removeStockByOrderDetails method in StockServiceImpl");
         for (OrderDetails orderDetail : order.getOrderDetails()) {
             stockRepo.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
@@ -199,7 +207,8 @@ public class StockServiceImpl implements StockService {
      * @param store store to update stock
      */
     @Override
-    public void updateStockByOrderDetails(UserOrder order, StoreLocation store) {
+    public void updateStockByOrderDetails(UserOrder order,
+                                          StoreLocation store) {
         logger.debug("Entered updateStockByOrderDetails method in StockServiceImpl");
         for (OrderDetails orderDetail : order.getOrderDetails()) {
             stockRepo.increaseStockByProductsAndLocation(orderDetail.getQuantity(),

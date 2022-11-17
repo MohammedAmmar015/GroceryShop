@@ -61,7 +61,9 @@ public class StoreLocationController {
      * @throws Existed if store details already exist
      */
     @PostMapping
-    public SuccessResponseDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest) throws Existed {
+    public SuccessResponseDto createStore
+                              (@Valid @RequestBody StoreRequestDto storeLocationRequest)
+                               throws Existed {
         logger.debug("Entered createStore method in StoreLocationController");
         return storeService.addStore(storeLocationRequest);
     }
@@ -78,8 +80,9 @@ public class StoreLocationController {
      * @throws Existed if details to be updated is already exists
      */
     @PutMapping("/{storeId}")
-    public SuccessResponseDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
-                                  @PathVariable Integer storeId) throws Existed, NotFound {
+    public SuccessResponseDto updateStore
+                              (@Valid @RequestBody StoreRequestDto storeLocationRequest,
+                               @PathVariable Integer storeId) throws Existed, NotFound {
         logger.debug("Entered updateStore method in StoreLocationController");
         return storeService.modifyStore(storeLocationRequest, storeId);
     }
@@ -108,7 +111,8 @@ public class StoreLocationController {
      * @throws NotFound if store not found
      */
     @GetMapping("/{storeId}")
-    public StoreResponseDto viewStoreById(@PathVariable Integer storeId) throws NotFound {
+    public StoreResponseDto viewStoreById(@PathVariable Integer storeId)
+                                          throws NotFound {
         logger.debug("Entered viewStoreById method in StoreLocationController");
         return storeService.getStoreById(storeId);
     }
@@ -123,8 +127,9 @@ public class StoreLocationController {
      * @throws NotFound if store not found
      */
     @DeleteMapping("/{storeId}")
-    public SuccessResponseDto deleteStore(@PathVariable Integer storeId) throws NotFound {
-        logger.debug("Entered deleteDtore method in StoreLocationController");
+    public SuccessResponseDto deleteStore(@PathVariable Integer storeId)
+                                          throws NotFound {
+        logger.debug("Entered deleteStore method in StoreLocationController");
         return storeService.removeStore(storeId);
     }
 

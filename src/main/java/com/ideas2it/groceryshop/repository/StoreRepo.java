@@ -59,7 +59,8 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      * @param pinCode - area Pin code
      * @return true if exists else false
      */
-    Boolean existsByAreaOrPinCode(String area, Integer pinCode);
+    Boolean existsByAreaOrPinCode(String area,
+                                  Integer pinCode);
 
     /**
      * <p>
@@ -70,7 +71,8 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      * @param status - true or false
      * @return - true if store exist else false
      */
-    Boolean existsByIdAndIsActive(Integer locationId, Boolean status);
+    Boolean existsByIdAndIsActive(Integer locationId,
+                                  Boolean status);
 
     /**
      * <p>
@@ -81,7 +83,8 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      * @param pinCode - area pin code to retrieve
      * @return storeLocation based on status and pinCode
      */
-    StoreLocation findByIsActiveAndPinCode(Boolean status, Integer pinCode);
+    StoreLocation findByIsActiveAndPinCode(Boolean status,
+                                           Integer pinCode);
 
     /**
      * <p>
@@ -93,5 +96,7 @@ public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
      * @param storeId - location id
      * @return - true if exist else false
      */
-    Boolean existsByAreaOrPinCodeAndIdNot(String area, Integer pinCode, Integer storeId);
+    Boolean existsByAreaOrPinCodeAndIdNot(String area,
+                                          Integer pinCode,
+                                          Integer storeId);
 }

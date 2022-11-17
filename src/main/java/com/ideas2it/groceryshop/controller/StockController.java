@@ -62,9 +62,9 @@ public class StockController {
      */
     @PostMapping("/{locationId}/{productId}")
     public SuccessResponseDto createStock(@Valid @RequestBody StockRequestDto stockRequest,
-                            @PathVariable("locationId") Integer locationId,
-                            @PathVariable("productId") Integer productId)
-            throws Existed, NotFound {
+                                          @PathVariable("locationId") Integer locationId,
+                                          @PathVariable("productId") Integer productId)
+                                          throws Existed, NotFound {
         logger.debug("Entered createStock method in StockController");
         return stockService.addStock(stockRequest, locationId, productId);
     }
@@ -81,7 +81,7 @@ public class StockController {
      */
     @GetMapping("/{productId}")
     public List<StockResponseDto> viewStockByProduct(@PathVariable Integer productId)
-            throws NotFound {
+                                                     throws NotFound {
         logger.debug("Entered viewStockByProduct method in StockController");
         return stockService.getStockByProductId(productId);
     }
@@ -100,7 +100,7 @@ public class StockController {
     @GetMapping("/{locationId}/{productId}")
     public StockResponseDto getStockByProductAndLocation(@PathVariable Integer productId,
                                                          @PathVariable Integer locationId)
-            throws NotFound {
+                                                         throws NotFound {
         logger.debug("Entered getStockByProductAndLocation method in StockController");
         return stockService.getStockByProductAndLocation(productId,locationId);
     }
@@ -118,10 +118,13 @@ public class StockController {
      * @throws NotFound if product or location not found
      */
     @PutMapping("/{locationId}/{productId}")
-    public SuccessResponseDto updateStockByProductAndLocation(@Valid @RequestBody StockRequestDto stockRequest,
-                                                @PathVariable Integer productId,
-                                                @PathVariable Integer locationId) throws NotFound {
+    public SuccessResponseDto updateStockByProductAndLocation
+                            (@Valid @RequestBody StockRequestDto stockRequest,
+                             @PathVariable Integer productId,
+                             @PathVariable Integer locationId) throws NotFound {
         logger.debug("Entered updateStockByProductAndLocation method in StockController");
-        return stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
+        return stockService.updateStockByProductAndLocation(stockRequest,
+                                                            productId,
+                                                            locationId);
     }
 }

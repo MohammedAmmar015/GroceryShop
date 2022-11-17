@@ -44,10 +44,13 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param locationId - in which location
      * @return number of rows affected
      */
-    @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product.id = ?2 AND s.storeLocation.id = ?3")
+    @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 "
+            + "where s.product.id = ?2 AND s.storeLocation.id = ?3")
     @Modifying
     @Transactional
-    Integer updateStockByProductAndLocation(Integer stock, Integer productId, Integer locationId);
+    Integer updateStockByProductAndLocation(Integer stock,
+                                            Integer productId,
+                                            Integer locationId);
 
     /**
      * <p>
@@ -57,10 +60,13 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param product - to which product
      * @param locationId - in which location
      */
-    @Query("UPDATE Stock s SET s.availableStock = s.availableStock - ?1 where s.product = ?2 AND s.storeLocation.id = ?3")
+    @Query("UPDATE Stock s SET s.availableStock = s.availableStock - ?1 "
+            + "where s.product = ?2 AND s.storeLocation.id = ?3")
     @Modifying
     @Transactional
-    void decreaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
+    void decreaseStockByProductsAndLocation(Integer quantity,
+                                            Product product,
+                                            Integer locationId);
 
     /**
      * <p>
@@ -71,7 +77,8 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param productId - to which product
      * @return true if exists else false
      */
-    Boolean existsByStoreLocationIdAndProductId(Integer locationId, Integer productId);
+    Boolean existsByStoreLocationIdAndProductId(Integer locationId,
+                                                Integer productId);
 
     /**
      * <p>
@@ -83,7 +90,9 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param expectedNumber - minimum stock to check
      * @return true if stock is greater that expected number
      */
-    Boolean existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan(Integer locationId, Integer productId, Integer expectedNumber);
+    Boolean existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan(Integer locationId,
+                                                                            Integer productId,
+                                                                            Integer expectedNumber);
 
     /**
      * <p>
@@ -94,8 +103,11 @@ public interface StockRepo extends JpaRepository<Stock, Integer> {
      * @param locationId - in which location
      * @return number of rows affected
      */
-    @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 where s.product = ?2 AND s.storeLocation.id = ?3")
+    @Query("UPDATE Stock s SET s.availableStock = s.availableStock + ?1 "
+            + "where s.product = ?2 AND s.storeLocation.id = ?3")
     @Modifying
     @Transactional
-    void increaseStockByProductsAndLocation(Integer quantity, Product product, Integer locationId);
+    void increaseStockByProductsAndLocation(Integer quantity,
+                                            Product product,
+                                            Integer locationId);
 }

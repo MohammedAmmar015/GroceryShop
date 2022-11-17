@@ -53,7 +53,8 @@ public class StoreServiceImpl implements StoreService {
      * @throws Existed - if area or location already exists
      */
     @Override
-    public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws Existed {
+    public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest)
+                                       throws Existed {
         logger.debug("Entered addStore method in StoreServiceImpl");
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
@@ -61,7 +62,8 @@ public class StoreServiceImpl implements StoreService {
             logger.error("area or pin code already exist");
             throw new Existed("Area or PinCode already exists");
         }
-        StoreLocation storeLocation = StoreLocationMapper.toStoreLocation(storeLocationRequest);
+        StoreLocation storeLocation
+                        = StoreLocationMapper.toStoreLocation(storeLocationRequest);
         storeRepo.save(storeLocation);
         logger.debug("store created successfully");
         return new SuccessResponseDto(201, "Store created successfully");
@@ -120,7 +122,8 @@ public class StoreServiceImpl implements StoreService {
      * @throws NotFound if store not found
      */
     @Override
-    public StoreResponseDto getStoreById(Integer storeId) throws NotFound {
+    public StoreResponseDto getStoreById(Integer storeId)
+                                         throws NotFound {
         logger.debug("Entered getStoreById method in StoreServiceImpl");
         StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
@@ -143,9 +146,11 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
-                                  Integer storeId) throws NotFound, Existed {
+                                          Integer storeId)
+                                          throws NotFound, Existed {
         logger.debug("Entered modifyStore method in StoreServiceImpl");
-        StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
+        StoreLocation storeLocation
+                        = storeRepo.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
             logger.error("store not found");
             throw new NotFound("Store not found");
@@ -160,6 +165,7 @@ public class StoreServiceImpl implements StoreService {
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
         storeRepo.save(storeLocation);
         logger.debug("store updated successfully");
-        return new SuccessResponseDto(200, "Store updated successfully");
+        return new SuccessResponseDto(200,
+                                "Store updated successfully");
     }
 }
