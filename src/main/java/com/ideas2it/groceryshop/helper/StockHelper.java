@@ -44,6 +44,14 @@ public class StockHelper {
         }
         stockService.removeStockByOrderDetails(order, store);
     }
+
+    /**
+     * <p>
+     *     This method is used to update stock
+     *     when user cancel order
+     * </p>
+     * @param order user order details that is cancelled
+     */
     public void updateStockByOrderDetails(UserOrder order) {
         Integer pinCode = order.getOrderDelivery().getShippingAddress().getPinCode();
         StoreLocation store = storeRepo.findByIsActiveAndPinCode(true, pinCode);

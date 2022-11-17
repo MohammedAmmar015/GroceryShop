@@ -35,16 +35,6 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
      */
     Optional<Cart> findByUserIdAndIsActive(Integer userId, Boolean isActive);
 
-    /**
-     * <p>
-     *     It is used to retrieve active Cart by cart id
-     * </p>
-     * @param cartId cart id to retrieve cart
-     * @param isActive true or false
-     * @return Cart object
-     */
-    Cart findByIdAndIsActive(Integer cartId, Boolean isActive);
-
 
     /**
      * <p>

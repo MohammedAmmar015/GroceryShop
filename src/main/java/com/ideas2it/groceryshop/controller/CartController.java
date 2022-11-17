@@ -51,89 +51,83 @@ public class CartController {
 
     /**
      * <p>
-     *     This POST API api/v1/carts/{userId}
-     *     is used to Add Products
-     *     to Cart of Particular user
+     *     This POST API api/v1/carts
+     *     is used to Add Product
+     *     to Cart of currently logged-in user
      * </p>
      * @param cartRequest - Cart details to be added to cart
-     * @param userId - user's id to add product to user's cart
      * @return SuccessResponseDto with Message and Status Code
      * @throws NotFound if Cart or Product Not found
      * @throws Existed if product already exist in Cart
      */
-    @PostMapping("/{userId}")
-    public SuccessResponseDto createCart(@Valid @RequestBody CartRequestDto cartRequest,
-                                         @PathVariable Integer userId) throws NotFound, Existed {
+    @PostMapping
+    public SuccessResponseDto createCart(@Valid @RequestBody CartRequestDto cartRequest)
+                                            throws NotFound, Existed {
         logger.debug("Entered createCart method in CartController");
-        return cartService.addCart(cartRequest, userId);
+        return cartService.addCart(cartRequest);
     }
 
     /**
      * <p>
-     *     This GET API api/v1/carts/{userId}
-     *     is used to view Cart for Particular user
-     *     based on user id
+     *     This GET API api/v1/carts
+     *     is used to view Cart for Currently logged-in user
      * </p>
-     * @param userId - user's id to view Cart
      * @return - CartResponse with product details
      * @throws NotFound if Cart not found
      */
-    @GetMapping("/{userId}")
-    public CartResponseDto viewCart(@PathVariable Integer userId) throws NotFound {
+    @GetMapping
+    public CartResponseDto viewCart() throws NotFound {
         logger.debug("Entered viewCart method in CartController");
-        return cartService.getCartByUserId(userId);
+        return cartService.getCart();
     }
 
     /**
      * <p>
-     *     This PUT API api/v1/carts/{userId}
-     *     is used to update cart product's quantity of Particular user
-     *     based on userId
+     *     This PUT API api/v1/carts
+     *     is used to update cart product's quantity of currently
+     *     logged-in user
      * </p>
      * @param cartRequest - cart details to be updated
-     * @param userId - user's id to update cart details
      * @return SuccessResponseDto if cart updated successfully
      * @throws NotFound if cart not found
      */
-    @PutMapping("/{userId}")
-    public SuccessResponseDto updateCart(@Valid @RequestBody CartRequestDto cartRequest,
-                                @PathVariable Integer userId) throws NotFound {
+    @PutMapping
+    public SuccessResponseDto updateCart(@Valid @RequestBody CartRequestDto cartRequest)
+                                        throws NotFound {
         logger.debug("Entered updateCart method in CartController");
-        return cartService.updateCartByUser(cartRequest, userId);
+        return cartService.updateCartByUser(cartRequest);
     }
 
     /**
      * <p>
-     *     This DELETE API api/v1/carts/{userId}
+     *     This DELETE API api/v1/carts
      *     is used to delete all products from Cart
-     *     based on userId
+     *     based on currently logged-in user
      * </p>
-     * @param userId user's id to delete all products from cart
      * @return SuccessResponseDto if cart deleted successfully
      * @throws NotFound if Cart not found
      */
-    @DeleteMapping("/{userId}")
-    public SuccessResponseDto deleteCart(@PathVariable Integer userId) throws NotFound {
+    @DeleteMapping
+    public SuccessResponseDto deleteCart() throws NotFound {
         logger.debug("Entered deleteCart method in CartController");
-        return cartService.removeCart(userId);
+        return cartService.removeCart();
     }
 
     /**
      * <p>
-     *     This DELETE API api/v1/carts/{userId}/{productId}
+     *     This DELETE API api/v1/carts/{productId}
      *     is used to delete Particular product from Cart
-     *     based on productId and userId.
+     *     based on productId and currently logged-in user
      * </p>
-     * @param userId - user's id
      * @param productId - product id to delete from cart
      * @return SuccessResponseDto if product from cart deleted successfully
      * @throws NotFound if cart not found
      */
-    @DeleteMapping("/{userId}/{productId}")
-    public SuccessResponseDto deleteProductFromCart(@PathVariable Integer userId,
-                                            @PathVariable Integer productId) throws NotFound {
+    @DeleteMapping("/{productId}")
+    public SuccessResponseDto deleteProductFromCart(@PathVariable Integer productId)
+                                                    throws NotFound {
         logger.debug("Entered deleteProductFromCart method in CartController");
-        return cartService.removeProductFromCart(userId,productId);
+        return cartService.removeProductFromCart(productId);
     }
 
 }
