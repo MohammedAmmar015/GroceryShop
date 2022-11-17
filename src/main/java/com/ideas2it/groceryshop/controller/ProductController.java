@@ -11,6 +11,7 @@ import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.service.ProductService;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -63,6 +63,22 @@ public class ProductController {
             throws Existed, NotFound {
         logger.debug("Entered into addProduct method in product controller");
         return productService.addProduct(productRequestDto);
+    }
+
+    /**
+     * <p>
+     *     This method used to get products by user search
+     * </p>
+     * @param name contains letter or words.
+     * @return list of matched products
+     * @throws NotFound exception will be thrown if products not found
+     *
+     */
+    @GetMapping("/search/{name}")
+    public List<ProductResponseDto> getProductBySearch(@Valid @PathVariable("name") String name)
+            throws NotFound {
+        logger.debug("Entered into searchProduct method in product controller");
+        return productService.getProductsBySearch(name);
     }
 
     /**

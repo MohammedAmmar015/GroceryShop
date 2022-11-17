@@ -61,4 +61,7 @@ public class Product extends Audit {
 
     @Column(name = "per_Head")
     private int perHead;
+
+    @Column(name = "Image")
+    private String image;
 }

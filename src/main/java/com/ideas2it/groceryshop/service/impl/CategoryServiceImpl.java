@@ -54,7 +54,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     before that will validate name, id and finally
      *     will allow to add in data base.
      * </p>
-     *
      * @param categoryRequestDto dto type object.
      * @return SuccessDto
      * @throws Existed will be thrown if category already Exists.
@@ -83,7 +82,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     the data base and convert it into dto type object
      *     in category mapper and then return it to controller.
      * </p>
-     *
      * @return Category List.
      * @throws NotFound will be thrown if no category is added.
      */
@@ -107,7 +105,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     from the data base and convert into dto type object with
      *     the help of category mapper and then will return it to controller
      * </p>
-     *
      * @return sub category list if exist otherwise exception will be thrown.
      * @throws NotFound exception will be thrown if no sub category exists.
      */
@@ -130,7 +127,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     This method will delete(soft delete) category from the data base
      *     and return success response dto to controller.
      * </p>
-     *
      * @param id to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
      * @throws NotFound exception will be thrown if category doesn't exist.
@@ -163,7 +159,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     This method will delete(soft delete) sub category from the data base
      *      and return success response dto to controller.
      * </p>
-     *
      * @param parentId to find which object to get deleted.
      * @param categoryId to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
@@ -192,7 +187,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     This method used to update particular category using
      *     its id and return success response dto which includes success message.
      * </p>
-     *
      * @param id to find which object to update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
@@ -221,7 +215,6 @@ public class CategoryServiceImpl implements CategoryService {
      *     This method used to update particular sub category using
      *     its id and return success response dto which includes success message.
      * </p>
-     *
      * @param categoryId to find object to get update.
      * @param parentId to find object to get update.
      * @param categoryRequestDto contains values to get updated.

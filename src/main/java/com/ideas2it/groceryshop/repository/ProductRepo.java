@@ -5,6 +5,7 @@
  */
 package com.ideas2it.groceryshop.repository;
 
+import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.model.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -90,6 +91,16 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
      * @return true or false
      */
     boolean existsByName(String name);
-}
 
+    /**
+     * <p>
+     *     This method used to get products by searching by products
+     *     starting characters.
+     * </p>
+     * @param name to check whether it is exists or not
+     * @return list of products matched
+     */
+    @Query(value = "select * from product where name LIKE %:name%" , nativeQuery = true)
+    List<Product> findProductBySearch(String name);
+}
 

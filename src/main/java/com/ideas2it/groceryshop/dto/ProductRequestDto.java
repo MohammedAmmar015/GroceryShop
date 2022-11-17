@@ -36,4 +36,6 @@ public class ProductRequestDto {
     private int perHead;
 
     private int subCategoryId;
+
+    private String image;
 }
