@@ -33,7 +33,8 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
      * @param isActive - true or false
      * @return - Cart object
      */
-    Optional<Cart> findByUserIdAndIsActive(Integer userId, Boolean isActive);
+    Optional<Cart> findByUserIdAndIsActive(Integer userId,
+                                           Boolean isActive);
 
 
     /**

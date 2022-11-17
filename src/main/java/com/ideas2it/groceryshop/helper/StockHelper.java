@@ -37,7 +37,8 @@ public class StockHelper {
      * @param order - order details
      * @throws NotFound if location not found
      */
-    public void removeStockByOrderDetails(UserOrder order, Integer pinCode) throws NotFound {
+    public void removeStockByOrderDetails(UserOrder order, Integer pinCode)
+                                          throws NotFound {
         StoreLocation store = storeRepo.findByIsActiveAndPinCode(true, pinCode);
         if (store == null) {
             throw new NotFound("Stock not available Try any other location");

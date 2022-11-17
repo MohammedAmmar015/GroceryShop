@@ -54,11 +54,18 @@ public class StockControllerTest {
     public void testCreateStock() throws Existed, NotFound {
         Integer locationId = 1;
         Integer productId = 1;
-        StockRequestDto stockRequestDto = new StockRequestDto(100);
-        SuccessResponseDto successDto = new SuccessResponseDto(201, "Stock Created Successfully");
-        when(stockService.addStock(stockRequestDto, locationId, productId)).thenReturn(successDto);
+        StockRequestDto stockRequestDto
+                = new StockRequestDto(100);
+        SuccessResponseDto successDto
+                = new SuccessResponseDto(201,
+                                 "Stock Created Successfully");
+        when(stockService.addStock(stockRequestDto,
+                                    locationId,
+                                    productId)).thenReturn(successDto);
         assertEquals(successDto.getStatusCode(),
-                stockController.createStock(stockRequestDto, locationId, productId).getStatusCode());
+                stockController.createStock(stockRequestDto,
+                                            locationId,
+                                            productId).getStatusCode());
     }
 
     /**
@@ -73,10 +80,14 @@ public class StockControllerTest {
     public void testUpdateStock() throws NotFound {
         Integer locationId = 1;
         Integer productId = 1;
-        StockRequestDto stockRequestDto = new StockRequestDto(100);
-        SuccessResponseDto successDto = new SuccessResponseDto(200, "Stock Updated Successfully");
-        when(stockService.updateStockByProductAndLocation(stockRequestDto, locationId, productId))
-                .thenReturn(successDto);
+        StockRequestDto stockRequestDto
+                = new StockRequestDto(100);
+        SuccessResponseDto successDto
+                = new SuccessResponseDto(200,
+                                 "Stock Updated Successfully");
+        when(stockService.updateStockByProductAndLocation(stockRequestDto,
+                                                          locationId,
+                                                          productId)).thenReturn(successDto);
         assertEquals(successDto.getStatusCode(),
                 stockController.updateStockByProductAndLocation(stockRequestDto,
                                                                     locationId,
@@ -120,9 +131,11 @@ public class StockControllerTest {
         StockResponseDto stock = new StockResponseDto(1, 100, 1,
                 "Apple", "Fruits",
                 "Fruits & Vegetable", "Guindy", 60001);
-        when(stockService.getStockByProductAndLocation(productId, locationId)).thenReturn(stock);
+        when(stockService.getStockByProductAndLocation(productId,
+                                                      locationId)).thenReturn(stock);
         assertEquals(productId,
-                stockController.getStockByProductAndLocation(productId, locationId).getProductId());
+                stockController.getStockByProductAndLocation(productId,
+                                                            locationId).getProductId());
     }
 
 }

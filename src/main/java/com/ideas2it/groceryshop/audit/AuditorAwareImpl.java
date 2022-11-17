@@ -33,9 +33,11 @@ public class AuditorAwareImpl implements AuditorAware<Integer> {
      * @return id - current user id
      */
     public Optional<Integer> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            return Optional.of(((CustomUserDetails) authentication.getPrincipal()).getUser().getId());
+            return Optional.of(((CustomUserDetails)
+                    authentication.getPrincipal()).getUser().getId());
         }
         return Optional.empty();
     }

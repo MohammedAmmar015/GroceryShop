@@ -50,8 +50,11 @@ public class StoreLocationControllerTest {
      */
     @Test
     public void testCreateStore() throws Existed {
-        StoreRequestDto storeRequestDto = new StoreRequestDto(600001, "Guindy");
-        SuccessResponseDto successDto = new SuccessResponseDto(201, "Store Created Successfully");
+        StoreRequestDto storeRequestDto
+                = new StoreRequestDto(600001, "Guindy");
+        SuccessResponseDto successDto
+                = new SuccessResponseDto(201,
+                                 "Store Created Successfully");
         when(storeService.addStore(storeRequestDto)).thenReturn(successDto);
         SuccessResponseDto result = storeLocationController.createStore(storeRequestDto);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
@@ -105,10 +108,14 @@ public class StoreLocationControllerTest {
     @Test
     public void testUpdateStore() throws Existed, NotFound {
         Integer storeId = 1;
-        StoreRequestDto storeRequestDto = new StoreRequestDto(600001, "Guindy");
-        SuccessResponseDto successDto = new SuccessResponseDto(200, "Store Updated Successfully");
+        StoreRequestDto storeRequestDto
+                = new StoreRequestDto(600001, "Guindy");
+        SuccessResponseDto successDto
+                = new SuccessResponseDto(200,
+                                 "Store Updated Successfully");
         when(storeService.modifyStore(storeRequestDto, storeId)).thenReturn(successDto);
-        SuccessResponseDto result = storeLocationController.updateStore(storeRequestDto, storeId);
+        SuccessResponseDto result = storeLocationController.updateStore(storeRequestDto,
+                                                                        storeId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
 
@@ -122,7 +129,8 @@ public class StoreLocationControllerTest {
     @Test
     public void testDeleteStore() throws NotFound {
         Integer storeId = 1;
-        SuccessResponseDto successDto = new SuccessResponseDto(200, "Store Deleted Successfully");
+        SuccessResponseDto successDto
+                = new SuccessResponseDto(200, "Store Deleted Successfully");
         when(storeService.removeStore(storeId)).thenReturn(successDto);
         SuccessResponseDto result = storeLocationController.deleteStore(storeId);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
