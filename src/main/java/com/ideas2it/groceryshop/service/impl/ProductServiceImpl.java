@@ -48,8 +48,8 @@ public class ProductServiceImpl implements ProductService {
     private StoreRepo storeRepo;
 
     @Autowired
-    public ProductServiceImpl(ProductRepo productRepo, StockRepo stockRepo, CategoryRepo categoryRepo,
-                              StoreRepo storeRepo) {
+    public ProductServiceImpl(ProductRepo productRepo, StockRepo stockRepo, CategoryRepo
+            categoryRepo, StoreRepo storeRepo) {
         this.productRepo = productRepo;
         this.storeRepo = storeRepo;
         this.categoryRepo = categoryRepo;
@@ -65,7 +65,9 @@ public class ProductServiceImpl implements ProductService {
      * @return SuccessDto otherwise exception will be thrown.
      * @throws Existed exception will be thrown if product already exist.
      */
-    public SuccessResponseDto addProduct(ProductRequestDto productRequestDto) throws Existed, NotFound {
+    @Override
+    public SuccessResponseDto addProduct(ProductRequestDto productRequestDto)
+            throws Existed, NotFound {
         logger.debug("Entered into addProduct method in product service");
         if(productRepo.existsByName(productRequestDto.getName())) {
             throw new Existed("Product already added");
@@ -89,6 +91,7 @@ public class ProductServiceImpl implements ProductService {
      * @return List of products.
      * @throws NotFound exception will be thrown if the products doesn't exist.
      */
+    @Override
     public List<ProductResponseDto> getProducts() throws NotFound {
         logger.debug("Entered into getProducts method in product service");
         List<Product> products = productRepo.findAllAndIsActive(true);
@@ -96,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFound("Products not found");
         }
         List<ProductResponseDto> productResponse = new ArrayList<>();
-        for (Product product :products) {
+        for (Product product : products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             productResponse.add(productResponseDto);
         }
@@ -113,6 +116,7 @@ public class ProductServiceImpl implements ProductService {
      * @return Dto type product
      * @throws NotFound exception will be thrown if id not exist.
      */
+    @Override
     public ProductResponseDto getProductById(Integer productId) throws NotFound {
         logger.debug("Entered into getProductsById method in product service");
         Product product = productRepo.findByIdAndIsActive(productId, true);
@@ -132,14 +136,17 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products
      * @throws NotFound exception will be thrown if id not exist.
      */
-    public List<ProductResponseDto> getProductsByCategoryId( Integer categoryId) throws NotFound {
+    @Override
+    public List<ProductResponseDto> getProductsByCategoryId( Integer categoryId)
+            throws NotFound {
         logger.debug("Entered into getProductsByCategoryId method in product service");
-        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive( categoryId, true);
+        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive( categoryId,
+                true);
         if(products.isEmpty()) {
             throw new NotFound("Products not found, id invalid");
         }
         List<ProductResponseDto> productResponses = new ArrayList<>();
-        for(Product product: products){
+        for(Product product : products){
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             productResponses.add(productResponseDto);
         }
@@ -151,10 +158,11 @@ public class ProductServiceImpl implements ProductService {
      * <p>
      *     This method used to get products based on user search.
      * </p>
-     * @param name to check with products name in data base.
+     * @param name to check with products name in database.
      * @return list of matched products
      * @throws NotFound exception will be thrown if products not found
      */
+    @Override
     public List<ProductResponseDto> getProductsBySearch(String name)
             throws NotFound {
         List<Product> products = productRepo.findProductBySearch(name);
@@ -162,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFound("Products not found");
         }
         List<ProductResponseDto> productResponse = new ArrayList<>();
-        for (Product product :products) {
+        for (Product product : products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             productResponse.add(productResponseDto);
         }
@@ -178,14 +186,17 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products
      * @throws NotFound exception will be thrown if id not exist.
      */
-    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFound {
+    @Override
+    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId)
+            throws NotFound {
         logger.debug("Entered into getProductsBySubCategoryId method in product service");
-        List<Product> products = productRepo.findBySubCategoryIdAndIsActive( subCategoryId, true);
+        List<Product> products = productRepo.findBySubCategoryIdAndIsActive( subCategoryId,
+                true);
         if(products.isEmpty()) {
             throw new NotFound("Products not found, id invalid");
         }
         List<ProductResponseDto> productResponses = new ArrayList<>();
-        for(Product product: products){
+        for(Product product : products){
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             productResponses.add(productResponseDto);
         }
@@ -207,12 +218,12 @@ public class ProductServiceImpl implements ProductService {
         logger.debug("Entered into deleteProductsById method in product service");
         Product product = productRepo.findByIdAndIsActive(id, true);
         if (product == null) {
-            throw new NotFound("product id not found");
+            throw new NotFound("product not found");
         }
         product.setActive(false);
         productRepo.save(product);
         logger.debug("deleteProductsById method successfully executed");
-        return new SuccessResponseDto(200, "Product deleted successfully");
+        return new SuccessResponseDto(201, "Product deleted successfully");
     }
 
     /**
@@ -234,7 +245,8 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new NotFound("Product id not found");
         }
-        if(productRepo.existsByNameAndPriceAndUnit(productRequestDto.getName(),productRequestDto.getPrice(), productRequestDto.getUnit())) {
+        if(productRepo.existsByNameAndPriceAndUnit(productRequestDto.getName(),
+                productRequestDto.getPrice(), productRequestDto.getUnit())) {
             throw new Existed("Product already exist");
         }
         product.setName(productRequestDto.getName());
@@ -266,9 +278,11 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFound("Location id invalid");
         }
         List<ProductResponseDto> productResponses = new ArrayList<>();
-        for (Product product :products) {
+        for (Product product : products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
-            Boolean isStockAvailable = stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan(locationId, product.getId(), 0);
+            Boolean isStockAvailable = stockRepo.
+                    existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan
+                            (locationId, product.getId(), 0);
             productResponseDto.setIsStockAvailable(isStockAvailable);
             productResponses.add(productResponseDto);
         }

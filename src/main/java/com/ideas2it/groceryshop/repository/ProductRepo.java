@@ -5,7 +5,6 @@
  */
 package com.ideas2it.groceryshop.repository;
 
-import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.model.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
