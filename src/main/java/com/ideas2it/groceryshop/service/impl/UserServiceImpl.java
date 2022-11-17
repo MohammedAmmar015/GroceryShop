@@ -27,11 +27,11 @@ import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
 import com.ideas2it.groceryshop.helper.AddressHelper;
 import com.ideas2it.groceryshop.helper.UserHelper;
+import com.ideas2it.groceryshop.helper.RoleHelper;
 import com.ideas2it.groceryshop.mapper.RoleMapper;
 import com.ideas2it.groceryshop.mapper.UserMapper;
 import com.ideas2it.groceryshop.model.Role;
 import com.ideas2it.groceryshop.model.User;
-import com.ideas2it.groceryshop.repository.RoleRepo;
 import com.ideas2it.groceryshop.repository.UserRepo;
 import com.ideas2it.groceryshop.service.UserService;
 
@@ -48,17 +48,18 @@ import com.ideas2it.groceryshop.service.UserService;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepo userRepo;
-    private RoleRepo roleRepo;
+    private RoleHelper roleHelper;
     private AddressHelper addressHelper;
-    private Logger logger;
+    private UserHelper userHelper;
+    private Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo,
-                           AddressHelper addressHelper) {
+    public UserServiceImpl(UserRepo userRepo, RoleHelper roleHelper,
+                           AddressHelper addressHelper, UserHelper userHelper) {
         this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
+        this.roleHelper = roleHelper;
         this.addressHelper = addressHelper;
-        this.logger = LogManager.getLogger(UserServiceImpl.class);
+        this.userHelper = userHelper;
     }
 
     /**
@@ -78,8 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(userRequestDto.getPassword()));
-        Optional<Role> role = roleRepo.findByIsActiveAndName
-                        (true, user.getRole().getName());
+        Optional<Role> role = roleHelper.findRoleByName(userRequestDto.getRole());
         if (role.isPresent()) {
             user.setRole(role.get());
         }
@@ -228,17 +228,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
             throws NotFound {
         logger.debug("Entered updateUserByUserName method");
-        Optional<User> user = userRepo.findUserByUserNameAndIsActive
-                (userUpdateDto.getUserName(), Boolean.TRUE);
-        if(user.isEmpty()) {
-            logger.debug("User not found");
-            throw new NotFound("User not found");
+        if(userHelper.getCurrentUser().getUserName().equals(userUpdateDto.getUserName())) {
+            logger.debug("User Cannot be updated");
+            throw new NotFound("User Cannot be updated");
         }
-        User updatedUser = UserMapper.userUpdateDtoToUser(userUpdateDto, user.get());
+        User updatedUser = UserMapper.userUpdateDtoToUser(userUpdateDto,
+                userHelper.getCurrentUser());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         updatedUser.setPassword(encoder.encode(userUpdateDto.getPassword()));
         userRepo.save(updatedUser);
         logger.debug("User Updated successfully");
         return new SuccessResponseDto(200,"User Updated successfully");
+    }
+
+    /**
+     * This method is used to get current user profile
+     *
+     * @return userResponseDto it contains user details
+     */
+    @Override
+    public UserResponseDto getCurrentUserProfile() {
+        logger.debug("Entered getCurrentUserProfile method");
+        UserResponseDto userResponseDto = UserMapper.
+                userToUserResponseDto(userHelper.getCurrentUser());
+        logger.debug("Got userResponse object");
+        return userResponseDto;
     }
 }

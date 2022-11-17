@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ideas2it.groceryshop.repository.AddressRepo;
 
 /**
- *  This Class is used to help other service classes
+ *  This Class is used to help service classes
  *
  * @version 1.0
  * @author Rohit A P

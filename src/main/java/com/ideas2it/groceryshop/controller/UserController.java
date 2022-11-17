@@ -42,12 +42,11 @@ import com.ideas2it.groceryshop.service.UserService;
 public class UserController {
 
     private UserService userService;
-    private Logger logger;
+    private Logger logger = LogManager.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-        this.logger = LogManager.getLogger(UserController.class);
     }
 
     /**
@@ -87,6 +86,7 @@ public class UserController {
     public List<UserResponseDto> viewAllUser() throws NotFound {
         logger.debug("Entered viewAllUser method");
         List<UserResponseDto> userResponseDtoList = userService.getAllUser();
+        logger.debug("Got list of user");
         return userResponseDtoList;
     }
 
@@ -102,7 +102,19 @@ public class UserController {
     (@PathVariable("roleName") String name) throws NotFound {
         logger.debug("Entered viewUsersByRole method");
         List<UserResponseDto> userResponseDtoList = userService.getUserByRole(name);
+        logger.debug("Got list of user");
         return userResponseDtoList;
+    }
+
+    /**
+     * This method is used to get current logged-in user profile
+     *
+     * @return UserResponseDto it contains user current user profile
+     */
+    @GetMapping("userProfile")
+    public UserResponseDto viewProfile() {
+        logger.debug("Entered viewProfile method");
+        return userService.getCurrentUserProfile();
     }
 
     /**

@@ -41,13 +41,13 @@ public class UserHelper {
     }
 
     /**
+     * This method is used to get current user object
      *
-     *
-     *
-     * @return
+     * @return user it contains user details
      */
     public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.
+                getContext().getAuthentication();
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         return user.getUser();
     }

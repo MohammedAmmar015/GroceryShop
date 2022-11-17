@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +26,7 @@ import com.ideas2it.groceryshop.dto.AddressRequestDto;
 import com.ideas2it.groceryshop.dto.AddressUpdateRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.service.AddressService;
 
 /**
@@ -43,43 +43,38 @@ import com.ideas2it.groceryshop.service.AddressService;
 public class AddressController {
 
     private AddressService addressService;
-    private Logger logger;
+    private Logger logger = LogManager.getLogger(AddressController.class);
+    private UserHelper userHelper;
 
     @Autowired
-    public AddressController(AddressService addressService) {
+    public AddressController(AddressService addressService, UserHelper userHelper) {
         this.addressService = addressService;
-        this.logger = LogManager.getLogger(AddressController.class);
+        this.userHelper = userHelper;
     }
 
     /**
      * It is used to create address
      *
-     * @param id it is id of user
      * @param addressRequestDto it contains address of user
      * @throws NotFound user not found
      */
-    @PostMapping("/{userId}")
-    @PreAuthorize("#user.userId == principal.userId")
-    public SuccessResponseDto createAddress(@PathVariable("userId") Integer id,
-                                    @Valid @RequestBody
-                                    AddressRequestDto addressRequestDto) throws NotFound {
+    @PostMapping
+    public SuccessResponseDto createAddress(@Valid @RequestBody AddressRequestDto addressRequestDto) throws NotFound {
         logger.debug("Entered createAddress method");
+        int id = userHelper.getCurrentUser().getId();
         return addressService.addAddress(id, addressRequestDto);
     }
 
     /**
      * It is used to all address of a user
      *
-     * @param id it is id of user
      * @return addresses list of address
      * @throws NotFound no address found
      */
-    @GetMapping("/{userId}")
-    public List<AddressResponseDto> viewAddressesByUserId
-    (@Valid @PathVariable("userId") Integer id) throws NotFound {
+    @GetMapping
+    public List<AddressResponseDto> viewAddressesByUserId() throws NotFound {
         logger.debug("Entered viewAddressesByUserId method");
-        List<AddressResponseDto> addresses =
-                addressService.getAddressesByUserId(id);
+        List<AddressResponseDto> addresses = addressService.getAddressesByUserId();
         return addresses;
     }
 

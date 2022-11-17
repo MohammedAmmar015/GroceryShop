@@ -89,7 +89,7 @@ public class SecurityConfig {
                         "/api/v1/products/", "/api/v1/stores", "/api/v1/stocks/*/*",
                         "/api/v1/roles")
                 .hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/*",
+                .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/",
                         "/api/v1/orders/cancelledOrders",
                         "/api/v1/orders/date/*", "/api/v1/stocks/*",
                         "/api/v1/stocks/*/*", "/api/v1/stores", "/api/v1/orders/products/*",

@@ -23,7 +23,6 @@ import com.ideas2it.groceryshop.repository.AddressRepo;
 import com.ideas2it.groceryshop.service.AddressService;
 import com.ideas2it.groceryshop.mapper.AddressMapper;
 import com.ideas2it.groceryshop.model.Address;
-import com.ideas2it.groceryshop.model.User;
 
 /**
  * Address service is used to create, update,
@@ -38,13 +37,12 @@ public class AddressServiceImpl implements AddressService {
 
     private AddressRepo addressRepo;
     private UserHelper userHelper;
-    private Logger logger;
+    private Logger logger = LogManager.getLogger(AddressServiceImpl.class);
 
     @Autowired
     public AddressServiceImpl(AddressRepo addressRepo, UserHelper userHelper) {
         this.addressRepo = addressRepo;
         this.userHelper = userHelper;
-        this.logger = LogManager.getLogger(AddressServiceImpl.class);
     }
 
     /**
@@ -59,11 +57,6 @@ public class AddressServiceImpl implements AddressService {
                                  AddressRequestDto addressRequestDto)
             throws NotFound {
         logger.debug("Entered addAddress method");
-        Optional<User> user = userHelper.findUserById(id);
-        if(user.isEmpty()) {
-            logger.debug("User not found");
-            throw new NotFound("User not found");
-        }
         Address address =
                 AddressMapper.addressDtoToAddress(addressRequestDto);
         List<Address> addresses =
@@ -73,7 +66,7 @@ public class AddressServiceImpl implements AddressService {
         } else {
             address.setIsDefault(Boolean.FALSE);
         }
-        address.setUser(user.get());
+        address.setUser(userHelper.getCurrentUser());
         addressRepo.save(address);
         logger.debug("Address added successfully");
         return new SuccessResponseDto(201,"Address added successfully");
@@ -82,17 +75,16 @@ public class AddressServiceImpl implements AddressService {
     /**
      *   it is used to retrieve list of user address by user id;
      *
-     * @param id it is used to get all address a user have
      * @return addressResponseDtoList it is return list of address
      *         of a user
      * @throws NotFound no address found exception
      */
     @Override
-    public List<AddressResponseDto> getAddressesByUserId(Integer id)
-            throws NotFound {
+    public List<AddressResponseDto> getAddressesByUserId() throws NotFound {
         logger.debug("Entered getAddressesByUserId method");
+        Integer userId = userHelper.getCurrentUser().getId();
         List<Address> address =
-               addressRepo.findByIsActiveAndUserId(true, id);
+               addressRepo.findByIsActiveAndUserId(true, userId);
         if(address.isEmpty()){
             logger.debug("Address not found");
             throw new NotFound("Address not found");
@@ -137,7 +129,8 @@ public class AddressServiceImpl implements AddressService {
             (AddressUpdateRequestDto addressUpdateRequestDto,
              Integer id) throws NotFound{
         logger.debug("Entered updateAddressByAddressId method");
-        Optional<Address> address = addressRepo.findByIsActiveAndId(true, id);
+        Optional<Address> address = addressRepo.findByIsActiveAndIdAndUserId(true,
+                id, userHelper.getCurrentUser().getId());
         if(address.isEmpty()) {
             logger.debug("Address not found");
             throw new NotFound("Address not found");
