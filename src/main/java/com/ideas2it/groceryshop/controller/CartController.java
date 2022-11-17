@@ -70,7 +70,7 @@ public class CartController {
     /**
      * <p>
      *     This GET API api/v1/carts
-     *     is used to view Cart for Currently logged-in user
+     *     is used to view Cart of Currently logged-in user
      * </p>
      * @return - CartResponse with product details
      * @throws NotFound if Cart not found

@@ -243,7 +243,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public SuccessResponseDto removeProductFromCart(Integer productId) throws NotFound {
         logger.debug("Entered removeProductFromCart method in cartServiceImpl");
-        User user = userHelper.getCurrentUser();
         Cart cart = getActiveCartOfCurrentUser();
         if (cart == null) {
             logger.error("cart not found");
@@ -331,7 +330,8 @@ public class CartServiceImpl implements CartService {
 
     /**
      * <p>
-     *     This method is used to get Cart by Cart Id
+     *     This method is used to get active cart
+     *     of currently logged-in user
      * </p>
      * @return Cart
      * @throws NotFound - throws exception if cart not found
