@@ -35,7 +35,7 @@ public interface CategoryService {
      * @return SuccessDto
      * @throws Existed will be thrown if category already Exists.
      */
-    SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed;
+    SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed, NotFound;
 
     /**
      * <p>

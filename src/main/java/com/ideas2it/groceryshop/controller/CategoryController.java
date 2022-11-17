@@ -60,7 +60,7 @@ public class CategoryController {
     @PostMapping
 
     public SuccessResponseDto addCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto)
-            throws Existed {
+            throws Existed, NotFound {
         logger.debug("Entered into addCategory method in category controller");
         return categoryService.addCategory(categoryRequestDto);
     }
