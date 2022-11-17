@@ -34,8 +34,8 @@ import com.ideas2it.groceryshop.service.RoleService;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    private RoleRepo roleRepo;
-    private Logger logger = LogManager.getLogger(RoleServiceImpl.class);
+    private final RoleRepo roleRepo;
+    private final Logger logger = LogManager.getLogger(RoleServiceImpl.class);
 
     @Autowired
     public RoleServiceImpl(RoleRepo roleRepo) {

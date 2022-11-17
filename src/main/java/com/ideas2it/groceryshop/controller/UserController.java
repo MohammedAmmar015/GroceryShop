@@ -41,8 +41,8 @@ import com.ideas2it.groceryshop.service.UserService;
 @RequestMapping("api/v1/users")
 public class UserController {
 
-    private UserService userService;
-    private Logger logger = LogManager.getLogger(UserController.class);
+    private final UserService userService;
+    private final Logger logger = LogManager.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService) {

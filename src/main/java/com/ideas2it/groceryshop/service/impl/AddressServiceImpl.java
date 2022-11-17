@@ -35,9 +35,9 @@ import com.ideas2it.groceryshop.model.Address;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    private AddressRepo addressRepo;
-    private UserHelper userHelper;
-    private Logger logger = LogManager.getLogger(AddressServiceImpl.class);
+    private final AddressRepo addressRepo;
+    private final UserHelper userHelper;
+    private final Logger logger = LogManager.getLogger(AddressServiceImpl.class);
 
     @Autowired
     public AddressServiceImpl(AddressRepo addressRepo, UserHelper userHelper) {

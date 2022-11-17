@@ -29,7 +29,7 @@ import com.ideas2it.groceryshop.service.UserService;
 import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
- * LoginController used to generate
+ * AuthenticationController used to generate
  * token based on userName and password
  *
  * @version 1.0
@@ -38,23 +38,23 @@ import com.ideas2it.groceryshop.util.SecurityUtil;
  */
 @RestController
 @RequestMapping("api/v1/login")
-public class LoginController {
+public class AuthenticationController {
 
-    private DaoAuthenticationProvider authenticationProvider;
-    private SecurityUtil jwtTokenUtil;
-    private UserDetailsService userDetailsService;
-    private UserService userService;
-    private Logger logger;
+    private final DaoAuthenticationProvider authenticationProvider;
+    private final SecurityUtil jwtTokenUtil;
+    private final UserDetailsService userDetailsService;
+    private final UserService userService;
+    private Logger logger = LogManager.getLogger(AuthenticationController.class);
 
     @Autowired
-    public LoginController(DaoAuthenticationProvider authenticationProvider,
-                           SecurityUtil jwtTokenUtil, UserDetailsService userDetailsService,
-                           UserService userService) {
+    public AuthenticationController(DaoAuthenticationProvider authenticationProvider,
+                                    SecurityUtil jwtTokenUtil,
+                                    UserDetailsService userDetailsService,
+                                    UserService userService) {
         this.authenticationProvider = authenticationProvider;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
-        this.logger = LogManager.getLogger(LoginController.class);
     }
 
     /**
@@ -62,7 +62,7 @@ public class LoginController {
      *
      * @param loginRequestDto it contains username or mobile number and password
      * @return LoginResponseDto it contains bearer token and success message
-     * @throws BadCredentialsException
+     * @throws BadCredentialsException it contains badCredentials message
      */
     @PostMapping
     public LoginResponseDto createAuthenticationToken

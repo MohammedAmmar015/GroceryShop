@@ -47,11 +47,11 @@ import com.ideas2it.groceryshop.service.UserService;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private UserRepo userRepo;
-    private RoleHelper roleHelper;
-    private AddressHelper addressHelper;
-    private UserHelper userHelper;
-    private Logger logger = LogManager.getLogger(UserServiceImpl.class);
+    private final UserRepo userRepo;
+    private final RoleHelper roleHelper;
+    private final AddressHelper addressHelper;
+    private final UserHelper userHelper;
+    private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     @Autowired
     public UserServiceImpl(UserRepo userRepo, RoleHelper roleHelper,
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(userRequestDto.getPassword()));
-        Optional<Role> role = roleHelper.findRoleByName(userRequestDto.getRole());
+        Optional<Role> role = roleHelper.findRoleByName(user.getRole().getName());
         if (role.isPresent()) {
             user.setRole(role.get());
         }
