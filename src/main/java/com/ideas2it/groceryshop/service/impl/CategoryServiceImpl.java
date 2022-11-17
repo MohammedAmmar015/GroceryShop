@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return SuccessDto
      * @throws Existed will be thrown if category already Exists.
      */
-    public SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed {
+    public SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed, NotFound {
         logger.debug("Entered into addCategory method in category service");
         if(categoryRepo.existsByName(categoryRequestDto.getName())) {
             throw new Existed("Category already added");
@@ -66,7 +66,11 @@ public class CategoryServiceImpl implements CategoryService {
         Category categories = CategoryMapper.toCategory(categoryRequestDto);
         if(categoryRequestDto.getParentId() != 0) {
             Optional<Category> category = categoryRepo.findById(categoryRequestDto.getParentId());
-            category.ifPresent(categories::setCategory);
+            if(category.isPresent()) {
+                categories.setCategory(category.get());
+            } else  {
+                throw new NotFound("Category not found");
+            }
         }
         categoryRepo.save(categories);
         logger.debug("addCategory method successfully executed");
