@@ -27,9 +27,13 @@ public class OrderDetailsMapper {
     }
 
     /**
-     * This method is used to convert OrderDetails to OrderDetailsResponseDto
-     * @param orderDetails
-     * @return OrderDetailsResponseDto
+     * <p>
+     *     This method is used to convert OrderDetails to OrderDetailsResponseDto
+     * </p>
+     *
+     * @param orderDetails - it contains quantity, price and product
+     * @return OrderDetailsResponseDto - it contains list of OrderDetailsResponse
+     *                                   which contains quantity, price and product
      */
     public static OrderDetailsResponseDto entityToDto(OrderDetails orderDetails){
         OrderDetailsResponseDto orderDetailsResponse = new OrderDetailsResponseDto();
@@ -43,9 +47,12 @@ public class OrderDetailsMapper {
     }
 
     /**
-     * This method is used to convert List<OrderDetails> to List<OrderDetailsResponseDto>
-     * @param orderDescription
-     * @return List<OrderDetailsResponseDto>
+     * <p>
+     *     This method is used to convert List<OrderDetails> to List<OrderDetailsResponseDto>
+     * </p>
+     * @param orderDescription - it contains quantity, price and product
+     * @return List<OrderDetailsResponseDto> - it contains list of OrderDetailsResponse
+     *                                         which contains quantity, price and product
      */
     public static List<OrderDetailsResponseDto> getAllOrdersEntityToDto(List<OrderDetails> orderDescription) {
         List<OrderDetailsResponseDto> orderDetails = new ArrayList<>();

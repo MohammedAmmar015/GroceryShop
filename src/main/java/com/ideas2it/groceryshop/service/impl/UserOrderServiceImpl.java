@@ -52,19 +52,18 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to place order by cartId
+     *     This method is used to place order by using cart
      * </p>
      *
-     * @param userOrderRequest it contains quantity, productId, addressId,
-     *                         userId, and with cartId place order
-     * @return SuccessResponseDto Order placed successfully
-     * @throws NotFound if cart is not found it shows Cart not found
+     * @param userOrderRequest - it contains addressId which is used to place order for the given address
+     * @return SuccessResponseDto - Order placed successfully
+     * @throws NotFound - if cart is not found it shows Cart not found
      */
     @Override
-    public SuccessResponseDto placeOrder(UserOrderRequestDto userOrderRequest, Integer cartId)
+    public SuccessResponseDto placeOrder(UserOrderRequestDto userOrderRequest)
             throws NotFound {
         logger.debug("Entered placeOrder method in UserOrderServiceImpl");
-        Cart cart = cartHelper.getCartById(cartId, true);
+        Cart cart = cartHelper.getCart();
         if(cart != null) {
             UserOrder userOrder = new UserOrder();
             userOrder.setCart(cart);
@@ -74,7 +73,7 @@ public class UserOrderServiceImpl implements UserOrderService {
             List<CartDetails> cartDetails = cart.getCartDetails();
             List<OrderDetails> orderDetails= cartDetailsToOrderDetails(cartDetails);
             userOrder.setOrderDetails(orderDetails);
-            OrderDelivery orderDelivery = orderDelivery(userOrderRequest);
+            OrderDelivery orderDelivery = orderDelivery(userOrderRequest, cart.getUser().getId());
             userOrder.setOrderDelivery(orderDelivery);
             userOrderRepo.save(userOrder);
             cartHelper.deleteAllProductsFromCart(cart.getUser());
@@ -93,8 +92,8 @@ public class UserOrderServiceImpl implements UserOrderService {
      *     This method is used for converting List<CartDetails> to List<OrderDetails>
      * </p>
      *
-     * @param cartDetails it contains cartId, quantity, price, productId, isActive
-     * @return List<OrderDetails> it shows list of order details which contains quantity, price, product
+     * @param cartDetails - it contains quantity, price, productId
+     * @return List<OrderDetails> - it shows list of order details which contains quantity, price, product
      */
     private List<OrderDetails> cartDetailsToOrderDetails(List<CartDetails> cartDetails) {
         logger.debug("Entered cartDetailsToOrderDetails method in UserOrderServiceImpl" );
@@ -111,25 +110,25 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to place order directly without adding it to cart
+     *     This method is used to place order directly without adding it to cart by using current user
      * </p>
-     * @param userOrderRequest, it contains quantity, productId, addressId,
-     *                          and userId to place order directly
-     * @return SuccessResponseDto Order placed successfully
-     * @throws NotFound if particular user is not found it shows User not found
+     * @param userOrderRequest - it contains quantity, productId, addressId
+     *                          to place order directly without adding it to cart
+     * @return SuccessResponseDto - Order placed successfully
+     * @throws NotFound - if particular user is not found it shows User not found
      */
     @Override
-    public SuccessResponseDto buyNow(UserOrderRequestDto userOrderRequest, Integer userId) throws NotFound {
-        Optional<User> user = userHelper.findUserById(userId);
+    public SuccessResponseDto buyNow(UserOrderRequestDto userOrderRequest) throws NotFound {
+        User user = userHelper.getCurrentUser();
         logger.debug("Entered buyNow method in UserOrderServiceImpl");
-        if (user.isPresent()) {
+        if (user != null) {
             UserOrder userOrder = new UserOrder();
             List<OrderDetails> orderDetails = setOrderDetails(userOrderRequest);
             userOrder.setOrderDetails(orderDetails);
             userOrder.setTotalPrice(orderDetails.get(0).getPrice());
             userOrder.setTotalQuantity(orderDetails.get(0).getQuantity());
-            userOrder.setUser(user.get());
-            OrderDelivery orderDelivery = orderDelivery(userOrderRequest);
+            userOrder.setUser(user);
+            OrderDelivery orderDelivery = orderDelivery(userOrderRequest, user.getId());
             userOrder.setOrderDelivery(orderDelivery);
             userOrderRepo.save(userOrder);
             stockHelper.removeStockByOrderDetails(userOrder,
@@ -151,12 +150,12 @@ public class UserOrderServiceImpl implements UserOrderService {
      * @return OrderDelivery it return expectedDeliveryDate, shippingAddress of an order
      * @throws NotFound if address is not found then it shows Address not found
      */
-    private OrderDelivery orderDelivery(UserOrderRequestDto userOrderRequest)
+    private OrderDelivery orderDelivery(UserOrderRequestDto userOrderRequest, Integer userId)
             throws NotFound {
         logger.debug("Entered orderDelivery method in UserOrderServiceImpl");
         OrderDelivery orderDelivery = new OrderDelivery();
-        Optional<Address> address = addressRepo.findByIsActiveAndId(true,
-                                                userOrderRequest.getAddressId());
+        Optional<Address> address = addressRepo.findByIsActiveAndIdAndUserId(true,
+                                                userOrderRequest.getAddressId(), userId);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 3);
         if(address.isPresent()) {
@@ -197,9 +196,9 @@ public class UserOrderServiceImpl implements UserOrderService {
      *     Deliver person changes the delivery status once the product is delivered
      * </p>
      *
-     * @param orderId it contains order id for changing the delivery status
-     * @return SuccessResponseDto Order delivered successfully
-     * @throws NotFound if particular order is not found it shows No record found
+     * @param orderId - it contains order id for changing the delivery status
+     * @return SuccessResponseDto - Order delivered successfully
+     * @throws NotFound - if particular order is not found it shows No record found
      */
     @Override
     public SuccessResponseDto statusUpdate(Integer orderId) throws NotFound {
@@ -217,12 +216,12 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to retrieve all orders
+     *     This method is useful for Admin to retrieve all active orders
      * </p>
-     * @return List<UserOrderResponseDto> it returns list of active orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered for each order
-     * @throws NotFound if order is not placed it shows No record found exception
+     * @return List<UserOrderResponseDto> - it returns list of active orders which contains userId,
+     *                                     orderedDate, expectedDeliveryDate, totalPrice,
+     *                                     totalQuantity, orderDetails, isDelivered for each order
+     * @throws NotFound - if order is not placed it shows No record found exception
      */
     @Override
     public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFound {
@@ -239,13 +238,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to view all cancelled orders
+     *     This method is useful for Admin to view all cancelled orders
      * </p>
      *
-     * @return List<UserOrderResponseDto> it returns list of cancelled orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if cancelled orders is not found it shows No record found
+     * @return List<UserOrderResponseDto> - it returns list of cancelled orders which contains userId,
+     *                                     orderedDate, expectedDeliveryDate, totalPrice,
+     *                                     totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if cancelled orders is not found it shows No record found
      */
     @Override
     public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFound {
@@ -262,19 +261,20 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to retrieve Order by orderId
+     *     This method is useful for customer to retrieve Order by orderId
      * </p>
      *
-     * @param orderId with order id the order will be retrieved
-     * @return UserOrderResponseDto it returns a particular order which contains userId,
-     *                              orderedDate, expectedDeliveryDate, totalPrice,
-     *                              totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if order is not found it shows No record found
+     * @param orderId - with order id the order will be retrieved by customer
+     * @return UserOrderResponseDto - it returns a particular order which contains userId,
+     *                               orderedDate, expectedDeliveryDate, totalPrice,
+     *                               totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if order is not found it shows No record found
      */
     @Override
     public UserOrderResponseDto viewOrderById(Integer orderId) throws NotFound {
         logger.debug("Entered viewOrderById method in UserOrderServiceImpl");
-        Optional<UserOrder> userOrder = userOrderRepo.findById(orderId);
+        Integer userId = userHelper.getCurrentUser().getId();
+        Optional<UserOrder> userOrder = userOrderRepo.findByIdAndUserId(orderId, userId);
         if (!userOrder.isEmpty()) {
             return UserOrderMapper.entityToDto(userOrder.get());
         } else {
@@ -288,11 +288,11 @@ public class UserOrderServiceImpl implements UserOrderService {
      *     This method is used to retrieve All orders of particular user
      * </p>
      *
-     * @param userId with user id we can retrieve list of order of a particular user
-     * @return List<UserOrderResponseDto> it returns a particular user order which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if order of particular user is not available it shows No record found
+     * @param userId - it helps the customer to view all the order placed
+     * @return List<UserOrderResponseDto> - it returns a particular user order which contains userId,
+     *                                      orderedDate, expectedDeliveryDate, totalPrice,
+     *                                      totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if order of particular user is not available it shows No record found
      */
     @Override
     public List<UserOrderResponseDto> viewOrderByUserId(Integer userId) throws NotFound {
@@ -309,20 +309,22 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to cancel order
+     *     This method is useful for Customer to cancel order
      * </p>
      *
-     * @param orderId to cancel order by using order id
-     * @return SuccessResponseDto order cancelled successfully
-     * @throws NotFound if order is not found it shows Order not found
+     * @param orderId - to cancel order by using order id
+     * @return SuccessResponseDto - order cancelled successfully
+     * @throws NotFound - if order is not found it shows Order not found
+     * @throws Existed - if order is already cancelled it shows Order already cancelled
      */
     @Override
     public SuccessResponseDto cancelOrderById(Integer orderId) throws NotFound, Existed {
         logger.debug("Entered cancelOrderById method in UserOrderServiceImpl");
-        Optional<UserOrder> userOrder = userOrderRepo.findById(orderId);
-        Boolean isActive = userOrder.get().getOrderDelivery().getIsDelivered();
-        if(!isActive) {
-            Integer isCancelled = userOrderRepo.cancelOrderbyId(orderId);
+        Integer userId = userHelper.getCurrentUser().getId();
+        Optional<UserOrder> userOrder = userOrderRepo.findByIdAndIsActiveAndUserIdAndOrderDeliveryIsActive
+                (orderId, true , userId, false);
+        if(userOrder.isPresent()) {
+            Integer isCancelled = userOrderRepo.cancelOrderById(orderId);
             stockHelper.updateStockByOrderDetails(userOrder.get());
             if (isCancelled != 0) {
                 logger.debug("Order cancelled successfully");
@@ -340,14 +342,14 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to retrieve list of orders of particular product by productId
+     *     This method is useful for Admin to retrieve list of orders of particular product by productId
      * </p>
      *
-     * @param productId with product id we can retrieve the order placed for particular product
-     * @return List<OrderDetailsResponseDto> it contains list of orders of particular product
-     *                                      which contains categoryName, subCategoryName,
-     *                                      productName, quantity, price
-     * @throws NotFound if order of particular product not found it shows No record found
+     * @param productId - with product id we can retrieve the order placed for particular product
+     * @return List<OrderDetailsResponseDto> - it contains list of orders of particular product
+     *                                        which contains categoryName, subCategoryName,
+     *                                        productName, quantity, price
+     * @throws NotFound - if order of particular product not found it shows No record found
      */
    @Override
     public List<OrderDetailsResponseDto> viewOrdersByProductId(Integer productId) throws NotFound{
@@ -366,10 +368,10 @@ public class UserOrderServiceImpl implements UserOrderService {
      * <p>
      *     This method is used for delivery person to pick order
      * </p>
-     * @param orderId to pick order by orderId
-     * @return OrderDeliveryResponseDto it show particular order which contains userId, orderId,
-     *                                  totalPrice, totalQuantity, shippingAddress, orderStatus
-     * @throws NotFound if order not found for particular order id it shows No record found
+     * @param orderId - to pick order by orderId
+     * @return OrderDeliveryResponseDto - it show particular order which contains userId, orderId,
+     *                                    totalPrice, totalQuantity, shippingAddress, orderStatus
+     * @throws NotFound - if order not found for particular order id it shows No record found
      */
     @Override
     public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFound {
@@ -385,13 +387,13 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used retrieve all orders by date
+     *     This method is useful for Admin to retrieve all orders by date
      * </p>
-     * @param orderedDate to view orders of particular date by using order date
-     * @return List<UserOrderResponseDto> it shows list of orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if order is not placed for mentioned date then it shows No record found
+     * @param orderedDate - to view orders of particular date by using order date
+     * @return List<UserOrderResponseDto> - it shows list of orders which contains userId,
+     *                                     orderedDate, expectedDeliveryDate, totalPrice,
+     *                                     totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if order is not placed for mentioned date then it shows No record found
      */
     @Override
     public List<UserOrderResponseDto> viewOrdersByDate(Date orderedDate) throws NotFound {
@@ -408,14 +410,14 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     /**
      * <p>
-     *     This method is used to retrieve order of a particular user as per mentioned date
+     *     This method is used for admin to retrieve order of a particular user as per mentioned date and userId
      * </p>
      *
      * @param orderedDate
-     * @param userId to get order of particular date of a user by using order date and user id
-     * @return List<UserOrderResponseDto> it shows list of orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
+     * @param userId - to get order of particular date of a user by using order date and user id
+     * @return List<UserOrderResponseDto> - it shows list of orders which contains userId,
+     *                                      orderedDate, expectedDeliveryDate, totalPrice,
+     *                                      totalQuantity, orderDetails, isDelivered
      * @throws NotFound if order is not placed on the date by particular user then it shows No record found
      */
     @Override

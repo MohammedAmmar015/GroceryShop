@@ -11,9 +11,11 @@ import com.ideas2it.groceryshop.model.OrderDelivery;
 public class OrderDeliveryMapper {
 
     /**
-     * This method is used to convert orderDelivery Entity to OrderDeliveryResponseDto
-     * @param orderDelivery it contains userId, orderId, shippingAddress, orderStatus, totalPrice, totalQuantity
-     * @return OrderDeliveryResponseDto userId, orderId, totalPrice, shippingAddress, orderStatus, totalQuantity
+     * <p>
+     *     This method is used to convert orderDelivery Entity to OrderDeliveryResponseDto
+     * </p>
+     * @param orderDelivery - it contains userId, orderId, shippingAddress, orderStatus, totalPrice, totalQuantity
+     * @return OrderDeliveryResponseDto - userId, orderId, totalPrice, shippingAddress, orderStatus, totalQuantity
      */
     public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery) {
         OrderDeliveryResponseDto orderDeliveryResponse = new OrderDeliveryResponseDto();

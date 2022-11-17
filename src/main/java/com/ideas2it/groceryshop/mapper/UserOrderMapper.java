@@ -14,9 +14,11 @@ import java.util.List;
 public class UserOrderMapper {
 
     /**
-     * This method is used to convert UserOrder to UserOrderResponseDto
-     * @param userOrder it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
-     * @return UserOrderResponseDto it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
+     * <p>
+     *     This method is used to convert UserOrder to UserOrderResponseDto
+     * </p>
+     * @param userOrder - it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
+     * @return UserOrderResponseDto - it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
      */
      public static UserOrderResponseDto entityToDto(UserOrder userOrder) {
             UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto();
@@ -31,9 +33,11 @@ public class UserOrderMapper {
         }
 
     /**
-     * This method is used to convert List<UserOrder> to List<UserOrderResponseDto>
-     * @param userOrders it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
-     * @return List<UserOrderResponseDto> it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
+     * <p>
+     *     This method is used to convert List<UserOrder> to List<UserOrderResponseDto>
+     * </p>
+     * @param userOrders - it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
+     * @return List<UserOrderResponseDto> - it contains orderedDate, totalPrice, totalQuantity, isDelivered, userId, orderDetails
      */
     public static List<UserOrderResponseDto> getAllOrdersDto(List<UserOrder> userOrders) {
         List<UserOrderResponseDto> userOrderResponseDtos = new ArrayList<UserOrderResponseDto>();

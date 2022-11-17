@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -56,8 +57,18 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      */
     @Modifying
     @Transactional
-    @Query(value = "update UserOrder set isActive = false where id = ?1")
-    Integer cancelOrderbyId(Integer orderId);
+    @Query(value = "update UserOrder o set o.isActive = false where o.id = ?1 and o.user.id = ?2")
+    Integer cancelOrderById(Integer orderId);
+
+    /**
+     *
+     */
+    Optional<UserOrder> findByIdAndUserId(Integer orderId, Integer userId);
+
+    /**
+     *
+     */
+    Optional<UserOrder> findByIdAndIsActiveAndUserIdAndOrderDeliveryIsActive(Integer orderId, Boolean isActive, Integer userId, Boolean isDelivered);
 
     /**
      * <p>
