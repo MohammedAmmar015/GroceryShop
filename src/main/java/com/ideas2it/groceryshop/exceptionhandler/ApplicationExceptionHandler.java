@@ -24,7 +24,6 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * <p>
  *     This class is to handle Exception.
@@ -44,7 +43,7 @@ public class ApplicationExceptionHandler {
      * @param notFoundException It contains message
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @ExceptionHandler(NotFound.class)
     public ErrorResponseDto handleNotFoundException(NotFound notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();
@@ -60,7 +59,7 @@ public class ApplicationExceptionHandler {
      * @param existed contains message
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @ExceptionHandler(Existed.class)
     public ErrorResponseDto handleAlReadyExistsException(Existed existed) {
         ErrorResponseDto error = new ErrorResponseDto();

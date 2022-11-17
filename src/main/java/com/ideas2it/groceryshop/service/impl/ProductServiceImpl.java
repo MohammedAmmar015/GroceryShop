@@ -149,6 +149,28 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * <p>
+     *     This method used to get products based on user search.
+     * </p>
+     * @param name to check with products name in data base.
+     * @return list of matched products
+     * @throws NotFound exception will be thrown if products not found
+     */
+    public List<ProductResponseDto> getProductsBySearch(String name)
+            throws NotFound {
+        List<Product> products = productRepo.findProductBySearch(name);
+        if (products.isEmpty()) {
+            throw new NotFound("Products not found");
+        }
+        List<ProductResponseDto> productResponse = new ArrayList<>();
+        for (Product product :products) {
+            ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
+            productResponse.add(productResponseDto);
+        }
+        return productResponse;
+    }
+
+    /**
+     * <p>
      *     This method used to get products of particular sub category using id and
      *     convert it to dto type object and it returns to product controller.
      * </p>
@@ -156,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products
      * @throws NotFound exception will be thrown if id not exist.
      */
-    public List<ProductResponseDto> getProductsBySubCategoryId( Integer subCategoryId) throws NotFound {
+    public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId) throws NotFound {
         logger.debug("Entered into getProductsBySubCategoryId method in product service");
         List<Product> products = productRepo.findBySubCategoryIdAndIsActive( subCategoryId, true);
         if(products.isEmpty()) {
@@ -176,7 +198,6 @@ public class ProductServiceImpl implements ProductService {
      *     This method used to delete product using id
      *     and returns success response dto includes message and status code.
      * </p>
-     *
      * @param id to find particular object to get delete.
      * @return SuccessDto otherwise exception will be thrown.
      * @throws NotFound exception will be thrown if the id doesn't exist.
@@ -199,7 +220,6 @@ public class ProductServiceImpl implements ProductService {
      *     This method used to update product fields in data base before updating
      *     it will validate the product fields and then will update in data base.
      * </p>
-     *
      * @param id to find particular object.
      * @param productRequestDto dto type object contains values to get update.
      * @return SuccessDto otherwise exception will be thrown.
@@ -252,7 +272,7 @@ public class ProductServiceImpl implements ProductService {
             productResponseDto.setIsStockAvailable(isStockAvailable);
             productResponses.add(productResponseDto);
         }
-        logger.debug("getProductsByLocation method successfully executed");
+        logger.debug("The getProductsByLocation method successfully executed");
         return productResponses;
     }
 }

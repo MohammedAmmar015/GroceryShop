@@ -38,4 +38,6 @@ public class ProductResponseDto {
     private String categoryName;
 
     private String subCategoryName;
+
+    private String image;
 }
