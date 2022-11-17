@@ -42,9 +42,9 @@ import com.ideas2it.groceryshop.service.AddressService;
 @RequestMapping("api/v1/addresses")
 public class AddressController {
 
-    private AddressService addressService;
-    private Logger logger = LogManager.getLogger(AddressController.class);
-    private UserHelper userHelper;
+    private final AddressService addressService;
+    private final Logger logger = LogManager.getLogger(AddressController.class);
+    private final UserHelper userHelper;
 
     @Autowired
     public AddressController(AddressService addressService, UserHelper userHelper) {

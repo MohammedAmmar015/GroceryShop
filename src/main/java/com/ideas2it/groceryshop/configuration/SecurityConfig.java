@@ -85,12 +85,13 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/v1/login",
                         "/api/v1/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/categories/",
-                        "/api/v1/products/", "/api/v1/stores", "/api/v1/stocks/*/*",
+                .antMatchers(HttpMethod.POST, "/api/v1/categories",
+                        "/api/v1/products", "/api/v1/stores", "/api/v1/stocks/*/*",
                         "/api/v1/roles")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/",
                         "/api/v1/orders/cancelledOrders",
+                        "/api/v1/orders/*/*",
                         "/api/v1/orders/date/*", "/api/v1/stocks/*",
                         "/api/v1/stocks/*/*", "/api/v1/stores", "/api/v1/orders/products/*",
                         "/api/v1/users/*/role")
@@ -107,7 +108,7 @@ public class SecurityConfig {
                         "/api/v1/categories/subCategories/*/*",
                         "/api/v1/roles/*")
                 .hasRole("ADMIN")
-                .antMatchers("/api/v1/orders/ordersDelivery/*").
+                .antMatchers("/api/v1/orders/order  Delivery/*").
                 hasRole("DELIVERY_PERSON")
                 .antMatchers("/api/v1/orders/activeOrders")
                 .hasAnyRole("ADMIN", "DELIVERY_PERSON")

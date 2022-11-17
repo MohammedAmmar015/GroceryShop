@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.ideas2it.groceryshop.audit.Audit;
-
 import com.ideas2it.groceryshop.model.User;
 
 /**
@@ -62,7 +61,7 @@ public class Address extends Audit{
     @Column(name = "is_default", nullable = false, columnDefinition = "TINYINT")
     private Boolean isDefault;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 }

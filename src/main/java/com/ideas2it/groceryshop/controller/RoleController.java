@@ -37,8 +37,8 @@ import com.ideas2it.groceryshop.service.RoleService;
 @RequestMapping("api/v1/roles")
 public class RoleController {
 
-    private RoleService roleService;
-    private Logger logger = LogManager.getLogger(RoleController.class);
+    private final RoleService roleService;
+    private final Logger logger = LogManager.getLogger(RoleController.class);
 
     @Autowired
     public RoleController(RoleService roleService) {
