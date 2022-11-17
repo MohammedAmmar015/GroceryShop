@@ -36,11 +36,10 @@ public interface AddressService {
     /**
      *  It is used to retrieve list of user address by user id;
      *
-     * @param id it is used to get all address a user have
      * @return addressResponseDtoList it is contains list of user address
      * @throws NotFound no address found exception
      */
-    List<AddressResponseDto> getAddressesByUserId(Integer id) throws NotFound;
+    List<AddressResponseDto> getAddressesByUserId() throws NotFound;
 
     /**
      * It is used to delete user address by id

@@ -58,6 +58,17 @@ public interface AddressRepo extends JpaRepository<Address, Integer> {
     Optional<Address> findByIsActiveAndId(Boolean isActive, Integer id);
 
     /**
+     * This method is used to get address by active status, address id
+     * and user id
+     *
+     * @param isActive it used to check address is active
+     * @param addressId it is id of address
+     * @param userId it is id of user
+     * @return Address it returns address object
+     */
+    Optional<Address> findByIsActiveAndIdAndUserId(Boolean isActive,
+                                                   Integer addressId, Integer userId);
+    /**
      * This method is used to delete all address
      * of a user by user id
      *

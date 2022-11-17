@@ -84,4 +84,11 @@ public interface UserService {
      * @return SuccessResponseDto it contains success message
      */
     public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) throws NotFound;
+
+    /**
+     * This method is used to get current user profile
+     *
+     * @return userResponseDto it contains user details
+     */
+    public UserResponseDto getCurrentUserProfile();
 }

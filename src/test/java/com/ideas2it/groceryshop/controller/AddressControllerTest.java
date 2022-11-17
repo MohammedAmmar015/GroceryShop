@@ -65,7 +65,7 @@ public class AddressControllerTest {
                 "Big street", "triplicane",600005, "near school",
                 new Date(), new Date(), 1, 1, true, true);
         addresses.add(addressResponseDto);
-        when(addressService.getAddressesByUserId(1)).thenReturn(addresses);
+        when(addressService.getAddressesByUserId()).thenReturn(addresses);
     }
 
     /**
