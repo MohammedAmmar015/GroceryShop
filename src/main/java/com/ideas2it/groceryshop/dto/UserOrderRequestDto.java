@@ -22,6 +22,4 @@ public class UserOrderRequestDto {
 
     private Integer addressId;
 
-    private Integer userId;
-
 }

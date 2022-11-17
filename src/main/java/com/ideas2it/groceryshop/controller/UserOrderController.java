@@ -1,25 +1,14 @@
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
-import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
-import com.ideas2it.groceryshop.dto.UserOrderResponseDto;
+import com.ideas2it.groceryshop.dto.*;
 import com.ideas2it.groceryshop.exception.Existed;
 import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.helper.UserHelper;
 import com.ideas2it.groceryshop.service.UserOrderService;
-
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,39 +30,39 @@ import java.util.List;
 @RequestMapping("/api/v1/orders")
 public class UserOrderController {
     private final UserOrderService userOrderService;
+    private final UserHelper userHelper;
     private final Logger logger = LogManager.getLogger(UserOrderController.class);
 
     /**
      * <p>
-     *     This method is used to place order by cartId
+     *     This method is used to place order by using cart
      * </p>
      *
-     * @param userOrderRequest it contains quantity, productId, addressId,
-     *                         userId, and with cartId place order
-     * @return SuccessResponseDto Order placed successfully
-     * @throws NotFound if cart is not found it shows Cart not found
+     * @param userOrderRequest - it contains addressId which is used to place order for the given address
+     * @return SuccessResponseDto - Order placed successfully
+     * @throws NotFound - if cart is not found it shows Cart not found
      */
-    @PostMapping("/placeOrder/{cartId}")
-    public SuccessResponseDto placeOrder(@RequestBody UserOrderRequestDto userOrderRequest,
-                                 @PathVariable Integer cartId) throws NotFound {
+    @PostMapping("/placeOrder/")
+    public SuccessResponseDto placeOrder(@RequestBody UserOrderRequestDto userOrderRequest) throws NotFound {
         logger.debug("Entered placeOrder method in UserOrderController");
-        return userOrderService.placeOrder(userOrderRequest, cartId);
+        return userOrderService.placeOrder(userOrderRequest);
     }
 
     /**
      * <p>
-     *     This method is used to place order directly without adding it to cart
+     *     This method is used to place order directly without adding it to cart by using current user
      * </p>
-     * @param userOrderRequest, it contains quantity, productId, addressId,
-     *                          and userId to place order directly
-     * @return SuccessResponseDto Order placed successfully
-     * @throws NotFound if particular user is not found it shows User not found
+     * @param userOrderRequest - it contains quantity, productId, addressId
+     *                          to place order directly without adding it to cart
+     * @return SuccessResponseDto - Order placed successfully
+     * @throws NotFound - if particular user is not found it shows User not found
      */
-    @PostMapping("/buyNow/{userId}")
-    public SuccessResponseDto buyNow(@RequestBody UserOrderRequestDto userOrderRequest,
-                             @PathVariable Integer userId) throws NotFound {
+    @PostMapping("/buyNow/")
+    public SuccessResponseDto buyNow(@RequestBody UserOrderRequestDto userOrderRequest
+                             ) throws NotFound {
+        Integer userId = userHelper.getCurrentUser().getId();
         logger.debug("Entered buyNow method in UserOrderController");
-        return userOrderService.buyNow(userOrderRequest, userId);
+        return userOrderService.buyNow(userOrderRequest);
     }
 
     /**
@@ -81,9 +70,9 @@ public class UserOrderController {
      *     Deliver person changes the delivery status once the product is delivered
      * </p>
      *
-     * @param orderId it contains order id for changing the delivery status
-     * @return SuccessResponseDto Order delivered successfully
-     * @throws NotFound if particular order is not found it shows No record found
+     * @param orderId - it contains order id for changing the delivery status
+     * @return SuccessResponseDto - Order delivered successfully
+     * @throws NotFound - if particular order is not found it shows No record found
      */
     @PutMapping("/statusUpdate/{orderId}")
     public SuccessResponseDto statusUpdate(@PathVariable Integer orderId) throws NotFound {
@@ -93,12 +82,12 @@ public class UserOrderController {
 
     /**
      * <p>
-     *     This method is used to retrieve all orders
+     *     This method is useful for Admin to retrieve all active orders
      * </p>
-     * @return List<UserOrderResponseDto> it returns list of active orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered for each order
-     * @throws NotFound if order is not placed it shows No record found exception
+     * @return List<UserOrderResponseDto> - it returns list of active orders which contains userId,
+     *                                     orderedDate, expectedDeliveryDate, totalPrice,
+     *                                     totalQuantity, orderDetails, isDelivered for each order
+     * @throws NotFound - if order is not placed it shows No record found exception
      */
     @GetMapping("/activeOrders")
     public List<UserOrderResponseDto> viewAllActiveOrders() throws NotFound {
@@ -108,13 +97,13 @@ public class UserOrderController {
 
     /**
      * <p>
-     *     This method is used to view all cancelled orders
+     *     This method is useful for Admin to view all cancelled orders
      * </p>
      *
-     * @return List<UserOrderResponseDto> it returns list of cancelled orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if cancelled orders is not found it shows No record found
+     * @return List<UserOrderResponseDto> - it returns list of cancelled orders which contains userId,
+     *                                     orderedDate, expectedDeliveryDate, totalPrice,
+     *                                     totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if cancelled orders is not found it shows No record found
      */
     @GetMapping("/cancelledOrders")
     public List<UserOrderResponseDto> viewAllCancelledOrders() throws NotFound {
@@ -124,14 +113,14 @@ public class UserOrderController {
 
     /**
      * <p>
-     *     This method is used to retrieve Order by orderId
+     *     This method is useful for customer to retrieve Order by orderId
      * </p>
      *
-     * @param orderId with order id the order will be retrieved
-     * @return UserOrderResponseDto it returns a particular order which contains userId,
-     *                              orderedDate, expectedDeliveryDate, totalPrice,
-     *                              totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if order is not found it shows No record found
+     * @param orderId - with order id the order will be retrieved by customer
+     * @return UserOrderResponseDto - it returns a particular order which contains userId,
+     *                               orderedDate, expectedDeliveryDate, totalPrice,
+     *                               totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if order is not found it shows No record found
      */
     @GetMapping("/{orderId}")
     public UserOrderResponseDto viewOrderById(@PathVariable Integer orderId) throws NotFound {
@@ -144,26 +133,27 @@ public class UserOrderController {
      *     This method is used to retrieve All orders of particular user
      * </p>
      *
-     * @param userId with user id we can retrieve list of order of a particular user
-     * @return List<UserOrderResponseDto> it returns a particular user order which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if order of particular user is not available it shows No record found
+     * @return List<UserOrderResponseDto> - it returns a particular user order which contains userId,
+     *                                      orderedDate, expectedDeliveryDate, totalPrice,
+     *                                      totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if order of particular user is not available it shows No record found
      */
-    @GetMapping("/user/{userId}")
-    public List<UserOrderResponseDto> viewOrderByUserId(@PathVariable Integer userId) throws NotFound {
+    @GetMapping("/user/")
+    public List<UserOrderResponseDto> viewOrderByUserId() throws NotFound {
+        Integer userId = userHelper.getCurrentUser().getId();
         logger.debug("Entered viewOrderByUserId method in UserOrderController");
         return userOrderService.viewOrderByUserId(userId);
     }
 
     /**
      * <p>
-     *     This method is used to cancel order
+     *     This method is useful for Customer to cancel order
      * </p>
      *
-     * @param orderId to cancel order by using order id
-     * @return SuccessResponseDto order cancelled successfully
-     * @throws NotFound if order is not found it shows Order not found
+     * @param orderId - to cancel order by using order id
+     * @return SuccessResponseDto - order cancelled successfully
+     * @throws NotFound - if order is not found it shows Order not found
+     * @throws Existed - if order is already cancelled it shows Order already cancelled
      */
     @PutMapping("/cancelOrder/{orderId}")
     public SuccessResponseDto cancelOrder(@PathVariable() Integer orderId) throws NotFound, Existed {
@@ -173,14 +163,14 @@ public class UserOrderController {
 
     /**
      * <p>
-     *     This method is used to retrieve list of orders of particular product by productId
+     *     This method is useful for Admin to retrieve list of orders of particular product by productId
      * </p>
      *
-     * @param productId with product id we can retrieve the order placed for particular product
-     * @return List<OrderDetailsResponseDto> it contains list of orders of particular product
-     *                                      which contains categoryName, subCategoryName,
-     *                                      productName, quantity, price
-     * @throws NotFound if order of particular product not found it shows No record found
+     * @param productId - with product id we can retrieve the order placed for particular product
+     * @return List<OrderDetailsResponseDto> - it contains list of orders of particular product
+     *                                        which contains categoryName, subCategoryName,
+     *                                        productName, quantity, price
+     * @throws NotFound - if order of particular product not found it shows No record found
      */
     @GetMapping("/products/{productId}")
     public List<OrderDetailsResponseDto> viewOrderByProductId(@PathVariable Integer productId)
@@ -193,10 +183,10 @@ public class UserOrderController {
      * <p>
      *     This method is used for delivery person to pick order
      * </p>
-     * @param orderId to pick order by orderId
-     * @return OrderDeliveryResponseDto it show particular order which contains userId, orderId,
-     *                                  totalPrice, totalQuantity, shippingAddress, orderStatus
-     * @throws NotFound if order not found for particular order id it shows No record found
+     * @param orderId - to pick order by orderId
+     * @return OrderDeliveryResponseDto - it show particular order which contains userId, orderId,
+     *                                    totalPrice, totalQuantity, shippingAddress, orderStatus
+     * @throws NotFound - if order not found for particular order id it shows No record found
      */
     @GetMapping("/orderDelivery/{orderId}")
     public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFound {
@@ -206,13 +196,13 @@ public class UserOrderController {
 
     /**
      * <p>
-     *     This method is used retrieve all orders by date
+     *     This method is useful for Admin to retrieve all orders by date
      * </p>
-     * @param orderedDate to view orders of particular date by using order date
-     * @return List<UserOrderResponseDto> it shows list of orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
-     * @throws NotFound if order is not placed for mentioned date then it shows No record found
+     * @param orderedDate - to view orders of particular date by using order date
+     * @return List<UserOrderResponseDto> - it shows list of orders which contains userId,
+     *                                     orderedDate, expectedDeliveryDate, totalPrice,
+     *                                     totalQuantity, orderDetails, isDelivered
+     * @throws NotFound - if order is not placed for mentioned date then it shows No record found
      */
     @GetMapping("/date/{orderedDate}")
     public List<UserOrderResponseDto> viewOrdersByDate(@PathVariable String orderedDate)
@@ -225,14 +215,14 @@ public class UserOrderController {
 
     /**
      * <p>
-     *     This method is used to retrieve order of a particular user as per mentioned date
+     *     This method is used for admin to retrieve order of a particular user as per mentioned date and userId
      * </p>
      *
      * @param orderedDate
-     * @param userId to get order of particular date of a user by using order date and user id
-     * @return List<UserOrderResponseDto> it shows list of orders which contains userId,
-     *                                    orderedDate, expectedDeliveryDate, totalPrice,
-     *                                    totalQuantity, orderDetails, isDelivered
+     * @param userId - to get order of particular date of a user by using order date and user id
+     * @return List<UserOrderResponseDto> - it shows list of orders which contains userId,
+     *                                      orderedDate, expectedDeliveryDate, totalPrice,
+     *                                      totalQuantity, orderDetails, isDelivered
      * @throws NotFound if order is not placed on the date by particular user then it shows No record found
      */
     @GetMapping("/{orderedDate}/{userId}")
