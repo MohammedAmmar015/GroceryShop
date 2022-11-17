@@ -6,7 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * It is used to get request from the delivery person
+ * <p>
+ *     It is used to get request from the delivery person
+ * </p>
+ *
  * @author Dhanalakshmi.M
  * @version 1.0
  */

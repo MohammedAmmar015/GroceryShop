@@ -37,11 +37,10 @@ public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer>
      *     This method is used to make change the delivery status and delivery date
      * </p>
      * @param orderId - it contains order id
-     * @return Integer - 0 or 1
      */
     @Modifying
     @Transactional
     @Query("Update OrderDelivery od set od.isDelivered = true, od.deliveryDate = CURRENT_TIMESTAMP where od.id = (select o.orderDelivery.id from UserOrder o where o.id = ?1)")
-    Integer updateStatus(Integer orderId);
+    void updateStatus(Integer orderId);
 
 }

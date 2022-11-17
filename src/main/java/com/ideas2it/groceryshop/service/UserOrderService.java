@@ -128,10 +128,9 @@ public interface UserOrderService {
      *
      * @param orderId - to cancel order by using order id
      * @return SuccessResponseDto - order cancelled successfully
-     * @throws NotFound - if order is not found it shows Order not found
      * @throws Existed - if order is already cancelled it shows Order already cancelled
      */
-    SuccessResponseDto cancelOrderById(Integer orderId) throws NotFound, Existed;
+    SuccessResponseDto cancelOrderById(Integer orderId) throws Existed;
 
     /**
      * <p>
@@ -161,7 +160,7 @@ public interface UserOrderService {
      *     This method is used for admin to retrieve order of a particular user as per mentioned date and userId
      * </p>
      *
-     * @param orderedDate
+     * @param orderedDate to get order of particular date
      * @param userId - to get order of particular date of a user by using order date and user id
      * @return List<UserOrderResponseDto> - it shows list of orders which contains userId,
      *                                      orderedDate, expectedDeliveryDate, totalPrice,

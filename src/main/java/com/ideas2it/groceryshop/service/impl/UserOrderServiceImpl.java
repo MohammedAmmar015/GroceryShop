@@ -119,8 +119,8 @@ public class UserOrderServiceImpl implements UserOrderService {
      */
     @Override
     public SuccessResponseDto buyNow(UserOrderRequestDto userOrderRequest) throws NotFound {
-        User user = userHelper.getCurrentUser();
         logger.debug("Entered buyNow method in UserOrderServiceImpl");
+        User user = userHelper.getCurrentUser();
         if (user != null) {
             UserOrder userOrder = new UserOrder();
             List<OrderDetails> orderDetails = setOrderDetails(userOrderRequest);
@@ -204,8 +204,8 @@ public class UserOrderServiceImpl implements UserOrderService {
     public SuccessResponseDto statusUpdate(Integer orderId) throws NotFound {
         logger.debug("Entered statusUpdate method in UserOrderServiceImpl");
         UserOrderResponseDto userOrderResponse = viewOrderById(orderId);
-        if(userOrderResponse.getIsDelivered() != true) {
-            Integer statusUpdation = orderDeliveryRepo.updateStatus(orderId);
+        if(!userOrderResponse.getIsDelivered()) {
+            orderDeliveryRepo.updateStatus(orderId);
             logger.debug("Order delivered successfully");
             return new SuccessResponseDto(202, "Order delivered successfully");
         } else {
@@ -228,8 +228,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         logger.debug("Entered viewAllActiveOrders method in UserOrderServiceImpl");
         List<UserOrder> orders = userOrderRepo.findByIsActive(true);
         if(orders != null) {
-            List<UserOrderResponseDto> activeOrders = UserOrderMapper.getAllOrdersDto(orders);
-            return activeOrders;
+            return UserOrderMapper.getAllOrdersDto(orders);
         } else {
             logger.debug("No record found");
             throw new NotFound("No record found");
@@ -251,8 +250,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         logger.debug("Entered viewAllCancelledOrders method in UserOrderServiceImpl");
         List<UserOrder> orders = userOrderRepo.findByIsActive(false);
         if(!orders.isEmpty()) {
-            List<UserOrderResponseDto> cancelledOrders = UserOrderMapper.getAllOrdersDto(orders);
-            return cancelledOrders;
+            return UserOrderMapper.getAllOrdersDto(orders);
         } else {
             logger.debug("No record found");
             throw new NotFound("No record found");
@@ -275,7 +273,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         logger.debug("Entered viewOrderById method in UserOrderServiceImpl");
         Integer userId = userHelper.getCurrentUser().getId();
         Optional<UserOrder> userOrder = userOrderRepo.findByIdAndUserId(orderId, userId);
-        if (!userOrder.isEmpty()) {
+        if (userOrder.isPresent()) {
             return UserOrderMapper.entityToDto(userOrder.get());
         } else {
             logger.debug("No record found");
@@ -299,8 +297,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         logger.debug("Entered viewOrderByUserId method in UserOrderServiceImpl");
         List<UserOrder> userOrder = userOrderRepo.findByUserId(userId);
         if(!userOrder.isEmpty()) {
-            List<UserOrderResponseDto> orders = UserOrderMapper.getAllOrdersDto(userOrder);
-            return orders;
+            return UserOrderMapper.getAllOrdersDto(userOrder);
         } else {
             logger.debug("No record found");
             throw new NotFound("No record found");
@@ -314,11 +311,10 @@ public class UserOrderServiceImpl implements UserOrderService {
      *
      * @param orderId - to cancel order by using order id
      * @return SuccessResponseDto - order cancelled successfully
-     * @throws NotFound - if order is not found it shows Order not found
      * @throws Existed - if order is already cancelled it shows Order already cancelled
      */
     @Override
-    public SuccessResponseDto cancelOrderById(Integer orderId) throws NotFound, Existed {
+    public SuccessResponseDto cancelOrderById(Integer orderId) throws Existed {
         logger.debug("Entered cancelOrderById method in UserOrderServiceImpl");
         Integer userId = userHelper.getCurrentUser().getId();
         Optional<UserOrder> userOrder = userOrderRepo.findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered
@@ -353,8 +349,7 @@ public class UserOrderServiceImpl implements UserOrderService {
        logger.debug("Entered viewOrdersByProductId method in UserOrderServiceImpl");
         List<OrderDetails> userOrders = userOrderRepo.findByProductId(productId);
         if(!userOrders.isEmpty()) {
-            List<OrderDetailsResponseDto> orders = OrderDetailsMapper.getAllOrdersEntityToDto(userOrders);
-            return orders;
+            return OrderDetailsMapper.getAllOrdersEntityToDto(userOrders);
         } else {
             logger.debug("No record found");
             throw new NotFound("No record found");
@@ -410,8 +405,8 @@ public class UserOrderServiceImpl implements UserOrderService {
      *     This method is used for admin to retrieve order of a particular user as per mentioned date and userId
      * </p>
      *
-     * @param orderedDate
-     * @param userId - to get order of particular date of a user by using order date and user id
+     * @param orderedDate to get order of particular date
+     * @param userId - to get order of particular user by using order date and user id
      * @return List<UserOrderResponseDto> - it shows list of orders which contains userId,
      *                                      orderedDate, expectedDeliveryDate, totalPrice,
      *                                      totalQuantity, orderDetails, isDelivered

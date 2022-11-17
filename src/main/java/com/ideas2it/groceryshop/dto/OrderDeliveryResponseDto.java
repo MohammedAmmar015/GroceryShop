@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * It is used to show response to the delivery person
+ * <p>
+ *     It is used to show response to the delivery person
+ * </p>
  * @author Dhanalakshmi.M
  * @version 1.0
  */
