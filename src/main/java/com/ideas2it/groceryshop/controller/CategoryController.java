@@ -124,7 +124,7 @@ public class CategoryController {
      * @return SuccessResponseDto
      * @throws NotFoundException exception will be thrown if the id not exist.
      */
-    @DeleteMapping("/subCategories/{parentId}/{categoryId}")
+    @DeleteMapping("/{parentId}/subCategories/{categoryId}")
     public SuccessResponseDto deleteSubCategory(@PathVariable("parentId") Integer parentId,
                                                 @PathVariable("categoryId") Integer categoryId)
             throws NotFoundException {
@@ -164,7 +164,7 @@ public class CategoryController {
      * @throws ExistedException exception will be thrown if new values are same as old.
      * @throws NotFoundException exception will be thrown if the id is not exist.
      */
-    @PutMapping("/subCategories/{parentId}/{categoryId}")
+    @PutMapping("/{parentId}/subCategories/{categoryId}")
     public SuccessResponseDto updateSubCategory(@PathVariable("parentId") Integer parentId,
                                                 @PathVariable("categoryId") Integer categoryId,
                                                 @RequestBody CategoryRequestDto categoryRequestDto)

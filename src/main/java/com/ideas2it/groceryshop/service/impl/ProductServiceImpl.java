@@ -15,7 +15,6 @@ import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepository;
 import com.ideas2it.groceryshop.repository.ProductRepository;
-import com.ideas2it.groceryshop.service.CategoryService;
 import com.ideas2it.groceryshop.service.ProductService;
 import com.ideas2it.groceryshop.service.StockService;
 import com.ideas2it.groceryshop.service.StoreService;
@@ -46,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepo;
     private CategoryRepository categoryRepository;
     private StockService stockService;
+
     private StoreService storeService;
     private Logger logger;
 
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
         if(productRepo.existsByName(productRequestDto.getName())) {
             throw new ExistedException("Product already added");
         }
-        if(categoryRepository.existById(productRequestDto.getSubCategoryId())) {
+        if(categoryRepository.existsById(productRequestDto.getSubCategoryId())) {
             throw new NotFoundException("Subcategory id not found");
         }
         Product product = ProductMapper.toProduct(productRequestDto);
@@ -241,29 +241,5 @@ public class ProductServiceImpl implements ProductService {
         }
         logger.debug("The getProductsByLocation method successfully executed");
         return productResponses;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void getProductByCategoryId(Integer categoryId) {
-        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive(categoryId, true);
-        for(Product product: products) {
-            product.setActive(false);
-            productRepo.save(product);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void getProductBySubCategoryId(Integer subCategoryId) {
-        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(subCategoryId, true);
-        for(Product product: products) {
-            product.setActive(false);
-            productRepo.save(product);
-        }
     }
 }
