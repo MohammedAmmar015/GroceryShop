@@ -16,7 +16,8 @@ import java.util.List;
 
 /**
  *  <p>
- *      This class implement method of crud operations for Product.
+ *      This class implement method of crate, view, update and delete
+ *      operations for Product.
  *  </p>
  * @author  RUBAN
  * @version   1.0
@@ -119,22 +120,4 @@ public interface ProductService {
      * @throws NotFoundException will be thrown if id not exist.
      */
     List<ProductResponseDto> getProductsBySubCategoryId( Integer subCategoryId) throws NotFoundException;
-
-    /**
-     * <p>
-     *     This method used to get product by category id and will delete it
-     *     from the database
-     * </p>
-     * @param categoryId to retrieve matched product object
-     */
-    void getProductByCategoryId(Integer categoryId);
-
-    /**
-     * <p>
-     *     This method used to get product by sub category id and will delete it
-     *      from the database
-     * </p>
-     * @param subCategoryId to retrieve matched product object
-     */
-    void getProductBySubCategoryId(Integer subCategoryId);
 }

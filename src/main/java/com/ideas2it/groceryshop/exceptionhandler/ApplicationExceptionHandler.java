@@ -62,7 +62,7 @@ public class ApplicationExceptionHandler {
      * @return ErrorDto
      */
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({ExistedException.class, SQLIntegrityConstraintViolationException.class})
+    @ExceptionHandler({ExistedException.class})
     public ErrorResponseDto handleAlReadyExistsException(ExistedException existed) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());

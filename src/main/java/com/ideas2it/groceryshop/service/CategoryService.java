@@ -114,23 +114,4 @@ public interface CategoryService {
     SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId, CategoryRequestDto
             categoryRequestDto) throws NotFoundException, ExistedException;
 
-    /**
-     * <p>
-     *     This method used to find category object from database if the
-     *     id is exist, this method useful for method in category service.
-     * </p>
-     * @param categoryId to find correct object in database
-     * @return category object.
-     */
-    Optional<Category> findCategoryById(Integer categoryId);
-
-    /**
-     * <p>
-     *     This method used check whether sub category id is exist in database or
-     *     not and returns true if exist otherwise false.
-     * </p>
-     * @param subCategoryId to check this id exist or not in database.
-     * @return true if exist otherwise false.
-     */
-    Boolean existBySubCategoryId(Integer subCategoryId);
 }

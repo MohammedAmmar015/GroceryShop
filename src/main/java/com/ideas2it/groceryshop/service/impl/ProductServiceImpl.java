@@ -13,6 +13,7 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
+import com.ideas2it.groceryshop.repository.CategoryRepository;
 import com.ideas2it.groceryshop.repository.ProductRepository;
 import com.ideas2it.groceryshop.service.CategoryService;
 import com.ideas2it.groceryshop.service.ProductService;
@@ -43,15 +44,15 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepo;
-    private CategoryService categoryService;
+    private CategoryRepository categoryRepository;
     private StockService stockService;
     private StoreService storeService;
     private Logger logger;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepo, StockService stockService,
-                              StoreService storeService, CategoryService categoryService) {
-        this.categoryService = categoryService;
+                              StoreService storeService, CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
         this.productRepo = productRepo;
         this.storeService = storeService;
         this.stockService = stockService;
@@ -68,12 +69,11 @@ public class ProductServiceImpl implements ProductService {
         if(productRepo.existsByName(productRequestDto.getName())) {
             throw new ExistedException("Product already added");
         }
-        if(categoryService.existBySubCategoryId(productRequestDto.getSubCategoryId())) {
+        if(categoryRepository.existById(productRequestDto.getSubCategoryId())) {
             throw new NotFoundException("Subcategory id not found");
         }
         Product product = ProductMapper.toProduct(productRequestDto);
-        Optional<Category> category = categoryService.
-                findCategoryById(productRequestDto.getSubCategoryId());
+        Optional<Category> category = categoryRepository.findById(productRequestDto.getSubCategoryId());
         category.ifPresent(product::setCategory);
         productRepo.save(product);
         logger.debug("addProduct method successfully executed");
@@ -227,16 +227,16 @@ public class ProductServiceImpl implements ProductService {
         if (products.isEmpty()) {
             throw new NotFoundException("No products found");
         }
-        //Boolean location = storeService.existByLocationId(locationId);
-       // if(!location) {
-         //   throw new NotFound("Location id invalid");
-        //}
+        Boolean location = storeService.existByLocationId(locationId);
+        if(!location) {
+            throw new NotFoundException("Location id invalid");
+        }
         List<ProductResponseDto> productResponses = new ArrayList<>();
         for (Product product : products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
-           // Boolean isStockAvailable = stockService.
-             //       getStocksAvailabilityByStoreLocationAndProduct(locationId, product.getId());
-           // productResponseDto.setIsStockAvailable(isStockAvailable);
+            Boolean isStockAvailable = stockService.
+                    getStocksAvailabilityByStoreLocationAndProduct(locationId, product.getId());
+            productResponseDto.setIsStockAvailable(isStockAvailable);
             productResponses.add(productResponseDto);
         }
         logger.debug("The getProductsByLocation method successfully executed");
