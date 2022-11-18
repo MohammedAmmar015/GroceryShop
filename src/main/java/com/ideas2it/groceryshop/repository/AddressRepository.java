@@ -26,7 +26,7 @@ import com.ideas2it.groceryshop.model.Address;
  * @since 04-11-2022
  */
 @Repository
-public interface AddressRepo extends JpaRepository<Address, Integer> {
+public interface AddressRepository extends JpaRepository<Address, Integer> {
 
     /**
      * It is used to find active user address
@@ -73,7 +73,6 @@ public interface AddressRepo extends JpaRepository<Address, Integer> {
      * of a user by user id
      *
      * @param id it is it of user
-     * @return Boolean it returns true or false
      */
     @Modifying
     @Transactional
@@ -90,7 +89,6 @@ public interface AddressRepo extends JpaRepository<Address, Integer> {
      * @param landMark it is landmark of area
      * @param isDefault it is used to if user want to set it
      *                 as default address
-     * @return Boolean it returns true or false
      */
     @Modifying
     @Transactional

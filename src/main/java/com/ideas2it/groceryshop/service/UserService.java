@@ -11,12 +11,13 @@ import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
 import com.ideas2it.groceryshop.dto.UserUpdateDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.model.User;
 
 /**
- *
- * It is interface of UserService
+ * It is interface of UserService it contains every method
+ * present in UserServiceImpl
  *
  * @version 1.0
  * @author Rohit A P
@@ -29,52 +30,55 @@ public interface UserService {
      *
      * @param userRequestDto it contains user details
      * @return SuccessResponseDto returns success message
-     * @throws Existed if username already exist
+     * @throws ExistedException if username already exist
      */
-    SuccessResponseDto addUser(UserRequestDto userRequestDto) throws Existed;
+    SuccessResponseDto addUser(UserRequestDto userRequestDto) throws ExistedException;
 
     /**
      * It is used to get user by id
      *
      * @param id it is id of user
      * @return userResponseDto it contains user detail
-     * @throws NotFound if user does not exist or inactive
+     * @throws NotFoundException if user does not exist or inactive
      */
-    UserResponseDto getUserById(Integer id) throws NotFound;
+    UserResponseDto getUserById(Integer id) throws NotFoundException;
 
     /**
      * It is used to get all users
      *
      * @return userResponseDtoList is list of user
-     * @throws NotFound no user found
+     * @throws NotFoundException no user found
      */
-    List<UserResponseDto> getAllUser() throws NotFound;
+    List<UserResponseDto> getAllUser() throws NotFoundException;
 
     /**
      * It is used to find users by role
      *
      * @param name used to search users by role name
      * @return userResponseDtoList list of user
-     * @throws NotFound users not found
+     * @throws NotFoundException users not found
      */
-    List<UserResponseDto> getUserByRole(String name) throws NotFound;
+    List<UserResponseDto> getUserByRole(String name) throws NotFoundException;
 
     /**
      *  It is used to delete user by id
      *
      * @param id to be deleted
      * @return SuccessResponseDto returns success message
-     * @throws NotFound user does not exist
+     * @throws NotFoundException user does not exist
      */
-    SuccessResponseDto deleteUserById(Integer id) throws NotFound;
+    SuccessResponseDto deleteUserById(Integer id) throws NotFoundException;
 
     /**
-     * This method is used to get user by mobile number
+     * This method is used to get userName by mobile number.
+     * Using Regex given string is validated as mobile number or username.
+     * If given string is mobileNumber using mobileNumber userName is retrieved and returned.
+     * Else userName is returned.
      *
-     * @param mobileNumber it contains username or
+     * @param userNameOrMobileNumber it contains username or mobileNumber
      * @return userName it is contains username
      */
-    String getUserByMobileNumber(String mobileNumber);
+    String getUserNameByMobileNumber(String userNameOrMobileNumber);
 
     /**
      * This method is used to get user object by name,
@@ -83,7 +87,8 @@ public interface UserService {
      * @param userUpdateDto it contains details to be updated
      * @return SuccessResponseDto it contains success message
      */
-    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto) throws NotFound;
+    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
+                                                                 throws NotFoundException;
 
     /**
      * This method is used to get current user profile
@@ -91,4 +96,11 @@ public interface UserService {
      * @return userResponseDto it contains user details
      */
     public UserResponseDto getCurrentUserProfile();
+
+    /**
+     * This method is used to get current user object
+     *
+     * @return user it contains user details
+     */
+    public User getCurrentUser();
 }

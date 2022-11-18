@@ -26,7 +26,7 @@ import com.ideas2it.groceryshop.model.Role;
  * @since 04-11-2022
  */
 @Repository
-public interface RoleRepo extends JpaRepository<Role, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
      * is used to role by name

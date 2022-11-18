@@ -29,8 +29,8 @@ import com.ideas2it.groceryshop.service.UserService;
 import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
- * AuthenticationController used to generate
- * token based on userName and password
+ * AuthenticationController is providing service
+ * for logging-in for user
  *
  * @version 1.0
  * @author Rohit A P
@@ -70,8 +70,7 @@ public class AuthenticationController {
             throws BadCredentialsException {
         logger.debug("Entered createAuthenticationToken");
         SecurityContextHolder.clearContext();
-        String userName = null;
-        userName = userService.getUserByMobileNumber
+        String userName = userService.getUserNameByMobileNumber
                 (loginRequestDto.get().getUserNameOrMobileNumber());
         authenticate(userName, loginRequestDto.get().getPassword());
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
@@ -85,7 +84,7 @@ public class AuthenticationController {
      *
      * @param username it is username of user
      * @param password it is password of user
-     * @throws BadCredentialsException it is used to find username or password is invalid
+     * @throws BadCredentialsException if credentials are false
      */
     private void authenticate(String username, String password)
             throws BadCredentialsException {

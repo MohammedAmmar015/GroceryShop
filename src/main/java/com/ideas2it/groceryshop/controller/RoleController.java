@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.RoleUpdateRequestDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
  *
- * Role controller class is used to do create,
+ * Role controller class is providing service to create,
  * update and delete role.
  *
  * @version 1.0
@@ -53,7 +53,7 @@ public class RoleController {
      */
     @PostMapping
     public SuccessResponseDto createRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
-            throws Existed {
+                                         throws ExistedException {
         logger.debug("Entered createRole method");
         return roleService.addRole(roleRequestDto);
     }
@@ -67,7 +67,7 @@ public class RoleController {
      */
     @PutMapping
     public SuccessResponseDto updateRole
-    (@Valid @RequestBody RoleUpdateRequestDto roleUpdateRequestDto) throws NotFound {
+    (@Valid @RequestBody RoleUpdateRequestDto roleUpdateRequestDto) throws NotFoundException {
         logger.debug("Entered updateRole method");
         return roleService.updateRole(roleUpdateRequestDto);
     }
@@ -80,7 +80,7 @@ public class RoleController {
      */
     @DeleteMapping
     public SuccessResponseDto deleteRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
-            throws NotFound {
+            throws NotFoundException {
         logger.debug("Entered deleteRole method");
         return roleService.deleteRole(roleRequestDto);
     }

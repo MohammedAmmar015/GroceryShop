@@ -48,7 +48,7 @@ public class AddressControllerTest {
     public void createAddress() throws NotFound {
         AddressRequestDto addressRequestDto = new AddressRequestDto("Big street",
                 "triplicane", 600005, "near school");
-        when(addressService.addAddress(1, addressRequestDto)).
+        when(addressService.addAddress(addressRequestDto)).
                 thenReturn(new SuccessResponseDto());
     }
 
