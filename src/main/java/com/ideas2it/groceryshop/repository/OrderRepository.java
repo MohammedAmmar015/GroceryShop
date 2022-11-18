@@ -60,7 +60,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      */
     @Modifying
     @Transactional
-    @Query(value = "update UserOrder o set o.isActive = false where o.id = ?1 and o.user.id = ?2")
+    @Query(value = "update Order o set o.isActive = false where o.id = ?1 and o.user.id = ?2")
     Integer cancelOrderById(Integer orderId, Integer userId);
 
     /**
@@ -110,7 +110,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @return List<UserOrder> - It returns list of orders which contains orderedDate, totalPrice,
      *                          totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    @Query("Select o from UserOrder o where date(o.orderedDate) = ?1")
+    @Query("Select o from Order o where date(o.orderedDate) = ?1")
     List<Order> findByOrderedDate(Date orderedDate);
 
     /**
@@ -124,7 +124,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @return List<UserOrder> - to get list of orders which contains orderedDate, totalPrice,
      *                          totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    @Query("Select o from UserOrder o where Date(o.orderedDate) = ?1 AND o.user.id = ?2")
+    @Query("Select o from Order o where Date(o.orderedDate) = ?1 AND o.user.id = ?2")
     List<Order> findByOrderedDateAndUserId(Date orderedDate, Integer userId);
 
 }
