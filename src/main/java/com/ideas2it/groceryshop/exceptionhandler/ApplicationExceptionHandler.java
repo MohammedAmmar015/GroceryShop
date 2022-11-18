@@ -44,12 +44,12 @@ public class ApplicationExceptionHandler {
      * @param notFoundException It contains message to get display
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
     public ErrorResponseDto handleNotFoundException(NotFoundException notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(notFoundException.getMessage());
-        error.setStatusCode(204);
+        error.setStatusCode(404);
         return error;
     }
 
@@ -62,7 +62,9 @@ public class ApplicationExceptionHandler {
      * @return ErrorDto
      */
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({ExistedException.class, SQLIntegrityConstraintViolationException.class})
+    @ExceptionHandler({ExistedException.class,
+                       ParseException.class,
+                       SQLIntegrityConstraintViolationException.class})
     public ErrorResponseDto handleAlReadyExistsException(ExistedException existed) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());
@@ -141,24 +143,6 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * This method is used to handle SQLIntegrityConstraintViolationException
-     *
-     * @param sqlIntegrityConstraintViolationException it contains error message
-     * @return errorDto it contains error message and error status code
-     */
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ErrorResponseDto handlerSQLIntegrityConstraintViolation
-            (SQLIntegrityConstraintViolationException
-                     sqlIntegrityConstraintViolationException){
-        ErrorResponseDto errorDto = new ErrorResponseDto();
-        errorDto.setErrorMessage
-                (sqlIntegrityConstraintViolationException.getMessage());
-        errorDto.setStatusCode(409);
-        return errorDto;
-    }
-
-    /**
      * This method is used to handle exception thrown
      * by spring boot and show error code and error message
      *
@@ -166,12 +150,28 @@ public class ApplicationExceptionHandler {
      * @return errorDto it contains error message and error code
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(HttpClientErrorException.class)
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
     public ErrorResponseDto handlerHttpClientErrorException
             (HttpClientErrorException httpClientErrorException) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(httpClientErrorException.getMessage());
         errorDto.setStatusCode(401);
+        return errorDto;
+    }
+    /**
+     * This method is used to handle Forbidden exception thrown
+     * by spring boot and show error code and error message
+     *
+     * @param httpClientErrorException it contains error message
+     * @return errorDto it contains error message and error code
+     */
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(HttpClientErrorException.Forbidden.class)
+    public ErrorResponseDto handlerForbiddenException
+    (HttpClientErrorException httpClientErrorException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
+        errorDto.setErrorMessage(httpClientErrorException.getMessage());
+        errorDto.setStatusCode(403);
         return errorDto;
     }
 }

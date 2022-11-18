@@ -17,7 +17,7 @@ import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.CartDetails;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.User;
-import com.ideas2it.groceryshop.repository.CartRepo;
+import com.ideas2it.groceryshop.repository.CartRepository;
 import com.ideas2it.groceryshop.service.CartDetailsService;
 import com.ideas2it.groceryshop.service.CartService;
 import com.ideas2it.groceryshop.service.ProductService;
@@ -47,7 +47,7 @@ import java.util.Optional;
 public class CartServiceImpl implements CartService {
 
     private final Logger logger = LogManager.getLogger(CartServiceImpl.class);
-    private final CartRepo cartRepo;
+    private final CartRepository cartRepository;
     private final UserService userService;
     private final ProductService productService;
     private final CartDetailsService cartDetailsService;
@@ -70,7 +70,7 @@ public class CartServiceImpl implements CartService {
         cart.setCartDetails(cartDetails);
         cart.setTotalPrice(calculateTotalPrice(cartDetails));
         cart.setTotalQuantity(calculateTotalQuantity(cartDetails));
-        cartRepo.save(cart);
+        cartRepository.save(cart);
         logger.debug("product added to cart");
         return new SuccessResponseDto(201,
                                 "Product added to cart successfully");
@@ -168,7 +168,7 @@ public class CartServiceImpl implements CartService {
         logger.debug("Entered removeCart method in cartServiceImpl");
         User user = userService.getCurrentUser();
         cartDetailsService.removeCartDetailsByUserId(user.getId());
-        cartRepo.deleteCartByUserId(user.getId());
+        cartRepository.deleteCartByUserId(user.getId());
         logger.debug("cart deleted successfully");
         return new SuccessResponseDto(204,
                                 "Cart deleted successfully");
@@ -224,7 +224,7 @@ public class CartServiceImpl implements CartService {
             }
         }
         if (isDeleted) {
-            cartRepo.save(cart);
+            cartRepository.save(cart);
         }
         return isDeleted;
     }
@@ -255,7 +255,7 @@ public class CartServiceImpl implements CartService {
         cart.setTotalPrice(calculateTotalPrice(cartDetails));
         cart.setTotalQuantity(calculateTotalQuantity(cartDetails));
         cart.setCartDetails(cartDetails);
-        cartRepo.save(cart);
+        cartRepository.save(cart);
         logger.debug("cart updated successfully");
         return new SuccessResponseDto(200,
                                 "Quantity updated successfully");
@@ -268,7 +268,7 @@ public class CartServiceImpl implements CartService {
     public Cart getActiveCartOfCurrentUser() {
         logger.debug("Entered getCartByCartId method in cartServiceImpl");
         User user = userService.getCurrentUser();
-        Optional<Cart> cart = cartRepo.findByUserIdAndIsActive(user.getId(),
+        Optional<Cart> cart = cartRepository.findByUserIdAndIsActive(user.getId(),
                                                         true);
         if (cart.isEmpty()) {
             return null;

@@ -1,6 +1,6 @@
 package com.ideas2it.groceryshop.service.impl;
 
-import com.ideas2it.groceryshop.repository.CartDetailsRepo;
+import com.ideas2it.groceryshop.repository.CartDetailsRepository;
 import com.ideas2it.groceryshop.service.CartDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CartDetailsServiceImpl implements CartDetailsService {
 
-    private final CartDetailsRepo cartDetailsRepo;
+    private final CartDetailsRepository cartDetailsRepository;
 
     /**
      * <p>
@@ -31,6 +31,6 @@ public class CartDetailsServiceImpl implements CartDetailsService {
      */
     @Override
     public void removeCartDetailsByUserId(Integer userId) {
-        cartDetailsRepo.deleteCartDetailsByUserId(userId);
+        cartDetailsRepository.deleteCartDetailsByUserId(userId);
     }
 }

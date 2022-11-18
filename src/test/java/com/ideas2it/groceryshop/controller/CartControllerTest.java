@@ -6,8 +6,8 @@
 package com.ideas2it.groceryshop.controller;
 
 import com.ideas2it.groceryshop.dto.*;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.CartService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -43,11 +43,11 @@ public class CartControllerTest {
      *     This method is used to test createCart() method
      *     in cart controller
      * </p>
-     * @throws Existed - exception will be thrown if product already exists in Cart
-     * @throws NotFound - exception will be thrown if product not found
+     * @throws ExistedException - exception will be thrown if product already exists in Cart
+     * @throws NotFoundException - exception will be thrown if product not found
      */
     @Test
-    public void testCreateCart() throws Existed, NotFound {
+    public void testCreateCart() throws ExistedException, NotFoundException {
         Integer userId = 1;
         CartDetailsRequestDto cartDetail
                 = new CartDetailsRequestDto(1, 10);
@@ -55,7 +55,7 @@ public class CartControllerTest {
                 = new CartRequestDto(cartDetail);
         SuccessResponseDto successDto
                 = new SuccessResponseDto(201,"Cart created successfully");
-        when(cartService.addCart(cartRequestDto)).thenReturn(successDto);
+        when(cartService.addOrModifyCart(cartRequestDto)).thenReturn(successDto);
         SuccessResponseDto result = cartController.createCart(cartRequestDto);
         assertEquals(successDto.getStatusCode(), result.getStatusCode());
     }
@@ -65,10 +65,10 @@ public class CartControllerTest {
      *     This method is used to test viewCart method
      *     in Cart Controller
      * </p>
-     * @throws NotFound - exception will be thrown if Cart not found (if it's admin userId)
+     * @throws NotFoundException - exception will be thrown if Cart not found (if it's admin userId)
      */
     @Test
-    public void testViewCart() throws NotFound {
+    public void testViewCart() throws NotFoundException {
         Integer userId = 1;
         CartResponseDto cartResponseDto = new CartResponseDto();
         cartResponseDto.setId(1);
@@ -91,10 +91,10 @@ public class CartControllerTest {
      *     This method is used to test updateCart() method,
      *     in Cart Controller
      * </p>
-     * @throws NotFound - exception will be thrown if Cart not found
+     * @throws NotFoundException - exception will be thrown if Cart not found
      */
     @Test
-    public void testUpdateCart() throws NotFound {
+    public void testUpdateCart() throws NotFoundException {
         Integer userId = 1;
         CartDetailsRequestDto cartDetail
                 = new CartDetailsRequestDto(1, 10);
@@ -112,10 +112,10 @@ public class CartControllerTest {
      *     This method is used to test deleteCart()
      *     method in Cart Controller
      * </p>
-     * @throws NotFound - exception will be thrown if Cart not found
+     * @throws NotFoundException - exception will be thrown if Cart not found
      */
     @Test
-    public void testDeleteCart() throws NotFound {
+    public void testDeleteCart() throws NotFoundException {
         Integer userId = 1;
         SuccessResponseDto successDto
                 = new SuccessResponseDto(200,"Cart deleted successfully");
@@ -129,10 +129,10 @@ public class CartControllerTest {
      *     This method is used to test deleteProductFromCart()
      *     method in Cart Controller
      * </p>
-     * @throws NotFound - exception will be thrown if Cart not found
+     * @throws NotFoundException - exception will be thrown if Cart not found
      */
     @Test
-    public void testDeleteProductFromCart() throws NotFound {
+    public void testDeleteProductFromCart() throws NotFoundException {
         Integer userId = 1;
         Integer productId = 1;
         SuccessResponseDto successDto

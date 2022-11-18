@@ -27,7 +27,7 @@ import java.util.List;
  * @since 03-11-2022
  */
 @Repository
-public interface StoreRepo extends JpaRepository<StoreLocation, Integer> {
+public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>

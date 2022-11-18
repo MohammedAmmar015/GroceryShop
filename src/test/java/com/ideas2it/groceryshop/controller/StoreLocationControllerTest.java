@@ -8,8 +8,8 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.StoreService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -46,10 +46,10 @@ public class StoreLocationControllerTest {
      *     This method is used to test createStore
      *     method in StoreLocationController
      * </p>
-     * @throws Existed throws if store already exist
+     * @throws ExistedException throws if store already exist
      */
     @Test
-    public void testCreateStore() throws Existed {
+    public void testCreateStore() throws ExistedException {
         StoreRequestDto storeRequestDto
                 = new StoreRequestDto(600001, "Guindy");
         SuccessResponseDto successDto
@@ -65,10 +65,10 @@ public class StoreLocationControllerTest {
      *     This method is used to test
      *     viewStores method in StoreLocationController
      * </p>
-     * @throws NotFound throws if stores not found
+     * @throws NotFoundException throws if stores not found
      */
     @Test
-    public void testViewStores() throws NotFound {
+    public void testViewStores() throws NotFoundException {
         List<StoreResponseDto> stores = new ArrayList<>();
         StoreResponseDto storeOne=
                 new StoreResponseDto(1, 600001, "Guindy");
@@ -86,14 +86,14 @@ public class StoreLocationControllerTest {
      *     viewStoreById method in
      *     StoreLocationController
      * </p>
-     * @throws NotFound throws if store not found for given id
+     * @throws NotFoundException throws if store not found for given id
      */
     @Test
-    public void testViewStoreById() throws NotFound {
+    public void testViewStoreById() throws NotFoundException {
         Integer storeId = 1 ;
         StoreResponseDto store=
                 new StoreResponseDto(1, 600001, "Guindy");
-        when(storeService.getStoreById(storeId)).thenReturn(store);
+        when(storeService.getStoreResponseById(storeId)).thenReturn(store);
         assertEquals(storeId, storeLocationController.viewStoreById(storeId).getId());
     }
 
@@ -102,11 +102,11 @@ public class StoreLocationControllerTest {
      *     This method is used to test updateStore
      *     method in StoreLocationController
      * </p>
-     * @throws Existed throws if new given data is already exist
-     * @throws NotFound throws if store not found for given id
+     * @throws ExistedException throws if new given data is already exist
+     * @throws NotFoundException throws if store not found for given id
      */
     @Test
-    public void testUpdateStore() throws Existed, NotFound {
+    public void testUpdateStore() throws ExistedException, NotFoundException {
         Integer storeId = 1;
         StoreRequestDto storeRequestDto
                 = new StoreRequestDto(600001, "Guindy");
@@ -124,10 +124,10 @@ public class StoreLocationControllerTest {
      *     This method is used to test deleteStore method
      *     in StoreLocationController
      * </p>
-     * @throws NotFound throws if store not found for given id
+     * @throws NotFoundException throws if store not found for given id
      */
     @Test
-    public void testDeleteStore() throws NotFound {
+    public void testDeleteStore() throws NotFoundException {
         Integer storeId = 1;
         SuccessResponseDto successDto
                 = new SuccessResponseDto(200, "Store Deleted Successfully");
