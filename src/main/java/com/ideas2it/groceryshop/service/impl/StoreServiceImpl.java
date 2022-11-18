@@ -41,14 +41,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreRepo storeRepo;
 
     /**
-     * <p>
-     *     This method is used to add new Store Location
-     *     based on storeRequestDTO
-     * </p>
-     * @param storeLocationRequest request DTO to be passed
-     * @return - SuccessResponseDto with success message and status code
-     *          if store created successfully
-     * @throws ExistedException - if area or location already exists
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest)
@@ -68,11 +61,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     /**
-     * <p>
-     *     This method is used to get all active stores
-     * </p>
-     * @return list of store as response DTO
-     * @throws NotFoundException if no data found
+     * {@inheritDoc}
      */
     @Override
     public List<StoreResponseDto> getStores() throws NotFoundException {
@@ -90,14 +79,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     /**
-     * <p>
-     *     This method is used to remove store
-     *     based on store location id
-     * </p>
-     * @param storeId store id has to be passed
-     * @return - SuccessResponseDto with success message and status code
-     *          if store is deleted successfully
-     * @throws NotFoundException - if store not found
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto removeStore(Integer storeId) throws NotFoundException {
@@ -112,13 +94,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     /**
-     * <p>
-     *     This method is used get particular active store
-     *     based on given location id
-     * </p>
-     * @param storeId store id has to be passed
-     * @return Store Response DTO
-     * @throws NotFoundException if store not found
+     * {@inheritDoc}
      */
     @Override
     public StoreResponseDto getStoreResponseById(Integer storeId)
@@ -132,6 +108,9 @@ public class StoreServiceImpl implements StoreService {
         return StoreLocationMapper.toStoreLocationResponse(storeLocation);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StoreLocation getStoreById(Integer storeId)
             throws NotFoundException {
@@ -145,15 +124,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     /**
-     * <P>
-     *     This method is used to update store location details
-     *     based on location id
-     * </P>
-     * @param storeLocationRequest Store Location details to update
-     * @param storeId              store id to be passed
-     * @return successResponseDto if store details modified successfully
-     * @throws NotFoundException - if store not found
-     * @throws ExistedException - if given new details already exist
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
@@ -180,18 +151,16 @@ public class StoreServiceImpl implements StoreService {
                                 "Store updated successfully");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StoreLocation getStoreByPinCode(Integer pinCode) {
         return storeRepo.findByIsActiveAndPinCode(true, pinCode);
     }
 
     /**
-     * <p>
-     *     This method used to check whether location id exist
-     *     in database or not.
-     * </p>
-     * @param locationId for checking in database
-     * @return true if locationId exist otherwise false.
+     * {@inheritDoc}
      */
     @Override
     public Boolean existByLocationId(Integer locationId) {

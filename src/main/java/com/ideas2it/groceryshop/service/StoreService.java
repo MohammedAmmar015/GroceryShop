@@ -30,9 +30,11 @@ public interface StoreService {
     /**
      * <p>
      *     This method is used to add new Store Location
+     *     based on storeRequestDTO
      * </p>
      * @param storeLocationRequest request DTO to be passed
-     * @return - SuccessResponseDto if store created
+     * @return - SuccessResponseDto with success message and status code
+     *          if store created successfully
      * @throws ExistedException - if area or location already exists
      */
     SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws ExistedException;
@@ -41,7 +43,7 @@ public interface StoreService {
      * <p>
      *     This method is used to get all active stores
      * </p>
-     * @return list of store response DTO
+     * @return list of store as response DTO
      * @throws NotFoundException if no data found
      */
     List<StoreResponseDto> getStores() throws NotFoundException;
@@ -52,7 +54,8 @@ public interface StoreService {
      *     based on store location id
      * </p>
      * @param storeId store id has to be passed
-     * @return - SuccessResponseDto if deleted
+     * @return - SuccessResponseDto with success message and status code
+     *          if store is deleted successfully
      * @throws NotFoundException - if store not found
      */
     SuccessResponseDto removeStore(Integer storeId) throws NotFoundException;
@@ -69,14 +72,23 @@ public interface StoreService {
      */
     StoreResponseDto getStoreResponseById(Integer storeId) throws NotFoundException;
 
+    /**
+     * <p>
+     *     This method is used to get Store
+     *     by location id
+     * </p>
+     * @param storeId - store location id to get store details
+     * @return StoreLocation with store details
+     * @throws NotFoundException
+     */
     StoreLocation getStoreById(Integer storeId)
             throws NotFoundException;
 
     /**
-     * <P>
+     * <p>
      *     This method is used to update store location details
      *     based on location id
-     * </P>
+     * </p>
      * @param storeLocationRequest Store Location details to update
      * @param storeId              store id to be passed
      * @return successResponseDto if store details modified successfully
@@ -86,7 +98,23 @@ public interface StoreService {
     SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
                            Integer storeId) throws NotFoundException, ExistedException;
 
+    /**
+     * <p>
+     *     This method is used to get store details
+     *     based on given pinCode
+     * </p>
+     * @param pinCode store location pinCode to get store details
+     * @return store location with area and pinCode
+     */
     StoreLocation getStoreByPinCode(Integer pinCode);
 
+    /**
+     * <p>
+     *     This method used to check whether location id exist
+     *     in database or not.
+     * </p>
+     * @param locationId for checking in database
+     * @return true if locationId exist otherwise false.
+     */
     Boolean existByLocationId(Integer locationId);
 }

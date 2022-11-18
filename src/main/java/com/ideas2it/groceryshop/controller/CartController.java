@@ -63,7 +63,7 @@ public class CartController {
     public SuccessResponseDto createCart(@Valid @RequestBody CartRequestDto cartRequest)
                                         throws NotFoundException, ExistedException {
         logger.debug("Entered createCart method in CartController");
-        return cartService.addCart(cartRequest);
+        return cartService.addOrModifyCart(cartRequest);
     }
 
     /**

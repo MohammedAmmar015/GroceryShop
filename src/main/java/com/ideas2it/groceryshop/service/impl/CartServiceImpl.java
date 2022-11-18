@@ -53,18 +53,7 @@ public class CartServiceImpl implements CartService {
     private final CartDetailsService cartDetailsService;
 
     /**
-     * <p>
-     *     This method is used to add Product to the existing Cart
-     *     or create a new cart if cart is inactive
-     *     for particular user based on currently logged-in user
-     *     and also cart details will be added to cart by cartRequest
-     *     which has product id and quantity
-     * </p>
-     * @param cartRequest - product id and quantity to add into Cart
-     * @return - SuccessResponseDto with Message and status Code if product
-     *          successfully added to cart
-     * @throws NotFoundException - if given product id not found
-     * @throws ExistedException if product already exist in cart
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto addOrModifyCart(CartRequestDto cartRequest)
@@ -159,14 +148,7 @@ public class CartServiceImpl implements CartService {
     }
 
     /**
-     * <p>
-     *     This method is used to get Cart of currently
-     *     logged-in user and to return cart details 
-     *     as response DTO
-     * </p>
-     * @return - CartResponse with products and it's total price
-     *           that added to cart by user
-     * @throws NotFoundException if cart is inActive or not found
+     * {@inheritDoc}
      */
     @Override
     public CartResponseDto getCart() throws NotFoundException {
@@ -179,14 +161,7 @@ public class CartServiceImpl implements CartService {
     }
 
     /**
-     * <p>
-     *     This method is used to remove all products from Cart
-     *     and to delete cart
-     *     of currently logged-in user 
-     * </p>
-     *
-     * @return SuccessResponseDto with success message and status code
-     *          if cart deleted successfully
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto removeCart() {
@@ -200,17 +175,7 @@ public class CartServiceImpl implements CartService {
     }
 
     /**
-     * <p>
-     *     This method is used to remove particular product
-     *     based on product id,
-     *     from user's cart of currently logged-in user
-     *     and to update total price based
-     *     on current cart details
-     * </p>
-     *
-     * @param productId - product id to be removed
-     * @return SuccessResponseDto if product deleted from cart
-     * @throws NotFoundException if cart or product not found
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto removeProductFromCart(Integer productId)
@@ -265,16 +230,7 @@ public class CartServiceImpl implements CartService {
     }
 
     /**
-     * <p>
-     *     This method is used to update product quantity in user's Cart
-     *     of currently logged-in user
-     *     CartRequest will have product id and quantity to be updated,
-     *     new totalPrice and totalQuantity will also get updated
-     * </p>
-     *
-     * @param cartRequest - cart details to be Updated
-     * @return SuccessResponseDto if cart updated successfully
-     * @throws NotFoundException if cart or product not found
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto updateCartByUser(CartRequestDto cartRequest)
@@ -306,11 +262,7 @@ public class CartServiceImpl implements CartService {
     }
 
     /**
-     * <p>
-     *     This method is used to get active cart
-     *     of currently logged-in user
-     * </p>
-     * @return Cart if cart available else it will return null
+     * {@inheritDoc}
      */
     @Override
     public Cart getActiveCartOfCurrentUser() {

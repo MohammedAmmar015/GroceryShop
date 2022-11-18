@@ -46,6 +46,7 @@ public class CartMapper {
 
     public static Cart toCart(CartRequestDto cartRequest) {
         Cart cart = new Cart();
+        cart.setCartDetails(new ArrayList<>());
         return cart;
     }
 }

@@ -29,13 +29,16 @@ public interface StockService {
 
     /**
      * <p>
-     * It is used to add Stock for Particular product based on Location
+     *     This method is used to add Stock for particular product
+     *     based on Location id
+     *     stockRequest has stock details to add stock for product
      * </p>
      *
-     * @param stockRequest stock details to add
+     * @param stockRequest stock details to add stock
      * @param locationId   To add stock to particular location
      * @param productId    To add Stock to the Product
-     * @return SuccessResponseDto if stock created
+     * @return SuccessResponseDto with success message and status code
+     *          if stock created
      * @throws NotFoundException if store or product not found
      * @throws ExistedException if stock already exist for given product and location
      */
@@ -44,11 +47,13 @@ public interface StockService {
 
     /**
      * <p>
-     *     It is used to get Stock details for particular product,
-     *     on different location
+     *     This method is used to get available Stock details
+     *     for particular product,
+     *     available on different location
+     *     It will return Stock details as list Response DTO
      * </p>
-     * @param productId id to view Stock details
-     * @return List of Stock details
+     * @param productId id to view Stock details of product
+     * @return List of Stock details on different location
      * @throws NotFoundException if stock not found for given product id
      */
     List<StockResponseDto> getStockByProductId(Integer productId)
@@ -56,12 +61,16 @@ public interface StockService {
 
     /**
      * <p>
-     *     To view stock details, for particular product on particular location
+     *     This method is used to view stock details,
+     *     for particular product on particular location
+     *     based on product id and location id
+     *     It will return available stock details
+     *     as response DTO
      * </p>
-     * @param productId - to view Stock details
-     * @param locationId - to view stock by product and location
-     * @return Store Response DTO
-     * @throws NotFoundException if stock not found for given ids
+     * @param productId - to view Stock details of product
+     * @param locationId - to view stock by location
+     * @return Store Response DTO with available stock
+     * @throws NotFoundException if stock not found for given id
      */
     StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
             throws NotFoundException;
@@ -69,13 +78,18 @@ public interface StockService {
 
     /**
      * <p>
-     *     To update stock for particular product on particular location
+     *     This method is used to update stock
+     *     for particular product on particular location
+     *     based on product id and location id
+     *     stockRequest has stock details to be added
+     *     to stock
      * </p>
      *
      * @param stockRequest - stock details to update
      * @param productId    - id to update stock for this product
      * @param locationId   - id to update stock on this location
-     * @return SuccessResponseDto if Stock updated
+     * @return SuccessResponseDto success message with status code
+     *          if Stock updated
      * @throws NotFoundException if stock not found for product id and location id
      */
     SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
@@ -86,10 +100,12 @@ public interface StockService {
     /**
      * <p>
      *     This method is used to decrease stock by
-     *     user order details, and location details
+     *     user order details, and pinCode from where
+     *     user has ordered the products
+     *     if user placed order successfully
      * </p>
      * @param order it has product details, user ordered
-     * @param pinCode pinCode in which user has ordered products
+     * @param pinCode It is user's location pinCode from where user ordered
      */
     void removeStockByOrderDetails(UserOrder order,
                                    Integer pinCode);
@@ -97,12 +113,22 @@ public interface StockService {
     /**
      * <p>
      *     This method is used to update stock
-     *     based on user order,
-     *     when user cancelled the order
+     *     based on product details available in user order,
+     *     if user cancelled the order
      * </p>
-     * @param order order details that is cancelled
+     * @param order order details which has product details
+     *             that is cancelled
      */
     void updateStockByOrderDetails(UserOrder order);
 
+    /**
+     * <p>
+     *     This method is used to check stock availability
+     *     for particular product on particular location
+     * </p>
+     * @param locationId location id to check stock
+     * @param productId to check store for given product id
+     * @return
+     */
     Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId);
 }
