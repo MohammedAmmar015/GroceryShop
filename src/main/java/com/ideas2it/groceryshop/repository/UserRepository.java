@@ -28,7 +28,7 @@ import com.ideas2it.groceryshop.model.User;
  * @since 04-11-2022
  */
 @Repository
-public interface UserRepo extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
      * Find user by id and isActive

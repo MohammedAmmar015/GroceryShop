@@ -15,17 +15,19 @@ import org.springframework.stereotype.Service;
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.RoleUpdateRequestDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.RoleMapper;
 import com.ideas2it.groceryshop.model.Role;
-import com.ideas2it.groceryshop.repository.RoleRepo;
+import com.ideas2it.groceryshop.repository.RoleRepository;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
  *
  * It is implements class of RoleService
  * It is used to save, update and delete role from database
+ * Dto objects are converted into model object using mapper
+ * for storing in database and vice versa.
  *
  * @version 1.0
  * @author Rohit A P
@@ -34,12 +36,12 @@ import com.ideas2it.groceryshop.service.RoleService;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleRepo roleRepo;
+    private final RoleRepository roleRepository;
     private final Logger logger = LogManager.getLogger(RoleServiceImpl.class);
 
     @Autowired
-    public RoleServiceImpl(RoleRepo roleRepo) {
-        this.roleRepo = roleRepo;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -47,19 +49,19 @@ public class RoleServiceImpl implements RoleService {
      *
      * @param roleRequestDto it contains role name
      * @return SuccessResponseDto it returns success message
-     * @throws Existed role already exist
+     * @throws ExistedException role already exist
      */
     @Override
-    public SuccessResponseDto addRole(RoleRequestDto roleRequestDto) throws Existed {
+    public SuccessResponseDto addRole(RoleRequestDto roleRequestDto) throws ExistedException {
         logger.debug("Entered addRole method");
         Role role = RoleMapper.roleDtoToRole(roleRequestDto.getName());
-        Boolean isAvailable = roleRepo.existsByNameAndIsActive( role.getName(),
+        Boolean isAvailable = roleRepository.existsByNameAndIsActive( role.getName(),
                 true);
         if(isAvailable == true) {
             logger.debug("Role already exist");
-            throw new Existed("Role already exist");
+            throw new ExistedException("Role already exist");
         }
-        roleRepo.save(role);
+        roleRepository.save(role);
         logger.debug("Role created successfully");
         return new SuccessResponseDto(201,"Role created successfully");
     }
@@ -69,19 +71,19 @@ public class RoleServiceImpl implements RoleService {
      *
      * @param roleUpdateRequestDto it contains role name and name to be updated
      * @return SuccessResponseDto it returns success message
-     * @throws NotFound role not found
+     * @throws NotFoundException role not found
      */
     @Override
     public SuccessResponseDto updateRole(RoleUpdateRequestDto roleUpdateRequestDto)
-            throws NotFound {
+            throws NotFoundException {
         logger.debug("Entered updateRole method");
-        Optional<Role> role = roleRepo.findByIsActiveAndName(true,
+        Optional<Role> role = roleRepository.findByIsActiveAndName(true,
                 RoleMapper.roleDtoToRole(roleUpdateRequestDto.getNameToUpdate()).getName());
         if(role.isEmpty()) {
             logger.debug("Role not found");
-            throw new NotFound("Role not found");
+            throw new NotFoundException("Role not found");
         }
-        roleRepo.updateRoleName(RoleMapper.roleDtoToRole
+        roleRepository.updateRoleName(RoleMapper.roleDtoToRole
                         (roleUpdateRequestDto.getName()).getName(),
                 RoleMapper.roleDtoToRole(roleUpdateRequestDto.
                         getNameToUpdate()).getName());
@@ -94,19 +96,33 @@ public class RoleServiceImpl implements RoleService {
      *
      * @param roleRequestDto it is used to delete role
      * @return SuccessResponseDto it returns success message
-     * @throws NotFound role not found
+     * @throws NotFoundException role not found
      */
     @Override
-    public SuccessResponseDto deleteRole(RoleRequestDto roleRequestDto) throws NotFound {
+    public SuccessResponseDto deleteRole(RoleRequestDto roleRequestDto) throws NotFoundException {
         logger.debug("Entered deleteRole method");
-        Optional<Role> role = roleRepo.findByIsActiveAndName
+        Optional<Role> role = roleRepository.findByIsActiveAndName
                 (true, roleRequestDto.getName());
         if(role.isEmpty()) {
             logger.debug("Role not found");
-            throw new NotFound("Role not found");
+            throw new NotFoundException("Role not found");
         }
-        roleRepo.deactivateRole(roleRequestDto.getName());
+        roleRepository.deactivateRole(roleRequestDto.getName());
         logger.debug("Role deleted successfully");
         return new SuccessResponseDto(200,"Role deleted successfully");
+    }
+
+    /**
+     * This method is used to find role by name
+     *
+     * @param name it is name of role
+     * @return role it returns role object
+     */
+    @Override
+    public Optional<Role> findRoleByName(String name) {
+        logger.debug("Entered findRoleByName");
+        Optional<Role> role = roleRepository.findByIsActiveAndName(true, name);
+        logger.debug("Got optional role object");
+        return role;
     }
 }

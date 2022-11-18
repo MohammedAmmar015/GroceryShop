@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 
 /**
- *
  * It is used to Configure spring security
  * It contains access restriction method which will limit user from
  * accessing all API restrict
@@ -35,7 +34,6 @@ import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
-
     private final CustomSecurityFilter customSecurityFilter;
 
     @Autowired

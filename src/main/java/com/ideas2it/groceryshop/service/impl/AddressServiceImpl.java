@@ -17,16 +17,18 @@ import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
 import com.ideas2it.groceryshop.dto.AddressUpdateRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.NotFound;
-import com.ideas2it.groceryshop.helper.UserHelper;
-import com.ideas2it.groceryshop.repository.AddressRepo;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.repository.AddressRepository;
 import com.ideas2it.groceryshop.service.AddressService;
+import com.ideas2it.groceryshop.service.UserService;
 import com.ideas2it.groceryshop.mapper.AddressMapper;
 import com.ideas2it.groceryshop.model.Address;
 
 /**
- * Address service is used to create, update,
+ * Address service is providing services for create, update,
  * delete and view addresses of users.
+ * Dto objects are converted into model object using mapper
+ * for storing in database and vice versa.
  *
  * @version 1.0
  * @author Rohit A P
@@ -35,14 +37,15 @@ import com.ideas2it.groceryshop.model.Address;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    private final AddressRepo addressRepo;
-    private final UserHelper userHelper;
+    private final AddressRepository addressRepository;
+    private final UserService userService;
     private final Logger logger = LogManager.getLogger(AddressServiceImpl.class);
 
     @Autowired
-    public AddressServiceImpl(AddressRepo addressRepo, UserHelper userHelper) {
-        this.addressRepo = addressRepo;
-        this.userHelper = userHelper;
+    public AddressServiceImpl(AddressRepository addressRepository,
+                              UserService userService) {
+        this.addressRepository = addressRepository;
+        this.userService = userService;
     }
 
     /**
@@ -50,44 +53,45 @@ public class AddressServiceImpl implements AddressService {
      *
      * @param addressRequestDto it is used to add address to user
      * @return SuccessResponseDto it returns success message
-     * @throws NotFound user not found
+     * @throws NotFoundException user not found
      */
     @Override
-    public SuccessResponseDto addAddress(Integer id,
-                                 AddressRequestDto addressRequestDto)
-            throws NotFound {
+    public SuccessResponseDto addAddress(AddressRequestDto addressRequestDto)
+                                                               throws NotFoundException {
         logger.debug("Entered addAddress method");
         Address address =
                 AddressMapper.addressDtoToAddress(addressRequestDto);
         List<Address> addresses =
-                addressRepo.findByIsActiveAndUserId(true, id);
+                addressRepository.findByIsActiveAndUserId(true,
+                        userService.getCurrentUser().getId());
         if(addresses.isEmpty()) {
             address.setIsDefault(Boolean.TRUE);
         } else {
             address.setIsDefault(Boolean.FALSE);
         }
-        address.setUser(userHelper.getCurrentUser());
-        addressRepo.save(address);
+        address.setUser(userService.getCurrentUser());
+        addressRepository.save(address);
         logger.debug("Address added successfully");
-        return new SuccessResponseDto(201,"Address added successfully");
+        return new SuccessResponseDto(201,
+                "Address added successfully");
     }
 
     /**
-     *   it is used to retrieve list of user address by user id;
+     * It is used to retrieve list of user address by user id;
      *
      * @return addressResponseDtoList it is return list of address
      *         of a user
-     * @throws NotFound no address found exception
+     * @throws NotFoundException no address found exception
      */
     @Override
-    public List<AddressResponseDto> getAddressesByUserId() throws NotFound {
+    public List<AddressResponseDto> getAddressesByUserId() throws NotFoundException {
         logger.debug("Entered getAddressesByUserId method");
-        Integer userId = userHelper.getCurrentUser().getId();
+        Integer userId = userService.getCurrentUser().getId();
         List<Address> address =
-               addressRepo.findByIsActiveAndUserId(true, userId);
+                addressRepository.findByIsActiveAndUserId(true, userId);
         if(address.isEmpty()){
             logger.debug("Address not found");
-            throw new NotFound("Address not found");
+            throw new NotFoundException("Address not found");
         }
         List<AddressResponseDto> addressResponseDtoList =
                AddressMapper.addressResponseDtoList(address);
@@ -96,22 +100,23 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * It is used to delete user address by id
+     * It is used to delete user's active address by id
      *
      * @param id it is id to be deleted
      * @return SuccessResponseDto it returns success message
-     * @throws NotFound address not found
+     * @throws NotFoundException address not found
      */
     @Override
-    public SuccessResponseDto deleteAddressById(Integer id) throws NotFound {
+    public SuccessResponseDto deleteAddressById(Integer id)
+                                               throws NotFoundException {
         logger.debug("Entered deleteAddressById method");
-        SuccessResponseDto SuccessResponseDto;
-        Optional<Address> address = addressRepo.findByIsActiveAndId(true, id);
+        Optional<Address> address =
+                addressRepository.findByIsActiveAndId(true, id);
         if(address.isEmpty()) {
             logger.debug("Address not found");
-            throw new NotFound("Address not found");
+            throw new NotFoundException("Address not found");
         }
-        addressRepo.deactivateAddress(id);
+        addressRepository.deactivateAddress(id);
         logger.debug("Address deleted successfully");
         return new SuccessResponseDto(200,"Address " +
                 " deleted successfully");
@@ -123,25 +128,40 @@ public class AddressServiceImpl implements AddressService {
      * @param addressUpdateRequestDto it contains updated address details
      * @param id it is address of id
      * @return Success it contains success message
-     * @throws NotFound it contains address not found
+     * @throws NotFoundException it contains address not found
      */
     public SuccessResponseDto updateAddressByAddressId
             (AddressUpdateRequestDto addressUpdateRequestDto,
-             Integer id) throws NotFound{
+             Integer id) throws NotFoundException{
         logger.debug("Entered updateAddressByAddressId method");
-        Optional<Address> address = addressRepo.findByIsActiveAndIdAndUserId(true,
-                id, userHelper.getCurrentUser().getId());
+        Optional<Address> address =
+                addressRepository.findByIsActiveAndIdAndUserId(true,
+                id, userService.getCurrentUser().getId());
         if(address.isEmpty()) {
             logger.debug("Address not found");
-            throw new NotFound("Address not found");
+            throw new NotFoundException("Address not found");
         }
-        addressRepo.updateAddressByAddressId(id,
+        addressRepository.updateAddressByAddressId(id,
                 addressUpdateRequestDto.getStreet(),
                 addressUpdateRequestDto.getArea(),
                 addressUpdateRequestDto.getPinCode(),
                 addressUpdateRequestDto.getLandMark(),
                 addressUpdateRequestDto.getIsDefault());
         logger.debug("Address Updated successfully");
-        return new SuccessResponseDto(200,"Address updated successfully");
+        return new SuccessResponseDto(200,
+                "Address updated successfully");
+    }
+
+    /**
+     * This method is used by address id
+     * of active currently logged-in user
+     *
+     * @param id it is id of address
+     * @return Address it returns address object
+     */
+    public Optional<Address> getAddressByAddressId(Integer id) {
+        logger.debug("getAddressByAddressId");
+        return addressRepository.findByIsActiveAndIdAndUserId(true, id,
+                userService.getCurrentUser().getId());
     }
 }
