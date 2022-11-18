@@ -16,8 +16,8 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.User;
 
 /**
- * It is interface of UserService it contains every method
- * present in UserServiceImpl
+ * UserService is used to save, update, delete and
+ * retrieve user data from database.
  *
  * @version 1.0
  * @author Rohit A P

@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
- * Custom Jwt filter class is used to check if bearer token is valid
+ * Custom security Jwt filter class is used to check if bearer token is valid
  * or not and give authentication
  *
  * @version 1.0 07-11-2022

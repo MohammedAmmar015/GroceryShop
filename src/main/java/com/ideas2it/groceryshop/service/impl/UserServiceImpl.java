@@ -36,9 +36,7 @@ import com.ideas2it.groceryshop.service.UserService;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
- *
- * It is used to have User business logics and
- * it is can contact to user repository
+ * UserService is used to save, update, delete and retrive user data from database.
  * Data transfer objects(Dto) are converted into model object using mapper
  * for storing in database and vice versa.
  *
