@@ -84,33 +84,20 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * This method is used to handle BadCredentialsException
+     * This method is used to handle BadCredentialsException, UsernameNotFoundException
+     * and HttpClientErrorException
      *
-     * @param badCredentialsException it contains error message
+     * @param exception it contains error message
      * @return errorDto it contains error message and error status code
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(BadCredentialsException.class)
-    public ErrorResponseDto handlerBadCredentials(BadCredentialsException badCredentialsException) {
+    @ExceptionHandler({BadCredentialsException.class,
+            UsernameNotFoundException.class,
+            HttpClientErrorException.Unauthorized.class})
+    public ErrorResponseDto handlerBadCredentials(Exception exception) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
-        errorDto.setErrorMessage(badCredentialsException.getMessage());
+        errorDto.setErrorMessage(exception.getMessage());
         errorDto.setStatusCode(401);
-        return errorDto;
-    }
-
-    /**
-     * This method is used to handle UsernameNotFoundException
-     *
-     * @param usernameNotFoundException it contains error message
-     * @return errorDto it contains error message and error status code
-     */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ErrorResponseDto handlerUsernameNotFound
-            (UsernameNotFoundException usernameNotFoundException) {
-        ErrorResponseDto errorDto = new ErrorResponseDto();
-        errorDto.setErrorMessage(usernameNotFoundException.getMessage());
-        errorDto.setStatusCode(400);
         return errorDto;
     }
 
@@ -157,7 +144,7 @@ public class ApplicationExceptionHandler {
      * @param sqlIntegrityConstraintViolationException it contains error message
      * @return errorDto it contains error message and error status code
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ErrorResponseDto handlerSQLIntegrityConstraintViolation
             (SQLIntegrityConstraintViolationException
@@ -165,7 +152,7 @@ public class ApplicationExceptionHandler {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage
                 (sqlIntegrityConstraintViolationException.getMessage());
-        errorDto.setStatusCode(400);
+        errorDto.setStatusCode(409);
         return errorDto;
     }
 
@@ -183,23 +170,6 @@ public class ApplicationExceptionHandler {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(httpClientErrorException.getMessage());
         errorDto.setStatusCode(401);
-        return errorDto;
-    }
-
-    /**
-     * This method is used to handle illegalArgumentException thrown
-     * while generating bearer token
-     *
-     * @param illegalArgumentException it contains error message
-     * @return errorDto it contains error message and error code
-     */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResponseDto handleIllegalArgumentException
-            (IllegalArgumentException illegalArgumentException) {
-        ErrorResponseDto errorDto = new ErrorResponseDto();
-        errorDto.setErrorMessage(illegalArgumentException.getMessage());
-        errorDto.setStatusCode(500);
         return errorDto;
     }
 }
