@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.dto;
 
 import lombok.AllArgsConstructor;
@@ -10,17 +15,19 @@ import java.util.List;
 
 /**
  * <p>
- *     It is a user order response dto which is used for showing response to the user
+ *     It is used to show order response dto which contains userId, orderedDate,
+ *     expectedDeliveryDate, totalPrice, totalQuantity, orderDetails, isDelivered
  * </p>
  *
- * @author Dhanalakshmi.M
+ * @author Dhanalakshmi M
  * @version 1.0
+ * @since 18-11-2022
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserOrderResponseDto {
+public class OrderResponseDto {
 
     private Integer userId;
 

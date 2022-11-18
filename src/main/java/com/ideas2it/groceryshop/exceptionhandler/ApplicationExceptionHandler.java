@@ -76,12 +76,12 @@ public class ApplicationExceptionHandler {
      * @param parseException
      * @return errorDto it contains error message and error status code
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ParseException.class)
     public ErrorResponseDto parseException(ParseException parseException) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(parseException.getMessage());
-        error.setStatusCode(500);
+        error.setStatusCode(409);
         return error;
     }
 

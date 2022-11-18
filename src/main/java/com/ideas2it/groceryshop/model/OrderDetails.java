@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
@@ -17,12 +22,16 @@ import javax.persistence.Table;
 
 /**
  * <p>
- *     orderDetails class contains the order details
+ *     It holds all order details related information like(quantity, price,
+ *     product) and it is also used to store and
+ *     retrieve order information from and to database
  * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
+ * @since 18-11-2022
  */
+
 @Entity
 @Getter
 @Setter

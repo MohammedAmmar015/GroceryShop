@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.dto;
 
 import lombok.AllArgsConstructor;
@@ -7,11 +12,13 @@ import lombok.Setter;
 
 /**
  * <p>
- *     It is used to get request from the delivery person
+ *     It is used to get request from the delivery person in the form of dto object
+ *     which contains isDelivered, orderId, shippingAddressId
  * </p>
  *
- * @author Dhanalakshmi.M
+ * @author Dhanalakshmi M
  * @version 1.0
+ * @since 18-11-2022
  */
 @Getter
 @Setter

@@ -1,6 +1,11 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.mapper;
 
-import com.ideas2it.groceryshop.dto.UserOrderRequestDto;
+import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.Product;
@@ -12,6 +17,7 @@ import java.util.List;
  * It is used to convert entity to dto and vice versa
  * @author Dhanalakshmi.M
  * @version 1.0
+ * @since 18-11-2022
  */
 public class OrderDetailsMapper {
 
@@ -20,7 +26,7 @@ public class OrderDetailsMapper {
      * @param orderDetailsRequest it contains quantity
      * @return OrderDetails it contains quantity
      */
-    public static OrderDetails dtoToEntity(UserOrderRequestDto orderDetailsRequest) {
+    public static OrderDetails dtoToEntity(OrderRequestDto orderDetailsRequest) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setQuantity(orderDetailsRequest.getQuantity());
         return orderDetails;
