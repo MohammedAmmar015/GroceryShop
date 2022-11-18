@@ -58,33 +58,16 @@ public class ApplicationExceptionHandler {
      *     This method is implemented to throw an exception when the user request
      *     has conflict.
      * </p>
-     * @param existed contains message
+     * @param exception contains message
      * @return ErrorDto
      */
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ExistedException.class,
                        ParseException.class,
                        SQLIntegrityConstraintViolationException.class})
-    public ErrorResponseDto handleAlReadyExistsException(ExistedException existed) {
+    public ErrorResponseDto handleAlReadyExistsException(Exception exception) {
         ErrorResponseDto error = new ErrorResponseDto();
-        error.setErrorMessage(existed.getMessage());
-        error.setStatusCode(409);
-        return error;
-    }
-
-    /**
-     * <p>
-     *     This method is used to handle ParseException while formatting the date from string to date
-     * </p>
-     *
-     * @param parseException while formatting the date from string to date this exception occurs
-     * @return errorDto it contains error message and error status code
-     */
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(ParseException.class)
-    public ErrorResponseDto parseException(ParseException parseException) {
-        ErrorResponseDto error = new ErrorResponseDto();
-        error.setErrorMessage(parseException.getMessage());
+        error.setErrorMessage(exception.getMessage());
         error.setStatusCode(409);
         return error;
     }
@@ -144,22 +127,6 @@ public class ApplicationExceptionHandler {
         return errorDto;
     }
 
-    /**
-     * This method is used to handle exception thrown
-     * by spring boot and show error code and error message
-     *
-     * @param httpClientErrorException it contains error message
-     * @return errorDto it contains error message and error code
-     */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
-    public ErrorResponseDto handlerHttpClientErrorException
-            (HttpClientErrorException httpClientErrorException) {
-        ErrorResponseDto errorDto = new ErrorResponseDto();
-        errorDto.setErrorMessage(httpClientErrorException.getMessage());
-        errorDto.setStatusCode(401);
-        return errorDto;
-    }
     /**
      * This method is used to handle Forbidden exception thrown
      * by spring boot and show error code and error message

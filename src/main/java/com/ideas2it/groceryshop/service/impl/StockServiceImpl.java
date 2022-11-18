@@ -10,7 +10,6 @@ import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.StockMapper;
 import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.Product;
@@ -55,9 +54,8 @@ public class StockServiceImpl implements StockService {
      */
     @Override
     public SuccessResponseDto addStock(StockRequestDto stockRequest,
-                                       Integer locationId,
-                                       Integer productId)
-                                       throws NotFoundException, ExistedException {
+                                       Integer locationId, Integer productId)
+                                        throws NotFoundException, ExistedException {
         logger.debug("Entered addStock method in StockServiceImpl");
         if (stockRepository.existsByStoreLocationIdAndProductId(locationId, productId)) {
             logger.error("stock already exist");
@@ -87,8 +85,7 @@ public class StockServiceImpl implements StockService {
      * {@inheritDoc}
      */
     @Override
-    public List<StockResponseDto> getStockByProductId(Integer productId)
-                                                      throws NotFoundException {
+    public List<StockResponseDto> getStockByProductId(Integer productId) throws NotFoundException {
         logger.debug("Entered getStockByProductId method in StockServiceImpl");
         List<Stock> stocks = stockRepository.findByProductId(productId);
         if (stocks.isEmpty()) {
@@ -106,8 +103,7 @@ public class StockServiceImpl implements StockService {
      * {@inheritDoc}
      */
     @Override
-    public StockResponseDto getStockByProductAndLocation(Integer productId,
-                                                         Integer locationId)
+    public StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
                                                          throws NotFoundException {
         logger.debug("Entered getStockByProductAndLocation method in StockServiceImpl");
         Stock stock = stockRepository.findByProductIdAndStoreLocationId(productId, locationId);
@@ -122,11 +118,9 @@ public class StockServiceImpl implements StockService {
      * {@inheritDoc}
      */
     @Override
-    public SuccessResponseDto updateStockByProductAndLocation
-                             (StockRequestDto stockRequest,
-                             Integer productId,
-                             Integer locationId)
-                             throws NotFoundException {
+    public SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
+                                                              Integer productId, Integer locationId)
+                                                              throws NotFoundException {
         logger.debug("Entered updateStockByProductAndLocation method in StockServiceImpl");
         Integer rowsAffected
                 = stockRepository.updateStockByProductAndLocation(stockRequest.getStock(),
@@ -144,8 +138,7 @@ public class StockServiceImpl implements StockService {
      *{@inheritDoc}
      */
     @Override
-    public void removeStockByOrderDetails(Order order,
-                                          Integer pinCode) {
+    public void removeStockByOrderDetails(Order order, Integer pinCode) {
         logger.debug("Entered removeStockByOrderDetails method in StockServiceImpl");
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
         for (OrderDetails orderDetail : order.getOrderDetails()) {
@@ -174,7 +167,8 @@ public class StockServiceImpl implements StockService {
      * {@inheritDoc}
      */
     @Override
-    public Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId) {
+    public Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId,
+                                                                  Integer productId) {
         return stockRepository.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan
                 (locationId, productId, 0);
     }
