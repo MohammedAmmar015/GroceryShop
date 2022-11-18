@@ -8,8 +8,6 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
@@ -19,7 +17,6 @@ import com.ideas2it.groceryshop.repository.ProductRepository;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.impl.ProductServiceImpl;
-
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -27,9 +24,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -66,8 +65,6 @@ public class ProductServiceTest {
         assertEquals(201,successResponseDto.getStatusCode());
     }
 
-
-
     @Test
     @Order(1)
     public void test_addProduct() throws NotFoundException, ExistedException {
@@ -82,7 +79,6 @@ public class ProductServiceTest {
         assertEquals(201,productService.addProduct(productRequestDto).getStatusCode());
     }
 
-
     @Test
     @Order(4)
     public void test_updateProduct() throws ExistedException, NotFoundException {
@@ -95,8 +91,6 @@ public class ProductServiceTest {
         assertEquals("Product details updated successfully", productService.updateProductById
                 (1, productRequestDto).getMessage());
     }
-
-
 
     @Test
     @Order(5)
