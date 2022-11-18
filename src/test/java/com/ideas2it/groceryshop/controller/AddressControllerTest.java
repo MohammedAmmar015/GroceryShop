@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.AddressService;
 
 /**
@@ -42,10 +42,10 @@ public class AddressControllerTest {
      * This method is used to test the flow of
      * create address for user
      *
-     * @throws NotFound
+     * @throws NotFoundException
      */
     @Test
-    public void createAddress() throws NotFound {
+    public void createAddress() throws NotFoundException {
         AddressRequestDto addressRequestDto = new AddressRequestDto("Big street",
                 "triplicane", 600005, "near school");
         when(addressService.addAddress(addressRequestDto)).
@@ -56,10 +56,10 @@ public class AddressControllerTest {
      * This method is used to test the flow of
      * view addresses by user id
      *
-     * @throws NotFound
+     * @throws NotFoundException
      */
     @Test
-    public void viewAddressesByUserId () throws NotFound {
+    public void viewAddressesByUserId () throws NotFoundException {
         List<AddressResponseDto> addresses = new ArrayList<AddressResponseDto>();
         AddressResponseDto addressResponseDto = new AddressResponseDto(1,
                 "Big street", "triplicane",600005, "near school",
@@ -72,10 +72,10 @@ public class AddressControllerTest {
      * This method is used to test the flow of delete
      * address method
      *
-     * @throws NotFound it returns address not found
+     * @throws NotFoundException it returns address not found
      */
     @Test
-    public void deleteAddressById() throws NotFound {
+    public void deleteAddressById() throws NotFoundException {
         when(addressService.deleteAddressById(1)).thenReturn(new SuccessResponseDto());
     }
 }

@@ -3,8 +3,8 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.UserRequestDto;
 import com.ideas2it.groceryshop.dto.UserResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.Role;
 import com.ideas2it.groceryshop.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -39,10 +39,10 @@ public class UserControllerTest {
     /**
      *  it is used to create user
      *
-     * @throws Existed username already exist
+     * @throws ExistedException username already exist
      */
     @Test
-    public void createUser() throws Existed {
+    public void createUser() throws ExistedException {
         UserRequestDto userRequestDto = new UserRequestDto("Rohit",
                 "Rohit", "AP", 9876543211L,
                 "rohit@gmail.com", "123456", "ADMIN");
@@ -55,10 +55,10 @@ public class UserControllerTest {
     /**
      * It is used to get user by id
      *
-     * @throws NotFound user does not exist
+     * @throws NotFoundException user does not exist
      */
     @Test
-    public void getUserById() throws NotFound, Existed {
+    public void getUserById() throws NotFoundException, ExistedException {
         Role role = new Role(1,"admin", true);
         UserResponseDto userResponseDto = new UserResponseDto(1,
                 "Rohit", "Rohit", "AP",
@@ -72,10 +72,10 @@ public class UserControllerTest {
     /**
      * It is used get all users
      *
-     * @throws NotFound user does not found
+     * @throws NotFoundException user does not found
      */
     @Test
-    public void viewAllUser() throws NotFound {
+    public void viewAllUser() throws NotFoundException {
         List<UserResponseDto> userResponseDtoList = new ArrayList<UserResponseDto>();
         UserResponseDto userResponseDto = new UserResponseDto(1,
                 "Rohit", "Rohit", "AP",
@@ -93,7 +93,7 @@ public class UserControllerTest {
      * @return userResponseDtoList it returns list of user
      */
     @Test
-    public void viewUsersByRole() throws NotFound {
+    public void viewUsersByRole() throws NotFoundException {
         List<UserResponseDto> userResponseDtoList = new ArrayList<UserResponseDto>();
         UserResponseDto userResponseDto = new UserResponseDto(1,
                 "Rohit", "Rohit", "AP",
@@ -108,10 +108,10 @@ public class UserControllerTest {
     /**
      *  It is used to delete user by id
      *
-     * @throws NotFound it contains user not found exception
+     * @throws NotFoundException it contains user not found exception
      */
     @Test
-    public void deleteUserById() throws NotFound {
+    public void deleteUserById() throws NotFoundException {
         SuccessResponseDto SuccessResponseDto = new  SuccessResponseDto();
         SuccessResponseDto.setStatusCode(200);
         SuccessResponseDto.setMessage("User deleted successfully");

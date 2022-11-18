@@ -39,7 +39,7 @@ import com.ideas2it.groceryshop.service.RoleService;
  *
  * It is used to have User business logics and
  * it is can contact to user repository
- * Dto objects are converted into model object using mapper
+ * Data transfer objects(Dto) are converted into model object using mapper
  * for storing in database and vice versa.
  *
  * @version 1.0
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 = UserMapper.userToUserResponseDtoList(userRepository.findByIsActive(true));
         if(userResponseDtoList.isEmpty()) {
             logger.debug("Users not found");
-            throw new NotFound("Users not found");
+            throw new NotFoundException("Users not found");
         }
         logger.debug("Got List of user");
         return userResponseDtoList;
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @throws NotFound user does not exist
      */
     @Override
-    public SuccessResponseDto deleteUserById(Integer id) throws NotFound {
+    public SuccessResponseDto deleteUserById(Integer id) throws NotFoundException {
         logger.debug("Entered deleteUserById method");
         Optional<User> user = userRepository.findByIsActiveAndId(true, id);
         if(user.isEmpty()) {
