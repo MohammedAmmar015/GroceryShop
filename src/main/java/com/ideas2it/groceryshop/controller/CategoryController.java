@@ -28,7 +28,8 @@ import java.util.List;
 
 /**
  * <p>
- *     It implements method of CRUD operations for Category.
+ *     It implements method for create, view, update and delete
+ *     operations for Category.
  * </p>
  * @author RUBAN
  * @version  1.0

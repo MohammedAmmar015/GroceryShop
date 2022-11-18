@@ -30,7 +30,8 @@ import java.util.Optional;
 
 /**
  * <p>
- *     This class implement method of crud operations for Product.
+ *     This class implement method for create, view, update and delete
+ *     operations for product
  * </p>
  *
  * @author RUBAN
