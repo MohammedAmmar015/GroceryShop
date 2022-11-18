@@ -44,7 +44,7 @@ public class ApplicationExceptionHandler {
      * @param notFoundException It contains message to get display
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
     public ErrorResponseDto handleNotFoundException(NotFoundException notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();
@@ -62,7 +62,7 @@ public class ApplicationExceptionHandler {
      * @return ErrorDto
      */
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(ExistedException.class)
+    @ExceptionHandler({ExistedException.class, SQLIntegrityConstraintViolationException.class})
     public ErrorResponseDto handleAlReadyExistsException(ExistedException existed) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());
