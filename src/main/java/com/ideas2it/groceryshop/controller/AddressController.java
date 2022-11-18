@@ -38,7 +38,7 @@ import com.ideas2it.groceryshop.service.AddressService;
  * @since 04-11-2022
  */
 @RestController
-@RequestMapping("api/v1/addresses")
+@RequestMapping("api/v1/users/addresses")
 public class AddressController {
 
     private final AddressService addressService;
