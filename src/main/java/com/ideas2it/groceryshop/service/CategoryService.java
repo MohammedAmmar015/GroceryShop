@@ -34,7 +34,7 @@ public interface CategoryService {
      *     will allow to add in data base.
      * </p>
      * @param categoryRequestDto dto type object.
-     * @return SuccessDto
+     * @return SuccessDto with message and status code
      * @throws ExistedException will be thrown if category already Exists.
      */
     SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto)

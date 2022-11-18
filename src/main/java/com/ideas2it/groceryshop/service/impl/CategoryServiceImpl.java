@@ -45,14 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method to add category to data base,
-     *     before that will validate name, id and finally
-     *     will allow to add in data base.
-     * </p>
-     * @param categoryRequestDto dto type object
-     * @return SuccessDto
-     * @throws ExistedException will be thrown if category already Exists.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto)
@@ -80,13 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method to retrieve all category list from
-     *     the data base and convert it into dto type object
-     *     in category mapper and then return it to controller.
-     * </p>
-     * @return Category List.
-     * @throws NotFoundException will be thrown if no category is added.
+     * {@inheritDoc}
      */
     @Override
     public List<CategoryResponseDto> getCategory() throws NotFoundException {
@@ -104,13 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method will get all sub categories which are in exist
-     *     from the data base and convert into dto type object with
-     *     the help of category mapper and then will return it to controller
-     * </p>
-     * @return sub category list if exist otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if no sub category exists.
+     * {@inheritDoc}
      */
     @Override
     public List<SubCategoryResponseDto> getAllSubCategory() throws NotFoundException {
@@ -128,13 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method will delete(soft delete) category from the data base
-     *     and return success response dto to controller.
-     * </p>
-     * @param id to find which object to get deleted.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if category doesn't exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto deleteCategory(Integer id) throws NotFoundException {
@@ -156,14 +131,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method will delete(soft delete) sub category from the data base
-     *      and return success response dto to controller.
-     * </p>
-     * @param parentId to find which object to get deleted.
-     * @param categoryId to find which object to get deleted.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if sub category doesn't exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId)
@@ -182,15 +150,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method used to update particular category using
-     *     its id and return success response dto which includes success message.
-     * </p>
-     * @param id to find which object to update.
-     * @param categoryRequestDto contains values to get updated.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if id doesn't match.
-     * @throws ExistedException will be thrown if values are already exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
@@ -210,16 +170,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method used to update particular sub category using
-     *     its id and return success response dto which includes success message.
-     * </p>
-     * @param categoryId to find object to get update.
-     * @param parentId to find object to get update.
-     * @param categoryRequestDto contains values to get updated.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if id doesn't match.
-     * @throws ExistedException will be thrown if values are already exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId,
@@ -241,25 +192,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * <p>
-     *     This method used to find category object from database if the
-     *     id is exist, this method useful for add product method in product service.
-     * </p>
-     * @param categoryId to find correct object in database
-     * @return category object.
+     * {@inheritDoc}
      */
     public Optional<Category> findCategoryById(Integer categoryId) {
         return categoryRepository.findById(categoryId);
     }
 
     /**
-     * <p>
-     *     This method used check whether sub category id is exist in database or
-     *     not and returns true if exist otherwise false, this method is useful for
-     *     add product method in product service.
-     * </p>
-     * @param subCategoryId to check this id exist or not in database.
-     * @return true if exist otherwise false.
+     * {@inheritDoc}
      */
     public Boolean existBySubCategoryId(Integer subCategoryId) {
         return categoryRepository.existsById(subCategoryId);

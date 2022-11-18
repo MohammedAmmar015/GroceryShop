@@ -10,10 +10,14 @@ import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.model.Product;
 
 import java.util.List;
 
 /**
+ *  <p>
+ *      This class implement method of crud operations for Product.
+ *  </p>
  * @author  RUBAN
  * @version   1.0
  * @since 03/11/22
@@ -101,16 +105,9 @@ public interface ProductService {
      */
     ProductResponseDto getProductResponseById(Integer productId) throws NotFoundException;
 
-    /**
-     * <p>
-     *     This method used to get products of particular category using id and
-     *     convert it to dto type object and it returns to product controller.
-     * </p>
-     * @param categoryId to fetch relevant object
-     * @return list of products
-     * @throws NotFoundException will be thrown if id not exist.
-     */
-    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws NotFoundException;
+    Product getProductById(Integer productId);
+
+    List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws  NotFoundException;
 
     /**
      * <p>
@@ -122,4 +119,22 @@ public interface ProductService {
      * @throws NotFoundException will be thrown if id not exist.
      */
     List<ProductResponseDto> getProductsBySubCategoryId( Integer subCategoryId) throws NotFoundException;
+
+    /**
+     * <p>
+     *     This method used to get product by category id and will delete it
+     *     from the database
+     * </p>
+     * @param categoryId to retrieve matched product object
+     */
+    void getProductByCategoryId(Integer categoryId);
+
+    /**
+     * <p>
+     *     This method used to get product by sub category id and will delete it
+     *      from the database
+     * </p>
+     * @param subCategoryId to retrieve matched product object
+     */
+    void getProductBySubCategoryId(Integer subCategoryId);
 }

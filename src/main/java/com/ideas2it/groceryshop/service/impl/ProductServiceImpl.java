@@ -14,7 +14,10 @@ import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.ProductRepository;
+import com.ideas2it.groceryshop.service.CategoryService;
 import com.ideas2it.groceryshop.service.ProductService;
+import com.ideas2it.groceryshop.service.StockService;
+import com.ideas2it.groceryshop.service.StoreService;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,14 +42,14 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepo;
-    private CategoryServiceImpl categoryService;
-    private StockServiceImpl stockService;
-    private StoreServiceImpl storeService;
+    private CategoryService categoryService;
+    private StockService stockService;
+    private StoreService storeService;
     private Logger logger;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepo, StockServiceImpl stockService,
-                              StoreServiceImpl storeService, CategoryServiceImpl categoryService) {
+    public ProductServiceImpl(ProductRepository productRepo, StockService stockService,
+                              StoreService storeService, CategoryService categoryService) {
         this.categoryService = categoryService;
         this.productRepo = productRepo;
         this.storeService = storeService;
@@ -55,13 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method to add product to data base, before that will validate name,
-     *     id and finally will allow to add in data base.
-     * </p>
-     * @param productRequestDto dto type object.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws ExistedException exception will be thrown if product already exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto addProduct(ProductRequestDto productRequestDto)
@@ -83,12 +80,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method used to get all products from the data base which are
-     *     all active and return in dto type object.
-     * </p>
-     * @return List of products.
-     * @throws NotFoundException exception will be thrown if the products doesn't exist.
+     * {@inheritDoc}
      */
     @Override
     public List<ProductResponseDto> getProducts() throws NotFoundException {
@@ -107,13 +99,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <P>
-     *     This method used to get particular product by id and convert it in to
-     *     dto type object using product mapper and then returns it to product controller.
-     * </P>
-     * @param productId to fetch particular product object.
-     * @return Dto type product
-     * @throws NotFoundException exception will be thrown if id not exist.
+     * {@inheritDoc}
      */
     @Override
     public ProductResponseDto getProductResponseById(Integer productId) throws NotFoundException {
@@ -126,18 +112,13 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toProductDto(product);
     }
 
+    @Override
     public Product getProductById(Integer productId) {
         return productRepo.findByIdAndIsActive(productId, true);
     }
 
     /**
-     * <p>
-     *     This method used to get products of particular category using id and
-     *     convert it to dto type object and it returns to product controller.
-     * </p>
-     * @param categoryId to fetch relevant object
-     * @return list of products
-     * @throws NotFoundException exception will be thrown if id not exist.
+     * {@inheritDoc}
      */
     @Override
     public List<ProductResponseDto> getProductsByCategoryId( Integer categoryId)
@@ -158,12 +139,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method used to get products based on user search.
-     * </p>
-     * @param name to check with products name in database.
-     * @return list of matched products
-     * @throws NotFoundException exception will be thrown if products not found
+     * {@inheritDoc}
      */
     @Override
     public List<ProductResponseDto> getProductsBySearch(String name)
@@ -181,13 +157,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method used to get products of particular sub category using id and
-     *     convert it to dto type object and it returns to product controller.
-     * </p>
-     * @param subCategoryId to fetch relevant object
-     * @return list of products
-     * @throws NotFoundException exception will be thrown if id not exist.
+     * {@inheritDoc}
      */
     @Override
     public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId)
@@ -208,13 +178,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method used to delete product using id
-     *     and returns success response dto includes message and status code.
-     * </p>
-     * @param id to find particular object to get delete.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException exception will be thrown if the id doesn't exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto deleteProductById(Integer id) throws NotFoundException {
@@ -230,15 +194,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method used to update product fields in data base before updating
-     *     it will validate the product fields and then will update in data base.
-     * </p>
-     * @param id to find particular object.
-     * @param productRequestDto dto type object contains values to get update.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException exception will be thrown if the id doesn't exist.
-     * @throws ExistedException exception will be thrown if the values to update is already exist.
+     * {@inheritDoc}
      */
     @Override
     public SuccessResponseDto updateProductById(Integer id, ProductRequestDto productRequestDto)
@@ -261,13 +217,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * <p>
-     *     This method used to get products in particular location
-     *     using location id.
-     * </p>
-     * @param locationId to fetch particular product object
-     * @return products
-     * @throws NotFoundException exception will be thrown if products not exist
+     * {@inheritDoc}
      */
     @Override
     public List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFoundException {
@@ -290,5 +240,29 @@ public class ProductServiceImpl implements ProductService {
         }
         logger.debug("The getProductsByLocation method successfully executed");
         return productResponses;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void getProductByCategoryId(Integer categoryId) {
+        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive(categoryId, true);
+        for(Product product: products) {
+            product.setActive(false);
+            productRepo.save(product);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void getProductBySubCategoryId(Integer subCategoryId) {
+        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(subCategoryId, true);
+        for(Product product: products) {
+            product.setActive(false);
+            productRepo.save(product);
+        }
     }
 }
