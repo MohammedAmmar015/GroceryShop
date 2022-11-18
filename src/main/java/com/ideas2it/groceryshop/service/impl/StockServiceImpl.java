@@ -16,7 +16,7 @@ import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.Stock;
 import com.ideas2it.groceryshop.model.StoreLocation;
-import com.ideas2it.groceryshop.model.UserOrder;
+import com.ideas2it.groceryshop.model.Order;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.service.ProductService;
 import com.ideas2it.groceryshop.service.StockService;
@@ -144,7 +144,7 @@ public class StockServiceImpl implements StockService {
      *{@inheritDoc}
      */
     @Override
-    public void removeStockByOrderDetails(UserOrder order,
+    public void removeStockByOrderDetails(Order order,
                                           Integer pinCode) {
         logger.debug("Entered removeStockByOrderDetails method in StockServiceImpl");
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
@@ -159,7 +159,7 @@ public class StockServiceImpl implements StockService {
      * {@inheritDoc}
      */
     @Override
-    public void updateStockByOrderDetails(UserOrder order) {
+    public void updateStockByOrderDetails(Order order) {
         logger.debug("Entered updateStockByOrderDetails method in StockServiceImpl");
         Integer pinCode = order.getOrderDelivery().getShippingAddress().getPinCode();
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
