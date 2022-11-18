@@ -7,13 +7,15 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.ProductMapper;
 import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
-import com.ideas2it.groceryshop.repository.CategoryRepo;
-import com.ideas2it.groceryshop.repository.ProductRepo;
+import com.ideas2it.groceryshop.repository.CategoryRepository;
+import com.ideas2it.groceryshop.repository.ProductRepository;
 import com.ideas2it.groceryshop.repository.StockRepo;
 import com.ideas2it.groceryshop.repository.StoreRepo;
 import com.ideas2it.groceryshop.service.impl.ProductServiceImpl;
@@ -35,7 +37,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = {ProductServiceTest.class})
 public class ProductServiceTest {
     @Mock
-    ProductRepo productRepo;
+    ProductRepository productRepo;
 
     @Mock
     StoreRepo storeRepo;
@@ -44,14 +46,14 @@ public class ProductServiceTest {
     StockRepo stockRepo;
 
     @Mock
-    CategoryRepo categoryRepo;
+    CategoryRepository categoryRepo;
 
     @InjectMocks
     private ProductService productService = new ProductServiceImpl();
 
     @Test
     @Order(2)
-    public void test_getProducts() throws NotFound {
+    public void test_getProducts() throws NotFoundException {
         Category category1 = new Category(1,"fruits & vegetables", null, true);
         Category category = new Category(1,"vegetables", category1, true);
         Product product = new Product(1,"Tomato", 100, true, category, "kg",
@@ -68,7 +70,7 @@ public class ProductServiceTest {
 
     @Test
     @Order(1)
-    public void test_addProduct() throws NotFound, Existed {
+    public void test_addProduct() throws NotFoundException, ExistedException {
         ProductRequestDto productRequestDto = new ProductRequestDto(1, "Grapes", 100,
                 "kg",1,1, "pic");
         Product product = ProductMapper.toProduct(productRequestDto);
@@ -83,7 +85,7 @@ public class ProductServiceTest {
 
     @Test
     @Order(4)
-    public void test_updateProduct() throws Existed, NotFound {
+    public void test_updateProduct() throws ExistedException, NotFoundException {
         ProductRequestDto productRequestDto = new ProductRequestDto(1, "PineApple",
                 150, "kg", 1, 1, "pic");
         Product product = new Product(1, "apple", 100, true, null,
@@ -98,7 +100,7 @@ public class ProductServiceTest {
 
     @Test
     @Order(5)
-    public void test_deleteProduct() throws NotFound {
+    public void test_deleteProduct() throws NotFoundException {
         Product product = new Product(1, "apple", 100, true, null, "kg",
                 1, "pic");
         product.setActive(false);

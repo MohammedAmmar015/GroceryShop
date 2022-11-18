@@ -22,7 +22,7 @@ import java.util.List;
  * @since 05/11/22
  */
 @Repository
-public interface ProductRepo extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     /**
      * <p>
