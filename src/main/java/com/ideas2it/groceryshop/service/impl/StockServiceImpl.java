@@ -171,14 +171,7 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
-     * <p>
-     *     This method used to check stock availability 
-     *     by store location and product id.
-     * </p>
-     * @param locationId to check if stock exist in given location
-     * @param productId to check stock available for given product
-     * @return true if stock exist for given product and location
-     *          else false
+     * {@inheritDoc}
      */
     @Override
     public Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId) {

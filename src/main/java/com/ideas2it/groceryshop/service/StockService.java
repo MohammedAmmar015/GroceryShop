@@ -107,7 +107,7 @@ public interface StockService {
      * @param order it has product details, user ordered
      * @param pinCode It is user's location pinCode from where user ordered
      */
-    void removeStockByOrderDetails(UserOrder order,
+    void removeStockByOrderDetails(Order order,
                                    Integer pinCode);
 
     /**
@@ -119,16 +119,17 @@ public interface StockService {
      * @param order order details which has product details
      *             that is cancelled
      */
-    void updateStockByOrderDetails(UserOrder order);
+    void updateStockByOrderDetails(Order order);
 
     /**
      * <p>
-     *     This method is used to check stock availability
-     *     for particular product on particular location
+     *     This method used to check stock availability
+     *     by store location and product id.
      * </p>
-     * @param locationId location id to check stock
-     * @param productId to check store for given product id
-     * @return
+     * @param locationId to check if stock exist in given location
+     * @param productId to check stock available for given product
+     * @return true if stock exist for given product and location
+     *          else false
      */
     Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId);
 }
