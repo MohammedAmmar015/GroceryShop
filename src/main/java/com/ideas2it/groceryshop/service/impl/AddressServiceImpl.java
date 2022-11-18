@@ -27,7 +27,7 @@ import com.ideas2it.groceryshop.model.Address;
 /**
  * Address service is providing services for create, update,
  * delete and view addresses of users.
- * Dto objects are converted into model object using mapper
+ * Data transfer objects(Dto) are converted into model object using mapper
  * for storing in database and vice versa.
  *
  * @version 1.0

@@ -26,7 +26,7 @@ import com.ideas2it.groceryshop.service.RoleService;
  *
  * It is implements class of RoleService
  * It is used to save, update and delete role from database
- * Dto objects are converted into model object using mapper
+ * Data transfer objects(Dto) are converted into model object using mapper
  * for storing in database and vice versa.
  *
  * @version 1.0

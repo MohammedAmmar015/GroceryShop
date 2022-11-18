@@ -98,8 +98,8 @@ public class AddressController {
      */
     @PutMapping("/{addressId}")
     public SuccessResponseDto updateAddressByAddressId
-    (@RequestBody AddressUpdateRequestDto addressUpdateRequestDto,
-     @PathVariable("addressId") Integer id) throws NotFoundException {
+                                      (@RequestBody AddressUpdateRequestDto addressUpdateRequestDto,
+                                      @PathVariable("addressId") Integer id) throws NotFoundException {
         logger.debug("Entered UpdateAddressByAddressId method");
         return addressService.updateAddressByAddressId
                 (addressUpdateRequestDto, id);

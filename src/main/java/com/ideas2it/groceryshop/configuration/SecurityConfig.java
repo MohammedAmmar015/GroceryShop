@@ -23,7 +23,7 @@ import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 /**
  * It is used to Configure spring security
  * It contains access restriction method which will limit user from
- * accessing all API restrict
+ * accessing all API restrict based on their role.
  *
  * @version 1.0
  * @author Rohit A P

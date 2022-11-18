@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 import com.ideas2it.groceryshop.dto.RoleRequestDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.dto.RoleUpdateRequestDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
@@ -38,10 +38,10 @@ public class RoleControllerTest {
      * This method is used to test
      * create role method
      *
-     * @throws Existed it throws role already exist
+     * @throws ExistedException it throws role already exist
      */
     @Test
-    public void createRole() throws Existed {
+    public void createRole() throws ExistedException {
         RoleRequestDto roleRequestDto = new RoleRequestDto("admin");
         when(roleService.addRole(roleRequestDto)).thenReturn(new SuccessResponseDto());
     }
@@ -49,10 +49,10 @@ public class RoleControllerTest {
     /**
      * This method is used to update existing role name
      *
-     * @throws NotFound it throws role not found
+     * @throws NotFoundException it throws role not found
      */
     @Test
-    public void updateRole() throws NotFound {
+    public void updateRole() throws NotFoundException {
         RoleUpdateRequestDto roleUpdateRequestDto =
                 new RoleUpdateRequestDto("ADMINI","ADMIN");
         when(roleService.updateRole(roleUpdateRequestDto)).thenReturn(new SuccessResponseDto());
@@ -61,10 +61,10 @@ public class RoleControllerTest {
     /**
      * This method is used to delete role by name
      *
-     * @throws NotFound it throws role not found
+     * @throws NotFoundException it throws role not found
      */
     @Test
-    public void deleteRole() throws NotFound {
+    public void deleteRole() throws NotFoundException {
         RoleRequestDto roleRequestDto = new RoleRequestDto("manager");
         when(roleService.deleteRole(roleRequestDto)).thenReturn(new SuccessResponseDto());
     }

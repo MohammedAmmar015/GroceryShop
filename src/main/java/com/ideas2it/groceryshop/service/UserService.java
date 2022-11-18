@@ -87,7 +87,7 @@ public interface UserService {
      * @param userUpdateDto it contains details to be updated
      * @return SuccessResponseDto it contains success message
      */
-    public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
+    SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
                                                                  throws NotFoundException;
 
     /**
@@ -95,12 +95,12 @@ public interface UserService {
      *
      * @return userResponseDto it contains user details
      */
-    public UserResponseDto getCurrentUserProfile();
+    UserResponseDto getCurrentUserProfile();
 
     /**
      * This method is used to get current user object
      *
      * @return user it contains user details
      */
-    public User getCurrentUser();
+    User getCurrentUser();
 }
