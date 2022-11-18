@@ -50,7 +50,7 @@ public class AddressController {
     }
 
     /**
-     * It is used to create address
+     * This method is used to create address
      *
      * @param addressRequestDto it contains address of user
      * @throws NotFoundException user not found
@@ -64,7 +64,7 @@ public class AddressController {
     }
 
     /**
-     * It is used to all address of a user
+     * This method is used to get all address of a currently logged-in user
      *
      * @return addresses list of address
      * @throws NotFoundException no address found
@@ -77,7 +77,7 @@ public class AddressController {
     }
 
     /**
-     * It used to delete address using address id
+     * This method used to delete address using address id
      *
      * @param id it is id of address
      * @throws NotFoundException no address found
