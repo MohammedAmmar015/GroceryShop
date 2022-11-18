@@ -26,7 +26,7 @@ import java.util.List;
  * @version 1.0
  * @since 03-11-2022
  */
-public interface StockRepo extends JpaRepository<Stock, Integer> {
+public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>

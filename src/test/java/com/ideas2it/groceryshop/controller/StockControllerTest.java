@@ -8,8 +8,8 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.StockRequestDto;
 import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.StockService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -46,12 +46,12 @@ public class StockControllerTest {
      *     This method is used to test createStock method
      *     in StockController
      * </p>
-     * @throws Existed throws if stock already available
+     * @throws ExistedException throws if stock already available
      *                  for given product and location
-     * @throws NotFound if product or location not found
+     * @throws NotFoundException if product or location not found
      */
     @Test
-    public void testCreateStock() throws Existed, NotFound {
+    public void testCreateStock() throws ExistedException, NotFoundException {
         Integer locationId = 1;
         Integer productId = 1;
         StockRequestDto stockRequestDto
@@ -73,11 +73,11 @@ public class StockControllerTest {
      *     This method is used to test updateStock method
      *     in StockController
      * </p>
-     * @throws NotFound throws if stock not found for
+     * @throws NotFoundException throws if stock not found for
      *                  given product and location
      */
     @Test
-    public void testUpdateStock() throws NotFound {
+    public void testUpdateStock() throws NotFoundException {
         Integer locationId = 1;
         Integer productId = 1;
         StockRequestDto stockRequestDto
@@ -99,10 +99,10 @@ public class StockControllerTest {
      *     This method is used to test viewStockByProduct
      *     in StockController
      * </p>
-     * @throws NotFound throws if stocks not found for given product
+     * @throws NotFoundException throws if stocks not found for given product
      */
     @Test
-    public void testViewStockByProduct() throws NotFound {
+    public void testViewStockByProduct() throws NotFoundException {
         Integer productId = 1;
         List<StockResponseDto> stocks = new ArrayList<>();
         stocks.add(new StockResponseDto(1, 100, 1,
@@ -121,11 +121,11 @@ public class StockControllerTest {
      *     viewStockByProductAndLocation method
      *     in StockController
      * </p>
-     * @throws NotFound throws if stock not found
+     * @throws NotFoundException throws if stock not found
      *                  for given product and location
      */
     @Test
-    public void testViewStockByProductAndLocation() throws NotFound {
+    public void testViewStockByProductAndLocation() throws NotFoundException {
         Integer productId = 1;
         Integer locationId = 1;
         StockResponseDto stock = new StockResponseDto(1, 100, 1,

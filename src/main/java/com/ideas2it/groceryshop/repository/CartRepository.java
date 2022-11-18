@@ -26,7 +26,7 @@ import java.util.Optional;
  * @version 1.0
  */
 @Repository
-public interface CartRepo extends JpaRepository<Cart, Integer> {
+public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>

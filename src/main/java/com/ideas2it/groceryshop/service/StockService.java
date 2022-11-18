@@ -10,8 +10,7 @@ import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.model.StoreLocation;
-import com.ideas2it.groceryshop.model.UserOrder;
+import com.ideas2it.groceryshop.model.Order;
 
 import java.util.List;
 

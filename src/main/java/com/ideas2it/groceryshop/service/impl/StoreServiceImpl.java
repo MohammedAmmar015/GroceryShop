@@ -12,7 +12,7 @@ import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
 import com.ideas2it.groceryshop.model.StoreLocation;
-import com.ideas2it.groceryshop.repository.StoreRepo;
+import com.ideas2it.groceryshop.repository.StoreRepository;
 import com.ideas2it.groceryshop.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -38,7 +38,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
     private final Logger logger = LogManager.getLogger(StoreServiceImpl.class);
-    private final StoreRepo storeRepo;
+    private final StoreRepository storeRepository;
 
     /**
      * {@inheritDoc}
@@ -49,13 +49,13 @@ public class StoreServiceImpl implements StoreService {
         logger.debug("Entered addStore method in StoreServiceImpl");
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
-        if (storeRepo.existsByAreaOrPinCode(area, pinCode)) {
+        if (storeRepository.existsByAreaOrPinCode(area, pinCode)) {
             logger.error("area or pin code already exist");
             throw new ExistedException("Area or PinCode already exists");
         }
         StoreLocation storeLocation
                         = StoreLocationMapper.toStoreLocation(storeLocationRequest);
-        storeRepo.save(storeLocation);
+        storeRepository.save(storeLocation);
         logger.debug("store created successfully");
         return new SuccessResponseDto(201, "Store created successfully");
     }
@@ -67,7 +67,7 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreResponseDto> getStores() throws NotFoundException {
         logger.debug("Entered getStores method in StoreServiceImpl");
         List<StoreResponseDto> storesResponse = new ArrayList<>();
-        List<StoreLocation> stores = storeRepo.findByIsActive(true);
+        List<StoreLocation> stores = storeRepository.findByIsActive(true);
         if (stores.isEmpty()) {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
@@ -84,7 +84,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public SuccessResponseDto removeStore(Integer storeId) throws NotFoundException {
         logger.debug("Entered removeStore method in StoreServiceImpl");
-        Integer rowsAffected = storeRepo.deleteStoreById(storeId);
+        Integer rowsAffected = storeRepository.deleteStoreById(storeId);
         if (rowsAffected == 0) {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
@@ -100,7 +100,7 @@ public class StoreServiceImpl implements StoreService {
     public StoreResponseDto getStoreResponseById(Integer storeId)
                                          throws NotFoundException {
         logger.debug("Entered getStoreById method in StoreServiceImpl");
-        StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
+        StoreLocation storeLocation = storeRepository.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
@@ -115,7 +115,7 @@ public class StoreServiceImpl implements StoreService {
     public StoreLocation getStoreById(Integer storeId)
             throws NotFoundException {
         logger.debug("Entered getStoreById method in StoreServiceImpl");
-        StoreLocation storeLocation = storeRepo.findByIsActiveAndId(true, storeId);
+        StoreLocation storeLocation = storeRepository.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
@@ -132,20 +132,20 @@ public class StoreServiceImpl implements StoreService {
                                           throws NotFoundException, ExistedException {
         logger.debug("Entered modifyStore method in StoreServiceImpl");
         StoreLocation storeLocation
-                        = storeRepo.findByIsActiveAndId(true, storeId);
+                        = storeRepository.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
         }
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
-        if(storeRepo.existsByAreaOrPinCodeAndIdNot(area, pinCode, storeId)) {
+        if(storeRepository.existsByAreaOrPinCodeAndIdNot(area, pinCode, storeId)) {
             logger.error("area or pin code already exist");
             throw new ExistedException("Area or PinCode already exists");
         }
         storeLocation.setArea(storeLocationRequest.getArea());
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
-        storeRepo.save(storeLocation);
+        storeRepository.save(storeLocation);
         logger.debug("store updated successfully");
         return new SuccessResponseDto(200,
                                 "Store updated successfully");
@@ -156,7 +156,7 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public StoreLocation getStoreByPinCode(Integer pinCode) {
-        return storeRepo.findByIsActiveAndPinCode(true, pinCode);
+        return storeRepository.findByIsActiveAndPinCode(true, pinCode);
     }
 
     /**
@@ -164,6 +164,6 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public Boolean existByLocationId(Integer locationId) {
-        return storeRepo.existsByIdAndIsActive(locationId, true);
+        return storeRepository.existsByIdAndIsActive(locationId, true);
     }
 }

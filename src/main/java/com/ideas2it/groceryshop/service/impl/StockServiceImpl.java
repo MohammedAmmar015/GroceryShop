@@ -17,8 +17,8 @@ import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.Stock;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.model.Order;
-import com.ideas2it.groceryshop.repository.StockRepo;
-import com.ideas2it.groceryshop.service.ProductService;
+import com.ideas2it.groceryshop.repository.ProductRepository;
+import com.ideas2it.groceryshop.repository.StockRepository;
 import com.ideas2it.groceryshop.service.StockService;
 import com.ideas2it.groceryshop.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +47,8 @@ public class StockServiceImpl implements StockService {
 
     private final Logger logger = LogManager.getLogger(StockServiceImpl.class);
     private final StoreService storeService;
-    private final StockRepo stockRepo;
-    private final ProductHelper productHelper;
+    private final StockRepository stockRepository;
+    private final ProductRepository productRepository;
 
     /**
      * {@inheritDoc}
@@ -59,7 +59,7 @@ public class StockServiceImpl implements StockService {
                                        Integer productId)
                                        throws NotFoundException, ExistedException {
         logger.debug("Entered addStock method in StockServiceImpl");
-        if (stockRepo.existsByStoreLocationIdAndProductId(locationId, productId)) {
+        if (stockRepository.existsByStoreLocationIdAndProductId(locationId, productId)) {
             logger.error("stock already exist");
             throw new ExistedException("Stock already exists");
         }
@@ -70,14 +70,14 @@ public class StockServiceImpl implements StockService {
             throw new NotFoundException("Store not found");
         }
         stock.setStoreLocation(storeLocation);
-        Product product = productHelper.getProductById(productId);
+        Product product = productRepository.findByIdAndIsActive(productId, true);
         if (product == null) {
             logger.error("product not found");
             throw new NotFoundException("Product not found");
         }
         stock.setProduct(product);
         stock.setUnit(product.getUnit());
-        stockRepo.save(stock);
+        stockRepository.save(stock);
         logger.debug("Stock created successfully");
         return new SuccessResponseDto(201,
                 "Stock created successfully");
@@ -90,7 +90,7 @@ public class StockServiceImpl implements StockService {
     public List<StockResponseDto> getStockByProductId(Integer productId)
                                                       throws NotFoundException {
         logger.debug("Entered getStockByProductId method in StockServiceImpl");
-        List<Stock> stocks = stockRepo.findByProductId(productId);
+        List<Stock> stocks = stockRepository.findByProductId(productId);
         if (stocks.isEmpty()) {
             logger.error("No stock data found");
             throw new NotFoundException("No data found");
@@ -110,7 +110,7 @@ public class StockServiceImpl implements StockService {
                                                          Integer locationId)
                                                          throws NotFoundException {
         logger.debug("Entered getStockByProductAndLocation method in StockServiceImpl");
-        Stock stock = stockRepo.findByProductIdAndStoreLocationId(productId, locationId);
+        Stock stock = stockRepository.findByProductIdAndStoreLocationId(productId, locationId);
         if (stock == null) {
             logger.error("stock not found");
             throw new NotFoundException("Stock not found");
@@ -129,7 +129,7 @@ public class StockServiceImpl implements StockService {
                              throws NotFoundException {
         logger.debug("Entered updateStockByProductAndLocation method in StockServiceImpl");
         Integer rowsAffected
-                = stockRepo.updateStockByProductAndLocation(stockRequest.getStock(),
+                = stockRepository.updateStockByProductAndLocation(stockRequest.getStock(),
                                                             productId,
                                                             locationId);
         if (rowsAffected == 0) {
@@ -149,7 +149,7 @@ public class StockServiceImpl implements StockService {
         logger.debug("Entered removeStockByOrderDetails method in StockServiceImpl");
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
         for (OrderDetails orderDetail : order.getOrderDetails()) {
-            stockRepo.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
+            stockRepository.decreaseStockByProductsAndLocation(orderDetail.getQuantity(),
                                                          orderDetail.getProduct(),
                                                          store.getId());
         }
@@ -164,7 +164,7 @@ public class StockServiceImpl implements StockService {
         Integer pinCode = order.getOrderDelivery().getShippingAddress().getPinCode();
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
         for (OrderDetails orderDetail : order.getOrderDetails()) {
-            stockRepo.increaseStockByProductsAndLocation(orderDetail.getQuantity(),
+            stockRepository.increaseStockByProductsAndLocation(orderDetail.getQuantity(),
                     orderDetail.getProduct(),
                     store.getId());
         }
@@ -175,7 +175,7 @@ public class StockServiceImpl implements StockService {
      */
     @Override
     public Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId) {
-        return stockRepo.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan
+        return stockRepository.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan
                 (locationId, productId, 0);
     }
 }

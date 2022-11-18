@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
  * @version 1.0
  */
 @Repository
-public interface CartDetailsRepo extends JpaRepository<CartDetails, Integer> {
+public interface CartDetailsRepository extends JpaRepository<CartDetails, Integer> {
 
     /**
      * <p>
