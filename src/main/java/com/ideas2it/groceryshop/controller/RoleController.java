@@ -34,7 +34,7 @@ import com.ideas2it.groceryshop.service.RoleService;
  * @since 11-11-2022
  */
 @RestController
-@RequestMapping("api/v1/roles")
+@RequestMapping("api/v1/users/roles")
 public class RoleController {
 
     private final RoleService roleService;
