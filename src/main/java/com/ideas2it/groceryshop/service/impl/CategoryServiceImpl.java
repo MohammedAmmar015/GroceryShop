@@ -25,7 +25,8 @@ import java.util.Optional;
 
 /**
  * <p>
- *     This service class is implemented to perform category related CRUD operations.
+ *     This service class is implemented to perform create, update, delete
+ *     and view category operations.
  * </p>
  *
  * @author RUBAN

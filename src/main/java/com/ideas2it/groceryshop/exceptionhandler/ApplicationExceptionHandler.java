@@ -44,7 +44,7 @@ public class ApplicationExceptionHandler {
      * @param notFoundException It contains message to get display
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ExceptionHandler(NotFoundException.class)
     public ErrorResponseDto handleNotFoundException(NotFoundException notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();

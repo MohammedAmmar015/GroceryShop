@@ -27,7 +27,8 @@ import java.util.List;
 
 /**
  * <p>
- *     It implements method of CRUD operations for Product.
+ *      It implements method for create, view, update and delete
+ *      operations for product.
  * </p>
  * @author Ruban
  * @since  03/11/2022
