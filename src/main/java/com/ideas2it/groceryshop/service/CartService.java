@@ -26,11 +26,16 @@ public interface CartService {
 
     /**
      * <p>
-     *     It is used to add Product to the Cart
+     *     This method is used to add Product to the existing Cart
+     *     or create a new cart if cart is inactive
+     *     for particular user based on currently logged-in user
+     *     and also cart details will be added to cart by cartRequest
+     *     which has product id and quantity
      * </p>
-     * @param cartRequest - product details to add into Cart
-     * @return - SuccessResponseDto with Message and status Code
-     * @throws NotFoundException - if user or cart not found
+     * @param cartRequest - product id and quantity to add into Cart
+     * @return - SuccessResponseDto with Message and status Code if product
+     *          successfully added to cart
+     * @throws NotFoundException - if given product id not found
      * @throws ExistedException if product already exist in cart
      */
     SuccessResponseDto addOrModifyCart(CartRequestDto cartRequest)
@@ -38,26 +43,35 @@ public interface CartService {
 
     /**
      * <p>
-     *     It is used to get Cart of Particular user by Id
+     *     This method is used to get Cart of currently
+     *     logged-in user and to return cart details
+     *     as response DTO
      * </p>
-     * @return - CartResponse with cart details
-     * @throws NotFoundException if cart not found
+     * @return - CartResponse with products and it's total price
+     *           that added to cart by user
+     * @throws NotFoundException if cart is inActive or not found
      */
     CartResponseDto getCart() throws NotFoundException;
 
     /**
      * <p>
-     * It is used To remove Cart details from Cart
+     *     This method is used to remove all products from Cart
+     *     and to delete cart
+     *     of currently logged-in user
      * </p>
      *
-     * @return SuccessResponseDto if cart deleted successfully
-     * @throws NotFoundException throws if cart not found
+     * @return SuccessResponseDto with success message and status code
+     *          if cart deleted successfully
      */
     SuccessResponseDto removeCart() throws NotFoundException;
 
     /**
      * <p>
-     *     It is used to remove particular product from cart
+     *     This method is used to remove particular product
+     *     based on product id,
+     *     from user's cart of currently logged-in user
+     *     and to update total price based
+     *     on current cart details
      * </p>
      *
      * @param productId - product id to be removed
@@ -68,7 +82,10 @@ public interface CartService {
 
     /**
      * <p>
-     *     It is used to Update Cart Product Quantity of Particular user
+     *     This method is used to update product quantity in user's Cart
+     *     of currently logged-in user
+     *     CartRequest will have product id and quantity to be updated,
+     *     new totalPrice and totalQuantity will also get updated
      * </p>
      *
      * @param cartRequest - cart details to be Updated
@@ -79,11 +96,10 @@ public interface CartService {
 
     /**
      * <p>
-     *     This method is used to get active
-     *     cart of currently logged-in user
+     *     This method is used to get active cart
+     *     of currently logged-in user
      * </p>
-     * @return Cart
-     * @throws NotFoundException - throws exception if cart not found
+     * @return Cart if cart available else it will return null
      */
-    Cart getActiveCartOfCurrentUser() throws NotFoundException;
+    Cart getActiveCartOfCurrentUser();
 }
