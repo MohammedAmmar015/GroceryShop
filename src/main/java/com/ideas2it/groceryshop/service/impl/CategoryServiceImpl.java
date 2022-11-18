@@ -9,15 +9,13 @@ import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.CategoryMapper;
 import com.ideas2it.groceryshop.model.Category;
-import com.ideas2it.groceryshop.model.Product;
-import com.ideas2it.groceryshop.repository.CategoryRepo;
-import com.ideas2it.groceryshop.repository.ProductRepo;
+import com.ideas2it.groceryshop.repository.CategoryRepository;
 import com.ideas2it.groceryshop.service.CategoryService;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -27,7 +25,7 @@ import java.util.Optional;
 
 /**
  * <p>
- *     This class implement method for crud operations for Category.
+ *     This service class is implemented to perform category related CRUD operations.
  * </p>
  *
  * @author RUBAN
@@ -36,13 +34,13 @@ import java.util.Optional;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepo categoryRepo;
-    private final ProductRepo productRepo;
+    private final CategoryRepository categoryRepository;
     private final Logger logger;
+    private final ProductHelper productHelper;
 
-    public CategoryServiceImpl(CategoryRepo categoryRepo, ProductRepo productRepo) {
-        this.productRepo = productRepo;
-        this.categoryRepo = categoryRepo;
+    public CategoryServiceImpl(ProductHelper productHelper,CategoryRepository categoryRepository) {
+        this.productHelper = productHelper;
+        this.categoryRepository = categoryRepository;
         this.logger = LogManager.getLogger(CategoryServiceImpl.class);
     }
 
@@ -52,28 +50,28 @@ public class CategoryServiceImpl implements CategoryService {
      *     before that will validate name, id and finally
      *     will allow to add in data base.
      * </p>
-     * @param categoryRequestDto dto type object.
+     * @param categoryRequestDto dto type object
      * @return SuccessDto
-     * @throws Existed will be thrown if category already Exists.
+     * @throws ExistedException will be thrown if category already Exists.
      */
     @Override
     public SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto)
-            throws Existed, NotFound {
+            throws ExistedException, NotFoundException {
         logger.debug("Entered into addCategory method in category service");
-        if(categoryRepo.existsByName(categoryRequestDto.getName())) {
-            throw new Existed("Category already added");
+        if(categoryRepository.existsByName(categoryRequestDto.getName())) {
+            throw new ExistedException("Category already added");
         }
         Category categories = CategoryMapper.toCategory(categoryRequestDto);
         if(categoryRequestDto.getParentId() != 0) {
-            Optional<Category> category = categoryRepo.findById(categoryRequestDto.
+            Optional<Category> category = categoryRepository.findById(categoryRequestDto.
                     getParentId());
             if(category.isPresent()) {
                 categories.setCategory(category.get());
             } else  {
-                throw new NotFound("Category not found");
+                throw new NotFoundException("Category not found");
             }
         }
-        categoryRepo.save(categories);
+        categoryRepository.save(categories);
         logger.debug("addCategory method successfully executed");
         if (categoryRequestDto.getParentId() == 0) {
             return new SuccessResponseDto(201, "Category added successfully");
@@ -88,14 +86,14 @@ public class CategoryServiceImpl implements CategoryService {
      *     in category mapper and then return it to controller.
      * </p>
      * @return Category List.
-     * @throws NotFound will be thrown if no category is added.
+     * @throws NotFoundException will be thrown if no category is added.
      */
     @Override
-    public List<CategoryResponseDto> getCategory() throws NotFound {
+    public List<CategoryResponseDto> getCategory() throws NotFoundException {
         logger.debug("Entered into getCategory method in category service");
-        List<Category> resultCategories = categoryRepo.findByParentIdAndIsActive( true);
+        List<Category> resultCategories = categoryRepository.findByParentIdAndIsActive( true);
         if (resultCategories.isEmpty()) {
-            throw new NotFound("Category not added");
+            throw new NotFoundException("Category not added");
         }
         List<CategoryResponseDto> categoriesList = new ArrayList<>();
         for(Category category : resultCategories) {
@@ -112,14 +110,14 @@ public class CategoryServiceImpl implements CategoryService {
      *     the help of category mapper and then will return it to controller
      * </p>
      * @return sub category list if exist otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if no sub category exists.
+     * @throws NotFoundException will be thrown if no sub category exists.
      */
     @Override
-    public List<SubCategoryResponseDto> getAllSubCategory() throws NotFound {
+    public List<SubCategoryResponseDto> getAllSubCategory() throws NotFoundException {
         logger.debug("Entered into getAllSubCategory method in category service");
-        List<Category> categories = categoryRepo.findByParentIdNotNullAndIsActive(true);
+        List<Category> categories = categoryRepository.findByParentIdNotNullAndIsActive(true);
         if (categories.isEmpty()) {
-            throw new NotFound("Subcategory not added");
+            throw new NotFoundException("Sub category not added");
         }
         List<SubCategoryResponseDto> categoriesList = new ArrayList<>();
         for(Category category : categories) {
@@ -136,27 +134,23 @@ public class CategoryServiceImpl implements CategoryService {
      * </p>
      * @param id to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if category doesn't exist.
+     * @throws NotFoundException will be thrown if category doesn't exist.
      */
     @Override
-    public SuccessResponseDto deleteCategory(Integer id) throws NotFound {
+    public SuccessResponseDto deleteCategory(Integer id) throws NotFoundException {
         logger.debug("Entered into deleteCategory method in category service");
-        Category categories = categoryRepo.findByIdAndIsActive(id, true);
+        Category categories = categoryRepository.findByIdAndIsActive(id, true);
         if (categories == null) {
-            throw new NotFound("Category id not found");
+            throw new NotFoundException("Category id not found");
         }
         categories.setActive(false);
-        List<Category> subCategories = categoryRepo.findSubCategoryByParentId(id);
+        List<Category> subCategories = categoryRepository.findSubCategoryByParentId(id);
         for (Category category : subCategories) {
             category.setActive(false);
-            categoryRepo.save(category);
+            categoryRepository.save(category);
         }
-        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive(id, true);
-        for(Product product: products) {
-            product.setActive(false);
-            productRepo.save(product);
-        }
-        categoryRepo.save(categories);
+        productHelper.getProductByCategoryIdAndSetFalse(id);
+        categoryRepository.save(categories);
         logger.debug("deleteCategory method successfully executed");
         return new SuccessResponseDto(200, "category deleted Successfully");
     }
@@ -169,24 +163,20 @@ public class CategoryServiceImpl implements CategoryService {
      * @param parentId to find which object to get deleted.
      * @param categoryId to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if sub category doesn't exist.
+     * @throws NotFoundException will be thrown if sub category doesn't exist.
      */
     @Override
     public SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId)
-            throws NotFound {
+            throws NotFoundException {
         logger.debug("Entered into deleteSubCategory method in category service");
-        Category category = categoryRepo.findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId,
-                categoryId, true);
+        Category category = categoryRepository.
+                findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId, categoryId, true);
         if (category == null) {
-            throw new NotFound("Sub category id not found");
+            throw new NotFoundException("Sub category id not found");
         }
         category.setActive(false);
-        categoryRepo.save(category);
-        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(categoryId, true);
-        for(Product product : products) {
-            product.setActive(false);
-            productRepo.save(product);
-        }
+        categoryRepository.save(category);
+        productHelper.getProductBySubCategoryIdAndSetFalse(categoryId);
         logger.debug("deleteSubCategory method successfully executed");
         return new SuccessResponseDto(200, "Subcategory deleted successfully");
     }
@@ -199,22 +189,22 @@ public class CategoryServiceImpl implements CategoryService {
      * @param id to find which object to update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if id doesn't match.
-     * @throws Existed exception will be thrown if values are already exist.
+     * @throws NotFoundException will be thrown if id doesn't match.
+     * @throws ExistedException will be thrown if values are already exist.
      */
     @Override
     public SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
-            throws NotFound, Existed {
+            throws NotFoundException, ExistedException {
         logger.debug("Entered into updateCategory method in category service");
-        Category category = categoryRepo.findByIdAndParentIdAndIsActive(id, true);
+        Category category = categoryRepository.findByIdAndParentIdAndIsActive(id, true);
         if(category == null) {
-            throw new NotFound("Category id not found");
+            throw new NotFoundException("Category id not found");
         }
-        if (categoryRepo.existsByName(categoryRequestDto.getName())) {
-            throw new Existed("Category name exist");
+        if (categoryRepository.existsByName(categoryRequestDto.getName())) {
+            throw new ExistedException("Category name already exist");
         }
         category.setName(categoryRequestDto.getName());
-        categoryRepo.save(category);
+        categoryRepository.save(category);
         logger.debug("updateCategory method successfully executed");
         return new SuccessResponseDto(200, "Category details updated successfully");
     }
@@ -228,25 +218,50 @@ public class CategoryServiceImpl implements CategoryService {
      * @param parentId to find object to get update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if id doesn't match.
-     * @throws Existed exception will be thrown if values are already exist.
+     * @throws NotFoundException will be thrown if id doesn't match.
+     * @throws ExistedException will be thrown if values are already exist.
      */
     @Override
     public SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId,
                                                 CategoryRequestDto categoryRequestDto)
-            throws NotFound, Existed {
+            throws NotFoundException, ExistedException {
         logger.debug("Entered into updateSubCategory method in category service");
-        Category category = categoryRepo.findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId,
-                categoryId, true);
+        Category category = categoryRepository.
+                findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId, categoryId, true);
         if(category == null) {
-            throw new NotFound("Subcategory id not found");
+            throw new NotFoundException("Subcategory id not found");
         }
-        if (categoryRepo.existsByName(categoryRequestDto.getName())) {
-            throw new Existed("Subcategory name exist");
+        if (categoryRepository.existsByName(categoryRequestDto.getName())) {
+            throw new ExistedException("Subcategory name already exist");
         }
         category.setName(categoryRequestDto.getName());
-        categoryRepo.save(category);
+        categoryRepository.save(category);
         logger.debug("updateSubCategory method successfully executed");
         return new SuccessResponseDto(200, "Subcategory updated successfully");
+    }
+
+    /**
+     * <p>
+     *     This method used to find category object from database if the
+     *     id is exist, this method useful for add product method in product service.
+     * </p>
+     * @param categoryId to find correct object in database
+     * @return category object.
+     */
+    public Optional<Category> findCategoryById(Integer categoryId) {
+        return categoryRepository.findById(categoryId);
+    }
+
+    /**
+     * <p>
+     *     This method used check whether sub category id is exist in database or
+     *     not and returns true if exist otherwise false, this method is useful for
+     *     add product method in product service.
+     * </p>
+     * @param subCategoryId to check this id exist or not in database.
+     * @return true if exist otherwise false.
+     */
+    public Boolean existBySubCategoryId(Integer subCategoryId) {
+        return categoryRepository.existsById(subCategoryId);
     }
 }

@@ -9,10 +9,12 @@ import com.ideas2it.groceryshop.dto.CategoryRequestDto;
 import com.ideas2it.groceryshop.dto.CategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.model.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -33,9 +35,10 @@ public interface CategoryService {
      * </p>
      * @param categoryRequestDto dto type object.
      * @return SuccessDto
-     * @throws Existed will be thrown if category already Exists.
+     * @throws ExistedException will be thrown if category already Exists.
      */
-    SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto) throws Existed, NotFound;
+    SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto)
+            throws ExistedException, NotFoundException;
 
     /**
      * <p>
@@ -44,9 +47,9 @@ public interface CategoryService {
      *     in category mapper and then return it to controller.
      * </p>
      * @return Category List.
-     * @throws NotFound will be thrown if no category is added.
+     * @throws NotFoundException will be thrown if no category is added.
      */
-    List<CategoryResponseDto> getCategory() throws NotFound;
+    List<CategoryResponseDto> getCategory() throws NotFoundException;
 
     /**
      * <p>
@@ -55,9 +58,9 @@ public interface CategoryService {
      *     the help of category mapper and then will return it to controller
      * </p>
      * @return sub category list if exist otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if no sub category exists.
+     * @throws NotFoundException will be thrown if no sub category exists.
      */
-    List<SubCategoryResponseDto> getAllSubCategory() throws NotFound;
+    List<SubCategoryResponseDto> getAllSubCategory() throws NotFoundException;
 
     /**
      * <p>
@@ -66,9 +69,9 @@ public interface CategoryService {
      * </p>
      * @param id to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if category doesn't exist.
+     * @throws NotFoundException will be thrown if category doesn't exist.
      */
-    SuccessResponseDto deleteCategory(Integer id) throws NotFound;
+    SuccessResponseDto deleteCategory(Integer id) throws NotFoundException;
 
     /**
      * <p>
@@ -78,9 +81,9 @@ public interface CategoryService {
      * @param parentId to find which object to get deleted.
      * @param categoryId to find which object to get deleted.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if sub category doesn't exist.
+     * @throws NotFoundException will be thrown if sub category doesn't exist.
      */
-    SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId) throws NotFound;
+    SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId) throws NotFoundException;
 
     /**
      * <p>
@@ -90,11 +93,11 @@ public interface CategoryService {
      * @param id to find which object to update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if id doesn't match.
-     * @throws Existed exception will be thrown if values are already exist.
+     * @throws NotFoundException will be thrown if id doesn't match.
+     * @throws ExistedException will be thrown if values are already exist.
      */
     SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
-            throws Existed, NotFound;
+            throws ExistedException, NotFoundException;
 
     /**
      * <p>
@@ -105,9 +108,29 @@ public interface CategoryService {
      * @param parentId to find object to get update.
      * @param categoryRequestDto contains values to get updated.
      * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFound exception will be thrown if id doesn't match.
-     * @throws Existed exception will be thrown if values are already exist.
+     * @throws NotFoundException will be thrown if id doesn't match.
+     * @throws ExistedException will be thrown if values are already exist.
      */
     SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId, CategoryRequestDto
-            categoryRequestDto) throws NotFound, Existed;
+            categoryRequestDto) throws NotFoundException, ExistedException;
+
+    /**
+     * <p>
+     *     This method used to find category object from database if the
+     *     id is exist, this method useful for method in category service.
+     * </p>
+     * @param categoryId to find correct object in database
+     * @return category object.
+     */
+    Optional<Category> findCategoryById(Integer categoryId);
+
+    /**
+     * <p>
+     *     This method used check whether sub category id is exist in database or
+     *     not and returns true if exist otherwise false.
+     * </p>
+     * @param subCategoryId to check this id exist or not in database.
+     * @return true if exist otherwise false.
+     */
+    Boolean existBySubCategoryId(Integer subCategoryId);
 }

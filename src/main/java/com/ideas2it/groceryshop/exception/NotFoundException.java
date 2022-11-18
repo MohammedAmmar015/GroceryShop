@@ -14,8 +14,8 @@ package com.ideas2it.groceryshop.exception;
  * @since  05/11/22
  *
  */
-public class NotFound extends Exception{
-    public NotFound(String exception) {
+public class NotFoundException extends Exception{
+    public NotFoundException(String exception) {
         super(exception);
     }
 

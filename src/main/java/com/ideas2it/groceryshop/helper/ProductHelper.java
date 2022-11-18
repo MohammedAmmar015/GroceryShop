@@ -6,9 +6,10 @@
 package com.ideas2it.groceryshop.helper;
 
 import com.ideas2it.groceryshop.model.Product;
-import com.ideas2it.groceryshop.repository.ProductRepo;
+import com.ideas2it.groceryshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 /**
  * @author  RUBAN
@@ -17,10 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProductHelper {
-    private final ProductRepo productRepo;
+    private final ProductRepository productRepo;
 
     @Autowired
-    public ProductHelper(ProductRepo productRepo) {
+    public ProductHelper(ProductRepository productRepo) {
         this.productRepo = productRepo;
     }
 
@@ -33,5 +34,36 @@ public class ProductHelper {
      */
     public Product getProductById(Integer productId) {
         return productRepo.findByIdAndIsActive(productId, true);
+    }
+
+    /**
+     * <p>
+     *     This method will get product by category id and will delete, which will be useful
+     *     for the delete category method in category service.
+     * </p>
+     * @param categoryId to get matched product object
+     */
+    public void getProductByCategoryIdAndSetFalse(Integer categoryId) {
+        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive(categoryId, true);
+        for(Product product: products) {
+            product.setActive(false);
+            productRepo.save(product);
+        }
+    }
+
+    /**
+     * <p>
+     *     This method will get product by sub category id and will delete, which will be useful
+     *     for the delete category method in category service.It is intermediate method
+     *     between category service to product repo
+     * </p>
+     * @param subCategoryId to get matched product object
+     */
+    public void getProductBySubCategoryIdAndSetFalse(Integer subCategoryId) {
+        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(subCategoryId, true);
+        for(Product product: products) {
+            product.setActive(false);
+            productRepo.save(product);
+        }
     }
 }

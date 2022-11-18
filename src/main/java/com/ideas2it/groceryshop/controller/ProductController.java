@@ -8,8 +8,8 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.ProductRequestDto;
 import com.ideas2it.groceryshop.dto.ProductResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.ProductService;
 
 import org.apache.logging.log4j.LogManager;
@@ -56,11 +56,11 @@ public class ProductController {
      *
      * @param productRequestDto Dto type model.
      * @return SuccessDto
-     * @throws Existed exception will be thrown if the product already Exist.
+     * @throws ExistedException exception will be thrown if the product already Exist.
      */
     @PostMapping
     public SuccessResponseDto addProduct(@Valid @RequestBody ProductRequestDto productRequestDto)
-            throws Existed, NotFound {
+            throws ExistedException, NotFoundException {
         logger.debug("Entered into addProduct method in product controller");
         return productService.addProduct(productRequestDto);
     }
@@ -71,12 +71,12 @@ public class ProductController {
      * </p>
      * @param name contains letter or words.
      * @return list of matched products
-     * @throws NotFound exception will be thrown if products not found
+     * @throws NotFoundException exception will be thrown if products not found
      *
      */
     @GetMapping("/search/{name}")
     public List<ProductResponseDto> getProductBySearch(@Valid @PathVariable("name") String name)
-            throws NotFound {
+            throws NotFoundException {
         logger.debug("Entered into searchProduct method in product controller");
         return productService.getProductsBySearch(name);
     }
@@ -90,11 +90,12 @@ public class ProductController {
      *
      * @param categoryId to find particular object.
      * @return Dto type object.
-     * @throws NotFound exception will be thrown if the id not exist.
+     * @throws NotFoundException exception will be thrown if the id not exist.
      */
     @GetMapping("/category/{categoryId}")
     public List<ProductResponseDto> getProductsByCategory(@PathVariable("categoryId")
-                                                              Integer categoryId) throws NotFound {
+                                                              Integer categoryId)
+            throws NotFoundException {
         logger.debug("Entered into getProductByCategory method in product controller");
         return productService.getProductsByCategoryId(categoryId);
     }
@@ -108,11 +109,12 @@ public class ProductController {
      *
      * @param subCategoryId to find particular object.
      * @return Dto type object.
-     * @throws NotFound exception will be thrown if the id not exist.
+     * @throws NotFoundException exception will be thrown if the id not exist.
      */
     @GetMapping("/category/subCategory/{subCategoryId}")
     public List<ProductResponseDto> getProductsBySubCategory(@PathVariable("subCategoryId")
-                                                                 Integer subCategoryId) throws NotFound {
+                                                                 Integer subCategoryId)
+            throws NotFoundException {
         logger.debug("Entered into getProductBySubCategory method in product controller");
         return productService.getProductsBySubCategoryId(subCategoryId);
     }
@@ -123,10 +125,10 @@ public class ProductController {
      *     handles Get method API (/api/v1/products).
      * </p>
      * @return list of products.
-     * @throws NotFound exception will be thrown if the products not exist.
+     * @throws NotFoundException exception will be thrown if the products not exist.
      */
     @GetMapping
-    public List<ProductResponseDto> getProducts() throws NotFound {
+    public List<ProductResponseDto> getProducts() throws NotFoundException {
         logger.debug("Entered into getProducts method in product controller");
         return productService.getProducts();
     }
@@ -138,11 +140,12 @@ public class ProductController {
      * </p>
      * @param locationId to fetch product from that particular location.
      * @return List of Products.
-     * @throws NotFound exception will be thrown if id not exist.
+     * @throws NotFoundException exception will be thrown if id not exist.
      */
     @GetMapping("/location/{locationId}")
     public List<ProductResponseDto> getProductsByLocation(@PathVariable("locationId")
-                                                              Integer locationId) throws NotFound {
+                                                              Integer locationId)
+            throws NotFoundException {
         logger.debug("Entered into getProductByLocationId method in product controller");
         return productService.getProductsByLocation(locationId);
     }
@@ -157,9 +160,9 @@ public class ProductController {
      */
     @GetMapping("/productId/{productId}")
     public ProductResponseDto getProductById(@PathVariable("productId")
-                                                  Integer productId) throws NotFound {
+                                                  Integer productId) throws NotFoundException {
         logger.debug("Entered into getProductById method in product controller");
-        return productService.getProductById(productId);
+        return productService.getProductResponseById(productId);
     }
 
     /**
@@ -170,10 +173,10 @@ public class ProductController {
      *
      * @param id to find particular object.
      * @return SuccessDto
-     * @throws NotFound exception will be thrown if the id is not exist.
+     * @throws NotFoundException exception will be thrown if the id is not exist.
      */
     @DeleteMapping("/{id}")
-    public SuccessResponseDto deleteProductById(@PathVariable("id") Integer id) throws NotFound {
+    public SuccessResponseDto deleteProductById(@PathVariable("id") Integer id) throws NotFoundException {
         logger.debug("Entered into deleteProduct method in product controller");
         return productService.deleteProductById(id);
     }
@@ -187,13 +190,13 @@ public class ProductController {
      * @param id to find the object to be updated.
      * @param productRequestDto values to get updated.
      * @return SuccessDto
-     * @throws NotFound exception will be thrown if the id is not exist.
-     * @throws Existed exception will be thrown if old and new fields values are same.
+     * @throws NotFoundException exception will be thrown if the id is not exist.
+     * @throws ExistedException exception will be thrown if old and new fields values are same.
      */
     @PutMapping("/{id}")
     public SuccessResponseDto updateProductById(@PathVariable("id") Integer id,
                                                 @RequestBody ProductRequestDto productRequestDto)
-            throws NotFound, Existed {
+            throws NotFoundException, ExistedException {
         logger.debug("Entered into updateProduct method in product controller");
         return productService.updateProductById(id, productRequestDto);
     }

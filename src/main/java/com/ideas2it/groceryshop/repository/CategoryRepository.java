@@ -22,7 +22,7 @@ import java.util.List;
  * @since 05/11/22
  */
 @Repository
-public interface CategoryRepo extends JpaRepository<Category, Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     /**
      * <p>

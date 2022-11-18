@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * <p>
- *     This class is to handle Exception.
+ *     This class is to handle all type of exception in this application.
  * </p>
  * @author  RUBAN
  * @version  1.0
@@ -38,33 +38,35 @@ public class ApplicationExceptionHandler {
 
     /**
      * <p>
-     *     This method to handle not found exception
+     *     This method is implemented to throw an exception when the user is not
+     *     getting the desired output.
      * </p>
-     * @param notFoundException It contains message
+     * @param notFoundException It contains message to get display
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFound.class)
     public ErrorResponseDto handleNotFoundException(NotFound notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(notFoundException.getMessage());
-        error.setStatusCode(202);
+        error.setStatusCode(204);
         return error;
     }
 
     /**
      * <p>
-     *     This method handles exist type exception
+     *     This method is implemented to throw an exception when the user request
+     *     has conflict.
      * </p>
      * @param existed contains message
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Existed.class)
     public ErrorResponseDto handleAlReadyExistsException(Existed existed) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());
-        error.setStatusCode(202);
+        error.setStatusCode(409);
         return error;
     }
 
