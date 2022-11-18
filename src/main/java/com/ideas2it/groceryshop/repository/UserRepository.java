@@ -19,7 +19,7 @@ import com.ideas2it.groceryshop.model.User;
 
 /**
  *
- * It is used to communicate User model with database
+ * User repository is used to communicate User model with database
  * for delete, update, create and view operations
  *
  * @version 1.0

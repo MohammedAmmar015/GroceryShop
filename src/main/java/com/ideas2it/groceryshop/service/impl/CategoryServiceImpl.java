@@ -11,10 +11,11 @@ import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.helper.ProductHelper;
 import com.ideas2it.groceryshop.mapper.CategoryMapper;
 import com.ideas2it.groceryshop.model.Category;
+import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepository;
+import com.ideas2it.groceryshop.repository.ProductRepository;
 import com.ideas2it.groceryshop.service.CategoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,10 +38,10 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final Logger logger;
-    private final ProductHelper productHelper;
+    private final ProductRepository productRepository;
 
-    public CategoryServiceImpl(ProductHelper productHelper,CategoryRepository categoryRepository) {
-        this.productHelper = productHelper;
+    public CategoryServiceImpl(ProductRepository productRepository,CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.logger = LogManager.getLogger(CategoryServiceImpl.class);
     }
@@ -125,7 +126,11 @@ public class CategoryServiceImpl implements CategoryService {
             category.setActive(false);
             categoryRepository.save(category);
         }
-        productHelper.getProductByCategoryIdAndSetFalse(id);
+        List<Product> products = productRepository.findProductsByCategoryIdAndIsActive(id, true);
+        for(Product product: products) {
+            product.setActive(false);
+            productRepository.save(product);
+        }
         categoryRepository.save(categories);
         logger.debug("deleteCategory method successfully executed");
         return new SuccessResponseDto(200, "category deleted Successfully");
@@ -145,7 +150,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category.setActive(false);
         categoryRepository.save(category);
-        productHelper.getProductBySubCategoryIdAndSetFalse(categoryId);
+        List<Product> products = productRepository.findBySubCategoryIdAndIsActive(categoryId, true);
+        for(Product product: products) {
+            product.setActive(false);
+            productRepository.save(product);
+        }
         logger.debug("deleteSubCategory method successfully executed");
         return new SuccessResponseDto(200, "Subcategory deleted successfully");
     }
@@ -194,15 +203,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * {@inheritDoc}
-     */
-    public Optional<Category> findCategoryById(Integer categoryId) {
+     *//*
+    public Optional<Category> getCategoryById(Integer categoryId) {
         return categoryRepository.findById(categoryId);
     }
 
-    /**
+    *//**
      * {@inheritDoc}
-     */
+     *//*
     public Boolean existBySubCategoryId(Integer subCategoryId) {
         return categoryRepository.existsById(subCategoryId);
-    }
+    }*/
 }

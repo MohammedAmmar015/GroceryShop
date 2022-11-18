@@ -43,7 +43,7 @@ public interface OrderDeliveryRepository extends JpaRepository<OrderDelivery, In
     @Modifying
     @Transactional
     @Query("Update OrderDelivery od set od.isDelivered = true, od.deliveryDate = CURRENT_TIMESTAMP " +
-            "where od.id = (select o.orderDelivery.id from UserOrder o where o.id = ?1)")
+            "where od.id = (select o.orderDelivery.id from Order o where o.id = ?1)")
     void updateStatus(Integer orderId);
 
 }

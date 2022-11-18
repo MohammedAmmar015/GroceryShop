@@ -15,9 +15,7 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.Role;
 
 /**
- *
- * It is interface of RoleService it contains every method
- *  * present in RoleServiceImpl
+ * Role Service is used to save, update and delete role from database.
  *
  * @version 1.0
  * @author Rohit A P

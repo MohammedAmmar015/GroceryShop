@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.ideas2it.groceryshop.model.Address;
 
 /**
- * It is used to communicate Address model with database
+ * Address repository is used to communicate Address model with database
  * for delete, update, create and view operations
  *
  * @version 1.0

@@ -73,9 +73,11 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * This method is used to handle ParseException
+     * <p>
+     *     This method is used to handle ParseException while formatting the date from string to date
+     * </p>
      *
-     * @param parseException
+     * @param parseException while formatting the date from string to date this exception occurs
      * @return errorDto it contains error message and error status code
      */
     @ResponseStatus(HttpStatus.CONFLICT)

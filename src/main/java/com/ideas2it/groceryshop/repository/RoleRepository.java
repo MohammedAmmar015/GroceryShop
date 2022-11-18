@@ -18,7 +18,7 @@ import com.ideas2it.groceryshop.model.Role;
 
 /**
  *
- * It is used to communicate Address model with database
+ * Role repository is used to communicate Address model with database
  * for delete, update, create and view operations
  *
  * @version 1.0

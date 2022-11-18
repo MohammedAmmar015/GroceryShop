@@ -14,8 +14,8 @@ import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
- * It is interface of AddressService it contains every method
- * present in AddressServiceImpl
+ * Address service is providing services for create, update,
+ * delete and view addresses of users.
  *
  * @version 1.0
  * @author Rohit A P
