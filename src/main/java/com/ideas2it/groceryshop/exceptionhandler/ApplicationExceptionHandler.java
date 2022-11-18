@@ -6,8 +6,8 @@
 package com.ideas2it.groceryshop.exceptionhandler;
 
 import com.ideas2it.groceryshop.dto.ErrorResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -44,9 +44,9 @@ public class ApplicationExceptionHandler {
      * @param notFoundException It contains message to get display
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFound.class)
-    public ErrorResponseDto handleNotFoundException(NotFound notFoundException) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler(NotFoundException.class)
+    public ErrorResponseDto handleNotFoundException(NotFoundException notFoundException) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(notFoundException.getMessage());
         error.setStatusCode(204);
@@ -61,9 +61,9 @@ public class ApplicationExceptionHandler {
      * @param existed contains message
      * @return ErrorDto
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(Existed.class)
-    public ErrorResponseDto handleAlReadyExistsException(Existed existed) {
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ExistedException.class)
+    public ErrorResponseDto handleAlReadyExistsException(ExistedException existed) {
         ErrorResponseDto error = new ErrorResponseDto();
         error.setErrorMessage(existed.getMessage());
         error.setStatusCode(409);
