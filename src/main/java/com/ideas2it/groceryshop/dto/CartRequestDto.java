@@ -14,7 +14,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- *     Cart Request DTO, to get cart details in Request
+ * It holds the CartRequest information(like CartDetails etc.,) and
+ * also it is used to get product details from user to add into the cart
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

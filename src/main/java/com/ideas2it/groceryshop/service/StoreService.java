@@ -8,8 +8,9 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.StoreRequestDto;
 import com.ideas2it.groceryshop.dto.StoreResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.model.StoreLocation;
 
 import java.util.List;
 
@@ -32,18 +33,18 @@ public interface StoreService {
      * </p>
      * @param storeLocationRequest request DTO to be passed
      * @return - SuccessResponseDto if store created
-     * @throws Existed - if area or location already exists
+     * @throws ExistedException - if area or location already exists
      */
-    SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws Existed;
+    SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws ExistedException;
 
     /**
      * <p>
      *     This method is used to get all active stores
      * </p>
      * @return list of store response DTO
-     * @throws NotFound if no data found
+     * @throws NotFoundException if no data found
      */
-    List<StoreResponseDto> getStores() throws NotFound;
+    List<StoreResponseDto> getStores() throws NotFoundException;
 
     /**
      * <p>
@@ -52,9 +53,9 @@ public interface StoreService {
      * </p>
      * @param storeId store id has to be passed
      * @return - SuccessResponseDto if deleted
-     * @throws NotFound - if store not found
+     * @throws NotFoundException - if store not found
      */
-    SuccessResponseDto removeStore(Integer storeId) throws NotFound;
+    SuccessResponseDto removeStore(Integer storeId) throws NotFoundException;
 
 
     /**
@@ -64,9 +65,12 @@ public interface StoreService {
      * </p>
      * @param storeId store id has to be passed
      * @return Store Response DTO
-     * @throws NotFound if store not found
+     * @throws NotFoundException if store not found
      */
-    StoreResponseDto getStoreById(Integer storeId) throws NotFound;
+    StoreResponseDto getStoreResponseById(Integer storeId) throws NotFoundException;
+
+    StoreLocation getStoreById(Integer storeId)
+            throws NotFoundException;
 
     /**
      * <P>
@@ -76,9 +80,13 @@ public interface StoreService {
      * @param storeLocationRequest Store Location details to update
      * @param storeId              store id to be passed
      * @return successResponseDto if store details modified successfully
-     * @throws NotFound - if store not found
-     * @throws Existed - if given new details already exist
+     * @throws NotFoundException - if store not found
+     * @throws ExistedException - if given new details already exist
      */
     SuccessResponseDto modifyStore(StoreRequestDto storeLocationRequest,
-                           Integer storeId) throws NotFound, Existed;
+                           Integer storeId) throws NotFoundException, ExistedException;
+
+    StoreLocation getStoreByPinCode(Integer pinCode);
+
+    Boolean existByLocationId(Integer locationId);
 }

@@ -12,16 +12,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
  * <p>
- *     Cart Entity
+ * It holds the cart related information(like totalPrice, product details etc.,) and
+ * also it is used to store and retrieve the cart information to and from
+ * database through JpaRepository
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 02-11-2022
  * @version 1.0
+ * @since 02-11-2022
  */
 @Entity
 @Table(name = "cart")
@@ -34,7 +46,7 @@ public class Cart extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @Column(name = "total_price", nullable = false, precision = 2)
     private Float totalPrice;
 
@@ -51,7 +63,6 @@ public class Cart extends Audit {
     private Boolean isActive = true;
 
     @ManyToOne()
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
-
 }

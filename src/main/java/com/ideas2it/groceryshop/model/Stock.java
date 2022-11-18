@@ -11,15 +11,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * <p>
- *     Stock Entity to holds stock details
+ * It holds the stock related information(like storeLocation, product,
+ * availableStock etc.,) and also it is used to store and retrieve the
+ * Stock information to and from database through JpaRepository
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 07-11-2022
  * @version 1.0
+ * @since 07-11-2022
  */
 @Getter
 @Setter
@@ -35,7 +45,7 @@ public class Stock extends Audit {
     @Column(name = "available_stock", nullable = false)
     private Integer availableStock;
 
-    @Column(name = "unit" , length = 10, nullable = false)
+    @Column(name = "unit", length = 10, nullable = false)
     private String unit;
 
     @ManyToOne()
@@ -50,5 +60,4 @@ public class Stock extends Audit {
     @ManyToOne
     @JoinColumn(name = "location_id")
     private StoreLocation storeLocation;
-
 }

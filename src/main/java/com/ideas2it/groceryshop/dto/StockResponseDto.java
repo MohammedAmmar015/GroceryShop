@@ -12,7 +12,8 @@ import lombok.Setter;
 
 /**
  * <p>
- *     Stock Response DTO, to response stock details
+ * It holds the stockResponse information(like productId, availableStock, locationId etc.,)
+ * and also it is used to view stock details as response to user
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

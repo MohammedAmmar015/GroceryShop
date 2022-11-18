@@ -12,7 +12,8 @@ import lombok.Setter;
 
 /**
  * <p>
- *     Store Location Response DTO, to hold response details
+ * It holds the StoreResponse information(like pinCode, area etc.,) and
+ * also it is used to view store details as response to user
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

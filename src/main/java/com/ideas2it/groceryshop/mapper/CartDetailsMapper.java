@@ -10,6 +10,9 @@ import com.ideas2it.groceryshop.dto.CartDetailsResponseDto;
 import com.ideas2it.groceryshop.model.CartDetails;
 import com.ideas2it.groceryshop.model.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  *     Cart Details Mapper, used to convert CartDetails Entity and CartDetails DTO
@@ -28,9 +31,9 @@ public class CartDetailsMapper {
      * @return - CartDetails
      */
     public static CartDetails toCartDetails(CartDetailsRequestDto cartDetailsRequest) {
-        CartDetails cartDetails = new CartDetails();
-        cartDetails.setQuantity(cartDetailsRequest.getQuantity());
-        return cartDetails;
+        CartDetails cartDetail = new CartDetails();
+        cartDetail.setQuantity(cartDetailsRequest.getQuantity());
+        return cartDetail;
     }
 
     /**

@@ -22,12 +22,14 @@ import java.util.Date;
 
 /**
  * <p>
- *     This is Audit class used to Store Audit Columns
- *     with other entities
+ * This Audit class is used to hold auditing data
+ * like created by, modified by, created at and modified at
+ * for auditing purpose
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 15-11-2022
  * @version 1.0
+ * @since 15-11-2022
  */
 @Getter
 @Setter

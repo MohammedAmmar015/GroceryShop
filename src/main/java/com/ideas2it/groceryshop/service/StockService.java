@@ -8,8 +8,8 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.StockRequestDto;
 import com.ideas2it.groceryshop.dto.StockResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.model.UserOrder;
 
@@ -36,11 +36,11 @@ public interface StockService {
      * @param locationId   To add stock to particular location
      * @param productId    To add Stock to the Product
      * @return SuccessResponseDto if stock created
-     * @throws NotFound if store or product not found
-     * @throws Existed if stock already exist for given product and location
+     * @throws NotFoundException if store or product not found
+     * @throws ExistedException if stock already exist for given product and location
      */
     SuccessResponseDto addStock(StockRequestDto stockRequest, Integer locationId, Integer productId)
-            throws NotFound, Existed;
+            throws NotFoundException, ExistedException;
 
     /**
      * <p>
@@ -49,10 +49,10 @@ public interface StockService {
      * </p>
      * @param productId id to view Stock details
      * @return List of Stock details
-     * @throws NotFound if stock not found for given product id
+     * @throws NotFoundException if stock not found for given product id
      */
     List<StockResponseDto> getStockByProductId(Integer productId)
-            throws NotFound;
+            throws NotFoundException;
 
     /**
      * <p>
@@ -61,10 +61,10 @@ public interface StockService {
      * @param productId - to view Stock details
      * @param locationId - to view stock by product and location
      * @return Store Response DTO
-     * @throws NotFound if stock not found for given ids
+     * @throws NotFoundException if stock not found for given ids
      */
     StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
-            throws NotFound;
+            throws NotFoundException;
 
 
     /**
@@ -76,12 +76,12 @@ public interface StockService {
      * @param productId    - id to update stock for this product
      * @param locationId   - id to update stock on this location
      * @return SuccessResponseDto if Stock updated
-     * @throws NotFound if stock not found for product id and location id
+     * @throws NotFoundException if stock not found for product id and location id
      */
     SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
                                                Integer productId,
                                                Integer locationId)
-            throws NotFound;
+            throws NotFoundException;
 
     /**
      * <p>
@@ -89,9 +89,10 @@ public interface StockService {
      *     user order details, and location details
      * </p>
      * @param order it has product details, user ordered
-     * @param store store location that user ordered for
+     * @param pinCode pinCode in which user has ordered products
      */
-    void removeStockByOrderDetails(UserOrder order, StoreLocation store);
+    void removeStockByOrderDetails(UserOrder order,
+                                   Integer pinCode);
 
     /**
      * <p>
@@ -100,7 +101,8 @@ public interface StockService {
      *     when user cancelled the order
      * </p>
      * @param order order details that is cancelled
-     * @param store store to update stock
      */
-    void updateStockByOrderDetails(UserOrder order, StoreLocation store);
+    void updateStockByOrderDetails(UserOrder order);
+
+    Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId);
 }

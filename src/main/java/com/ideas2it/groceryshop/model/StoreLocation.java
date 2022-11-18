@@ -11,16 +11,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
  * <p>
- *     Store Location Entity to hold location details
+ * It holds the Store Location related information(like area, pinCode details etc.,)
+ * and also it is used to store and retrieve the store information to and from
+ * database through JpaRepository
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 02-11-2022
  * @version 1.0
+ * @since 02-11-2022
  */
 @Getter
 @Setter

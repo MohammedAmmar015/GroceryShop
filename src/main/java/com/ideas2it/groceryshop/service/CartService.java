@@ -8,8 +8,8 @@ package com.ideas2it.groceryshop.service;
 import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.Existed;
-import com.ideas2it.groceryshop.exception.NotFound;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.Cart;
 
 /**
@@ -30,20 +30,20 @@ public interface CartService {
      * </p>
      * @param cartRequest - product details to add into Cart
      * @return - SuccessResponseDto with Message and status Code
-     * @throws NotFound - if user or cart not found
-     * @throws Existed if product already exist in cart
+     * @throws NotFoundException - if user or cart not found
+     * @throws ExistedException if product already exist in cart
      */
-    SuccessResponseDto addCart(CartRequestDto cartRequest) throws NotFound, Existed;
-
+    SuccessResponseDto addOrModifyCart(CartRequestDto cartRequest)
+                                      throws NotFoundException, ExistedException;
 
     /**
      * <p>
      *     It is used to get Cart of Particular user by Id
      * </p>
      * @return - CartResponse with cart details
-     * @throws NotFound if cart not found
+     * @throws NotFoundException if cart not found
      */
-    CartResponseDto getCart() throws NotFound;
+    CartResponseDto getCart() throws NotFoundException;
 
     /**
      * <p>
@@ -51,9 +51,9 @@ public interface CartService {
      * </p>
      *
      * @return SuccessResponseDto if cart deleted successfully
-     * @throws NotFound throws if cart not found
+     * @throws NotFoundException throws if cart not found
      */
-    SuccessResponseDto removeCart() throws NotFound;
+    SuccessResponseDto removeCart() throws NotFoundException;
 
     /**
      * <p>
@@ -62,9 +62,9 @@ public interface CartService {
      *
      * @param productId - product id to be removed
      * @return SuccessResponseDto if product deleted from cart
-     * @throws NotFound if cart or product not found
+     * @throws NotFoundException if cart or product not found
      */
-    SuccessResponseDto removeProductFromCart(Integer productId) throws NotFound;
+    SuccessResponseDto removeProductFromCart(Integer productId) throws NotFoundException;
 
     /**
      * <p>
@@ -73,9 +73,9 @@ public interface CartService {
      *
      * @param cartRequest - cart details to be Updated
      * @return SuccessResponseDto if cart updated successfully
-     * @throws NotFound if cart or product not found
+     * @throws NotFoundException if cart or product not found
      */
-    SuccessResponseDto updateCartByUser(CartRequestDto cartRequest) throws NotFound;
+    SuccessResponseDto updateCartByUser(CartRequestDto cartRequest) throws NotFoundException;
 
     /**
      * <p>
@@ -83,7 +83,7 @@ public interface CartService {
      *     cart of currently logged-in user
      * </p>
      * @return Cart
-     * @throws NotFound - throws exception if cart not found
+     * @throws NotFoundException - throws exception if cart not found
      */
-    Cart getActiveCartOfCurrentUser() throws NotFound;
+    Cart getActiveCartOfCurrentUser() throws NotFoundException;
 }
