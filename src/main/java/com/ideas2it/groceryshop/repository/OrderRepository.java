@@ -6,7 +6,7 @@
 package com.ideas2it.groceryshop.repository;
 
 import com.ideas2it.groceryshop.model.OrderDetails;
-import com.ideas2it.groceryshop.model.UserOrder;
+import com.ideas2it.groceryshop.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,12 +18,15 @@ import java.util.Optional;
 
 /**
  * <p>
- *     Order repository is used for doing CRUD of order module
+ *     order repository is used for storing and retrieving the order related
+ *     data into the order_item table and it also helps the service to communicate with database.
  * </p>
+ *
  * @author Dhanalakshmi.M
  * @version 1.0
+ * @since 18-11-2022
  */
-public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     /**
      * <p>
@@ -31,20 +34,20 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * </p>
      *
      * @param status - it contains true which denotes all active orders
-     * @return List<UserOrder> - it returns list of order which contains orderedDate, totalPrice,
+     * @return List<Order> - it returns list of order which contains orderedDate, totalPrice,
      *                           totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    List<UserOrder> findByIsActive(Boolean status);
+    List<Order> findByIsActive(Boolean status);
     /**
      * <p>
      *     This method is used to retrieve list of orders using user id
      * </p>
      *
      * @param userId - to get list of orders with user id
-     * @return List<UserOrder> - it returns list of order which contains orderedDate, totalPrice,
+     * @return List<Order> - it returns list of order which contains orderedDate, totalPrice,
      *                          totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    List<UserOrder> findByUserId(Integer userId);
+    List<Order> findByUserId(Integer userId);
 
     /**
      * <p>
@@ -66,10 +69,10 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * </p>
      * @param orderId - it gets the order by using orderId
      * @param userId - it gets the order by using orderId and userId
-     * @return UserOrder - it returns the user order which contains orderedDate, totalPrice,
+     * @return Order - it returns the user order which contains orderedDate, totalPrice,
      *                   totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    Optional<UserOrder> findByIdAndUserId(Integer orderId, Integer userId);
+    Optional<Order> findByIdAndUserId(Integer orderId, Integer userId);
 
     /**
      * <p>
@@ -79,10 +82,10 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      * @param isActive - this used get order by checking isActive
      * @param userId - this used get order by checking userId
      * @param isDelivered - this used get order by checking orderId, isActive, userId and isDelivered
-     * @return UserOrder - it return the UserOrder which contains orderedDate, totalPrice,
+     * @return Order - it return the UserOrder which contains orderedDate, totalPrice,
      *                   totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
-    Optional<UserOrder> findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered(Integer orderId,
+    Optional<Order> findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered(Integer orderId,
                                                                                 Boolean isActive,
                                                                                 Integer userId,
                                                                                 Boolean isDelivered);
@@ -108,7 +111,7 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      *                          totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     @Query("Select o from UserOrder o where date(o.orderedDate) = ?1")
-    List<UserOrder> findByOrderedDate(Date orderedDate);
+    List<Order> findByOrderedDate(Date orderedDate);
 
     /**
      * <p>
@@ -122,6 +125,6 @@ public interface UserOrderRepo extends JpaRepository<UserOrder, Integer> {
      *                          totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     @Query("Select o from UserOrder o where Date(o.orderedDate) = ?1 AND o.user.id = ?2")
-    List<UserOrder> findByOrderedDateAndUserId(Date orderedDate, Integer userId);
+    List<Order> findByOrderedDateAndUserId(Date orderedDate, Integer userId);
 
 }

@@ -14,13 +14,15 @@ import javax.transaction.Transactional;
 
 /**
  * <p>
- *     orderDelivery repository is used for doing CRUD operation of orderDelivery module
+ *     orderDelivery repository is used for storing and retrieving the order delivery related
+ *     data into the order_delivery table and it also helps the service to communicate with database
  * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
+ * @since 18-11-2022
  */
-public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer> {
+public interface OrderDeliveryRepository extends JpaRepository<OrderDelivery, Integer> {
 
     /**
      * <p>
@@ -30,7 +32,7 @@ public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer>
      * @return OrderDelivery - it contains isDelivered, deliveryDate,
      *                         expectedDeliveryDate, userOrder, shippingAddress
      */
-    OrderDelivery findByUserOrderId(Integer OrderId);
+    OrderDelivery findByOrderId(Integer OrderId);
 
     /**
      * <p>
@@ -40,7 +42,8 @@ public interface OrderDeliveryRepo extends JpaRepository<OrderDelivery, Integer>
      */
     @Modifying
     @Transactional
-    @Query("Update OrderDelivery od set od.isDelivered = true, od.deliveryDate = CURRENT_TIMESTAMP where od.id = (select o.orderDelivery.id from UserOrder o where o.id = ?1)")
+    @Query("Update OrderDelivery od set od.isDelivered = true, od.deliveryDate = CURRENT_TIMESTAMP " +
+            "where od.id = (select o.orderDelivery.id from UserOrder o where o.id = ?1)")
     void updateStatus(Integer orderId);
 
 }

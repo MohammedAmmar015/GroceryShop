@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
@@ -27,19 +32,22 @@ import java.util.List;
 
 /**
  * <p>
- *     UserOrder class contains the order details
+ *     It holds all order related information like(orderedDate, totalPrice,
+ *     totalQuantity, orderDetails, isActive, users) and it is also used to store and
+ *     retrieve order information from and to database
  * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
+ * @since 18-11-2022
  */
 @Entity
-@Table(name = "user_order")
+@Table(name = "order_item")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOrder extends Audit {
+public class Order extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.model;
 
 import com.ideas2it.groceryshop.audit.Audit;
@@ -22,11 +27,14 @@ import java.util.Date;
 
 /**
  * <p>
- *     orderDelivery class contains all the delivery details
+ *     It holds all order delivery related information like(isDelivered, deliveryDate,
+ *     expectedDeliveryDate, order, shippingAddress) and it is also used to store and
+ *     retrieve order information from and to database
  * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
+ * @since 18-11-2022
  */
 @Entity
 @Getter
@@ -50,7 +58,7 @@ public class OrderDelivery extends Audit {
     private Date expectedDeliveryDate;
 
     @OneToOne(mappedBy = "orderDelivery")
-    private UserOrder userOrder;
+    private Order order;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "shippingAddressId")

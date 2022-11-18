@@ -1,3 +1,8 @@
+/*
+ * <p>
+ *   Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.dto;
 
 import lombok.AllArgsConstructor;
@@ -7,17 +12,19 @@ import lombok.Setter;
 
 /**
  * <p>
- *     It is a user order request dto which is used for getting input from the user
+ *     It is used to place order as request dto from customer which contains
+ *     quantity, productId, addressId
  * </p>
  *
- * @author DhanaLakshmi.M
+ * @author Dhanalakshmi M
  * @version 1.0
+ * @since 18-11-2022
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOrderRequestDto {
+public class OrderRequestDto {
 
     private Integer quantity;
 
