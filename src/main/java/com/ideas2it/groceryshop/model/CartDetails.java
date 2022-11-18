@@ -12,15 +12,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * <p>
- *     Cart-Details Entity
+ * It holds the CartDetails related information(like product, price
+ * and quantity etc.,) and also it is used to store and retrieve the cart details
+ * to and from database through JpaRepository
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 02-11-2022
  * @version 1.0
+ * @since 02-11-2022
  */
 @Entity
 @Table(name = "cart_details")

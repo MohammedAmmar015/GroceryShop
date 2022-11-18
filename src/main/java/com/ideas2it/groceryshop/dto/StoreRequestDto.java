@@ -16,7 +16,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- *     Store Location Request DTO, to get store details in request
+ * It holds the StoreRequest information(like area, pinCode etc.,) and
+ * also it is used to get store details from user to add into the store
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

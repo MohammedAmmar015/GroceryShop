@@ -15,23 +15,30 @@ import java.util.Optional;
 
 /**
  * <p>
- *     This is Implementation class for AuditorAware,
- *     It is used to find the current user or Auditor
+ * This is Implementation class for AuditorAware,
+ * It is used to find the current user or Auditor
+ * from security context
+ * if user made any changes to entity
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 15-11-2022
  * @version 1.0
+ * @since 15-11-2022
  */
 @Component
 public class AuditorAwareImpl implements AuditorAware<Integer> {
 
     /**
      * <p>
-     *     This method is used to get current user or auditor,
-     *     who insert or update any data into database
+     * This method is used to get principal or currently
+     * logged-in user from security context
+     * and type cast to CustomUserDetails
+     * and it will return user as Optional
      * </p>
+     *
      * @return id - current user id
      */
+    @Override
     public Optional<Integer> getCurrentAuditor() {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();

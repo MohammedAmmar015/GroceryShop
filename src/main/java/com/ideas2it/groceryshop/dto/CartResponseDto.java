@@ -16,7 +16,8 @@ import java.util.List;
 
 /**
  * <p>
- *     Cart response DTO, to hold cart details for response
+ * It holds the CartResponse information(like totalPrice, products etc.,) and
+ * also it is used to view cart as response to user
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

@@ -12,8 +12,8 @@ import lombok.Setter;
 
 /**
  * <p>
- *     Cart-Details Response DTO,
- *     to hold Cart-details for Response
+ * It holds the CartDetailsResponse information(like productName, quantity, price etc.,) and
+ * also it is used to view cart details as response to user
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

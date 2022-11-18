@@ -10,8 +10,10 @@ import javax.transaction.Transactional;
 
 /**
  * <p>
- *     This is CartDetails Repository, to do CRUD Operation on
- *     CartDetails Entity
+ *     This is CartDetailsRepository which extends JpaRepository,
+ *     by default we can use default methods in JpaRepository,
+ *     We can also add our custom methods in this repository to do
+ *     database operations on cartDetails Entity
  * </p>
  * @author Mohammed Ammar
  * @since 14-11-2022
@@ -22,7 +24,9 @@ public interface CartDetailsRepo extends JpaRepository<CartDetails, Integer> {
 
     /**
      * <p>
-     *     To Delete Cart details of particular user by user Id
+     *     This method is used to delete all cart details
+     *     by user's id, of particular user when user needs to empty cart
+     *     or if user placed order through cart
      * </p>
      * @param userId - user's id to delete cart
      */

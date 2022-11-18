@@ -16,7 +16,10 @@ import java.util.Optional;
 
 /**
  * <p>
- *     This is Cart Repository to do CRUD related to CART
+ *     This is CartRepository which extends JpaRepository,
+ *     by default we can use default methods available in JpaRepository,
+ *     We can also add our custom methods in this repository to do
+ *     database operations on cart Entity
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022
@@ -27,7 +30,8 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>
-     *     It is used to retrieve active Cart by user id
+     *     This method is used to retrieve
+     *     active or deleted cart of particular user by user's id,
      * </p>
      * @param userId - user's id to retrieve Cart
      * @param isActive - true or false
@@ -39,7 +43,8 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>
-     *     This method is used to delete cart by user id 
+     *     This method is used to delete cart of
+     *     particular user based on user's id
      * </p>
      * @param userId user's id to delete cart
      */

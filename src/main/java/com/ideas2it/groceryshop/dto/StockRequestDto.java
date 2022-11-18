@@ -14,7 +14,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- *     Stock Request DTO, to get request details
+ * It holds the StockRequest information(like stock etc.,) and
+ * also it is used to get stock details from user to add into the Stock
  * </p>
  * @author Mohammed Ammar
  * @since 03-11-2022

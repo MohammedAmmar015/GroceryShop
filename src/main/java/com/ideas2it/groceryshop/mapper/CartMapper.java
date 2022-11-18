@@ -6,6 +6,7 @@
 package com.ideas2it.groceryshop.mapper;
 
 import com.ideas2it.groceryshop.dto.CartDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.CartRequestDto;
 import com.ideas2it.groceryshop.dto.CartResponseDto;
 import com.ideas2it.groceryshop.model.Cart;
 import com.ideas2it.groceryshop.model.CartDetails;
@@ -41,5 +42,10 @@ public class CartMapper {
         }
         cartResponse.setCartDetails(cartDetailsResponse);
         return cartResponse;
+    }
+
+    public static Cart toCart(CartRequestDto cartRequest) {
+        Cart cart = new Cart();
+        return cart;
     }
 }
