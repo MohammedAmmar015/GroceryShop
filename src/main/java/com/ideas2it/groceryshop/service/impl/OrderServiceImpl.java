@@ -46,7 +46,6 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
     private final UserService userService;
     private final StockService stockService;
-
     private final Logger logger = LogManager.getLogger(OrderService.class);
 
     /**

@@ -180,6 +180,7 @@ public class OrderController {
      *                                     orderedDate, expectedDeliveryDate, totalPrice,
      *                                     totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - if order is not placed for mentioned date then it shows No record found
+     * @throws ParseException - while formatting the date from string to date this exception occurs
      */
     @GetMapping("/date/{orderedDate}")
     public List<OrderResponseDto> viewOrdersByDate(@PathVariable String orderedDate)
@@ -201,7 +202,8 @@ public class OrderController {
      * @return List<OrderResponseDto> - it shows list of orders which contains userId,
      *                                  orderedDate, expectedDeliveryDate, totalPrice,
      *                                  totalQuantity, orderDetails, isDelivered
-     * @throws NotFoundException if order is not placed on the date by particular user then it shows No record found
+     * @throws NotFoundException if order is not placed on the date by particular user then it shows No record
+     * @throws ParseException while formatting the date from string to date this exception occurs
      */
     @GetMapping("/date/{orderedDate}/user/{userId}")
     public List<OrderResponseDto> viewOrdersByIdAndDate(@PathVariable String orderedDate,
