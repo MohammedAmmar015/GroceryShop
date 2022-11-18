@@ -45,11 +45,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * It is used to create role
-     *
-     * @param roleRequestDto it contains role name
-     * @return SuccessResponseDto it returns success message
-     * @throws ExistedException role already exist
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto addRole(RoleRequestDto roleRequestDto) throws ExistedException {
@@ -67,11 +63,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * it is used to update role
-     *
-     * @param roleUpdateRequestDto it contains role name and name to be updated
-     * @return SuccessResponseDto it returns success message
-     * @throws NotFoundException role not found
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto updateRole(RoleUpdateRequestDto roleUpdateRequestDto)
@@ -92,11 +84,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * It is uses to delete role by role name
-     *
-     * @param roleRequestDto it is used to delete role
-     * @return SuccessResponseDto it returns success message
-     * @throws NotFoundException role not found
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto deleteRole(RoleRequestDto roleRequestDto) throws NotFoundException {
@@ -113,10 +101,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * This method is used to find role by name
-     *
-     * @param name it is name of role
-     * @return role it returns role object
+     *{@inheritDoc}
      */
     @Override
     public Optional<Role> findRoleByName(String name) {
