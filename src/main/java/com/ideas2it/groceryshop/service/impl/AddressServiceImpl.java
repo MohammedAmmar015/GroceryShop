@@ -49,11 +49,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * it used to add address to user
-     *
-     * @param addressRequestDto it is used to add address to user
-     * @return SuccessResponseDto it returns success message
-     * @throws NotFoundException user not found
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto addAddress(AddressRequestDto addressRequestDto)
@@ -77,11 +73,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * It is used to retrieve list of user address by user id;
-     *
-     * @return addressResponseDtoList it is return list of address
-     *         of a user
-     * @throws NotFoundException no address found exception
+     *{@inheritDoc}
      */
     @Override
     public List<AddressResponseDto> getAddressesByUserId() throws NotFoundException {
@@ -100,11 +92,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * It is used to delete user's active address by id
-     *
-     * @param id it is id to be deleted
-     * @return SuccessResponseDto it returns success message
-     * @throws NotFoundException address not found
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto deleteAddressById(Integer id)
@@ -123,12 +111,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * This method is used to update address by address id
-     *
-     * @param addressUpdateRequestDto it contains updated address details
-     * @param id it is address of id
-     * @return Success it contains success message
-     * @throws NotFoundException it contains address not found
+     *{@inheritDoc}
      */
     public SuccessResponseDto updateAddressByAddressId
             (AddressUpdateRequestDto addressUpdateRequestDto,
@@ -153,11 +136,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * This method is used by address id
-     * of active currently logged-in user
-     *
-     * @param id it is id of address
-     * @return Address it returns address object
+     *{@inheritDoc}
      */
     public Optional<Address> getAddressByAddressId(Integer id) {
         logger.debug("getAddressByAddressId");

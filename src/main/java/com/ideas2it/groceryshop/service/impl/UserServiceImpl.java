@@ -60,11 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * It is used to create user
-     *
-     * @param userRequestDto it contains user details
-     * @return SuccessResponseDto it contains success message
-     * @throws ExistedException if username already exist
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto addUser(UserRequestDto userRequestDto) throws ExistedException {
@@ -87,11 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * It is used to get user by id
-     *
-     * @param id it is used to get user by id
-     * @return userResponseDto it contains user detail
-     * @throws NotFound if user does not exist or inactive
+     *{@inheritDoc}
      */
     @Override
     public UserResponseDto getUserById(Integer id) throws NotFoundException {
@@ -108,10 +100,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * It is used to get all users
-     *
-     * @return userResponseDtoList is list of user
-     * @throws NotFound users not found
+     *{@inheritDoc}
      */
     @Override
     public List<UserResponseDto> getAllUser() throws NotFoundException {
@@ -127,11 +116,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * It is used to find users by role
-     *
-     * @param name used to search users by role name
-     * @return userResponseDtoList list of user
-     * @throws NotFound users not found
+     *{@inheritDoc}
      */
     @Override
     public List<UserResponseDto> getUserByRole(String name) throws NotFoundException {
@@ -149,11 +134,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     *  It is used to delete user by id
-     *
-     * @param id to be deleted
-     * @return SuccessResponseDto it contains success message
-     * @throws NotFound user does not exist
+     *{@inheritDoc}
      */
     @Override
     public SuccessResponseDto deleteUserById(Integer id) throws NotFoundException {
@@ -169,11 +150,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * It is used to find user by username and active
-     *
-     * @param username it is name of user
-     * @return CustomUserDetails(user.get()) it contains user details
-     * @throws UsernameNotFoundException it contains user not found
+     *{@inheritDoc}
      */
     @Override
     public UserDetails loadUserByUsername(String username)
@@ -189,13 +166,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * This method is used to get user by mobile number
-     * Using Regex given string is validated as mobile number or username.
-     * If given string is mobileNumber using mobileNumber userName is retrieved and returned.
-     * Else userName is returned.
-     *
-     * @param userNameOrMobileNumber it contains username or mobileNumber
-     * @return userName it is contains username
+     *{@inheritDoc}
      */
     @Override
     public String getUserNameByMobileNumber(String userNameOrMobileNumber){
@@ -218,12 +189,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * This method is used to get user object by name,
-     * update user object and store in database
-     *
-     * @param userUpdateDto it contains details to be updated
-     * @return SuccessResponseDto it contains success message
-     * @throws NotFound user does not exist
+     *{@inheritDoc}
      */
     public SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
                                                                throws NotFoundException {
@@ -241,9 +207,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * This method is used to get current user profile
-     *
-     * @return userResponseDto it contains user details
+     *{@inheritDoc}
      */
     @Override
     public UserResponseDto getCurrentUserProfile() {
@@ -255,9 +219,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     /**
-     * This method is used to get current user object
-     *
-     * @return user it contains user details
+     *{@inheritDoc}
      */
     @Override
     public User getCurrentUser() {
