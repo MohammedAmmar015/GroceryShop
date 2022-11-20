@@ -7,14 +7,15 @@ package com.ideas2it.groceryshop.exception;
 
 /**
  * <p>
- *     This class holds method for not found custom exception.
+ *     Implemented to throw an exception when requested data not found.
  * </p>
+ *
  * @author  RUBAN
  * @version  1.0
  * @since  05/11/22
  *
  */
-public class NotFoundException extends Exception{
+public class NotFoundException extends Exception {
     public NotFoundException(String exception) {
         super(exception);
     }

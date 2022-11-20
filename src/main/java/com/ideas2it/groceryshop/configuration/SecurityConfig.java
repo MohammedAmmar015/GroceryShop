@@ -111,7 +111,7 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/orders/activeOrders")
                 .hasAnyRole("ADMIN", "DELIVERY_PERSON")
                 .antMatchers("/api/v1/user/carts/*")
-                .hasRole("ROLE_CUSTOMER")
+                .hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and().httpBasic();
         http.addFilterBefore(customSecurityFilter, UsernamePasswordAuthenticationFilter.class);

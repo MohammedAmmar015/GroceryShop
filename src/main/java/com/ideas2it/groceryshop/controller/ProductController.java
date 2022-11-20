@@ -5,13 +5,6 @@
  */
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.ProductRequestDto;
-import com.ideas2it.groceryshop.dto.ProductResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.service.ProductService;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,14 +15,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 import java.util.List;
 
+import com.ideas2it.groceryshop.dto.ProductRequestDto;
+import com.ideas2it.groceryshop.dto.ProductResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.service.ProductService;
+
+
 /**
  * <p>
- *      It implements method for create, view, update and delete
- *      operations for product.
+ *      Provides create, view, update and delete operations for the
+ *      product.
  * </p>
+ *
  * @author Ruban
  * @since  03/11/2022
  * @version  1.0
@@ -39,7 +42,6 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
-
     private final Logger logger;
 
     public ProductController(ProductService productService) {
@@ -49,83 +51,77 @@ public class ProductController {
 
     /**
      * <p>
-     *     This method receive product request dto object and forward
-     *     to the service layer and this method return success response dto,
-     *     handles Post method API (/api/v1/products).
+     *     To create product by using product request dto.
      * </p>
      *
-     * @param productRequestDto Dto type model.
-     * @return SuccessDto
-     * @throws ExistedException exception will be thrown if the product already Exist.
+     * @param productRequestDto - Contains name, price, subCategory id, unit, perHead.
+     * @return - Success response dto with message and status code.
+     * @throws ExistedException - If product already exists.
+     * @throws NotFoundException - If category id not found.
      */
     @PostMapping
     public SuccessResponseDto addProduct(@Valid @RequestBody ProductRequestDto productRequestDto)
-            throws ExistedException, NotFoundException {
+                                          throws ExistedException, NotFoundException {
         logger.debug("Entered into addProduct method in product controller");
         return productService.addProduct(productRequestDto);
     }
 
     /**
      * <p>
-     *     This method used to get products by user search
+     *     Get products by using keyword.
      * </p>
-     * @param name contains letter or words.
-     * @return list of matched products
-     * @throws NotFoundException exception will be thrown if products not found
      *
+     * @param name - Contains keywords.
+     * @return - list of matched products
+     * @throws NotFoundException - If products not found.
      */
     @GetMapping("/search/{name}")
     public List<ProductResponseDto> getProductBySearch(@Valid @PathVariable("name") String name)
-            throws NotFoundException {
+                                                       throws NotFoundException {
         logger.debug("Entered into searchProduct method in product controller");
         return productService.getProductsBySearch(name);
     }
 
     /**
      * <p>
-     *     This method to get products in particular category
-     *     by using id and returns list of products, handles Get
-     *     method API (/api/v1/products/category/{categoryId}).
+     *     Get all products using category id.
      * </p>
      *
-     * @param categoryId to find particular object.
-     * @return Dto type object.
-     * @throws NotFoundException exception will be thrown if the id not exist.
+     * @param categoryId - To find relevant category.
+     * @return - List of products available in category.
+     * @throws NotFoundException - If no products found.
      */
     @GetMapping("/category/{categoryId}")
-    public List<ProductResponseDto> getProductsByCategory(@PathVariable("categoryId")
-                                                              Integer categoryId)
-            throws NotFoundException {
+    public List<ProductResponseDto> getProductsByCategory(@PathVariable("categoryId") Integer categoryId)
+                                                           throws NotFoundException {
         logger.debug("Entered into getProductByCategory method in product controller");
         return productService.getProductsByCategoryId(categoryId);
     }
 
     /**
      * <p>
-     *     This method to get products in particular sub category by
-     *     its id and returns list of products, handles Get method
-     *     API (/api/v1/products/category/subCategory/{subCategoryID}).
+     *     Get all products of particular sub category by using sub category id.
      * </p>
      *
-     * @param subCategoryId to find particular object.
-     * @return Dto type object.
-     * @throws NotFoundException exception will be thrown if the id not exist.
+     * @param subCategoryId - To find particular sub category.
+     * @return - List of products available in sub category.
+     * @throws NotFoundException - If no products found.
      */
     @GetMapping("/category/subCategory/{subCategoryId}")
     public List<ProductResponseDto> getProductsBySubCategory(@PathVariable("subCategoryId")
                                                                  Integer subCategoryId)
-            throws NotFoundException {
+                                                              throws NotFoundException {
         logger.debug("Entered into getProductBySubCategory method in product controller");
         return productService.getProductsBySubCategoryId(subCategoryId);
     }
 
     /**
      * <p>
-     *     This method used to get all products from data base,
-     *     handles Get method API (/api/v1/products).
+     *     Get all available product.
      * </p>
-     * @return list of products.
-     * @throws NotFoundException exception will be thrown if the products not exist.
+     *
+     * @return - list of product.
+     * @throws NotFoundException - If no products found.
      */
     @GetMapping
     public List<ProductResponseDto> getProducts() throws NotFoundException {
@@ -135,45 +131,45 @@ public class ProductController {
 
     /**
      * <p>
-     *     This method to get products based on Location,
-     *     handles Get method API (/api/v1/products/location/{locationId}).
+     *     Get product in particular location by using location id.
      * </p>
-     * @param locationId to fetch product from that particular location.
-     * @return List of Products.
-     * @throws NotFoundException exception will be thrown if id not exist.
+     *
+     * @param locationId - To fetch product from that particular location.
+     * @return - List of Product.
+     * @throws NotFoundException - If no product found.
      */
     @GetMapping("/location/{locationId}")
     public List<ProductResponseDto> getProductsByLocation(@PathVariable("locationId")
                                                               Integer locationId)
-            throws NotFoundException {
+                                                          throws NotFoundException {
         logger.debug("Entered into getProductByLocationId method in product controller");
         return productService.getProductsByLocation(locationId);
     }
 
     /**
      * <p>
-     *     This Method used to get particular product by product id,
-     *     handles Get method API (/api/v1/products/productId/{productID}).
+     *     Get product by using product id.
      * </p>
-     * @param productId to fetch particular object
-     * @return Dto type product object.
+     *
+     * @param productId - To fetch particular product.
+     * @return product - Contains product details.
+     * @throws NotFoundException - If no product found.
      */
     @GetMapping("/productId/{productId}")
     public ProductResponseDto getProductById(@PathVariable("productId")
                                                   Integer productId) throws NotFoundException {
         logger.debug("Entered into getProductById method in product controller");
-        return productService.getProductResponseById(productId);
+        return productService.getProductById(productId);
     }
 
     /**
      * <p>
-     *     This method to delete(soft delete) product from the
-     *     data base using id, handles Delete method API (/api/v1/products/{id}).
+     *     Delete product using product id.
      * </p>
      *
-     * @param id to find particular object.
-     * @return SuccessDto
-     * @throws NotFoundException exception will be thrown if the id is not exist.
+     * @param id - To delete product.
+     * @return - Success response dto with message and status code.
+     * @throws NotFoundException - If product not found.
      */
     @DeleteMapping("/{id}")
     public SuccessResponseDto deleteProductById(@PathVariable("id") Integer id) throws NotFoundException {
@@ -183,20 +179,19 @@ public class ProductController {
 
     /**
      * <p>
-     *     This method is used to update particular product by id,
-     *     handles Put method API (/api/v1/products/{id}).
+     *     Update particular product details
      * </p>
      *
-     * @param id to find the object to be updated.
-     * @param productRequestDto values to get updated.
-     * @return SuccessDto
-     * @throws NotFoundException exception will be thrown if the id is not exist.
-     * @throws ExistedException exception will be thrown if old and new fields values are same.
+     * @param id - To update product.
+     * @param productRequestDto - Contains values to be updated.
+     * @return - Success response dto with message and status code.
+     * @throws NotFoundException - If product not found.
+     * @throws ExistedException - If product field is already exists.
      */
     @PutMapping("/{id}")
     public SuccessResponseDto updateProductById(@PathVariable("id") Integer id,
                                                 @RequestBody ProductRequestDto productRequestDto)
-            throws NotFoundException, ExistedException {
+                                                throws NotFoundException, ExistedException {
         logger.debug("Entered into updateProduct method in product controller");
         return productService.updateProductById(id, productRequestDto);
     }

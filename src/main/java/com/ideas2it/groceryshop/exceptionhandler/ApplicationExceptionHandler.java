@@ -5,9 +5,6 @@
  */
 package com.ideas2it.groceryshop.exceptionhandler;
 
-import com.ideas2it.groceryshop.dto.ErrorResponseDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,29 +16,35 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
+
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ideas2it.groceryshop.dto.ErrorResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+
 /**
  * <p>
- *     This class is to handle all type of exception in this application.
+ *     It handle exception occurs in this application.
  * </p>
+ *
  * @author  RUBAN
  * @version  1.0
  * @since  05/11/22
- *
  */
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
     /**
      * <p>
-     *     This method is implemented to throw an exception when the user is not
+     *     It is implemented to throw an exception when the user is not
      *     getting the desired output.
      * </p>
-     * @param notFoundException It contains message to get display
+     *
+     * @param notFoundException - Contains message to get display
      * @return ErrorDto
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)

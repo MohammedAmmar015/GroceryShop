@@ -12,8 +12,7 @@ import com.ideas2it.groceryshop.model.Category;
 
 /**
  * <p>
- *     This class contains method to convert dto object to model object
- *      and model object to dto object.
+ *      Converts dto object to model object and model object to dto object.
  * </p>
  *
  * @author RUBAN
@@ -24,10 +23,11 @@ public class CategoryMapper {
 
     /**
      * <p>
-     *     This method will convert Dto object to model object.
+     *     Converts category request Dto to category model.
      * </p>
-     * @param categoryRequestDto Dto type object.
-     * @return category model.
+     *
+     * @param categoryRequestDto - Contains category name.
+     * @return category - Contains category details.
      */
     public static Category toCategory(CategoryRequestDto categoryRequestDto) {
         Category category = new Category();
@@ -37,30 +37,32 @@ public class CategoryMapper {
 
     /**
      * <p>
-     *     This method will convert model object to dto object.
+     *     Converts category model to category response dto.
      * </p>
-     * @param category model type object
-     * @return CategoryResponseDto object.
+     *
+     * @param category - Contains category details.
+     * @return CategoryResponseDto - Contains category id and name.
      */
     public static CategoryResponseDto toCategoryDto(Category category) {
-        CategoryResponseDto categoryResponseDto1 = new CategoryResponseDto();
-        categoryResponseDto1.setId(category.getId());
-        categoryResponseDto1.setName(category.getName());
-        return categoryResponseDto1;
+        CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
+        categoryResponseDto.setId(category.getId());
+        categoryResponseDto.setName(category.getName());
+        return categoryResponseDto;
     }
 
     /**
      * <p>
-     *     This method will convert model object to dto object.
+     *     Converts category model to sub category response dto.
      * </p>
-     * @param category model type object
-     * @return SubCategoryResponseDto object.
+     *
+     * @param category - Contains category details.
+     * @return SubCategoryResponseDto - Contains category id, category name and sub category name.
      */
     public static SubCategoryResponseDto toSubCategoryDto(Category category) {
-        SubCategoryResponseDto subCategoryResponseDto1 = new SubCategoryResponseDto();
-        subCategoryResponseDto1.setId(category.getId());
-        subCategoryResponseDto1.setName(category.getName());
-        subCategoryResponseDto1.setCategoryName(category.getCategory().getName());
-        return subCategoryResponseDto1;
+        SubCategoryResponseDto subCategoryResponseDto = new SubCategoryResponseDto();
+        subCategoryResponseDto.setId(category.getId());
+        subCategoryResponseDto.setName(category.getName());
+        subCategoryResponseDto.setCategoryName(category.getCategory().getName());
+        return subCategoryResponseDto;
     }
 }

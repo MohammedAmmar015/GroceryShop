@@ -12,11 +12,13 @@ import lombok.Setter;
 
 /**
  * <p>
- *     This class is Sub Category Response Dto model.
+ *     It holds the sub category response information(like sub category name etc.,)
  * </p>
+ *
  * @author RUBAN 03/11/2022
  * @version  1.0
  */
+
 @Getter
 @Setter
 @NoArgsConstructor

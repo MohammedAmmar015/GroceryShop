@@ -17,12 +17,14 @@ import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepository;
 import com.ideas2it.groceryshop.repository.ProductRepository;
 import com.ideas2it.groceryshop.service.CategoryService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 
 /**
  * <p>
@@ -51,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto)
-            throws ExistedException, NotFoundException {
+                                          throws ExistedException, NotFoundException {
         logger.debug("Entered into addCategory method in category service");
         if(categoryRepository.existsByName(categoryRequestDto.getName())) {
             throw new ExistedException("Category already added");
@@ -141,7 +143,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId)
-            throws NotFoundException {
+                                                throws NotFoundException {
         logger.debug("Entered into deleteSubCategory method in category service");
         Category category = categoryRepository.
                 findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId, categoryId, true);
@@ -164,7 +166,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
-            throws NotFoundException, ExistedException {
+                                             throws NotFoundException, ExistedException {
         logger.debug("Entered into updateCategory method in category service");
         Category category = categoryRepository.findByIdAndParentIdAndIsActive(id, true);
         if(category == null) {
@@ -185,7 +187,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId,
                                                 CategoryRequestDto categoryRequestDto)
-            throws NotFoundException, ExistedException {
+                                                throws NotFoundException, ExistedException {
         logger.debug("Entered into updateSubCategory method in category service");
         Category category = categoryRepository.
                 findSubCategoryByParentIdAndCategoryIdAndIsActive(parentId, categoryId, true);
@@ -200,18 +202,4 @@ public class CategoryServiceImpl implements CategoryService {
         logger.debug("updateSubCategory method successfully executed");
         return new SuccessResponseDto(200, "Subcategory updated successfully");
     }
-
-    /**
-     * {@inheritDoc}
-     *//*
-    public Optional<Category> getCategoryById(Integer categoryId) {
-        return categoryRepository.findById(categoryId);
-    }
-
-    *//**
-     * {@inheritDoc}
-     *//*
-    public Boolean existBySubCategoryId(Integer subCategoryId) {
-        return categoryRepository.existsById(subCategoryId);
-    }*/
 }

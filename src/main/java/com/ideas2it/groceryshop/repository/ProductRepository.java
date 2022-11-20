@@ -14,9 +14,9 @@ import java.util.List;
 
 /**
  * <p>
- *     This class implements method for crud operations of product
- *  *     by interacting with database.
+ *     Provides create, update, view and delete method for product.
  * </p>
+ *
  * @author  RUBAN
  * @version  1.0
  * @since 05/11/22
@@ -26,31 +26,34 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     /**
      * <p>
-     *     This method to get particular product by id.
+     *     To fetch particular product.
      * </p>
-     * @param productId to find correct object
-     * @param status to get only active product
-     * @return product object
+     *
+     * @param productId - To find relevant product.
+     * @param status - To fetch active or inactive product.
+     * @return - product details
      */
     Product findByIdAndIsActive(Integer productId, Boolean status);
 
     /**
      * <p>
-     *     This method will get all active products from data base.
+     *     To fetch active or inactive products.
      * </p>
-     * @param status to get only active products
-     * @return list of products
+     *
+     * @param status - To fetch active or inactive products
+     * @return - list of product.
      */
     @Query(value = "select * from product where is_active = ?1", nativeQuery = true)
     List<Product> findAllAndIsActive(Boolean status);
 
     /**
      * <p>
-     *     This method will get all products from particular category.
+     *     To fetch all products from particular category.
      * </p>
-     * @param categoryId to get all products in that category
-     * @param status to get only active products
-     * @return list of products.
+     *
+     * @param categoryId - To get all products in that category
+     * @param status - To get active or inactive products
+     * @return - list of product.
      */
     @Query(value ="select * from product p join category sc on sc.id = p.sub_category_id join" +
             " category c on c.id = sc.parent_id where c.id = ?1 and p.is_active = true", nativeQuery = true)
@@ -58,12 +61,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     /**
      * <p>
-     *     This method will get all products in sub category
-     *     by id.
+     *     To fetch all products in sub category.
      * </p>
-     * @param subCategoryId to get relevant products
-     * @param status to get only active products
-     * @return list fo products in sub category
+     *
+     * @param subCategoryId - To get relevant product.
+     * @param status - To fetch active or inactive product.
+     * @return - list of product in sub category.
      */
     @Query(value = "select * from product where sub_category_id = ?1 and is_active = ?2",
             nativeQuery = true)
@@ -71,33 +74,33 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     /**
      * <p>
-     *     This method used to compare products in database whether all details are already exist,
-     *     if it exist will return true.
+     *     To check product details exists.
      * </p>
-     * @param name to check name
-     * @param price to check price
-     * @param unit to check unit
-     * @return true or false
+     *
+     * @param name - To check name
+     * @param price - To check price
+     * @param unit -To check unit
+     * @return - If exists true otherwise false
      */
     boolean existsByNameAndPriceAndUnit(String name, float price, String unit);
 
     /**
      * <p>
-     *     This method helps while adding product, if product name is
-     *     same then it will return true.
+     *     To check product name exists.
      * </p>
-     * @param name to check name already exists
-     * @return true or false
+     *
+     * @param name - To check name already exists
+     * @return - If exists true otherwise false
      */
     boolean existsByName(String name);
 
     /**
      * <p>
-     *     This method used to get products by searching by products
-     *     starting characters.
+     *     To fetch product by user keywords.
      * </p>
-     * @param name to check whether it is exists or not
-     * @return list of products matched
+     *
+     * @param name - To check whether it is exists or not
+     * @return - matched list of product.
      */
     @Query(value = "select * from product where name LIKE %:name%" , nativeQuery = true)
     List<Product> findProductBySearch(String name);

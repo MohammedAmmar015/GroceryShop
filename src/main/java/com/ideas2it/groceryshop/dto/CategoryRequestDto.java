@@ -9,16 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
- *     Category Request Dto model.
+ *     It holds the Category request information(like category name etc.,)
  * </p>
+ *
  * @author RUBAN
  * @version  1.0
  * @since 03/11/22
  */
+
 @Setter
 @Getter
 @NoArgsConstructor
