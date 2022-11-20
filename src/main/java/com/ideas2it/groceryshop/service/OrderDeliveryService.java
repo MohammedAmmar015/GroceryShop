@@ -42,5 +42,4 @@ public interface OrderDeliveryService {
      * @throws NotFoundException - If order not found
      */
     OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException;
-
 }
