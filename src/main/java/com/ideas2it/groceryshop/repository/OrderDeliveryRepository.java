@@ -29,11 +29,11 @@ public interface OrderDeliveryRepository extends JpaRepository<OrderDelivery, In
      *     Retrieve order using orderId
      * </p>
      *
-     * @param OrderId - To fetch order
+     * @param orderId - To fetch order
      * @return OrderDelivery - Contains isDelivered, deliveryDate,
      *                         expectedDeliveryDate, userOrder, shippingAddress
      */
-    OrderDelivery findByOrderId(Integer OrderId);
+    OrderDelivery findByOrderId(Integer orderId);
 
     /**
      * <p>
