@@ -27,8 +27,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * <p>
- *     This test class is used for testing the order controller method whether
- *     its working as per our expectation
+ *     Tests whether its working as per our expectation.
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -99,7 +98,7 @@ public class OrderTestController {
      * @throws ExistedException
      */
     @Test
-    public void cancelOrder() throws NotFoundException, ExistedException {
+    public void cancelOrder() throws NotFoundException {
         Integer orderId = 1;
         SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202,
                 "Order Cancelled Successfully");

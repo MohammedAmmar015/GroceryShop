@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * <p>
- *     This test class is used for testing the Order delivery controller is working as per our expectation
+ *     Tests whether its working as per our expectation.
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -51,7 +51,7 @@ public class OrderDeliveryTestController {
     }
 
     /**
-     * This method is used to test the getDeliveryOrder method
+     * Test the getDeliveryOrder method
      *
      * @throws NotFoundException
      */

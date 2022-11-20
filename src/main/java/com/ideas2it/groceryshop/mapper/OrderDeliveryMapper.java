@@ -10,7 +10,7 @@ import com.ideas2it.groceryshop.model.OrderDelivery;
 
 /**
  * <p>
- *     It is used to convert entity to dto
+ *     Converts entity to dto and vice versa
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -21,21 +21,23 @@ public class OrderDeliveryMapper {
 
     /**
      * <p>
-     *     This method is used to convert orderDelivery Entity to OrderDeliveryResponseDto
+     *     Converts orderDelivery Entity to OrderDeliveryResponseDto
      * </p>
-     * @param orderDelivery - it contains userId, orderId, shippingAddress, orderStatus, totalPrice, totalQuantity
-     * @return OrderDeliveryResponseDto - userId, orderId, totalPrice, shippingAddress, orderStatus, totalQuantity
+     *
+     * @param orderDelivery - Contains userId, orderId, shippingAddress, orderStatus,
+     *                        totalPrice, totalQuantity
+     * @return OrderDeliveryResponseDto - Contains userId, orderId, totalPrice, shippingAddress,
+     *                                    orderStatus, totalQuantity
      */
-    public static OrderDeliveryResponseDto entityToDto(OrderDelivery orderDelivery) {
+    public static OrderDeliveryResponseDto toOrderDeliveryDto(OrderDelivery orderDelivery) {
         OrderDeliveryResponseDto orderDeliveryResponse = new OrderDeliveryResponseDto();
         orderDeliveryResponse.setOrderId(orderDelivery.getOrder().getId());
         orderDeliveryResponse.setShippingAddress(AddressMapper.addressResponseDto
-                (orderDelivery.getShippingAddress()));
+                                                (orderDelivery.getShippingAddress()));
         orderDeliveryResponse.setUserId(orderDelivery.getOrder().getUser().getId());
         orderDeliveryResponse.setOrderStatus(orderDelivery.getOrder().getIsActive());
         orderDeliveryResponse.setTotalPrice(orderDelivery.getOrder().getTotalPrice());
         orderDeliveryResponse.setTotalQuantity(orderDelivery.getOrder().getTotalQuantity());
         return orderDeliveryResponse;
     }
-
 }

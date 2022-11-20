@@ -12,8 +12,8 @@ import lombok.Setter;
 
 /**
  * <p>
- *     It is used to show order details response dto of an order which contains categoryName,
- *     subCategoryName, productName, quantity, price
+ *      It holds the OrderDetailsResponseDto information(like categoryName, subCategoryName, productName,
+ *      quantity, price) and also it is used to view order details as response to user.
  * </p>
  *
  * @author Dhanalakshmi M
@@ -35,5 +35,4 @@ public class OrderDetailsResponseDto {
     private Integer quantity;
 
     private Float price;
-
 }

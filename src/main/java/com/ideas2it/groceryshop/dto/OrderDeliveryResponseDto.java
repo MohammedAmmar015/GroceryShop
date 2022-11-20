@@ -12,15 +12,14 @@ import lombok.Setter;
 
 /**
  * <p>
- *     It is used to show response to the delivery person which contains userId, orderId,
- *     totalPrice, totalQuantity, shippingAddress, orderStatus
+ *      It holds the OrderDeliveryResponseDto information(like userId, orderId, totalPrice, totalQuantity,
+ *      shippingAddress, orderStatus) and also it is used to view order delivery as response to user.
  * </p>
  *
  * @author Dhanalakshmi M
  * @version 1.0
  * @since 18-11-2022
  */
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,6 +37,5 @@ public class OrderDeliveryResponseDto {
     private AddressResponseDto shippingAddress;
 
     private Boolean orderStatus;
-
 }
 
