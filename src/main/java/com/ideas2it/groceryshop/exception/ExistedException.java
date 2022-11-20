@@ -7,8 +7,9 @@ package com.ideas2it.groceryshop.exception;
 
 /**
  * <p>
- *     This class for Existed Exception.
+ *     Implemented to throw an exception when data entered already exists.
  * </p>
+ *
  * @author  RUBAN
  * @version  1.0
  * @since  05/11/22

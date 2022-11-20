@@ -12,8 +12,9 @@ import lombok.Setter;
 
 /**
  * <p>
- *     This class is Product Response Dto model.
+ *     It holds the product response information(like name, price, unit, perHead etc.,)
  * </p>
+ *
  * @author RUBAN
  * @version  1.0
  * @since 03/11/22

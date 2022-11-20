@@ -11,9 +11,9 @@ import com.ideas2it.groceryshop.model.Product;
 
 /**
  * <p>
- *     This class contains method to convert dto object to model object
- *     and model object to dto object.
+ *     Converts dto object to model object and model object to dto object.
  * </p>
+ *
  * @author RUBAN
  * @version 1.0
  * @since  03/11/22
@@ -22,10 +22,10 @@ public class ProductMapper {
 
     /**
      * <p>
-     *     This method will convert Dto object to model object.
+     *     Converts product request Dto to product model.
      * </p>
-     * @param productRequestDto Dto type object.
-     * @return model object.
+     * @param productRequestDto - Contains name, unit, perHead, price, image.
+     * @return product - product details.
      */
     public static Product toProduct(ProductRequestDto productRequestDto) {
         Product product = new Product();
@@ -39,10 +39,10 @@ public class ProductMapper {
 
     /**
      * <p>
-     *     This method will convert Dto object to model object.
+     *     Converts product model to product response dto.
      * </p>
-     * @param product model type object.
-     * @return Dto object.
+     * @param product - Contains name, unit, perHead, price, image.
+     * @return productResponseDto - Contains product response details.
      */
     public static ProductResponseDto toProductDto(Product product) {
         ProductResponseDto productResponseDto = new ProductResponseDto();

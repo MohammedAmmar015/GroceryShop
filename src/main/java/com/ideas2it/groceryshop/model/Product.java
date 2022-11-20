@@ -5,12 +5,11 @@
  */
 package com.ideas2it.groceryshop.model;
 
-import com.ideas2it.groceryshop.audit.Audit;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +20,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ideas2it.groceryshop.audit.Audit;
+
 /**
  * <p>
- *   It is the Model pojo for Product.
+ *     It holds the product related information(like name, price, unit, perHead) and
+ *     also it is used to store and retrieve the product information to and from
+ *     database through JpaRepository.
  * </p>
  *
  * @author Ruban

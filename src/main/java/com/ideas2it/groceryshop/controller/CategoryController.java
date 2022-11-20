@@ -5,14 +5,6 @@
  */
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.CategoryRequestDto;
-import com.ideas2it.groceryshop.dto.CategoryResponseDto;
-import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.service.CategoryService;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,18 +15,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
+
+import com.ideas2it.groceryshop.dto.CategoryRequestDto;
+import com.ideas2it.groceryshop.dto.CategoryResponseDto;
+import com.ideas2it.groceryshop.dto.SubCategoryResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.service.CategoryService;
+
 import java.util.List;
 
 /**
  * <p>
- *     It implements method for create, view, update and delete
- *     operations for Category.
+ *     Provides create, view, update and delete operations for Category.
  * </p>
+ *
  * @author RUBAN
  * @version  1.0
  * @since 03/11/22
- *
  */
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -50,31 +51,28 @@ public class CategoryController {
 
     /**
      * <p>
-     *     This Method will receives category request dto from user and
-     *     forwards it to the service layer for adding category,
-     *     it handles incoming APIs (api/v1/categories).
+     *     To create category by using category request dto.
      * </p>
-     * @param categoryRequestDto It receives DTO type object from users.
-     * @return return Success response dto ,if exception occurs it will
-     *          return Error response dto
+     *
+     * @param categoryRequestDto - Contains name, parentId.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws ExistedException - If category already exists.
+     * @throws NotFoundException - If category id not found for adding sub categories.
      */
     @PostMapping
     public SuccessResponseDto addCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto)
-            throws ExistedException, NotFoundException {
+                                          throws ExistedException, NotFoundException {
         logger.debug("Entered into addCategory method in category controller");
         return categoryService.addCategory(categoryRequestDto);
     }
 
     /**
      * <p>
-     *     This method used to get all category list from
-     *     data base and return in category response dto,
-     *     it handles get method API of (api/v1/categories).
+     *     To get available categories.
      * </p>
      *
-     * @return CategoryResponseDto object if method pass otherwise,
-     *         Error response dto will be thrown.
-     * @throws NotFoundException will be thrown if category is empty.
+     * @return - List of category.
+     * @throws NotFoundException - If category not found.
      */
     @GetMapping
     public List<CategoryResponseDto> getCategory() throws NotFoundException {
@@ -84,11 +82,11 @@ public class CategoryController {
 
     /**
      * <p>
-     *     This method will get all the sub category in data base,
-     *     handles Get method APIs(api/v1/categories/subCategories).
+     *     To get all available sub categories.
      * </p>
-     * @return subCategoryResponse dto.
-     * @throws NotFoundException will be thrown if sub category is empty.
+     *
+     * @return - List of sub category.
+     * @throws NotFoundException - If sub category not found.
      */
     @GetMapping("/subCategories")
     public List<SubCategoryResponseDto> getSubCategory() throws NotFoundException {
@@ -98,77 +96,73 @@ public class CategoryController {
 
     /**
      * <p>
-     *     This method will delete(soft delete) category from the data
-     *     base using id, handles delete API(api/v1/categories/{id}).
+     *     Delete category by using category id.
      * </p>
      *
-     * @param id to delete category.
-     * @return SuccessDto.
-     * @throws NotFoundException exception will be thrown when the id not exist.
+     * @param id - To fetch relevant category.
+     * @return - Success response dto with message and status code.
+     * @throws NotFoundException - If category not found.
      */
     @DeleteMapping("/{id}")
     public SuccessResponseDto deleteCategory(@PathVariable("id") Integer id) throws NotFoundException {
         logger.debug("Entered into deleteCategory method of category controller");
         return categoryService.deleteCategory(id);
-
     }
 
     /**
      * <p>
-     *    This method will delete(soft delete) category using categoryId & subCategoryId,
-     *     handles the Delete API ("api/v1/categories/subCategories/{categoryId}/{subCategoryId}).
+     *     Delete sub category by using sub category id.
      * </p>
      *
-     * @param parentId to delete Sub category.
-     * @param categoryId to delete sub category.
-     * @return SuccessResponseDto
-     * @throws NotFoundException exception will be thrown if the id not exist.
+     * @param parentId - To find relevant sub category.
+     * @param categoryId - To delete sub category.
+     * @return - Success response dto with message and status code.
+     * @throws NotFoundException - If sub category not found.
      */
     @DeleteMapping("/{parentId}/subCategories/{categoryId}")
     public SuccessResponseDto deleteSubCategory(@PathVariable("parentId") Integer parentId,
                                                 @PathVariable("categoryId") Integer categoryId)
-            throws NotFoundException {
+                                                throws NotFoundException {
         logger.debug("Entered into deleteSubCategory method in category controller");
         return categoryService.deleteSubCategory(parentId, categoryId);
     }
 
     /**
      * <p>
-     *     This method used to update category Details in
-     *     data base, handles Put method API (api/v1/categories/{id}).
+     *     Update category fields by using category request dto and category id.
      * </p>
-     * @param id to find which object to update
-     * @param categoryRequestDto values to be update.
-     * @return SuccessResponseDto
-     * @throws ExistedException exception will be thrown if new values are same as old.
-     * @throws NotFoundException exception will be thrown if the id not exist.
+     *
+     * @param id - To find which object to update
+     * @param categoryRequestDto - Contains name to get update.
+     * @return - Success response dto with message and status code.
+     * @throws ExistedException - If category fields already exists.
+     * @throws NotFoundException - If category not found.
      */
     @PutMapping("/{id}")
     public SuccessResponseDto updateCategory(@PathVariable("id") Integer id,
                                              @RequestBody CategoryRequestDto categoryRequestDto)
-            throws ExistedException, NotFoundException {
+                                             throws ExistedException, NotFoundException {
         logger.debug("Entered into updateCategory method in category controller");
         return categoryService.updateCategory(id, categoryRequestDto);
     }
 
     /**
      * <p>
-     *     This method to update sub category fields,
-     *     handles Put method API (api/v1/categories/subCategories/{parentId}/{categoryId}).
+     *     Update sub category fields by using sub category request dto and sub category id.
      * </p>
      *
-     * @param categoryId to update.
-     * @param parentId to fetch correct sub category.
-     * @param categoryRequestDto values to be Update.
-     * @return SuccessDto
-     * @throws ExistedException exception will be thrown if new values are same as old.
-     * @throws NotFoundException exception will be thrown if the id is not exist.
+     * @param categoryId -To find relevant sub category.
+     * @param parentId - To fetch sub category.
+     * @param categoryRequestDto - Contains category name, parentId to be updated.
+     * @return - Success response dto with message and status code.
+     * @throws ExistedException - If sub category fields already exists.
+     * @throws NotFoundException - If sub category not found.
      */
     @PutMapping("/{parentId}/subCategories/{categoryId}")
     public SuccessResponseDto updateSubCategory(@PathVariable("parentId") Integer parentId,
                                                 @PathVariable("categoryId") Integer categoryId,
                                                 @RequestBody CategoryRequestDto categoryRequestDto)
-            throws ExistedException, NotFoundException {
+                                                throws ExistedException, NotFoundException {
         logger.debug("Entered into updateSubCategory method in category controller");
         return categoryService.updateSubCategory(parentId, categoryId, categoryRequestDto);
     }
