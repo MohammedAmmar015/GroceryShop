@@ -12,8 +12,8 @@ import lombok.Setter;
 
 /**
  * <p>
- *     It is used to place order as request dto from customer which contains
- *     quantity, productId, addressId
+ *      It holds the OrderRequestDto information(like quantity, productId, addressId) and
+ *      also it is used to get order details.
  * </p>
  *
  * @author Dhanalakshmi M
@@ -31,5 +31,4 @@ public class OrderRequestDto {
     private Integer productId;
 
     private Integer addressId;
-
 }

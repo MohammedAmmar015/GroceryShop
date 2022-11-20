@@ -14,20 +14,24 @@ import com.ideas2it.groceryshop.model.OrderDelivery;
 import com.ideas2it.groceryshop.repository.OrderDeliveryRepository;
 import com.ideas2it.groceryshop.service.OrderDeliveryService;
 import com.ideas2it.groceryshop.service.OrderService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.springframework.stereotype.Service;
+
 /**
  * <p>
- *     OrderDeliveryServiceImpl contains operations related to orderDelivery
- *     which helps the controller to communicate with repository .
+ *    Provides services like get order and update delivery status.
  * </p>
  *
  * @author Dhanalakshmi.M
  * @version 1.0
  * @since 18-11-2022
  */
+@Service
 @RequiredArgsConstructor
 public class OrderDeliveryServiceImpl implements OrderDeliveryService {
     private final Logger logger = LogManager.getLogger(OrderService.class);
@@ -40,15 +44,14 @@ public class OrderDeliveryServiceImpl implements OrderDeliveryService {
     @Override
     public SuccessResponseDto statusUpdate(Integer orderId) throws NotFoundException {
         logger.debug("Entered statusUpdate method in OrderServiceImpl");
-        OrderResponseDto OrderResponse = orderService.viewOrderById(orderId);
-        if(!OrderResponse.getIsDelivered()) {
-            orderDeliveryRepository.updateStatus(orderId);
-            logger.debug("Order delivered successfully");
-            return new SuccessResponseDto(202, "Order delivered successfully");
-        } else {
+        OrderResponseDto orderResponse = orderService.viewOrderById(orderId);
+        if(orderResponse.getIsDelivered()) {
             logger.debug("No record found");
             throw new NotFoundException("No record found");
         }
+        orderDeliveryRepository.updateStatus(orderId);
+        logger.debug("Order delivered successfully");
+        return new SuccessResponseDto(200, "Order delivered successfully");
     }
 
     /**
@@ -58,12 +61,10 @@ public class OrderDeliveryServiceImpl implements OrderDeliveryService {
     public OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException {
         logger.debug("Entered getDeliveryOrder method in OrderServiceImpl");
         OrderDelivery orderDelivery = orderDeliveryRepository.findByOrderId(orderId);
-        if(orderDelivery != null) {
-            return OrderDeliveryMapper.entityToDto(orderDelivery);
-        } else {
+        if(orderDelivery == null) {
             logger.debug("No record found");
             throw new NotFoundException("No record found");
         }
+        return OrderDeliveryMapper.toOrderDeliveryDto(orderDelivery);
     }
-
 }

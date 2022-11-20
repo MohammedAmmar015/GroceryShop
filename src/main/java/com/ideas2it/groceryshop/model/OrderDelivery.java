@@ -5,8 +5,6 @@
  */
 package com.ideas2it.groceryshop.model;
 
-import com.ideas2it.groceryshop.audit.Audit;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +23,13 @@ import javax.persistence.Table;
 
 import java.util.Date;
 
+import com.ideas2it.groceryshop.audit.Audit;
+
 /**
  * <p>
  *     It holds all order delivery related information like(isDelivered, deliveryDate,
  *     expectedDeliveryDate, order, shippingAddress) and it is also used to store and
- *     retrieve order information from and to database
+ *     retrieve order information from and to database.
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -63,5 +63,4 @@ public class OrderDelivery extends Audit {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "shippingAddressId")
     private Address shippingAddress;
-
 }

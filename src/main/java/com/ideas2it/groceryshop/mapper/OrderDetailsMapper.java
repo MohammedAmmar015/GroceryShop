@@ -5,16 +5,19 @@
  */
 package com.ideas2it.groceryshop.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
 import com.ideas2it.groceryshop.model.OrderDetails;
 import com.ideas2it.groceryshop.model.Product;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * It is used to convert entity to dto and vice versa
+ * <p>
+ *     Converts entity to dto and vice versa
+ * </p>
+ *
  * @author Dhanalakshmi.M
  * @version 1.0
  * @since 18-11-2022
@@ -22,11 +25,14 @@ import java.util.List;
 public class OrderDetailsMapper {
 
     /**
-     * This method is used to convert UserOrderRequestDto to OrderDetails Entity
-     * @param orderDetailsRequest it contains quantity
-     * @return OrderDetails it contains quantity
+     * <p>
+     *     Converts UserOrderRequestDto to OrderDetails
+     * </p>
+     *
+     * @param orderDetailsRequest - Contains quantity, product
+     * @return OrderDetails - Contains quantity, product
      */
-    public static OrderDetails dtoToEntity(OrderRequestDto orderDetailsRequest) {
+    public static OrderDetails toOrderDetails(OrderRequestDto orderDetailsRequest) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setQuantity(orderDetailsRequest.getQuantity());
         return orderDetails;
@@ -34,14 +40,14 @@ public class OrderDetailsMapper {
 
     /**
      * <p>
-     *     This method is used to convert OrderDetails to OrderDetailsResponseDto
+     *     Converts OrderDetails to OrderDetailsResponseDto
      * </p>
      *
-     * @param orderDetails - it contains quantity, price and product
-     * @return OrderDetailsResponseDto - it contains list of OrderDetailsResponse
-     *                                   which contains quantity, price and product
+     * @param orderDetails - contains quantity, price and product
+     * @return OrderDetailsResponseDto - contains quantity, price, productName,
+     *                                   categoryName, subCategoryName
      */
-    public static OrderDetailsResponseDto entityToDto(OrderDetails orderDetails){
+    public static OrderDetailsResponseDto toOrderDetailsDto(OrderDetails orderDetails) {
         OrderDetailsResponseDto orderDetailsResponse = new OrderDetailsResponseDto();
         Product product = orderDetails.getProduct();
         orderDetailsResponse.setQuantity(orderDetails.getQuantity());
@@ -54,16 +60,18 @@ public class OrderDetailsMapper {
 
     /**
      * <p>
-     *     This method is used to convert List<OrderDetails> to List<OrderDetailsResponseDto>
+     *     Converts list of OrderDetails to list of OrderDetailsResponseDto
      * </p>
-     * @param orderDescription - it contains quantity, price and product
-     * @return List<OrderDetailsResponseDto> - it contains list of OrderDetailsResponse
-     *                                         which contains quantity, price and product
+     *
+     * @param orderDescription - list of orderDetails which contains quantity, price and product
+     * @return OrderDetailsResponseDto - list of OrderDetailsResponse
+     *                                   which contains quantity, price and product
      */
-    public static List<OrderDetailsResponseDto> getAllOrdersEntityToDto(List<OrderDetails> orderDescription) {
+    public static List<OrderDetailsResponseDto> toOrderDetailsDtoList
+                                                (List<OrderDetails> orderDescription) {
         List<OrderDetailsResponseDto> orderDetails = new ArrayList<>();
         for (OrderDetails orderDetail : orderDescription) {
-            OrderDetailsResponseDto orderDetailsResponseDto = entityToDto(orderDetail);
+            OrderDetailsResponseDto orderDetailsResponseDto = toOrderDetailsDto(orderDetail);
             orderDetails.add(orderDetailsResponseDto);
         }
         return orderDetails;

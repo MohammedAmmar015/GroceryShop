@@ -5,17 +5,17 @@
  */
 package com.ideas2it.groceryshop.repository;
 
-import com.ideas2it.groceryshop.model.OrderDelivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 
+import com.ideas2it.groceryshop.model.OrderDelivery;
+
 /**
  * <p>
- *     orderDelivery repository is used for storing and retrieving the order delivery related
- *     data into the order_delivery table and it also helps the service to communicate with database
+ *     Provide services like get order and update order status
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -26,24 +26,25 @@ public interface OrderDeliveryRepository extends JpaRepository<OrderDelivery, In
 
     /**
      * <p>
-     *     This method is used to retrieve order using orderId
+     *     Retrieve order using orderId
      * </p>
-     * @param OrderId - it contains order id
-     * @return OrderDelivery - it contains isDelivered, deliveryDate,
+     *
+     * @param OrderId - To fetch order
+     * @return OrderDelivery - Contains isDelivered, deliveryDate,
      *                         expectedDeliveryDate, userOrder, shippingAddress
      */
     OrderDelivery findByOrderId(Integer OrderId);
 
     /**
      * <p>
-     *     This method is used to make change the delivery status and delivery date
+     *     updates the delivery status and delivery date
      * </p>
-     * @param orderId - it contains order id
+     *
+     * @param orderId - To update delivery status
      */
     @Modifying
     @Transactional
     @Query("Update OrderDelivery od set od.isDelivered = true, od.deliveryDate = CURRENT_TIMESTAMP " +
             "where od.id = (select o.orderDelivery.id from Order o where o.id = ?1)")
     void updateStatus(Integer orderId);
-
 }

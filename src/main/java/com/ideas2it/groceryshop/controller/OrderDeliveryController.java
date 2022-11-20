@@ -5,18 +5,25 @@
  */
 package com.ideas2it.groceryshop.controller;
 
+import lombok.RequiredArgsConstructor;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.OrderDeliveryService;
-import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- *     Order Delivery Controller is used for delivery person to pick the order and change the status of order
+ *     Provide services like get order and update the delivery status
  * </p>
  *
  * @author Dhanalakshmi M
@@ -28,37 +35,37 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/orders")
 public class OrderDeliveryController {
     private final OrderDeliveryService orderDeliveryService;
-
     private final Logger logger = LogManager.getLogger(OrderDeliveryController.class);
 
     /**
      * <p>
-     *     This method is used for delivery person to pick order
+     *     Get the DeliveryOrder using orderId
      * </p>
-     * @param orderId - to pick order by orderId
-     * @return OrderDeliveryResponseDto - it show particular order which contains userId, orderId,
-     *                                    totalPrice, totalQuantity, shippingAddress, orderStatus
-     * @throws NotFoundException - if order not found for particular order id it shows No record found
+     *
+     * @param orderId - To pick order
+     * @return OrderDeliveryResponseDto - Contains userId, orderId, totalPrice, totalQuantity,
+     *                                    shippingAddress, orderStatus
+     * @throws NotFoundException - If order not found
      */
     @GetMapping("/{orderId}/orderDelivery")
-    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId) throws NotFoundException {
+    public OrderDeliveryResponseDto getDeliveryOrder(@PathVariable Integer orderId)
+                                                     throws NotFoundException {
         logger.debug("Entered getDeliveryOrder method in OrderController");
         return orderDeliveryService.getDeliveryOrder(orderId);
     }
 
     /**
      * <p>
-     *     Deliver person changes the delivery status once the product is delivered
+     *     Update delivery status once the order is delivered
      * </p>
      *
-     * @param orderId - it contains order id for changing the delivery status
-     * @return SuccessResponseDto - Order delivered successfully
-     * @throws NotFoundException - if order is not found it shows No record found
+     * @param orderId - To update delivery status
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws NotFoundException - If order not found.
      */
     @PutMapping("/{orderId}/statusUpdate")
     public SuccessResponseDto statusUpdate(@PathVariable Integer orderId) throws NotFoundException {
         logger.debug("Entered statusUpdate method in OrderController");
         return orderDeliveryService.statusUpdate(orderId);
     }
-
 }

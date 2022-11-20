@@ -11,8 +11,7 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
  * <p>
- *    OrderDeliveryService interface contains all the method
- *    which will be implemented in OrderDeliveryServiceImpl
+ *    Provide services like get order and update delivery status
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -23,23 +22,24 @@ public interface OrderDeliveryService {
 
     /**
      * <p>
-     *     Deliver person changes the delivery status once the product is delivered
+     *     Update delivery status once the order is delivered
      * </p>
      *
-     * @param orderId - it contains order id for changing the delivery status
-     * @return SuccessResponseDto - Order delivered successfully
-     * @throws NotFoundException - if particular order is not found it shows No record found
+     * @param orderId - To update delivery status
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws NotFoundException - If order not found.
      */
     SuccessResponseDto statusUpdate(Integer orderId) throws NotFoundException;
 
     /**
      * <p>
-     *     This method is used for delivery person to pick order
+     *     Get the DeliveryOrder using orderId
      * </p>
-     * @param orderId - to pick order by orderId
-     * @return OrderDeliveryResponseDto - it show particular order which contains userId, orderId,
-     *                                    totalPrice, totalQuantity, shippingAddress, orderStatus
-     * @throws NotFoundException - if order not found for particular order id it shows No record found
+     *
+     * @param orderId - To pick order
+     * @return OrderDeliveryResponseDto - Contains userId, orderId, totalPrice, totalQuantity,
+     *                                    shippingAddress, orderStatus
+     * @throws NotFoundException - If order not found
      */
     OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException;
 
