@@ -12,18 +12,18 @@ import com.ideas2it.groceryshop.model.Category;
 
 /**
  * <p>
- *      Converts dto object to model object and model object to dto object.
+ *      Converts category dto to category entity and vice versa.
  * </p>
  *
  * @author RUBAN
  * @version 1.0
- * @since 03/11/22
+ * @since 03-11-22
  */
 public class CategoryMapper {
 
     /**
      * <p>
-     *     Converts category request Dto to category model.
+     *     Converts category request Dto to category entity.
      * </p>
      *
      * @param categoryRequestDto - Contains category name.
@@ -37,7 +37,7 @@ public class CategoryMapper {
 
     /**
      * <p>
-     *     Converts category model to category response dto.
+     *     Converts category entity to category response dto.
      * </p>
      *
      * @param category - Contains category details.

@@ -30,13 +30,13 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *     This class implement method for create, view, update and delete
- *     operations for product
+ *     Provides implementation to perform create, update, delete
+ *     and view product operations.
  * </p>
  *
  * @author RUBAN
  * @version  1.0
- * @since 03/11/22
+ * @since 03-11-22
  */
 @Service
 @NoArgsConstructor
@@ -68,14 +68,14 @@ public class ProductServiceImpl implements ProductService {
         if(productRepository.existsByName(productRequestDto.getName())) {
             throw new ExistedException("Product already added");
         }
-        if(categoryRepository.existsById(productRequestDto.getSubCategoryId())) {
+        if(!categoryRepository.existsById(productRequestDto.getSubCategoryId())) {
             throw new NotFoundException("Subcategory id not found");
         }
         Product product = ProductMapper.toProduct(productRequestDto);
         Optional<Category> category = categoryRepository.findById(productRequestDto.getSubCategoryId());
-        category.ifPresent(product::setCategory);
+        category.ifPresent(product::setSubCategory);
         productRepository.save(product);
-        logger.debug("addProduct method successfully executed");
+        logger.debug("The addProduct method successfully executed");
         return new SuccessResponseDto(201, "Product added successfully");
     }
 
@@ -85,16 +85,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponseDto> getProducts() throws NotFoundException {
         logger.debug("Entered into getProducts method in product service");
-        List<Product> products = productRepository.findAllAndIsActive(true);
-        if (products.isEmpty()) {
+        List<Product> productList = productRepository.findAllAndIsActive(true);
+        if (productList.isEmpty()) {
             throw new NotFoundException("Products not found");
         }
         List<ProductResponseDto> productResponse = new ArrayList<>();
-        for (Product product : products) {
+        for (Product product : productList) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             productResponse.add(productResponseDto);
         }
-        logger.debug("getProducts method successfully executed");
+        logger.debug("The getProducts method successfully executed");
         return productResponse;
     }
 
@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new NotFoundException("Product not found");
         }
-        logger.debug("getProductsById method successfully executed");
+        logger.debug("The getProductsById method successfully executed");
         return ProductMapper.toProductDto(product);
     }
 
@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
             productResponses.add(productResponseDto);
         }
-        logger.debug("getProductsByCategoryId method successfully executed");
+        logger.debug("The getProductsByCategoryId method successfully executed");
         return productResponses;
     }
 
@@ -157,7 +157,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId)
                                                                throws NotFoundException {
         logger.debug("Entered into getProductsBySubCategoryId method in product service");
-        List<Product> products = productRepository.findBySubCategoryIdAndIsActive(subCategoryId,
+        List<Product> products = productRepository.findProductsBySubCategoryIdAndIsActive(subCategoryId,
                 true);
         if(products.isEmpty()) {
             throw new NotFoundException("Products not found, id invalid");
@@ -183,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
         }
         product.setActive(false);
         productRepository.save(product);
-        logger.debug("deleteProductsById method successfully executed");
+        logger.debug("The deleteProductById method successfully executed");
         return new SuccessResponseDto(200, "Product deleted successfully");
     }
 
@@ -198,15 +198,16 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new NotFoundException("Product id not found");
         }
-        if(productRepository.existsByNameAndPriceAndUnit(productRequestDto.getName(),
-                productRequestDto.getPrice(), productRequestDto.getUnit())) {
+        if(productRepository.existsByNameAndPriceAndUnitAndPerHead(productRequestDto.getName(),
+                                     productRequestDto.getPrice(), productRequestDto.getUnit(),
+                                     productRequestDto.getPerHead())) {
             throw new ExistedException("Product already exist");
         }
         product.setName(productRequestDto.getName());
         product.setPrice(productRequestDto.getPrice());
         product.setUnit(productRequestDto.getUnit());
         productRepository.save(product);
-        logger.debug("updateProductsById method successfully executed");
+        logger.debug("The updateProductById method successfully executed");
         return new SuccessResponseDto(200, "Product details updated successfully");
     }
 
@@ -241,7 +242,7 @@ public class ProductServiceImpl implements ProductService {
      *{@inheritDoc}
      */
     public Product getProductByProductId(Integer id) {
-        Product product = productRepository.findByIdAndIsActive(id, true);
-        return product;
+        return productRepository.findByIdAndIsActive(id, true);
     }
 }
+

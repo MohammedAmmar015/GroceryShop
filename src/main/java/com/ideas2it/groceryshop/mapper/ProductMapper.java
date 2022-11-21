@@ -11,18 +11,18 @@ import com.ideas2it.groceryshop.model.Product;
 
 /**
  * <p>
- *     Converts dto object to model object and model object to dto object.
+ *     Converts product dto to product entity and vice versa.
  * </p>
  *
  * @author RUBAN
  * @version 1.0
- * @since  03/11/22
+ * @since  03-11-22
  */
 public class ProductMapper {
 
     /**
      * <p>
-     *     Converts product request Dto to product model.
+     *     Converts product request Dto to product entity.
      * </p>
      * @param productRequestDto - Contains name, unit, perHead, price, image.
      * @return product - product details.
@@ -39,7 +39,7 @@ public class ProductMapper {
 
     /**
      * <p>
-     *     Converts product model to product response dto.
+     *     Converts product entity to product response dto.
      * </p>
      * @param product - Contains name, unit, perHead, price, image.
      * @return productResponseDto - Contains product response details.
@@ -52,8 +52,8 @@ public class ProductMapper {
         productResponseDto.setName(product.getName());
         productResponseDto.setImage(product.getImage());
         productResponseDto.setPrice(product.getPrice());
-        productResponseDto.setCategoryName(product.getCategory().getCategory().getName());
-        productResponseDto.setSubCategoryName(product.getCategory().getName());
+        productResponseDto.setCategoryName(product.getSubCategory().getCategory().getName());
+        productResponseDto.setSubCategoryName(product.getSubCategory().getName());
         productResponseDto.setIsStockAvailable(true);
         return productResponseDto;
     }

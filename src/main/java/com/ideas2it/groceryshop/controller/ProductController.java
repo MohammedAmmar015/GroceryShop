@@ -29,12 +29,12 @@ import com.ideas2it.groceryshop.service.ProductService;
 
 /**
  * <p>
- *      Provides create, view, update and delete operations for the
- *      product.
+ *      Provides APIs to  create, view, update and delete operations
+ *      for the product.
  * </p>
  *
  * @author Ruban
- * @since  03/11/2022
+ * @since  03-11-2022
  * @version  1.0
  *
  */
