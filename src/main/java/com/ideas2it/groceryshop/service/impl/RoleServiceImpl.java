@@ -23,9 +23,11 @@ import com.ideas2it.groceryshop.repository.RoleRepository;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
- * Role Service is used to save, update and delete role from database.
- * Data transfer objects(Dto) are converted into model object using mapper
- * for storing in database and vice versa.
+ * <p>
+ *     Role Service is used to save, update and delete role from database.
+ *     Data transfer objects(Dto) are converted into model object using mapper
+ *     for storing in database and vice versa.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -51,7 +53,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = RoleMapper.roleDtoToRole(roleRequestDto.getName());
         Boolean isAvailable = roleRepository.existsByNameAndIsActive( role.getName(),
                 true);
-        if(isAvailable == true) {
+        if(isAvailable) {
             logger.debug("Role already exist");
             throw new ExistedException("Role already exist");
         }
@@ -93,7 +95,8 @@ public class RoleServiceImpl implements RoleService {
             logger.debug("Role not found");
             throw new NotFoundException("Role not found");
         }
-        roleRepository.deactivateRole(roleRequestDto.getName());
+        role.get().setIsActive(false);
+        roleRepository.save(role.get());
         logger.debug("Role deleted successfully");
         return new SuccessResponseDto(200,"Role deleted successfully");
     }

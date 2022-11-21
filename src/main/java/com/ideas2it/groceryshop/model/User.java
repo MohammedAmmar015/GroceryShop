@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,11 +30,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
-import com.ideas2it.groceryshop.model.Role;
 /**
- *
- *  User POJO is used to store and retrieve data common attributes of
- *  Admin, Customer and DeliveryMan object
+ * <p>
+ *     It holds the user related information(like username, mobile number details etc.,) and
+ *     also it is used to store and retrieve the user information to and from
+ *     database through JpaRepository
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -44,7 +46,7 @@ import com.ideas2it.groceryshop.model.Role;
 @Getter
 @NoArgsConstructor
 @Setter
-@Table(name = "User")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -64,6 +66,7 @@ public class User {
     private String password;
 
     @Column(name = "mobile_number", length = 10, nullable = false, unique=true)
+    @Pattern(regexp = "^[6-9][0-9]{9}", message = "Enter valid mobile number")
     private Long mobileNumber;
 
     @Column(name = "email", length = 50, nullable = false, unique=true)

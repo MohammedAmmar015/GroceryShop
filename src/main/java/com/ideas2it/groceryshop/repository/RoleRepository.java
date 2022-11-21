@@ -17,9 +17,10 @@ import org.springframework.stereotype.Repository;
 import com.ideas2it.groceryshop.model.Role;
 
 /**
- *
- * Role repository is used to communicate Address model with database
- * for delete, update, create and view operations
+ * <p>
+ *     Providing service for storing and retrieving data
+ *     from database for Role entity.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -29,29 +30,23 @@ import com.ideas2it.groceryshop.model.Role;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
-     * is used to role by name
+     * <p>
+     *     Find role by name.
+     * </p>
      *
-     * @param isActive it is used to check if role is active
-     * @param name it is used to check if role is present
-     * @return it returns role object
+     * @param isActive - To check active or inactive role.
+     * @param name - To get role.
+     * @return - role object.
      */
     Optional<Role> findByIsActiveAndName(Boolean isActive, String name);
 
     /**
-     * It is used deactivate role
+     * <p>
+     *     Update role Name by role name.
+     * </p>
      *
-     * @param name it is the name to be deactivated
-     */
-    @Modifying
-    @Transactional
-    @Query("update Role set isActive = false where name = ?1")
-    void deactivateRole(String name);
-
-    /**
-     *  It is used to update role Name
-     *
-     * @param name it is updated name
-     * @param nameToUpdate it is the name to be updated
+     * @param name - To update name.
+     * @param nameToUpdate - Name to be updated.
      */
     @Modifying
     @Transactional
@@ -59,11 +54,13 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     void updateRoleName(String name, String nameToUpdate);
 
     /**
+     * <p>
+     *     Check if role exist.
+     * </p>
      *
-     *
-     * @param name it is used to search role by name
-     * @param status
-     * @return Boolean it is used to check weather role is active or not
+     * @param name - To check role is exists.
+     * @param isActive - To check active or inactive role.
+     * @return Boolean - If exists true or-else false.
      */
-    Boolean existsByNameAndIsActive(String name, Boolean status);
+    Boolean existsByNameAndIsActive(String name, Boolean isActive);
 }

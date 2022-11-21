@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to set data from model object and
- * show data in frontend
+ * <p>
+ *    It holds the UserResponseDto information(like username, firstname, lastname and etc..)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

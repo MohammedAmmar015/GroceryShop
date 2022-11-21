@@ -14,8 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to update role name
+ * <p>
+ *    It holds the RoleUpdateRequestDto information(like name to update and name)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

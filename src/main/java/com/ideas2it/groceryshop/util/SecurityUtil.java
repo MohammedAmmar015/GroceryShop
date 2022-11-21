@@ -18,11 +18,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
- * SecurityUtil class is responsible for creating token
- * and validate token
+ * <p>
+ *     Providing service for creating token and validate token
+ * </p>
  *
  * @version 1.0
- *
  * @author Rohit A P
  * @since 07-11-2022
  */
@@ -32,22 +32,26 @@ public class SecurityUtil {
     private String secret;
 
     /**
-     * This method is used to get username from token
+     * <p>
+     *      Get username from token.
+     * </p>
      *
-     * @param token it is generated token
-     * @return it returns username
+     * @param token - To get username.
+     * @return - username.
      */
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
     /**
-     * This method is used to get claim from token
+     * <p>
+     *     Get claim from token.
+     * </p>
      *
-     * @param token it is token of user
-     * @param claimsResolver it is used to apply claims
-     * @return it returns claimsResolver
-     * @param <T> it contains token, function<claims and claimsResolver
+     * @param token - To get claims from token.
+     * @param claimsResolver - To apply claims.
+     * @return - Applied claimsResolver.
+     * @param <T> - contains token, function<claims and claimsResolver.
      */
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
@@ -55,21 +59,25 @@ public class SecurityUtil {
     }
 
     /**
-     * This method is used to get all claims from token
+     * <p>
+     *     Get all claims from token.
+     * </p>
      *
-     * @param token it is token of user
-     * @return it returns claims
+     * @param token - To parse.
+     * @return - claims.
      */
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     /**
-     * This method is used to generate based on username and claims
+     * <p>
+     *      Generate token based on username and claims.
+     * </p>
      *
-     * @param userDetails it contains username and password
-     *                   doGenerateToken method
-     * @return it returns bearer token from
+     * @param userDetails - Contains username and password
+     *                      to generate token.
+     * @return - bearer token.
      */
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -77,11 +85,13 @@ public class SecurityUtil {
     }
 
     /**
-     * This method is used to generate bearer token
+     * <p>
+     *     Generate bearer token by username.
+     * </p>
      *
-     * @param claims is used to set secret key
-     * @param subject it is username
-     * @return it returns bearer token
+     * @param claims - set secret key.
+     * @param subject - username.
+     * @return - bearer token.
      */
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
@@ -90,11 +100,13 @@ public class SecurityUtil {
     }
 
     /**
-     * This method is used to validate token
+     * <p>
+     *      Validate token by getting token and user details.
+     * </p>
      *
-     * @param token it is the token to be validated
-     * @param userDetails it contains username and password
-     * @return If token is valid it returns true else false.
+     * @param token - To validate.
+     * @param userDetails - Contains username and password.
+     * @return - If token is valid it returns true or-else false.
      */
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);

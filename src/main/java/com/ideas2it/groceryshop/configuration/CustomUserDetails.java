@@ -17,9 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.ideas2it.groceryshop.model.User;
 
 /**
- *
- * It is used to get UserName and Password,
- * it is implementation class of userDetails Interface
+ * <p>
+ *    Providing service for getting currently logged-in user object.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

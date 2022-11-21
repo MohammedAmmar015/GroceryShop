@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to retrieve data from database
+ * <p>
+ *    It holds the AddressResponseDto information(like street, landmark etc.,)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

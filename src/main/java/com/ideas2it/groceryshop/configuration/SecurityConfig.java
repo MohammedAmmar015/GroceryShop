@@ -21,9 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 
 /**
- * It is used to Configure spring security
- * It contains access restriction method which will limit user from
- * accessing all API restrict based on their role.
+ * <p>
+ *    Providing service to restricts users from accessing all API and restrict them
+ *    based on their role.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -44,10 +45,11 @@ public class SecurityConfig {
     }
 
     /**
-     * This method is used to create bean for BCryptPasswordEncoder
+     * <p>
+     *     Creating bean for BCryptPasswordEncoder
+     * </p>
      *
-     * @return new BCryptPasswordEncoder it returns new
-     * BCryptPasswordEncoder object
+     * @return BCryptPasswordEncoder - password encoder
      */
     @Bean
     public BCryptPasswordEncoder getPasswordEncoder() {
@@ -55,11 +57,13 @@ public class SecurityConfig {
     }
 
     /**
-     * This method is used to create bean for DaoAuthenticationProvider
+     * <p>
+     *     Creating bean for DaoAuthenticationProvider
+     * </p>
      *
-     * @return authenticationProvider it is used authenticate user based
+     * @return authenticationProvider - authenticate user based
      *         on username and password
-     * @throws AuthenticationException it contains invalid credentials message
+     * @throws AuthenticationException - contains invalid credentials message
      */
     @Bean
     public DaoAuthenticationProvider authenticationManagerBean()
@@ -71,11 +75,13 @@ public class SecurityConfig {
     }
 
     /**
-     * This method is used to restrict user from accessing all api
+     * <p>
+     *     Restricts users from accessing all api
+     * </p>
      *
-     * @param http it is used to configure security filter
-     * @return http.build() it contains authorization based on role
-     * @throws Exception it contains exception message
+     * @param http - to configure security filter
+     * @return http.build() - contains authorization based on role
+     * @throws Exception - contains exception message
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -84,18 +90,22 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,"/api/v1/login",
                         "/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/categories",
-                        "/api/v1/products", "/api/v1/stores", "/api/v1/stocks/*/*",
+                        "/api/v1/products", "/api/v1/stores",
+                        "/api/v1/stocks/location/*/products/*",
                         "/api/v1/users/roles")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/",
-                        "/api/v1/users/orders/cancelledOrders",
-                        "/api/v1/users/orders/*/*",
-                        "/api/v1/users/orders/date/*", "/api/v1/stocks/*",
-                        "/api/v1/stocks/*/*", "/api/v1/stores", "/api/v1/users/orders/products/*",
+                        "/api/v1/user/orders/cancelledOrders",
+                        "/api/v1/user/orders/*/*",
+                        "/api/v1/user/orders/date/*/user/*",
+                        "/api/v1/user/orders/date/*", "/api/v1/stocks/products/*",
+                        "/api/v1/stocks/location/*/products/*", "/api/v1/stores",
+                        "/api/v1/user/orders/products/*",
                         "/api/v1/users/*/role")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/v1/categories/*",
-                        "/api/v1/products/*", "/api/v1/users/roles/*","/api/v1/stocks/*",
+                        "/api/v1/products/*", "/api/v1/users/roles/*",
+                        "/api/v1/stocks/location/*/products/*",
                         "/api/v1/stocks/*/*", "/api/v1/stores/*",
                         "/api/v1/categories" +
                                 "/subCategories/*/*")
@@ -106,10 +116,18 @@ public class SecurityConfig {
                         "/api/v1/categories/subCategories/*/*",
                         "/api/v1/users/roles/*")
                 .hasRole("ADMIN")
-                .antMatchers("/api/v1/orders/*/orderDelivery").
-                hasRole("DELIVERY_PERSON")
+                .antMatchers("/api/v1/orders/*/orderDelivery")
+                .hasRole("DELIVERY_PERSON")
                 .antMatchers("/api/v1/orders/activeOrders")
                 .hasAnyRole("ADMIN", "DELIVERY_PERSON")
+                .antMatchers(HttpMethod.PUT, "/api/v1/user/carts/*",
+                        "/api/v1/user/orders/*/cancelOrder")
+                .hasRole("CUSTOMER")
+                .antMatchers(HttpMethod.POST , "/api/v1/user/orders/*",
+                        "/api/v1/user/carts")
+                .hasRole("CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/api/v1/user/orders/*",
+                        "/api/v1/user/orders")
                 .antMatchers("/api/v1/user/carts/*")
                 .hasRole("CUSTOMER")
                 .anyRequest().authenticated()

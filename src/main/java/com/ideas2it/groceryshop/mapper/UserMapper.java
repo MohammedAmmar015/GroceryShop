@@ -14,8 +14,9 @@ import com.ideas2it.groceryshop.dto.UserUpdateDto;
 import com.ideas2it.groceryshop.model.User;
 
 /**
- *
- * It is used to convert dto into model and vice versa
+ * <p>
+ *     Convert data transfer object into model and vice versa.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -24,13 +25,14 @@ import com.ideas2it.groceryshop.model.User;
 public class UserMapper {
 
     /**
-     *  It is used to convert UserRequestDto to User object
+     * <p>
+     *     Convert UserRequestDto to User object and return user
+     * </p>
      *
-     * @param userRequestDto it contains user details
-     * @return user it returns user object
+     * @param userRequestDto - Contains user details
+     * @return user - Contains User details
      */
     public static User userRequestDtoToUser(UserRequestDto userRequestDto) {
-
         User user = new User();
         user.setUserName(userRequestDto.getUserName());
         user.setFirstName(userRequestDto.getFirstName());
@@ -43,10 +45,12 @@ public class UserMapper {
     }
 
     /**
-     * It is used to convert User to UserResponseDto Object
+     * <p>
+     *     Convert User to UserResponseDto Object and return UserResponseDto
+     * </p>
      *
-     * @param user it contain user details
-     * @return userResponseDto it returns user details in object
+     * @param user - Contain user details
+     * @return UserResponseDto - Contains user details
      */
     public static UserResponseDto userToUserResponseDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
@@ -66,14 +70,15 @@ public class UserMapper {
     }
 
     /**
-     * This method is used to convert UserUpdateDto to user object
+     * <p>
+     *     Convert UserUpdateDto to user object and return user object
+     * </p>
      *
-     * @param userUpdateDto it contains details to update
-     * @param user it contains old details
-     * @return user it contains updated details
+     * @param userUpdateDto - Contains details to update
+     * @param user - Contains old details
+     * @return user - Contains updated details
      */
-    public static User userUpdateDtoToUser(UserUpdateDto userUpdateDto,
-                                           User user) {
+    public static User userUpdateDtoToUser(UserUpdateDto userUpdateDto, User user) {
         user.setFirstName(userUpdateDto.getFirstName());
         user.setLastName(userUpdateDto.getLastName());
         user.setPassword(userUpdateDto.getPassword());
@@ -82,16 +87,19 @@ public class UserMapper {
     }
 
     /**
-     * It is used to convert list of User object to UserResponseDto object list
+     * <p>
+     *     Convert list of User to UserResponseDto object list
+     *     and return UserResponseDto
+     * </p>
      *
-     * @param userList it contains list of user object
-     * @return userResponseDtoList it contains list of dto object
+     * @param userList - Contains list of user object
+     * @return userResponses - Contains list of user object
      */
     public static List<UserResponseDto> userToUserResponseDtoList(List<User> userList) {
-        List<UserResponseDto> userResponseDtoList = new ArrayList<UserResponseDto>();
+        List<UserResponseDto> userResponses = new ArrayList<>();
         for(User user : userList) {
-            userResponseDtoList.add(userToUserResponseDto(user));
+            userResponses.add(userToUserResponseDto(user));
         }
-        return userResponseDtoList;
+        return userResponses;
     }
 }

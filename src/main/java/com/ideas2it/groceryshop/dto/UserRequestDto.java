@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to set data and store in model object.
- * It is used to create user profile.
+ * <p>
+ *    It holds the UserRequestDto information(like username, firstname, lastname and etc..)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

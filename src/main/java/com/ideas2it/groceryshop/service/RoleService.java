@@ -15,7 +15,9 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.Role;
 
 /**
- * Role Service is used to save, update and delete role from database.
+ * <p>
+ *     Provides Service to save, update and delete role.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -24,38 +26,46 @@ import com.ideas2it.groceryshop.model.Role;
 public interface RoleService {
 
     /**
-     * It is used to create role
+     * <p>
+     *     Create role by getting role name.
+     * </p>
      *
-     * @param roleRequestDto it contains role name
-     * @return SuccessResponseDto it returns success message
-     * @throws ExistedException role already exist
+     * @param roleRequestDto - Contains role name.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws ExistedException - If role already exist.
      */
     SuccessResponseDto addRole(RoleRequestDto roleRequestDto) throws ExistedException;
 
     /**
-     * it is used to update role
+     * <p>
+     *     Update role name by existing role name.
+     * </p>
      *
-     * @param roleUpdateRequestDto it contains role name and name to be updated
-     * @return SuccessResponseDto it returns success message
-     * @throws NotFoundException role not found
+     * @param roleUpdateRequestDto - Contains existing role name and name to be updated.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws NotFoundException - If role not found.
      */
     SuccessResponseDto updateRole(RoleUpdateRequestDto roleUpdateRequestDto)
-                                                                    throws NotFoundException;
+                                  throws NotFoundException;
 
     /**
-     * It is uses to delete role
+     * <p>
+     *     Delete role by role name.
+     * </p>
      *
-     * @param roleRequestDto it is used to delete role
-     * @return SuccessResponseDto it returns success message
-     * @throws NotFoundException role not found
+     * @param roleRequestDto - Contains role name.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws NotFoundException - If role not found.
      */
     SuccessResponseDto deleteRole(RoleRequestDto roleRequestDto) throws NotFoundException;
 
     /**
-     * This method is used to find role by name
+     * <p>
+     *     Get role by name.
+     * </p>
      *
-     * @param name it is name of role
-     * @return role it returns role object
+     * @param name - To get role.
+     * @return Role - Contains role details.
      */
-    public Optional<Role> findRoleByName(String name);
+    Optional<Role> findRoleByName(String name);
 }

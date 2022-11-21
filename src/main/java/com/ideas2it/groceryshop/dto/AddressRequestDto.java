@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to set data and transfer to model object for creating.
- * It is used to create address for user
+ * <p>
+ *    It holds the AddressRequestDto information(like street, landmark etc.,)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

@@ -25,10 +25,12 @@ import com.ideas2it.groceryshop.mapper.AddressMapper;
 import com.ideas2it.groceryshop.model.Address;
 
 /**
- * Address service is providing services for create, update,
- * delete and view addresses of users.
- * Data transfer objects(Dto) are converted into model object using mapper
- * for storing in database and vice versa.
+ * <p>
+ *     Provides implementation services for business logic, create, update,
+ *     delete and view addresses of user.
+ *     Data transfer objects(Dto) are converted into model object using mapper
+ *     for storing in database and vice versa.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -52,8 +54,7 @@ public class AddressServiceImpl implements AddressService {
      *{@inheritDoc}
      */
     @Override
-    public SuccessResponseDto addAddress(AddressRequestDto addressRequestDto)
-                                                               throws NotFoundException {
+    public SuccessResponseDto addAddress(AddressRequestDto addressRequestDto) {
         logger.debug("Entered addAddress method");
         Address address =
                 AddressMapper.addressDtoToAddress(addressRequestDto);
@@ -104,7 +105,7 @@ public class AddressServiceImpl implements AddressService {
             logger.debug("Address not found");
             throw new NotFoundException("Address not found");
         }
-        addressRepository.deactivateAddress(id);
+        addressRepository.deleteAddress(id);
         logger.debug("Address deleted successfully");
         return new SuccessResponseDto(200,"Address " +
                 " deleted successfully");
@@ -124,12 +125,9 @@ public class AddressServiceImpl implements AddressService {
             logger.debug("Address not found");
             throw new NotFoundException("Address not found");
         }
-        addressRepository.updateAddressByAddressId(id,
-                addressUpdateRequestDto.getStreet(),
-                addressUpdateRequestDto.getArea(),
-                addressUpdateRequestDto.getPinCode(),
-                addressUpdateRequestDto.getLandMark(),
-                addressUpdateRequestDto.getIsDefault());
+        Address updatedAddress = AddressMapper.addressUpdateRequestDtoToAddress
+                                       (addressUpdateRequestDto, address.get());
+        addressRepository.save(updatedAddress);
         logger.debug("Address Updated successfully");
         return new SuccessResponseDto(200,
                 "Address updated successfully");

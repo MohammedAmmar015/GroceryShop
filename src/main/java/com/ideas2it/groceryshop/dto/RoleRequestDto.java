@@ -14,8 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to create role
+ * <p>
+ *    It holds the RoleRequest information like role name
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

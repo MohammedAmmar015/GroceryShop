@@ -20,8 +20,11 @@ import lombok.Setter;
 import com.ideas2it.groceryshop.audit.Audit;
 
 /**
- *
- * Role POJO is used Store and retrieve role data
+ * <p>
+ *     It holds the role related information like name and
+ *     also it is used to store and retrieve the role information to and from
+ *     database through JpaRepository
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -32,8 +35,8 @@ import com.ideas2it.groceryshop.audit.Audit;
 @Getter
 @NoArgsConstructor
 @Setter
-@Table(name = "Role")
-public class Role extends Audit{
+@Table(name = "role")
+public class Role extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

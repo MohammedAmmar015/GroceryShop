@@ -14,9 +14,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * UserUpdateDto is used to update user by username.
- * Using this class first name, last name, phone number
- * and password can be updated
+ * <p>
+ *    It holds the UserUpdateDto information(like username, firstname, lastname and password)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

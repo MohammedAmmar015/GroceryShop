@@ -23,15 +23,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
- * Custom security Jwt filter class is used to check if bearer token is valid
- * or not and give authentication
+ * <p>
+ *     Check if bearer token is valid or not and give authentication.
+ * </p>
  *
- * @version 1.0 07-11-2022
+ * @version 1.0
  * @author Rohit A P
+ * @since 07-11-2022
  */
 @Component
-public class
-CustomSecurityFilter extends OncePerRequestFilter {
+public class CustomSecurityFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final SecurityUtil securityUtil;
 
@@ -42,6 +43,18 @@ CustomSecurityFilter extends OncePerRequestFilter {
         this.securityUtil = securityUtil;
     }
 
+    /**
+     * <p>
+     *      Filtering token
+     * </p>
+     *
+     * @param request - Contains authentication type
+     * @param response - Contains http response codes
+     * @param filterChain - Contains request and response servlet
+     * @throws IllegalArgumentException - If wrong token is given
+     * @throws ServletException - If request or response is inappropriate
+     * @throws IOException - If input or output is inappropriate
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -59,16 +72,12 @@ CustomSecurityFilter extends OncePerRequestFilter {
                 }
             if (username != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails =
-                        this.userDetailsService.loadUserByUsername(username);
-
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 if (securityUtil.validateToken(jwtToken, userDetails)) {
-
                     UsernamePasswordAuthenticationToken
                             usernamePasswordAuthenticationToken =
                             new UsernamePasswordAuthenticationToken
-                                    (userDetails, null,
-                                            userDetails.getAuthorities());
+                                    (userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().
                             setAuthentication(usernamePasswordAuthenticationToken);
                 }

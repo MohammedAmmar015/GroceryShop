@@ -16,8 +16,10 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.model.User;
 
 /**
- * UserService is used to save, update, delete and
- * retrieve user data from database.
+ * <p>
+ *     provides service for create, update,
+ *     delete and view of user.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -26,81 +28,99 @@ import com.ideas2it.groceryshop.model.User;
 public interface UserService {
 
     /**
-     * it is used to create user
+     * <p>
+     *     Create user profile.
+     * </p>
      *
-     * @param userRequestDto it contains user details
-     * @return SuccessResponseDto returns success message
-     * @throws ExistedException if username already exist
+     * @param userRequestDto - Contains user details.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws ExistedException - If username already exist.
      */
     SuccessResponseDto addUser(UserRequestDto userRequestDto) throws ExistedException;
 
     /**
-     * It is used to get user by id
+     * <p>
+     *     Get user by user id.
+     * </p>
      *
-     * @param id it is id of user
-     * @return userResponseDto it contains user detail
-     * @throws NotFoundException if user does not exist or inactive
+     * @param id - To get user.
+     * @return userResponseDto - Contains user detail
+     * @throws NotFoundException - If user does not exist or inactive
      */
     UserResponseDto getUserById(Integer id) throws NotFoundException;
 
     /**
-     * It is used to get all users
+     * <p>
+     *     Get all users.
+     * </p>
      *
-     * @return userResponseDtoList is list of user
-     * @throws NotFoundException no user found
+     * @return userResponseDtoList - List of user.
+     * @throws NotFoundException - If no user found.
      */
     List<UserResponseDto> getAllUser() throws NotFoundException;
 
     /**
-     * It is used to find users by role
+     * <p>
+     *     Get users by role name.
+     * </p>
      *
-     * @param name used to search users by role name
-     * @return userResponseDtoList list of user
-     * @throws NotFoundException users not found
+     * @param name - To search users by role name.
+     * @return userResponseDtoList - List of user.
+     * @throws NotFoundException - If no users not found.
      */
     List<UserResponseDto> getUserByRole(String name) throws NotFoundException;
 
     /**
-     *  It is used to delete user by id
+     * <p>
+     *     Delete user by id.
+     * </p>
      *
-     * @param id to be deleted
-     * @return SuccessResponseDto returns success message
-     * @throws NotFoundException user does not exist
+     * @param id - To delete user.
+     * @return SuccessResponseDto - Contains success message and code.
+     * @throws NotFoundException - If user does not exist.
      */
     SuccessResponseDto deleteUserById(Integer id) throws NotFoundException;
 
     /**
-     * This method is used to get userName by mobile number.
-     * Using Regex given string is validated as mobile number or username.
-     * If given string is mobileNumber using mobileNumber userName is retrieved and returned.
-     * Else userName is returned.
+     * <p>
+     *     Get userName by mobile number.
+     *     Using Regex given string is validated as mobile number or username.
+     *     If given string is mobileNumber using mobileNumber userName is
+     *     retrieved and returned, else userName is returned.
+     * </p>
      *
-     * @param userNameOrMobileNumber it contains username or mobileNumber
-     * @return userName it is contains username
+     * @param userNameOrMobileNumber - Contains username or mobileNumber.
+     * @return userName - username.
      */
     String getUserNameByMobileNumber(String userNameOrMobileNumber);
 
     /**
-     * This method is used to get user object by name,
-     * update user object and store in database
+     * <p>
+     *     Update user by username.
+     * </p>
      *
-     * @param userUpdateDto it contains details to be updated
-     * @return SuccessResponseDto it contains success message
+     * @param userUpdateDto - Contains details to be updated.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws NotFoundException - If user does not exist.
      */
     SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
-                                                                 throws NotFoundException;
+                                            throws NotFoundException;
 
     /**
-     * This method is used to get current user profile
+     * <p>
+     *     Get currently logged-in user profile.
+     * </p>
      *
-     * @return userResponseDto it contains user details
+     * @return userResponseDto - Contains user details.
      */
     UserResponseDto getCurrentUserProfile();
 
     /**
-     * This method is used to get current user object
+     * <p>
+     *      Get currently logged-in user object from security context holder.
+     * </p>
      *
-     * @return user it contains user details
+     * @return user - Contains logged-in user details.
      */
     User getCurrentUser();
 }

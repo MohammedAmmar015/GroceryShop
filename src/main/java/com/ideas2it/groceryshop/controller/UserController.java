@@ -30,9 +30,9 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.UserService;
 
 /**
- *
- * UserController is providing services for
- * create, delete, update and view users
+ * <p>
+ *     Provides services for create, delete, update and view users.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -51,38 +51,44 @@ public class UserController {
     }
 
     /**
-     *  It is used to create user
+     * <p>
+     *     Create user profile by getting user details.
+     * </p>
      *
-     * @param userRequestDto it contains user detail
-     * @throws ExistedException username already exist
+     * @param userRequestDto - Contains user detail
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws ExistedException - If username already exist
      */
     @PostMapping
     public SuccessResponseDto createUser(@Valid @RequestBody UserRequestDto userRequestDto)
-            throws ExistedException {
+                                         throws ExistedException {
         logger.debug("Entered createUser method");
         return userService.addUser(userRequestDto);
     }
 
     /**
-     * It is used to get user by id
+     * <p>
+     *     Get user by id
+     * </p>
      *
-     * @param id it is id of user
-     * @return userResponseDto
-     * @throws NotFoundException user does not exist
+     * @param id - To get user
+     * @return userResponseDto - Contains user details
+     * @throws NotFoundException - If user does not exist
      */
     @GetMapping("/{userId}")
     public UserResponseDto getUserById(@PathVariable("userId") Integer id)
                                        throws NotFoundException {
         logger.debug("Entered getUserById method");
-        UserResponseDto userResponseDto = userService.getUserById(id);
-        return userResponseDto;
+        return userService.getUserById(id);
     }
 
     /**
-     * It is used get all users
+     * <p>
+     *     Get all users.
+     * </p>
      *
-     * @return userResponseDtoList
-     * @throws NotFoundException users does not found
+     * @return userResponseDtoList - Contains list of user
+     * @throws NotFoundException - If users does not found
      */
     @GetMapping
     public List<UserResponseDto> viewAllUser() throws NotFoundException {
@@ -93,15 +99,17 @@ public class UserController {
     }
 
     /**
-     * It is used to find user by role
+     * <p>
+     *     Get user by role name.
+     * </p>
      *
-     * @param name it is name of role
-     * @return userResponseDtoList it returns list of user
-     * @throws NotFoundException users not found
+     * @param name - role name to get users
+     * @return userResponseDtoList - Contains list of user
+     * @throws NotFoundException - If users not found
      */
     @GetMapping("/role/{roleName}")
-    public List<UserResponseDto> viewUsersByRole
-    (@PathVariable("roleName") String name) throws NotFoundException {
+    public List<UserResponseDto> viewUsersByRole(@PathVariable("roleName") String name)
+                                                 throws NotFoundException {
         logger.debug("Entered viewUsersByRole method");
         List<UserResponseDto> userResponseDtoList = userService.getUserByRole(name);
         logger.debug("Got list of user");
@@ -109,9 +117,11 @@ public class UserController {
     }
 
     /**
-     * This method is used to get current logged-in user profile
+     * <p>
+     *     Get currently logged-in user profile
+     * </p>
      *
-     * @return UserResponseDto it contains user current user profile
+     * @return UserResponseDto - contains user profile
      */
     @GetMapping("/userProfile")
     public UserResponseDto viewProfile() {
@@ -120,30 +130,35 @@ public class UserController {
     }
 
     /**
-     *  It is used to delete user by id
+     * <p>
+     *     Delete user by id.
+     * </p>
      *
-     * @param id it is id of user to be deleted
-     * @return SuccessResponseDto it contains success message
-     * @throws NotFoundException it contains user not found exception
+     * @param id - To delete user
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws NotFoundException - If user not found exception
      */
     @DeleteMapping("/{userId}")
     public SuccessResponseDto deleteUserById(@PathVariable("userId") Integer id)
-            throws NotFoundException {
+                                             throws NotFoundException {
         logger.debug("Entered deleteUserById method");
         return userService.deleteUserById(id);
     }
 
     /**
-     * This method is used to update user by username.
-     * Following are the fields that can be updated by this method,
-     * firstName, lastName, password and email
+     * <p>
+     *     Update user by username.
+     *     Following are the fields that can be updated,
+     *     firstName, lastName, password and email
+     * </p>
      *
-     * @return SuccessResponseDto it contains success message
-     * @throws NotFoundException user does not exist
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws NotFoundException - If user does not exist
      */
     @PutMapping
     public SuccessResponseDto updateUserByUserName
-                      (@Valid @RequestBody UserUpdateDto userUpdateDto) throws NotFoundException {
+                              (@Valid @RequestBody UserUpdateDto userUpdateDto)
+                               throws NotFoundException {
         logger.debug("Entered updateUserByUserName");
         return userService.updateUserByUserName(userUpdateDto);
     }
