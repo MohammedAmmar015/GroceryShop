@@ -28,7 +28,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>
-     *     Retrieve active or deleted cart of particular user by user's id,
+     *     Retrieves active or deleted cart of specific user by user's id,
      * </p>
      * @param userId - To fetch cart
      * @param isActive - To fetch active or deleted cart
@@ -40,7 +40,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>
-     *     Deletes cart of particular user based on user's id
+     *     Deletes cart of specific user based on user's id
      * </p>
      * @param userId - To delete cart
      */

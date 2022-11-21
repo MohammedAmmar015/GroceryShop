@@ -26,7 +26,7 @@ public class StoreLocationMapper {
      * </p>
      *
      * @param storeLocationRequest - Contains area, pin code
-     * @return - StoreLocation - Contains store details
+     * @return                     - Store details like area and pin code
      */
     public static StoreLocation toStoreLocation(StoreRequestDto storeLocationRequest) {
         StoreLocation storeLocation = new StoreLocation();
@@ -41,7 +41,7 @@ public class StoreLocationMapper {
      * </p>
      *
      * @param storeLocation - Contains store location details
-     * @return StoreLocationResponse - Contains area, pin code
+     * @return              - Store response details like area, pin code
      */
     public static StoreResponseDto toStoreLocationResponse(StoreLocation storeLocation) {
         StoreResponseDto stores = new StoreResponseDto();

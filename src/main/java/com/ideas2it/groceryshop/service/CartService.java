@@ -14,7 +14,7 @@ import com.ideas2it.groceryshop.model.Cart;
 
 /**
  * <p>
- *     Provide services to add, update, view, delete products
+ *     Provides services to add, update, view, delete products
  *     from and to cart based on currently logged-in user
  * </p>
  *
@@ -30,20 +30,20 @@ public interface CartService {
      *     the cart based on given product details
      * </p>
      *
-     * @param cartRequest - Contains product id and quantity to add into cart
-     * @return SuccessResponseDto - Contains message and status Code
+     * @param cartRequest        - Contains product id and quantity to add into cart
+     * @return                   - Success message and status Code
      * @throws NotFoundException - If product not found
-     * @throws ExistedException - If product already exist in cart
+     * @throws ExistedException  - If product already exist in cart
      */
     SuccessResponseDto addOrModifyCart(CartRequestDto cartRequest) throws NotFoundException,
                                                                           ExistedException;
 
     /**
      * <p>
-     *     Get the cart of currently logged-in user
+     *     Gets the cart of currently logged-in user
      * </p>
      *
-     * @return CartResponse - Contains product details as cart detail, it's total price
+     * @return CartResponse      - Contains product details as cart detail, it's total price
      * @throws NotFoundException - If cart is inactive or not found
      */
     CartResponseDto getCart() throws NotFoundException;
@@ -54,7 +54,7 @@ public interface CartService {
      *     based on currently logged-in user detail
      * </p>
      *
-     * @return SuccessResponseDto - Contains message and status code
+     * @return                   - Success message and status code
      * @throws NotFoundException - If cart not found
      */
     SuccessResponseDto removeCart() throws NotFoundException;
@@ -65,8 +65,8 @@ public interface CartService {
      *     and to update cart with new calculated price
      * </p>
      *
-     * @param productId - To remove product from cart
-     * @return SuccessResponseDto - Contains message and status code
+     * @param productId          - To remove product from cart
+     * @return                   - Success message and status code
      * @throws NotFoundException - If cart or given product id not found
      */
     SuccessResponseDto removeProductFromCart(Integer productId) throws NotFoundException;
@@ -77,18 +77,18 @@ public interface CartService {
      *     new calculated price in active cart of currently logged-in user
      * </p>
      *
-     * @param cartRequest - Contains product id and quantity to add into cart
-     * @return SuccessResponseDto - Contains message and status code
+     * @param cartRequest        - Contains product id and quantity to add into cart
+     * @return                   - Success message and status code
      * @throws NotFoundException - If cart or given product id not found
      */
     SuccessResponseDto updateCart(CartRequestDto cartRequest) throws NotFoundException;
 
     /**
      * <p>
-     *     Get active cart of currently logged-in user
+     *     Gets active cart of currently logged-in user
      * </p>
      *
-     * @return Cart - Contains product details and it's total price
+     * @return - Contains product details and it's total price
      */
     Cart getActiveCartOfCurrentUser();
 }

@@ -152,12 +152,4 @@ public class StoreServiceImpl implements StoreService {
     public StoreLocation getStoreByPinCode(Integer pinCode) {
         return storeRepository.findByIsActiveAndPinCode(true, pinCode);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Boolean existByLocationId(Integer locationId) {
-        return storeRepository.existsByIdAndIsActive(locationId, true);
-    }
 }

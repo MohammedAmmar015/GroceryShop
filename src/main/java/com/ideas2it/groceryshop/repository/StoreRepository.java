@@ -29,7 +29,7 @@ public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     *     Retrieve active or deleted stores based on isActive
+     *     Retrieves active or deleted stores based on isActive
      * </p>
      *
      * @param isActive - To fetch active or inactive stores
@@ -39,7 +39,7 @@ public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     *     Retrieve particular active or inactive store based on location id
+     *     Retrieves specific active or inactive store based on location id
      * </p>
      *
      * @param isActive - To fetch active or inactive store
@@ -50,7 +50,7 @@ public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     *     Delete store location based on location id
+     *     Deletes store location based on location id
      * </p>
      *
      * @param storeId - To delete store
@@ -85,7 +85,7 @@ public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     *     Retrieve active or deleted Store based on Pin code
+     *     Retrieves active or deleted Store based on Pin code
      * </p>
      *
      * @param status  - To fetch store by active or deleted
