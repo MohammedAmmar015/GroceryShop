@@ -16,49 +16,44 @@ import java.util.List;
 
 /**
  * <p>
- * This is StoreRepository which extends JpaRepository,
- * by default we can use default methods available in JpaRepository,
- * We can also add our custom methods in this repository to do
- * database operations on Store Entity
+ *     Provide services to insert, update, retrieve and delete Store Location
+ *     (like area, pin code,. etc)
  * </p>
  *
  * @author Mohammed Ammar
+ * @since 05-11-2022
  * @version 1.0
- * @since 03-11-2022
  */
 @Repository
 public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     *  This method is used to retrieve
-     *  active or deleted Stores based on isActive
+     *     Retrieve active or deleted stores based on isActive
      * </p>
      *
-     * @param isActive deleted or active store
-     * @return list of stores based on is active
+     * @param isActive - To fetch active or inactive stores
+     * @return list of stores  - Contains list of store details like area, pin code
      */
     List<StoreLocation> findByIsActive(Boolean isActive);
 
     /**
      * <p>
-     * This method is used to retrieve particular
-     * active or deleted Store based on location id
+     *     Retrieve particular active or inactive store based on location id
      * </p>
      *
-     * @param isActive deleted or active store
-     * @param id       - location id
-     * @return - Store Location Object
+     * @param isActive - To fetch active or inactive store
+     * @param id       - To fetch store by location
+     * @return Store Location - Contains area and pin code
      */
     StoreLocation findByIsActiveAndId(Boolean isActive, Integer id);
 
     /**
      * <p>
-     * This method is used to delete store location
-     * based on location id
+     *     Delete store location based on location id
      * </p>
      *
-     * @param storeId - id to delete
+     * @param storeId - To delete store
      * @return - number of rows affected
      */
     @Modifying
@@ -68,55 +63,46 @@ public interface StoreRepository extends JpaRepository<StoreLocation, Integer> {
 
     /**
      * <p>
-     * This method is used to check if area or pin code
-     * is already exist in database or not
+     *     To check if area or pin code is already exist in database or not
      * </p>
      *
-     * @param area    - area details
-     * @param pinCode - area Pin code
+     * @param area    - To check store by area
+     * @param pinCode - To check store
      * @return true if exists else false
      */
-    Boolean existsByAreaOrPinCode(String area,
-                                  Integer pinCode);
+    Boolean existsByAreaOrPinCode(String area, Integer pinCode);
 
     /**
      * <p>
-     * This method is used to check if location id
-     * is already exist and active or not in database
+     *     To check if location id is already exist and active or not in database
      * </p>
      *
-     * @param locationId - location id to check
-     * @param status     - true or false
+     * @param locationId - To check for store by location
+     * @param status     - To check for store by active or inactive
      * @return - true if store exist else false
      */
-    Boolean existsByIdAndIsActive(Integer locationId,
-                                  Boolean status);
+    Boolean existsByIdAndIsActive(Integer locationId, Boolean status);
 
     /**
      * <p>
-     * This method is used to retrieve active or deleted Store
-     * based on Pin code
+     *     Retrieve active or deleted Store based on Pin code
      * </p>
      *
-     * @param status  true or false
-     * @param pinCode - area pin code to retrieve
-     * @return storeLocation based on status and pinCode
+     * @param status  - To fetch store by active or deleted
+     * @param pinCode - To fetch store
+     * @return storeLocation - Contains area and pinCode
      */
-    StoreLocation findByIsActiveAndPinCode(Boolean status,
-                                           Integer pinCode);
+    StoreLocation findByIsActiveAndPinCode(Boolean status, Integer pinCode);
 
     /**
      * <p>
-     * This method is used to check if area or pin code
-     * is already exist or not except the given id
+     *     To check if area or pin code is already exist or not except the given id
      * </p>
      *
-     * @param area    - area name
-     * @param pinCode pin code number
-     * @param storeId - location id
+     * @param area    - To check store by area name
+     * @param pinCode - To check store by pin code number
+     * @param storeId - To check store exclude by location
      * @return - true if exist else false
      */
-    Boolean existsByAreaOrPinCodeAndIdNot(String area,
-                                          Integer pinCode,
-                                          Integer storeId);
+    Boolean existsByAreaOrPinCodeAndIdNot(String area, Integer pinCode, Integer storeId);
 }

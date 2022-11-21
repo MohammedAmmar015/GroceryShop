@@ -12,9 +12,10 @@ import lombok.Setter;
 
 /**
  * <p>
- * It holds the stockResponse information(like productId, availableStock, locationId etc.,)
- * and also it is used to view stock details as response to user
+ *     It holds the stockResponse information(like productId, availableStock, locationId etc.,)
+ *     and also it is used to view stock details as response to user
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 03-11-2022
  * @version 1.0

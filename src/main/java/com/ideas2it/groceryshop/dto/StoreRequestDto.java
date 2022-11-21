@@ -16,9 +16,10 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * It holds the StoreRequest information(like area, pinCode etc.,) and
- * also it is used to get store details from user to add into the store
+ *     It holds the StoreRequest information(like area, pinCode etc.,) and
+ *     also it is used to get store details from user to add into the store
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 03-11-2022
  * @version 1.0

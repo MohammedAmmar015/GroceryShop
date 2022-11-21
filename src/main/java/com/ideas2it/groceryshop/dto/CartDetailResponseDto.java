@@ -10,13 +10,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * <p>
- * It holds the CartDetailsRequest information(like productId, quantity etc.,) and
- * also it is used to get product details from user to add into the cart
+ *     It holds the CartDetailResponse information(like productName, quantity, price etc.,) and
+ *     also it is used to view cart details as response to user
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 03-11-2022
  * @version 1.0
@@ -25,11 +24,15 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CartDetailsRequestDto {
+public class CartDetailResponseDto {
 
-    @NotNull(message = "Product id cannot not be empty")
-    private Integer productId;
+    private String productName;
 
-    @NotNull(message = "Quantity cannot not be empty")
+    private String subCategory;
+
+    private String category;
+
     private Integer quantity;
+
+    private Float price;
 }

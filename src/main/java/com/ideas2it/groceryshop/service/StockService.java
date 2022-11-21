@@ -16,10 +16,10 @@ import java.util.List;
 
 /**
  * <p>
- *     Interface for Stock related Services
- *     This class is used to do add, update,
- *     get stock details for different product and location
+ *     Provide services to add, update, view and delete stock
+ *     for different products on different location
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 05-11-2022
  * @version 1.0
@@ -28,107 +28,93 @@ public interface StockService {
 
     /**
      * <p>
-     *     This method is used to add Stock for particular product
-     *     based on Location id
-     *     stockRequest has stock details to add stock for product
+     *     Create Stock for particular product on particular location
+     *     based on product id and location id
      * </p>
      *
-     * @param stockRequest stock details to add stock
-     * @param locationId   To add stock to particular location
-     * @param productId    To add Stock to the Product
-     * @return SuccessResponseDto with success message and status code
-     *          if stock created
-     * @throws NotFoundException if store or product not found
-     * @throws ExistedException if stock already exist for given product and location
+     * @param stockRequest - Contains number of stock to add
+     * @param locationId - To add stock on given location
+     * @param productId - To add stock for given product
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws NotFoundException - If given store id or product id not found
+     * @throws ExistedException - If stock already exist for given product and location
      */
     SuccessResponseDto addStock(StockRequestDto stockRequest, Integer locationId, Integer productId)
-            throws NotFoundException, ExistedException;
+                                throws NotFoundException, ExistedException;
 
     /**
      * <p>
-     *     This method is used to get available Stock details
-     *     for particular product,
-     *     available on different location
-     *     It will return Stock details as list Response DTO
-     * </p>
-     * @param productId id to view Stock details of product
-     * @return List of Stock details on different location
-     * @throws NotFoundException if stock not found for given product id
-     */
-    List<StockResponseDto> getStockByProductId(Integer productId)
-            throws NotFoundException;
-
-    /**
-     * <p>
-     *     This method is used to view stock details,
-     *     for particular product on particular location
-     *     based on product id and location id
-     *     It will return available stock details
-     *     as response DTO
-     * </p>
-     * @param productId - to view Stock details of product
-     * @param locationId - to view stock by location
-     * @return Store Response DTO with available stock
-     * @throws NotFoundException if stock not found for given id
-     */
-    StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
-            throws NotFoundException;
-
-
-    /**
-     * <p>
-     *     This method is used to update stock
-     *     for particular product on particular location
-     *     based on product id and location id
-     *     stockRequest has stock details to be added
-     *     to stock
+     *     Get available Stock details for particular product
+     *     available on different locations
      * </p>
      *
-     * @param stockRequest - stock details to update
-     * @param productId    - id to update stock for this product
-     * @param locationId   - id to update stock on this location
-     * @return SuccessResponseDto success message with status code
-     *          if Stock updated
-     * @throws NotFoundException if stock not found for product id and location id
+     * @param productId - To view stock details on different location
+     * @return list of StockResponseDto - Contains list of available stock for multiple location
+     *                                    for given product id
+     * @throws NotFoundException - If stock not found for given product id
      */
-    SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest,
-                                               Integer productId,
-                                               Integer locationId)
-            throws NotFoundException;
+    List<StockResponseDto> getStockByProductId(Integer productId) throws NotFoundException;
 
     /**
      * <p>
-     *     This method is used to decrease stock by
-     *     user order details, and pinCode from where
-     *     user has ordered the products
-     *     if user placed order successfully
+     *     Get available stock detail for particular product
+     *     on particular location based on product id and location id
      * </p>
-     * @param order it has product details, user ordered
-     * @param pinCode It is user's location pinCode from where user ordered
+     *
+     * @param productId - To view stock detail for given product
+     * @param locationId - To view stock detail on given location
+     * @return StoreResponseDTO - Contains available stock detail for given product and location
+     * @throws NotFoundException - If stock not found for given id
      */
-    void removeStockByOrderDetails(Order order,
-                                   Integer pinCode);
+    StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
+                                                  throws NotFoundException;
+
 
     /**
      * <p>
-     *     This method is used to update stock
-     *     based on product details available in user order,
-     *     if user cancelled the order
+     *     Update stock for particular product on particular location
+     *     based on product id and location id
      * </p>
-     * @param order order details which has product details
-     *             that is cancelled
+     *
+     * @param stockRequest - Contains stock details to update
+     * @param productId    - To update stock for this product
+     * @param locationId   -  To update stock on this location
+     * @return SuccessResponseDto - Contains success message and status code
+     * @throws NotFoundException - If stock not found for product id and location id
+     */
+    SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest, Integer productId,
+                                                       Integer locationId) throws NotFoundException;
+
+    /**
+     * <p>
+     *     Decrease stock for products available in order detail
+     *     based on given pin code
+     * </p>
+     *
+     * @param order - Contains ordered product details to decrease stock
+     * @param pinCode - To reduce stock for given pin code
+     */
+    void removeStockByOrderDetails(Order order, Integer pinCode);
+
+    /**
+     * <p>
+     *     Increase stock for products available in order detail,
+     *     when user cancelled the order
+     * </p>
+     *
+     * @param order - Contains cancelled product details to increase stock
      */
     void updateStockByOrderDetails(Order order);
 
     /**
      * <p>
-     *     This method used to check stock availability
-     *     by store location and product id.
+     *     Checks stock availability for particular product on particular location
+     *     based on given product id and location id
      * </p>
-     * @param locationId to check if stock exist in given location
-     * @param productId to check stock available for given product
-     * @return true if stock exist for given product and location
-     *          else false
+     *
+     * @param locationId - To check if stock exist in given location
+     * @param productId - To check stock available for given product
+     * @return true if stock exist for given product and location else false
      */
     Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId);
 }

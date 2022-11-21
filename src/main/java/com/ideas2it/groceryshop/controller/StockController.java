@@ -27,14 +27,11 @@ import java.util.List;
 
 /**
  * <p>
- *     This is Stock Rest Controller to do Stock related operation
- *     1. api to create stock
- *     2. api to view stock by product
- *     3. api to view stock by product and location
- *     4. api to update stock by product and location
+ *     Provides APIs to add, update, view and delete stock
+ *     for different products on different location
  * </p>
  * @author Mohammed Ammar
- * @since 04-11-2022
+ * @since 05-11-2022
  * @version 1.0
  */
 @RequiredArgsConstructor
@@ -47,15 +44,15 @@ public class StockController {
 
     /**
      * <p>
-     *     This POST API {api/v1/stocks/location/{locationId}/products/{productId}}
-     *     is used to create stock for particular Product on particular location
+     *     Create Stock for particular product on particular location
+     *     by getting stockRequest from user to add
      * </p>
-     * @param stockRequest - stock details to create stock
-     * @param locationId - to create stock for particular location
-     * @param productId - to create stock for particular product
-     * @return SuccessResponseDto if stock created successfully
-     * @throws NotFoundException if product or location not found
-     * @throws ExistedException if stock already exist for given product and location
+     * @param stockRequest - contains number of stock to add
+     * @param locationId - to add stock on given location
+     * @param productId - to add stock for given product
+     * @return SuccessResponseDto - contains success message and status code
+     * @throws NotFoundException - if given store id or product id not found
+     * @throws ExistedException - if stock already exist for given product and location
      */
     @PostMapping("/location/{locationId}/products/{productId}")
     public SuccessResponseDto createStock(@Valid @RequestBody StockRequestDto stockRequest,
@@ -68,13 +65,13 @@ public class StockController {
 
     /**
      * <p>
-     *     This GET API {api/v1/stocks/products/{productId}}
-     *     is used to view Stock details for Particular product
-     *     on different location
+     *     View available Stock details for particular product
+     *     available on different locations by getting product id from user
      * </p>
-     * @param productId - to view stock for this product on different location
-     * @return - list of Stock response
-     * @throws NotFoundException if Stock not found for given product id
+     * @param productId - to view stock details on different location
+     * @return list of StockResponseDto - contains list of available stock for multiple location
+     *                                      for given product id
+     * @throws NotFoundException - if stock not found for given product id
      */
     @GetMapping("/products/{productId}")
     public List<StockResponseDto> viewStockByProduct(@PathVariable Integer productId)
@@ -85,14 +82,14 @@ public class StockController {
 
     /**
      * <p>
-     *     This GET API {api/v1/stocks/location/{locationId}/products/{productId}}
-     *     is used to view Stock for particular product
-     *     on particular location
+     *     View available stock detail for particular product
+     *     on particular location based on product id and location id
+     *     by getting product id and location id
      * </p>
-     * @param productId - to view stock of this product
-     * @param locationId - to view stock in this location
-     * @return stock response DTO
-     * @throws NotFoundException if stock not found for given location and product
+     * @param productId - to view stock detail for given product
+     * @param locationId - to view stock detail on given
+     * @return StoreResponseDTO - contains available stock detail for given product and location
+     * @throws NotFoundException - if stock not found for given id
      */
     @GetMapping("/location/{locationId}/products/{productId}")
     public StockResponseDto getStockByProductAndLocation(@PathVariable Integer productId,
@@ -104,15 +101,16 @@ public class StockController {
 
     /**
      * <p>
-     *     This PUT API {api/v1/stocks/location/{locationId}/products/{productId}}
-     *     is used to Update stock for Particular product,
-     *     on particular location
+     *     Update stock for particular product on particular location
+     *     based on product id and location id
+     *     by getting locationId and productId from user
      * </p>
-     * @param stockRequest - stock details to be updated
-     * @param productId - to update stock for this product
-     * @param locationId - to update stock on this location
-     * @return SuccessResponseDto if stock updated successfully
-     * @throws NotFoundException if product or location not found
+     *
+     * @param stockRequest - stock details to update
+     * @param productId    - to update stock for this product
+     * @param locationId   -  to update stock on this location
+     * @return SuccessResponseDto - contains success message and status code
+     * @throws NotFoundException - if stock not found for product id and location id
      */
     @PutMapping("location/{locationId}/products/{productId}")
     public SuccessResponseDto updateStockByProductAndLocation

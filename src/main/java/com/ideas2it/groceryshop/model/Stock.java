@@ -22,9 +22,9 @@ import javax.persistence.Table;
 
 /**
  * <p>
- * It holds the stock related information(like storeLocation, product,
- * availableStock etc.,) and also it is used to store and retrieve the
- * Stock information to and from database through JpaRepository
+ *     It holds the stock related information(like storeLocation, product,
+ *     availableStock etc.,) and also it is used to store and retrieve the
+ *     Stock information to and from database through JpaRepository
  * </p>
  *
  * @author Mohammed Ammar
@@ -38,6 +38,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "stock")
 public class Stock extends Audit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -52,9 +53,7 @@ public class Stock extends Audit {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @Column(name = "is_active",
-            nullable = false,
-            columnDefinition = "TINYINT")
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private Boolean isActive = true;
 
     @ManyToOne

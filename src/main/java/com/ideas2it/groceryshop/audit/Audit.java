@@ -9,8 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,9 +24,8 @@ import java.util.Date;
 
 /**
  * <p>
- * This Audit class is used to hold auditing data
- * like created by, modified by, created at and modified at
- * for auditing purpose
+ *      It holds auditing information like created by, modified by, created at and modified at
+ *      to store and retrieve for auditing purpose
  * </p>
  *
  * @author Mohammed Ammar

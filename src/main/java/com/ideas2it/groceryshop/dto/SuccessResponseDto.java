@@ -12,8 +12,9 @@ import lombok.Setter;
 
 /**
  * <p>
- *     Success DTO, to hold success message and status code
+ *     It holds success message and status code
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 10-11-2022
  * @version 1.0
@@ -24,7 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SuccessResponseDto {
 
-    Integer statusCode;
+    private Integer statusCode;
 
-    String message;
+    private String message;
 }

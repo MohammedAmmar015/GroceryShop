@@ -14,10 +14,10 @@ import com.ideas2it.groceryshop.model.Cart;
 
 /**
  * <p>
- *     Interface for Cart related Services
- *     This class is used to add, remove,
- *     update products from cart
+ *     Provide services to add, update, view, delete products
+ *     from and to cart based on currently logged-in user
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 05-11-2022
  * @version 1.0
@@ -26,80 +26,69 @@ public interface CartService {
 
     /**
      * <p>
-     *     This method is used to add Product to the existing Cart
-     *     or create a new cart if cart is inactive
-     *     for particular user based on currently logged-in user
-     *     and also cart details will be added to cart by cartRequest
-     *     which has product id and quantity
+     *     Creates new cart if cart is inactive else update
+     *     the cart based on given product details
      * </p>
-     * @param cartRequest - product id and quantity to add into Cart
-     * @return - SuccessResponseDto with Message and status Code if product
-     *          successfully added to cart
-     * @throws NotFoundException - if given product id not found
-     * @throws ExistedException if product already exist in cart
+     *
+     * @param cartRequest - Contains product id and quantity to add into cart
+     * @return SuccessResponseDto - Contains message and status Code
+     * @throws NotFoundException - If product not found
+     * @throws ExistedException - If product already exist in cart
      */
-    SuccessResponseDto addOrModifyCart(CartRequestDto cartRequest)
-                                      throws NotFoundException, ExistedException;
+    SuccessResponseDto addOrModifyCart(CartRequestDto cartRequest) throws NotFoundException,
+                                                                          ExistedException;
 
     /**
      * <p>
-     *     This method is used to get Cart of currently
-     *     logged-in user and to return cart details
-     *     as response DTO
+     *     Get the cart of currently logged-in user
      * </p>
-     * @return - CartResponse with products and it's total price
-     *           that added to cart by user
-     * @throws NotFoundException if cart is inActive or not found
+     *
+     * @return CartResponse - Contains product details as cart detail, it's total price
+     * @throws NotFoundException - If cart is inactive or not found
      */
     CartResponseDto getCart() throws NotFoundException;
 
     /**
      * <p>
-     *     This method is used to remove all products from Cart
-     *     and to delete cart
-     *     of currently logged-in user
+     *     Removes all products from cartDetail and to remove cart
+     *     based on currently logged-in user detail
      * </p>
      *
-     * @return SuccessResponseDto with success message and status code
-     *          if cart deleted successfully
+     * @return SuccessResponseDto - Contains message and status code
+     * @throws NotFoundException - If cart not found
      */
     SuccessResponseDto removeCart() throws NotFoundException;
 
     /**
      * <p>
-     *     This method is used to remove particular product
-     *     based on product id,
-     *     from user's cart of currently logged-in user
-     *     and to update total price based
-     *     on current cart details
+     *     Removes particular product from cartDetails based on given product id
+     *     and to update cart with new calculated price
      * </p>
      *
-     * @param productId - product id to be removed
-     * @return SuccessResponseDto if product deleted from cart
-     * @throws NotFoundException if cart or product not found
+     * @param productId - To remove product from cart
+     * @return SuccessResponseDto - Contains message and status code
+     * @throws NotFoundException - If cart or given product id not found
      */
     SuccessResponseDto removeProductFromCart(Integer productId) throws NotFoundException;
 
     /**
      * <p>
-     *     This method is used to update product quantity in user's Cart
-     *     of currently logged-in user
-     *     CartRequest will have product id and quantity to be updated,
-     *     new totalPrice and totalQuantity will also get updated
+     *     Updates quantity of particular product and to update
+     *     new calculated price in active cart of currently logged-in user
      * </p>
      *
-     * @param cartRequest - cart details to be Updated
-     * @return SuccessResponseDto if cart updated successfully
-     * @throws NotFoundException if cart or product not found
+     * @param cartRequest - Contains product id and quantity to add into cart
+     * @return SuccessResponseDto - Contains message and status code
+     * @throws NotFoundException - If cart or given product id not found
      */
-    SuccessResponseDto updateCartByUser(CartRequestDto cartRequest) throws NotFoundException;
+    SuccessResponseDto updateCart(CartRequestDto cartRequest) throws NotFoundException;
 
     /**
      * <p>
-     *     This method is used to get active cart
-     *     of currently logged-in user
+     *     Get active cart of currently logged-in user
      * </p>
-     * @return Cart if cart available else it will return null
+     *
+     * @return Cart - Contains product details and it's total price
      */
     Cart getActiveCartOfCurrentUser();
 }
