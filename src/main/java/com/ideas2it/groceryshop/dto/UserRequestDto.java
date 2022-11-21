@@ -7,7 +7,6 @@ package com.ideas2it.groceryshop.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,7 +41,6 @@ public class UserRequestDto {
     private String lastName;
 
     @NotNull(message = "Mobile Number Field cannot be empty")
-    @Pattern(regexp = "^[6-9][0-9]{9}", message = "Enter valid mobile number")
     private Long mobileNumber;
 
     @NotNull
