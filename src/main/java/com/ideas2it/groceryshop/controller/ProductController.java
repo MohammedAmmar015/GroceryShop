@@ -51,12 +51,12 @@ public class ProductController {
 
     /**
      * <p>
-     *     To create product by using product request dto.
+     *     Create and add product by using product request dto.
      * </p>
      *
-     * @param productRequestDto - Contains name, price, subCategory id, unit, perHead.
-     * @return - Success response dto with message and status code.
-     * @throws ExistedException - If product already exists.
+     * @param productRequestDto  - Contains name, price, subCategory id, unit, perHead.
+     * @return                   - Success message and status code.
+     * @throws ExistedException  - If product already exists.
      * @throws NotFoundException - If category id not found.
      */
     @PostMapping
@@ -71,8 +71,8 @@ public class ProductController {
      *     Get products by using keyword.
      * </p>
      *
-     * @param name - Contains keywords.
-     * @return - list of matched products
+     * @param name               - Contains keywords.
+     * @return                   - list of matched products.
      * @throws NotFoundException - If products not found.
      */
     @GetMapping("/search/{name}")
@@ -84,11 +84,11 @@ public class ProductController {
 
     /**
      * <p>
-     *     Get all products using category id.
+     *     Get all products by category id.
      * </p>
      *
-     * @param categoryId - To find relevant category.
-     * @return - List of products available in category.
+     * @param categoryId         - To find relevant category.
+     * @return                   - List of products available in category.
      * @throws NotFoundException - If no products found.
      */
     @GetMapping("/category/{categoryId}")
@@ -100,11 +100,11 @@ public class ProductController {
 
     /**
      * <p>
-     *     Get all products of particular sub category by using sub category id.
+     *     Get all products of specific sub category by sub category id.
      * </p>
      *
-     * @param subCategoryId - To find particular sub category.
-     * @return - List of products available in sub category.
+     * @param subCategoryId      - To find particular sub category.
+     * @return                   - List of products available in sub category.
      * @throws NotFoundException - If no products found.
      */
     @GetMapping("/category/subCategory/{subCategoryId}")
@@ -117,10 +117,10 @@ public class ProductController {
 
     /**
      * <p>
-     *     Get all available product.
+     *     Get all available products.
      * </p>
      *
-     * @return - list of product.
+     * @return                   - list of product.
      * @throws NotFoundException - If no products found.
      */
     @GetMapping
@@ -131,16 +131,15 @@ public class ProductController {
 
     /**
      * <p>
-     *     Get product in particular location by using location id.
+     *     Get products in specific location by using location id.
      * </p>
      *
-     * @param locationId - To fetch product from that particular location.
-     * @return - List of Product.
+     * @param locationId         - To fetch product from that particular location.
+     * @return                   - List of Product.
      * @throws NotFoundException - If no product found.
      */
     @GetMapping("/location/{locationId}")
-    public List<ProductResponseDto> getProductsByLocation(@PathVariable("locationId")
-                                                              Integer locationId)
+    public List<ProductResponseDto> getProductsByLocation(@PathVariable("locationId") Integer locationId)
                                                           throws NotFoundException {
         logger.debug("Entered into getProductByLocationId method in product controller");
         return productService.getProductsByLocation(locationId);
@@ -148,51 +147,52 @@ public class ProductController {
 
     /**
      * <p>
-     *     Get product by using product id.
+     *     Get product by product id.
      * </p>
      *
-     * @param productId - To fetch particular product.
-     * @return product - Contains product details.
+     * @param productId          - To fetch particular product.
+     * @return product           - Contains product details.
      * @throws NotFoundException - If no product found.
      */
     @GetMapping("/productId/{productId}")
-    public ProductResponseDto getProductById(@PathVariable("productId")
-                                                  Integer productId) throws NotFoundException {
+    public ProductResponseDto getProductById(@PathVariable("productId") Integer productId)
+                                             throws NotFoundException {
         logger.debug("Entered into getProductById method in product controller");
         return productService.getProductById(productId);
     }
 
     /**
      * <p>
-     *     Delete product using product id.
+     *     Removes product by product id.
      * </p>
      *
-     * @param id - To delete product.
-     * @return - Success response dto with message and status code.
+     * @param productId          - To delete product.
+     * @return                   - Success message and status code.
      * @throws NotFoundException - If product not found.
      */
-    @DeleteMapping("/{id}")
-    public SuccessResponseDto deleteProductById(@PathVariable("id") Integer id) throws NotFoundException {
+    @DeleteMapping("/{productId}")
+    public SuccessResponseDto deleteProductById(@PathVariable("productId") Integer productId)
+            throws NotFoundException {
         logger.debug("Entered into deleteProduct method in product controller");
-        return productService.deleteProductById(id);
+        return productService.deleteProductById(productId);
     }
 
     /**
      * <p>
-     *     Update particular product details
+     *     Updates specific product details
      * </p>
      *
-     * @param id - To update product.
-     * @param productRequestDto - Contains values to be updated.
-     * @return - Success response dto with message and status code.
+     * @param productId          - To update product.
+     * @param productRequestDto  - Contains values to be updated.
+     * @return                   - Success message and status code.
      * @throws NotFoundException - If product not found.
-     * @throws ExistedException - If product field is already exists.
+     * @throws ExistedException  - If product field is already exists.
      */
-    @PutMapping("/{id}")
-    public SuccessResponseDto updateProductById(@PathVariable("id") Integer id,
+    @PutMapping("/{productId}")
+    public SuccessResponseDto updateProductById(@PathVariable("productId") Integer productId,
                                                 @RequestBody ProductRequestDto productRequestDto)
                                                 throws NotFoundException, ExistedException {
         logger.debug("Entered into updateProduct method in product controller");
-        return productService.updateProductById(id, productRequestDto);
+        return productService.updateProductById(productId, productRequestDto);
     }
 }

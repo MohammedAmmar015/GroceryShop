@@ -39,12 +39,6 @@ public class ProductServiceTest {
     ProductRepository productRepo;
 
     @Mock
-    StoreRepository storeRepo;
-
-    @Mock
-    StockRepository stockRepo;
-
-    @Mock
     CategoryRepository categoryRepo;
 
     @InjectMocks

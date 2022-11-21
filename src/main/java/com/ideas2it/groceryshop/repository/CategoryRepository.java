@@ -31,7 +31,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
      * </p>
      *
      * @param status - To fetch active or inactive categories
-     * @return - list of category
+     * @return       - list of category
      */
     @Query(value ="select * from category where parent_id is null and is_active = ?1", nativeQuery = true)
     List<Category> findCategoriesByParentIdAndIsActive( Boolean status);
@@ -42,7 +42,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
      * </p>
      *
      * @param status - To get active or inactive sub categories.
-     * @return - list of sub category.
+     * @return       - list of sub category.
      */
     @Query(value = "select * from category where parent_id is not null and is_active = ?1",
             nativeQuery = true)
@@ -50,13 +50,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     /**
      * <p>
-     *     To fetch particular active category by id.
-     *     To update & delete category.
+     *     To fetch relevant active category by id.
      * </p>
      *
      * @param categoryId - To fetch relevant category.
-     * @param status - To fetch active or inactive category
-     * @return - Category details.
+     * @param status     - To fetch active or inactive category
+     * @return           - Category details.
      */
     @Query(value = "select * from category where id = ?1 and is_active = ?2", nativeQuery = true)
     Category findCategoryByIdAndIsActive(Integer categoryId, Boolean status);
@@ -64,13 +63,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     /**
      * <p>
      *     To fetch active sub category by parentId and categoryId.
-     *     To update & delete sub category.
      * </p>
      *
-     * @param parentId - To ensure it is sub category
+     * @param parentId   - To ensure it is sub category.
      * @param categoryId - To get sub category.
-     * @param status - to get active or inactive sub category
-     * @return - sub category details
+     * @param status     - To get active or inactive sub category.
+     * @return           - Sub category details.
      */
     @Query(value = "select * from category where parent_id = ?1 and id = ?2 and is_active = ?3",
             nativeQuery = true)
@@ -78,13 +76,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
                                                                Boolean status);
     /**
      * <p>
-     *     To fetch active sub category by parent id.
-     *     To delete sub categories.
+     *     To fetch active sub categories by parent id.
      * </p>
      *
-     * @param subCategoryId - To fetch relevant sub categories
-     * @param status - To fetch active or inactive sub categories
-     * @return - list of sub category
+     * @param subCategoryId - To fetch relevant sub categories.
+     * @param status        - To fetch active or inactive sub categories.
+     * @return              - list of sub category.
      */
     @Query(value ="select * from category where parent_id = ?1 and is_active = ?2", nativeQuery = true)
     List<Category> findSubCategoriesByParentIdAndIsActive(Integer subCategoryId, Boolean status);
@@ -95,7 +92,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
      * </p>
      *
      * @param name - To check name exist or not
-     * @return - If name exist return true or-else false
+     * @return     - If name exist return true or-else false
      */
     Boolean existsByName(String name);
 }

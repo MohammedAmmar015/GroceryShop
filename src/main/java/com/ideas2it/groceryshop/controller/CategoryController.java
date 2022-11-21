@@ -41,10 +41,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
-
     private final Logger logger;
     private final CategoryService categoryService;
-
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
         this.logger = LogManager.getLogger(CategoryController.class);
@@ -52,13 +50,13 @@ public class CategoryController {
 
     /**
      * <p>
-     *     To create category by using category request dto.
+     *     Creates category by using category request dto.
      * </p>
      *
-     * @param categoryRequestDto - Contains name, parentId.
-     * @return SuccessResponseDto - Contains success message and status code.
-     * @throws ExistedException - If category already exists.
-     * @throws NotFoundException - If category id not found for adding sub categories.
+     * @param categoryRequestDto  - Contains name, parentId.
+     * @return                    - Success message and status code.
+     * @throws ExistedException   - If category already exists.
+     * @throws NotFoundException  - If category id not found for adding sub categories.
      */
     @PostMapping
     public SuccessResponseDto addCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto)
@@ -69,11 +67,11 @@ public class CategoryController {
 
     /**
      * <p>
-     *     To get available categories.
+     *     Gets all available categories.
      * </p>
      *
-     * @return - List of category.
-     * @throws NotFoundException - If category not found.
+     * @return                   - List of category.
+     * @throws NotFoundException - If categories not found.
      */
     @GetMapping
     public List<CategoryResponseDto> getCategory() throws NotFoundException {
@@ -83,11 +81,11 @@ public class CategoryController {
 
     /**
      * <p>
-     *     To get all available sub categories.
+     *     Gets all available sub categories.
      * </p>
      *
-     * @return - List of sub category.
-     * @throws NotFoundException - If sub category not found.
+     * @return                   - List of sub category.
+     * @throws NotFoundException - If sub categories not found.
      */
     @GetMapping("/subCategories")
     public List<SubCategoryResponseDto> getSubCategory() throws NotFoundException {
@@ -97,27 +95,28 @@ public class CategoryController {
 
     /**
      * <p>
-     *     Delete category by using category id.
+     *     Removes category by category id.
      * </p>
      *
-     * @param id - To fetch relevant category.
-     * @return - Success response dto with message and status code.
+     * @param categoryId         - To fetch relevant category.
+     * @return                   - Success message and status code.
      * @throws NotFoundException - If category not found.
      */
-    @DeleteMapping("/{id}")
-    public SuccessResponseDto deleteCategory(@PathVariable("id") Integer id) throws NotFoundException {
+    @DeleteMapping("/{categoryId}")
+    public SuccessResponseDto deleteCategory(@PathVariable("categoryId") Integer categoryId)
+                                             throws NotFoundException {
         logger.debug("Entered into deleteCategory method of category controller");
-        return categoryService.deleteCategory(id);
+        return categoryService.deleteCategory(categoryId);
     }
 
     /**
      * <p>
-     *     Delete sub category by using sub category id.
+     *     Removes sub category by sub category id.
      * </p>
      *
-     * @param parentId - To find relevant sub category.
-     * @param categoryId - To delete sub category.
-     * @return - Success response dto with message and status code.
+     * @param parentId           - To find relevant sub category.
+     * @param categoryId         - To delete sub category.
+     * @return                   - Success message and status code.
      * @throws NotFoundException - If sub category not found.
      */
     @DeleteMapping("/{parentId}/subCategories/{categoryId}")
@@ -130,13 +129,13 @@ public class CategoryController {
 
     /**
      * <p>
-     *     Update category fields by using category request dto and category id.
+     *     Updates category fields by using category request dto and category id.
      * </p>
      *
-     * @param categoryId - To find which object to update
+     * @param categoryId         - To find which object to update
      * @param categoryRequestDto - Contains name to get update.
-     * @return - Success response dto with message and status code.
-     * @throws ExistedException - If category fields already exists.
+     * @return                   - Success message and status code.
+     * @throws ExistedException  - If category fields already exists.
      * @throws NotFoundException - If category not found.
      */
     @PutMapping("/{categoryId}")
@@ -149,14 +148,14 @@ public class CategoryController {
 
     /**
      * <p>
-     *     Update sub category fields by using sub category request dto and sub category id.
+     *     Updates sub category fields by using sub category request dto and sub category id.
      * </p>
      *
-     * @param categoryId -To find relevant sub category.
-     * @param parentId - To fetch sub category.
+     * @param categoryId         - To find relevant sub category.
+     * @param parentId           - To fetch sub category.
      * @param categoryRequestDto - Contains category name, parentId to be updated.
-     * @return - Success response dto with message and status code.
-     * @throws ExistedException - If sub category fields already exists.
+     * @return                   - Success message and status code.
+     * @throws ExistedException  - If sub category fields already exists.
      * @throws NotFoundException - If sub category not found.
      */
     @PutMapping("/{parentId}/subCategories/{categoryId}")
