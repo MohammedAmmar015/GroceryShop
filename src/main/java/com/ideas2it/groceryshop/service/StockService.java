@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * <p>
- *     Provide services to add, update, view and delete stock
+ *     Provides services to add, update, view and delete stock
  *     for different products on different location
  * </p>
  *
@@ -28,42 +28,42 @@ public interface StockService {
 
     /**
      * <p>
-     *     Create Stock for particular product on particular location
+     *     Creates Stock for particular product on particular location
      *     based on product id and location id
      * </p>
      *
-     * @param stockRequest - Contains number of stock to add
-     * @param locationId - To add stock on given location
-     * @param productId - To add stock for given product
-     * @return SuccessResponseDto - Contains success message and status code
+     * @param stockRequest       - Contains number of stock to add
+     * @param locationId         - To add stock on given location
+     * @param productId          - To add stock for given product
+     * @return                   - Success message and status code
      * @throws NotFoundException - If given store id or product id not found
-     * @throws ExistedException - If stock already exist for given product and location
+     * @throws ExistedException  - If stock already exist for given product and location
      */
     SuccessResponseDto addStock(StockRequestDto stockRequest, Integer locationId, Integer productId)
                                 throws NotFoundException, ExistedException;
 
     /**
      * <p>
-     *     Get available Stock details for particular product
+     *     Gets available Stock details for particular product
      *     available on different locations
      * </p>
      *
-     * @param productId - To view stock details on different location
-     * @return list of StockResponseDto - Contains list of available stock for multiple location
-     *                                    for given product id
+     * @param productId          - To view stock details on different location
+     * @return                   - List of available stock for multiple location
+     *                             for given product id
      * @throws NotFoundException - If stock not found for given product id
      */
     List<StockResponseDto> getStockByProductId(Integer productId) throws NotFoundException;
 
     /**
      * <p>
-     *     Get available stock detail for particular product
+     *     Gets available stock detail for particular product
      *     on particular location based on product id and location id
      * </p>
      *
-     * @param productId - To view stock detail for given product
-     * @param locationId - To view stock detail on given location
-     * @return StoreResponseDTO - Contains available stock detail for given product and location
+     * @param productId          - To view stock detail for given product
+     * @param locationId         - To view stock detail on given location
+     * @return                   - Available stock detail for given product and location
      * @throws NotFoundException - If stock not found for given id
      */
     StockResponseDto getStockByProductAndLocation(Integer productId, Integer locationId)
@@ -72,14 +72,14 @@ public interface StockService {
 
     /**
      * <p>
-     *     Update stock for particular product on particular location
+     *     Updates stock for particular product on particular location
      *     based on product id and location id
      * </p>
      *
-     * @param stockRequest - Contains stock details to update
-     * @param productId    - To update stock for this product
-     * @param locationId   -  To update stock on this location
-     * @return SuccessResponseDto - Contains success message and status code
+     * @param stockRequest       - Contains stock details to update
+     * @param productId          - To update stock for this product
+     * @param locationId         - To update stock on this location
+     * @return                   - Success message and status code
      * @throws NotFoundException - If stock not found for product id and location id
      */
     SuccessResponseDto updateStockByProductAndLocation(StockRequestDto stockRequest, Integer productId,
@@ -87,34 +87,22 @@ public interface StockService {
 
     /**
      * <p>
-     *     Decrease stock for products available in order detail
+     *     Decreases stock for products available in order detail
      *     based on given pin code
      * </p>
      *
-     * @param order - Contains ordered product details to decrease stock
+     * @param order   - Contains ordered product details to decrease stock
      * @param pinCode - To reduce stock for given pin code
      */
     void removeStockByOrderDetails(Order order, Integer pinCode);
 
     /**
      * <p>
-     *     Increase stock for products available in order detail,
+     *     Increases stock for products available in order detail,
      *     when user cancelled the order
      * </p>
      *
      * @param order - Contains cancelled product details to increase stock
      */
     void updateStockByOrderDetails(Order order);
-
-    /**
-     * <p>
-     *     Checks stock availability for particular product on particular location
-     *     based on given product id and location id
-     * </p>
-     *
-     * @param locationId - To check if stock exist in given location
-     * @param productId - To check stock available for given product
-     * @return true if stock exist for given product and location else false
-     */
-    Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId, Integer productId);
 }

@@ -31,6 +31,7 @@ import java.util.List;
  *     Provides APIs to add, update, view and delete
  *     Store Location (like area, pin code,. etc)
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 05-11-2022
  * @version 1.0
@@ -48,33 +49,34 @@ public class StoreLocationController {
      *     Creates store location by getting storeRequest
      *     details from user
      * </p>
-     * @param storeLocationRequest - contains area and pin code to create store
-     * @return SuccessResponseDto - contains success message and status code
-     * @throws ExistedException - if area or location already exist
+     *
+     * @param storeLocationRequest - Contains area and pin code to create store
+     * @return                     - Success message and status code
+     * @throws ExistedException    - If area or location already exist
      */
     @PostMapping
-    public SuccessResponseDto createStore
-                              (@Valid @RequestBody StoreRequestDto storeLocationRequest)
-                               throws ExistedException {
+    public SuccessResponseDto createStore(@Valid @RequestBody StoreRequestDto storeLocationRequest)
+                                          throws ExistedException {
         logger.debug("Entered createStore method in StoreLocationController");
         return storeService.addStore(storeLocationRequest);
     }
 
     /**
      * <p>
-     *     Update store location detail by getting new storeRequest detail
+     *     Updates store location detail by getting new storeRequest detail
      *     and locationId from user
      * </p>
-     * @param storeLocationRequest - contains store location detail to update
-     * @param storeId - to update store detail for given storeId
-     * @return successResponseDto - contains message and status code
-     * @throws NotFoundException - if store not found
-     * @throws ExistedException - if given new details already exist
+     *
+     * @param storeLocationRequest - Contains store location detail to update
+     * @param storeId              - To update store detail for given storeId
+     * @return                     - success message and status code
+     * @throws NotFoundException   - If store not found
+     * @throws ExistedException    - If given new details already exist
      */
     @PutMapping("/{storeId}")
-    public SuccessResponseDto updateStore
-                              (@Valid @RequestBody StoreRequestDto storeLocationRequest,
-                               @PathVariable Integer storeId) throws ExistedException, NotFoundException {
+    public SuccessResponseDto updateStore(@Valid @RequestBody StoreRequestDto storeLocationRequest,
+                                          @PathVariable Integer storeId)
+                                          throws ExistedException, NotFoundException {
         logger.debug("Entered updateStore method in StoreLocationController");
         return storeService.modifyStore(storeLocationRequest, storeId);
     }
@@ -83,8 +85,9 @@ public class StoreLocationController {
      * <p>
      *     View all active stores location detail as ResponseDto to user
      * </p>
-     * @return list of storeResponseDTO - contains area, pin code, etc., for available stores
-     * @throws NotFoundException - if no store location found
+     *
+     * @return list of storeResponseDTO - Contains area, pin code, etc., for available stores
+     * @throws NotFoundException        - If no store location found
      */
     @GetMapping
     public List<StoreResponseDto> viewStores() throws NotFoundException {
@@ -97,9 +100,10 @@ public class StoreLocationController {
      *     View particular store detail as response dto based
      *     by getting location id from user
      * </p>
-     * @param storeId - to get particular store detail
-     * @return StoreResponseDTO - contains success message and status code
-     * @throws NotFoundException - if store not found
+     *
+     * @param storeId            - To get particular store detail
+     * @return                   - Success message and status code
+     * @throws NotFoundException - If store not found
      */
     @GetMapping("/{storeId}")
     public StoreResponseDto viewStoreById(@PathVariable Integer storeId)
@@ -110,11 +114,11 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *      Remove store by getting store location id from user
+     *      Removes store by getting store location id from user
      * </p>
-     * @param storeId - to remove store for given store id
-     * @return SuccessResponseDto - contains success message and status code
-     * @throws NotFoundException - if store not found
+     * @param storeId            - To remove store for given store id
+     * @return                   - Success message and status code
+     * @throws NotFoundException - If store not found
      */
     @DeleteMapping("/{storeId}")
     public SuccessResponseDto deleteStore(@PathVariable Integer storeId)
@@ -122,5 +126,4 @@ public class StoreLocationController {
         logger.debug("Entered deleteStore method in StoreLocationController");
         return storeService.removeStore(storeId);
     }
-
 }

@@ -95,7 +95,8 @@ public class ApplicationExceptionHandler {
 
     /**
      * <p>
-     *     This is Exception handler method for MethodArgumentNotValid Exception
+     *     It is implemented to handle an MethodArgumentNotValidException thrown
+     *     when given payload is not valid
      * </p>
      * @param exception MethodArgumentNotValidException exception with Message
      * @return errors with field name and error message

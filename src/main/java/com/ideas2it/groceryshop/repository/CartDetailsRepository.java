@@ -23,7 +23,7 @@ public interface CartDetailsRepository extends JpaRepository<CartDetail, Integer
 
     /**
      * <p>
-     *     Delete all cart details by user's id, of particular user when user needs to empty cart
+     *     Deletes all cart details by user's id, of particular user when user needs to empty cart
      *     or if user placed order through cart
      * </p>
      * @param userId - To delete products from cart

@@ -26,7 +26,7 @@ public class StockMapper {
      * </p>
      *
      * @param stockRequest - Contains stock to add
-     * @return Stock - Contains Stock details
+     * @return             - Stock detail to add stock
      */
     public static Stock toStock(StockRequestDto stockRequest) {
         Stock stock = new Stock();
@@ -40,7 +40,7 @@ public class StockMapper {
      * </p>
      *
      * @param stock - Contains stock details like available stock
-     * @return StockResponse - Contains stock, product name, location
+     * @return      - Stock details like stock, product name, location
      */
     public static StockResponseDto toStockResponse(Stock stock) {
         StockResponseDto stockResponse = new StockResponseDto();
