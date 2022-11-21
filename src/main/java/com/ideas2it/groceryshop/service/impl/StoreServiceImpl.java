@@ -14,9 +14,12 @@ import com.ideas2it.groceryshop.mapper.StoreLocationMapper;
 import com.ideas2it.groceryshop.model.StoreLocation;
 import com.ideas2it.groceryshop.repository.StoreRepository;
 import com.ideas2it.groceryshop.service.StoreService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,11 +27,8 @@ import java.util.List;
 
 /**
  * <p>
- *     Implementation class for Store Service Interface
- *     This class implements methods which is used to 
- *     add store, update store location details,
- *     view stores, view particular store
- *     and delete store location
+ *     Provides implementation for services to add, update, view and delete
+ *     Store Location (like area, pin code,. etc)
  * </p>
  * @author Mohammed Ammar
  * @since 05-11-2022
@@ -44,8 +44,7 @@ public class StoreServiceImpl implements StoreService {
      * {@inheritDoc}
      */
     @Override
-    public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest)
-                                       throws ExistedException {
+    public SuccessResponseDto addStore(StoreRequestDto storeLocationRequest) throws ExistedException {
         logger.debug("Entered addStore method in StoreServiceImpl");
         String area = storeLocationRequest.getArea();
         Integer pinCode = storeLocationRequest.getPinCode();
@@ -53,8 +52,7 @@ public class StoreServiceImpl implements StoreService {
             logger.error("area or pin code already exist");
             throw new ExistedException("Area or PinCode already exists");
         }
-        StoreLocation storeLocation
-                        = StoreLocationMapper.toStoreLocation(storeLocationRequest);
+        StoreLocation storeLocation = StoreLocationMapper.toStoreLocation(storeLocationRequest);
         storeRepository.save(storeLocation);
         logger.debug("store created successfully");
         return new SuccessResponseDto(201, "Store created successfully");
@@ -72,8 +70,8 @@ public class StoreServiceImpl implements StoreService {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
         }
-        for (StoreLocation storeLocation : stores) {
-            storesResponse.add(StoreLocationMapper.toStoreLocationResponse(storeLocation));
+        for (StoreLocation eachStore : stores) {
+            storesResponse.add(StoreLocationMapper.toStoreLocationResponse(eachStore));
         }
         return storesResponse;
     }
@@ -97,8 +95,7 @@ public class StoreServiceImpl implements StoreService {
      * {@inheritDoc}
      */
     @Override
-    public StoreResponseDto getStoreResponseById(Integer storeId)
-                                         throws NotFoundException {
+    public StoreResponseDto getStoreResponseById(Integer storeId) throws NotFoundException {
         logger.debug("Entered getStoreById method in StoreServiceImpl");
         StoreLocation storeLocation = storeRepository.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
@@ -112,8 +109,7 @@ public class StoreServiceImpl implements StoreService {
      * {@inheritDoc}
      */
     @Override
-    public StoreLocation getStoreById(Integer storeId)
-            throws NotFoundException {
+    public StoreLocation getStoreById(Integer storeId) throws NotFoundException {
         logger.debug("Entered getStoreById method in StoreServiceImpl");
         StoreLocation storeLocation = storeRepository.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
@@ -131,8 +127,7 @@ public class StoreServiceImpl implements StoreService {
                                           Integer storeId)
                                           throws NotFoundException, ExistedException {
         logger.debug("Entered modifyStore method in StoreServiceImpl");
-        StoreLocation storeLocation
-                        = storeRepository.findByIsActiveAndId(true, storeId);
+        StoreLocation storeLocation = storeRepository.findByIsActiveAndId(true, storeId);
         if (storeLocation == null) {
             logger.error("store not found");
             throw new NotFoundException("Store not found");
@@ -147,8 +142,7 @@ public class StoreServiceImpl implements StoreService {
         storeLocation.setPinCode(storeLocationRequest.getPinCode());
         storeRepository.save(storeLocation);
         logger.debug("store updated successfully");
-        return new SuccessResponseDto(200,
-                                "Store updated successfully");
+        return new SuccessResponseDto(200, "Store updated successfully");
     }
 
     /**

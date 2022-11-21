@@ -11,8 +11,9 @@ import com.ideas2it.groceryshop.model.StoreLocation;
 
 /**
  * <p>
- *     Store Location Mapper, used to convert StoreLocation Entity and StoreLocation DTO
+ *     Converts StoreLocation Entity to StoreLocation DTO and vice versa
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 02-11-2022
  * @version 1.0
@@ -21,10 +22,11 @@ public class StoreLocationMapper {
 
     /**
      * <p>
-     *     It is used to convert StoreLocation Request to StoreLocation Entity
+     *     Converts StoreLocation Request to StoreLocation Entity
      * </p>
-     * @param storeLocationRequest - store details
-     * @return - StoreLocation
+     *
+     * @param storeLocationRequest - Contains area, pin code
+     * @return - StoreLocation - Contains store details
      */
     public static StoreLocation toStoreLocation(StoreRequestDto storeLocationRequest) {
         StoreLocation storeLocation = new StoreLocation();
@@ -35,10 +37,11 @@ public class StoreLocationMapper {
 
     /**
      * <p>
-     *     It is used to convert StoreLocation Entity to StoreLocation Response
+     *     Converts StoreLocation Entity to StoreLocation Response
      * </p>
-     * @param storeLocation - store location details
-     * @return - StoreLocationResponse
+     *
+     * @param storeLocation - Contains store location details
+     * @return StoreLocationResponse - Contains area, pin code
      */
     public static StoreResponseDto toStoreLocationResponse(StoreLocation storeLocation) {
         StoreResponseDto stores = new StoreResponseDto();

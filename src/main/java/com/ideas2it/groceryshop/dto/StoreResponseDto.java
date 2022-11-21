@@ -12,9 +12,10 @@ import lombok.Setter;
 
 /**
  * <p>
- * It holds the StoreResponse information(like pinCode, area etc.,) and
- * also it is used to view store details as response to user
+ *     It holds the StoreResponse information(like pinCode, area etc.,) and
+ *     also it is used to view store details as response to user
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 03-11-2022
  * @version 1.0

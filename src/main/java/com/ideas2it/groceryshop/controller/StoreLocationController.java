@@ -28,16 +28,11 @@ import java.util.List;
 
 /**
  * <p>
- *     This is Store Location Rest Controller
- *     to do Store related CRUD Operations
- *     1. api to create store location
- *     2. api to update store location details
- *     3. api to view all stores
- *     4. api to view particular store by storeId
- *     5. api to delete store by storeId
+ *     Provides APIs to add, update, view and delete
+ *     Store Location (like area, pin code,. etc)
  * </p>
  * @author Mohammed Ammar
- * @since 04-11-2022
+ * @since 05-11-2022
  * @version 1.0
  */
 @RequiredArgsConstructor
@@ -50,12 +45,12 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This POST API {api/v1/stores}
-     *     is used to Create Store Location
+     *     Creates store location by getting storeRequest
+     *     details from user
      * </p>
-     * @param storeLocationRequest - store location details
-     * @return SuccessResponseDto if store created successfully
-     * @throws ExistedException if store details already exist
+     * @param storeLocationRequest - contains area and pin code to create store
+     * @return SuccessResponseDto - contains success message and status code
+     * @throws ExistedException - if area or location already exist
      */
     @PostMapping
     public SuccessResponseDto createStore
@@ -67,14 +62,14 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This PUT API {api/v1/stores/{storeId}}
-     *     is used to Update Store Location details, like area
+     *     Update store location detail by getting new storeRequest detail
+     *     and locationId from user
      * </p>
-     * @param storeLocationRequest - store details to be updated
-     * @param storeId - store id to update
-     * @return SuccessResponseDto if store updated successfully
-     * @throws NotFoundException if store not found
-     * @throws ExistedException if details to be updated is already exists
+     * @param storeLocationRequest - contains store location detail to update
+     * @param storeId - to update store detail for given storeId
+     * @return successResponseDto - contains message and status code
+     * @throws NotFoundException - if store not found
+     * @throws ExistedException - if given new details already exist
      */
     @PutMapping("/{storeId}")
     public SuccessResponseDto updateStore
@@ -86,11 +81,10 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This GET API {api/v1/stores}
-     *     is used to View List of Stores available
+     *     View all active stores location detail as ResponseDto to user
      * </p>
-     * @return list of Store Location Response
-     * @throws NotFoundException if no data found
+     * @return list of storeResponseDTO - contains area, pin code, etc., for available stores
+     * @throws NotFoundException - if no store location found
      */
     @GetMapping
     public List<StoreResponseDto> viewStores() throws NotFoundException {
@@ -100,12 +94,12 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This GET API {api/v1/stores/{storeId}}
-     *     is used to view Particular Store Details
+     *     View particular store detail as response dto based
+     *     by getting location id from user
      * </p>
-     * @param storeId - store id to view store details
-     * @return - store response DTO
-     * @throws NotFoundException if store not found
+     * @param storeId - to get particular store detail
+     * @return StoreResponseDTO - contains success message and status code
+     * @throws NotFoundException - if store not found
      */
     @GetMapping("/{storeId}")
     public StoreResponseDto viewStoreById(@PathVariable Integer storeId)
@@ -116,12 +110,11 @@ public class StoreLocationController {
 
     /**
      * <p>
-     *     This DELETE API {api/v1/stores/{storeId}}
-     *     is used to Delete Particular Store by store id
+     *      Remove store by getting store location id from user
      * </p>
-     * @param storeId id to delete store
-     * @return SuccessResponseDto if store deleted successfully
-     * @throws NotFoundException if store not found
+     * @param storeId - to remove store for given store id
+     * @return SuccessResponseDto - contains success message and status code
+     * @throws NotFoundException - if store not found
      */
     @DeleteMapping("/{storeId}")
     public SuccessResponseDto deleteStore(@PathVariable Integer storeId)

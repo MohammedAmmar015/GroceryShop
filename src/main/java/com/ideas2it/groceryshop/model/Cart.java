@@ -5,7 +5,6 @@
  */
 package com.ideas2it.groceryshop.model;
 
-import com.ideas2it.groceryshop.audit.Audit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,11 +23,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+import com.ideas2it.groceryshop.audit.Audit;
+
 /**
  * <p>
- * It holds the cart related information(like totalPrice, product details etc.,) and
- * also it is used to store and retrieve the cart information to and from
- * database through JpaRepository
+ *     It holds the cart related information(like totalPrice, product details etc.,) and
+ *     also it is used to store and retrieve the cart information to and from
+ *     database through JpaRepository
  * </p>
  *
  * @author Mohammed Ammar
@@ -43,6 +44,7 @@ import java.util.List;
 @NoArgsConstructor
 @Where(clause = "is_active = 1")
 public class Cart extends Audit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -55,14 +57,12 @@ public class Cart extends Audit {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
-    private List<CartDetails> cartDetails;
+    private List<CartDetail> cartDetails;
 
-    @Column(name = "is_active",
-            nullable = false,
-            columnDefinition = "TINYINT")
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private Boolean isActive = true;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

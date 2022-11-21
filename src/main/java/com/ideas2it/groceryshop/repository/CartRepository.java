@@ -16,13 +16,11 @@ import java.util.Optional;
 
 /**
  * <p>
- *     This is CartRepository which extends JpaRepository,
- *     by default we can use default methods available in JpaRepository,
- *     We can also add our custom methods in this repository to do
- *     database operations on cart Entity
+ *     Provide services to insert, update, retrieve and delete cart
  * </p>
+ *
  * @author Mohammed Ammar
- * @since 03-11-2022
+ * @since 05-11-2022
  * @version 1.0
  */
 @Repository
@@ -30,12 +28,11 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>
-     *     This method is used to retrieve
-     *     active or deleted cart of particular user by user's id,
+     *     Retrieve active or deleted cart of particular user by user's id,
      * </p>
-     * @param userId - user's id to retrieve Cart
-     * @param isActive - true or false
-     * @return - Cart object
+     * @param userId - To fetch cart
+     * @param isActive - To fetch active or deleted cart
+     * @return Cart - Contains product detail added to cart
      */
     Optional<Cart> findByUserIdAndIsActive(Integer userId,
                                            Boolean isActive);
@@ -43,10 +40,9 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     /**
      * <p>
-     *     This method is used to delete cart of
-     *     particular user based on user's id
+     *     Deletes cart of particular user based on user's id
      * </p>
-     * @param userId user's id to delete cart
+     * @param userId - To delete cart
      */
     @Modifying
     @Transactional

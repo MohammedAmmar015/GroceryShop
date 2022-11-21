@@ -5,11 +5,11 @@
  */
 package com.ideas2it.groceryshop.model;
 
-import com.ideas2it.groceryshop.audit.Audit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.Where;
 
 import javax.persistence.CascadeType;
@@ -22,11 +22,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ideas2it.groceryshop.audit.Audit;
+
 /**
  * <p>
- * It holds the CartDetails related information(like product, price
- * and quantity etc.,) and also it is used to store and retrieve the cart details
- * to and from database through JpaRepository
+ *     It holds the CartDetails related information(like product, price
+ *     and quantity etc.,) and also it is used to store and retrieve the cart details
+ *     to and from database through JpaRepository
  * </p>
  *
  * @author Mohammed Ammar
@@ -34,17 +36,18 @@ import javax.persistence.Table;
  * @since 02-11-2022
  */
 @Entity
-@Table(name = "cart_details")
+@Table(name = "cart_detail")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "is_active = 1")
-public class CartDetails extends Audit {
+public class CartDetail extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
@@ -55,9 +58,7 @@ public class CartDetails extends Audit {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @Column(name = "is_active",
-            nullable = false,
-            columnDefinition = "TINYINT")
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
     private Boolean isActive = true;
 
     @ManyToOne

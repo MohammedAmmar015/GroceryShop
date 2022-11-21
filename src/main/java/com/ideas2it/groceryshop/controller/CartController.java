@@ -5,15 +5,11 @@
  */
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.CartRequestDto;
-import com.ideas2it.groceryshop.dto.CartResponseDto;
-import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
-import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.service.CartService;
 import lombok.RequiredArgsConstructor;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,19 +21,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import com.ideas2it.groceryshop.dto.CartRequestDto;
+import com.ideas2it.groceryshop.dto.CartResponseDto;
+import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
+import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.service.CartService;
+
 /**
  * <p>
- * Cart Rest Controller for Cart related APIs,
- * 1. api to add product to user's Cart
- * 2. api to view user's Cart
- * 3. api to Delete user's Cart
- * 4. api to Delete Product from user's Cart
- * 5. api to Update quantity in user's Cart
+ *     Provides APIs to add, update, view, delete products
+ *     from and to cart based on currently logged-in user
  * </p>
  *
  * @author Mohammed Ammar
+ * @since 05-11-2022
  * @version 1.0
- * @since 04-11-2022
  */
 @RequiredArgsConstructor
 @RestController
@@ -46,21 +45,18 @@ public class CartController {
     private final Logger logger = LogManager.getLogger(CartController.class);
     private final CartService cartService;
 
-
     /**
      * <p>
-     * This POST API {api/v1/user/carts}
-     * is used to Add Product
-     * to Cart of currently logged-in user
+     *     Creates cart or if cart is inactive for currently logged-in user
+     *     else update the cart with given product details
      * </p>
-     *
-     * @param cartRequest - Cart details to be added to cart
-     * @return SuccessResponseDto with success Message and Status Code
-     * @throws NotFoundException if Cart or Product Not found
-     * @throws ExistedException  if product already exist in Cart
+     * @param cartRequest - contains product id and quantity to add into cart
+     * @return SuccessResponseDto - contains message and status Code
+     * @throws NotFoundException - if product not found
+     * @throws ExistedException - if product already exist in cart
      */
     @PostMapping
-    public SuccessResponseDto createCart(@Valid @RequestBody CartRequestDto cartRequest)
+    public SuccessResponseDto createOrUpdateCart(@Valid @RequestBody CartRequestDto cartRequest)
                                         throws NotFoundException, ExistedException {
         logger.debug("Entered createCart method in CartController");
         return cartService.addOrModifyCart(cartRequest);
@@ -68,12 +64,10 @@ public class CartController {
 
     /**
      * <p>
-     * This GET API {api/v1/user/carts}
-     * is used to view Cart of Currently logged-in user
+     *     View the cart of currently logged-in user
      * </p>
-     *
-     * @return - CartResponse with product details
-     * @throws NotFoundException if Cart not found
+     * @return - CartResponse with product details as cart detail, it's total price
+     * @throws NotFoundException - if cart is inactive or not found
      */
     @GetMapping
     public CartResponseDto viewCart() throws NotFoundException {
@@ -83,31 +77,26 @@ public class CartController {
 
     /**
      * <p>
-     * This PUT API {api/v1/user/carts}
-     * is used to update cart product's quantity of currently
-     * logged-in user
+     *     Updates quantity of particular product and to update
+     *     new calculated price in active cart of currently logged-in user
      * </p>
-     *
-     * @param cartRequest - cart details to be updated
-     * @return SuccessResponseDto if cart updated successfully
-     * @throws NotFoundException if cart not found
+     * @param cartRequest - contains product id and quantity to add into cart
+     * @return SuccessResponseDto - contains message and status code
+     * @throws NotFoundException - if cart or given product id not found
      */
     @PutMapping
     public SuccessResponseDto updateCart(@Valid @RequestBody CartRequestDto cartRequest)
                                          throws NotFoundException {
         logger.debug("Entered updateCart method in CartController");
-        return cartService.updateCartByUser(cartRequest);
+        return cartService.updateCart(cartRequest);
     }
 
     /**
      * <p>
-     * This DELETE API {api/v1/user/carts}
-     * is used to delete all products from Cart
-     * based on currently logged-in user
+     *     Delete all products from cartDetails and to delete cart
+     *     based on currently logged-in user detail
      * </p>
-     *
-     * @return SuccessResponseDto if cart deleted successfully
-     * @throws NotFoundException if Cart not found
+     * @return SuccessResponseDto - contains message and status code
      */
     @DeleteMapping
     public SuccessResponseDto deleteCart() throws NotFoundException {
@@ -117,14 +106,13 @@ public class CartController {
 
     /**
      * <p>
-     * This DELETE API {api/v1/user/carts/products/{productId}}
-     * is used to delete Particular product from Cart
-     * based on productId and currently logged-in user
+     *     Delete particular product from cartDetails based on given product id
+     *     and to update cart with new calculated price
      * </p>
      *
-     * @param productId - product id to delete from cart
-     * @return SuccessResponseDto if product from cart deleted successfully
-     * @throws NotFoundException if cart not found
+     * @param productId - product's id to remove product from cart
+     * @return SuccessResponseDto - contains message and status code
+     * @throws NotFoundException - if cart or given product id not found
      */
     @DeleteMapping("/products/{productId}")
     public SuccessResponseDto deleteProductFromCart(@PathVariable Integer productId)

@@ -12,8 +12,9 @@ import lombok.Setter;
 
 /**
  * <p>
- *     Error DTO, to hold error message and Status Code
+ *     It holds error message and Status Code
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 10-11-2022
  * @version 1.0

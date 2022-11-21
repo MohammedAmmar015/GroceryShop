@@ -11,8 +11,9 @@ import com.ideas2it.groceryshop.model.Stock;
 
 /**
  * <p>
- *     Stock Mapper, used to convert Stock Entity and Stock DTO
+ *     Converts Stock Entity to Stock DTO and vice versa
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 02-11-2022
  * @version 1.0
@@ -21,10 +22,11 @@ public class StockMapper {
 
     /**
      * <p>
-     *     It is used to convert StockRequest to Stock Entity
+     *     Converts StockRequest to Stock Entity
      * </p>
-     * @param stockRequest - stock details
-     * @return Stock
+     *
+     * @param stockRequest - Contains stock to add
+     * @return Stock - Contains Stock details
      */
     public static Stock toStock(StockRequestDto stockRequest) {
         Stock stock = new Stock();
@@ -34,10 +36,11 @@ public class StockMapper {
 
     /**
      * <p>
-     *     It is used to convert stock entity to Stock Response
+     *     Converts stock entity to Stock Response
      * </p>
-     * @param stock - stock details
-     * @return - StockResponse
+     *
+     * @param stock - Contains stock details like available stock
+     * @return StockResponse - Contains stock, product name, location
      */
     public static StockResponseDto toStockResponse(Stock stock) {
         StockResponseDto stockResponse = new StockResponseDto();
@@ -47,8 +50,8 @@ public class StockMapper {
         stockResponse.setPinCode(stock.getStoreLocation().getPinCode());
         stockResponse.setProductId(stock.getProduct().getId());
         stockResponse.setProductName(stock.getProduct().getName());
-        stockResponse.setSubCategory(stock.getProduct().getCategory().getName());
-        stockResponse.setCategory(stock.getProduct().getCategory().getCategory().getName());
+        stockResponse.setSubCategory(stock.getProduct().getSubCategory().getName());
+        stockResponse.setCategory(stock.getProduct().getSubCategory().getCategory().getName());
         return stockResponse;
     }
 }
