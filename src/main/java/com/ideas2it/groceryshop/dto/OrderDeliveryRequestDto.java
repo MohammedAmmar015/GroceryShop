@@ -12,8 +12,8 @@ import lombok.Setter;
 
 /**
  * <p>
- *     It is used to get request from the delivery person in the form of dto object
- *     which contains isDelivered, orderId, shippingAddressId
+ *      It holds the OrderDeliveryRequestDto information(like isDelivered, orderId, shippingAddressId) and
+ *      also it is used to get order delivery details.
  * </p>
  *
  * @author Dhanalakshmi M
@@ -31,5 +31,4 @@ public class OrderDeliveryRequestDto {
     private Integer order_id;
 
     private Integer shippingAddressId;
-
 }

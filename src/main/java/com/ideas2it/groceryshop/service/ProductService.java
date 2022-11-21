@@ -16,9 +16,10 @@ import java.util.List;
 
 /**
  *  <p>
- *      This class implement method of crate, view, update and delete
- *      operations for Product.
+ *      provides create, view, update and delete operation service for
+ *      the products.
  *  </p>
+ *
  * @author  RUBAN
  * @version   1.0
  * @since 03/11/22
@@ -27,97 +28,114 @@ public interface ProductService {
 
     /**
      * <p>
-     *     This method used to get products based on user search.
+     *     To create product by using product request dto.
      * </p>
-     * @param name to check with product name in database
-     * @return if product name matching found will return it
-     * @throws NotFoundException will be thrown if name doesn't match with any products
-     */
-    List<ProductResponseDto> getProductsBySearch(String name) throws NotFoundException;
-
-    /**
-     * <p>
-     *     This method used to add product to the data base with validation.
-     * </p>
-     * @param productRequestDto contains dto type object then will convert into
-     *        model object using product mapper method and then save
-     *        in database
-     * @return will return success message and status code
-     * @throws ExistedException will be thrown if product already exist
-     * @throws NotFoundException will b thrown if sub category id doesn't exist
+     *
+     * @param productRequestDto - Contains name, price, subCategory id, unit, perHead.
+     * @return - Success response dto with message and status code.
+     * @throws ExistedException - If product already exist.
+     * @throws NotFoundException - If sub category not found.
      */
     SuccessResponseDto addProduct(ProductRequestDto productRequestDto)
             throws ExistedException, NotFoundException;
 
     /**
      * <p>
-     *     This method used to get all products from the data base which are
-     *     all active and return in dto type object.
+     *     Get product by relevant to searching keywords.
      * </p>
-     * @return List of products.
-     * @throws NotFoundException will be thrown if the products doesn't exist.
+     *
+     * @param name - Contains keyword to search.
+     * @return - Products if it matches with users given keywords.
+     * @throws NotFoundException - If no products found for user search.
+     */
+    List<ProductResponseDto> getProductsBySearch(String name) throws NotFoundException;
+
+    /**
+     * <p>
+     *     Get all the products available.
+     * </p>
+     *
+     * @return - List of Product.
+     * @throws NotFoundException - If no products found.
      */
     List<ProductResponseDto> getProducts() throws NotFoundException;
 
     /**
      * <p>
-     *     This method used to delete product using id
-     *     and returns success response dto includes message and status code.
+     *     Delete product by product id.
      * </p>
-     * @param id to find particular object to get delete.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if the id doesn't exist.
+     *
+     * @param id - To find correct product.
+     * @return - Success response dto with message and status code.
+     * @throws NotFoundException - If product id doesn't found.
      */
     SuccessResponseDto deleteProductById(Integer id) throws NotFoundException;
 
     /**
      * <p>
-     *     This method used to update product fields in data base before updating
-     *     it will validate the product fields and then will update in data base.
+     *     Update product by using product id.
      * </p>
-     * @param id to find particular object.
-     * @param productRequestDto dto type object contains values to get update.
-     * @return SuccessDto otherwise exception will be thrown.
-     * @throws NotFoundException will be thrown if the id doesn't exist.
-     * @throws ExistedException will be thrown if the values to update is already exist.
+     *
+     * @param id - To update relevant product.
+     * @param productRequestDto - Contains name, price, unit, etc to be updated.
+     * @return - Success response dto with message and status code.
+     * @throws NotFoundException - If product not found.
+     * @throws ExistedException - If field already exist.
      */
     SuccessResponseDto updateProductById(Integer id, ProductRequestDto productRequestDto)
             throws NotFoundException, ExistedException;
 
     /**
      * <p>
-     *     This method used to get products in particular location
-     *     using location id.
+     *     Get products based on location id.
      * </p>
-     * @param locationId to fetch particular product object
-     * @return products
-     * @throws NotFoundException will be thrown if products not exist
+     *
+     * @param locationId - To retrieve relevant product.
+     * @return - List of available product.
+     * @throws NotFoundException - If no product found.
      */
     List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFoundException;
 
     /**
-     * <P>
-     *     This method used to get particular product by id and convert it in to
-     *     dto type object using product mapper and then returns it to product controller.
-     * </P>
-     * @param productId to fetch particular product object.
-     * @return Dto type product
-     * @throws NotFoundException will be thrown if id not exist.
+     * <p>
+     *     Get product by id
+     * </p>
+     *
+     * @param productId - To fetch particular product.
+     * @return productResponseDto - Contains product details.
+     * @throws NotFoundException - If product not found.
      */
-    ProductResponseDto getProductResponseById(Integer productId) throws NotFoundException;
+    ProductResponseDto getProductById(Integer productId) throws NotFoundException;
 
-    Product getProductById(Integer productId);
-
+    /**
+     * <p>
+     *     Get all products of particular category.
+     * </p>
+     *
+     * @param categoryId - To find relevant products.
+     * @return - list of product.
+     * @throws NotFoundException - If product or category not found.
+     */
     List<ProductResponseDto> getProductsByCategoryId(Integer categoryId) throws  NotFoundException;
 
     /**
      * <p>
-     *     This method used to get products of particular sub category using id and
-     *     convert it to dto type object and it returns to product controller.
+     *     Get all product of particular sub category.
      * </p>
-     * @param subCategoryId to fetch relevant object from database
-     * @return list of products
-     * @throws NotFoundException will be thrown if id not exist.
+     *
+     * @param subCategoryId - To find relevant products.
+     * @return - list of product.
+     * @throws NotFoundException - If subcategory or product not found.
      */
     List<ProductResponseDto> getProductsBySubCategoryId( Integer subCategoryId) throws NotFoundException;
+
+    /**
+     * <p>
+     *     Get product by product id, used for cart service and order service.
+     * </p>
+     *
+     * @param Id - To find particular product.
+     * @return product - Contain product details.
+     */
+    Product getProductByProductId(Integer Id);
 }

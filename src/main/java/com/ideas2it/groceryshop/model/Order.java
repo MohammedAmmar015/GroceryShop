@@ -5,15 +5,6 @@
  */
 package com.ideas2it.groceryshop.model;
 
-import com.ideas2it.groceryshop.audit.Audit;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,15 +17,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import java.util.Date;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.ideas2it.groceryshop.audit.Audit;
 
 /**
  * <p>
  *     It holds all order related information like(orderedDate, totalPrice,
- *     totalQuantity, orderDetails, isActive, users) and it is also used to store and
- *     retrieve order information from and to database
+ *     totalQuantity, orderDetails, isActive, users) and it is also used to
+ *     store and retrieve order information from and to database.
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -80,5 +79,4 @@ public class Order extends Audit {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private OrderDelivery orderDelivery;
-
 }

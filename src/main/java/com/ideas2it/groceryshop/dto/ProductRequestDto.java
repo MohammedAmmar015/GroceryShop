@@ -13,17 +13,20 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
- *     Product Request Dto class.
+ *     It holds the product request information(like name, unit, price etc.,)
  * </p>
+ *
  * @author RUBAN
  * @version  1.0
  * @since 03/11/22
  */
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequestDto {
+
     private int categoryId;
 
     @NotBlank(message = "Name cannot be Empty")

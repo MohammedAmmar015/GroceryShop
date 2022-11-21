@@ -15,19 +15,18 @@ import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepository;
 import com.ideas2it.groceryshop.repository.ProductRepository;
-import com.ideas2it.groceryshop.service.CategoryService;
+import com.ideas2it.groceryshop.repository.StockRepository;
+import com.ideas2it.groceryshop.repository.StoreRepository;
 import com.ideas2it.groceryshop.service.ProductService;
-import com.ideas2it.groceryshop.service.StockService;
-import com.ideas2it.groceryshop.service.StoreService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -43,19 +42,19 @@ import java.util.Optional;
 @NoArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepo;
+    private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
-    private StockService stockService;
-    private StoreService storeService;
+    private StockRepository stockRepository;
+    private StoreRepository storeRepository;
     private Logger logger;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepo, StockService stockService,
-                              StoreService storeService, CategoryRepository categoryRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, StockRepository stockRepository,
+                              StoreRepository storeRepository, CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.productRepo = productRepo;
-        this.storeService = storeService;
-        this.stockService = stockService;
+        this.productRepository = productRepository;
+        this.storeRepository = storeRepository;
+        this.stockRepository = stockRepository;
         this.logger = LogManager.getLogger(ProductServiceImpl.class);
     }
 
@@ -64,18 +63,18 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public SuccessResponseDto addProduct(ProductRequestDto productRequestDto)
-            throws ExistedException, NotFoundException {
+                                         throws ExistedException, NotFoundException {
         logger.debug("Entered into addProduct method in product service");
-        if(productRepo.existsByName(productRequestDto.getName())) {
+        if(productRepository.existsByName(productRequestDto.getName())) {
             throw new ExistedException("Product already added");
         }
-        if(categoryRepository.existById(productRequestDto.getSubCategoryId())) {
+        if(categoryRepository.existsById(productRequestDto.getSubCategoryId())) {
             throw new NotFoundException("Subcategory id not found");
         }
         Product product = ProductMapper.toProduct(productRequestDto);
         Optional<Category> category = categoryRepository.findById(productRequestDto.getSubCategoryId());
         category.ifPresent(product::setCategory);
-        productRepo.save(product);
+        productRepository.save(product);
         logger.debug("addProduct method successfully executed");
         return new SuccessResponseDto(201, "Product added successfully");
     }
@@ -86,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponseDto> getProducts() throws NotFoundException {
         logger.debug("Entered into getProducts method in product service");
-        List<Product> products = productRepo.findAllAndIsActive(true);
+        List<Product> products = productRepository.findAllAndIsActive(true);
         if (products.isEmpty()) {
             throw new NotFoundException("Products not found");
         }
@@ -103,9 +102,9 @@ public class ProductServiceImpl implements ProductService {
      * {@inheritDoc}
      */
     @Override
-    public ProductResponseDto getProductResponseById(Integer productId) throws NotFoundException {
+    public ProductResponseDto getProductById(Integer productId) throws NotFoundException {
         logger.debug("Entered into getProductsById method in product service");
-        Product product = productRepo.findByIdAndIsActive(productId, true);
+        Product product = productRepository.findByIdAndIsActive(productId, true);
         if (product == null) {
             throw new NotFoundException("Product not found");
         }
@@ -113,19 +112,14 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toProductDto(product);
     }
 
-    @Override
-    public Product getProductById(Integer productId) {
-        return productRepo.findByIdAndIsActive(productId, true);
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     public List<ProductResponseDto> getProductsByCategoryId( Integer categoryId)
-            throws NotFoundException {
+                                                            throws NotFoundException {
         logger.debug("Entered into getProductsByCategoryId method in product service");
-        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive( categoryId,
+        List<Product> products = productRepository.findProductsByCategoryIdAndIsActive( categoryId,
                 true);
         if(products.isEmpty()) {
             throw new NotFoundException("Products not found, id invalid");
@@ -143,9 +137,8 @@ public class ProductServiceImpl implements ProductService {
      * {@inheritDoc}
      */
     @Override
-    public List<ProductResponseDto> getProductsBySearch(String name)
-            throws NotFoundException {
-        List<Product> products = productRepo.findProductBySearch(name);
+    public List<ProductResponseDto> getProductsBySearch(String name) throws NotFoundException {
+        List<Product> products = productRepository.findProductBySearch(name);
         if (products.isEmpty()) {
             throw new NotFoundException("Products not found");
         }
@@ -162,9 +155,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ProductResponseDto> getProductsBySubCategoryId(Integer subCategoryId)
-            throws NotFoundException {
+                                                               throws NotFoundException {
         logger.debug("Entered into getProductsBySubCategoryId method in product service");
-        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(subCategoryId,
+        List<Product> products = productRepository.findBySubCategoryIdAndIsActive(subCategoryId,
                 true);
         if(products.isEmpty()) {
             throw new NotFoundException("Products not found, id invalid");
@@ -184,12 +177,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public SuccessResponseDto deleteProductById(Integer id) throws NotFoundException {
         logger.debug("Entered into deleteProductsById method in product service");
-        Product product = productRepo.findByIdAndIsActive(id, true);
+        Product product = productRepository.findByIdAndIsActive(id, true);
         if (product == null) {
             throw new NotFoundException("product not found");
         }
         product.setActive(false);
-        productRepo.save(product);
+        productRepository.save(product);
         logger.debug("deleteProductsById method successfully executed");
         return new SuccessResponseDto(200, "Product deleted successfully");
     }
@@ -199,20 +192,20 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public SuccessResponseDto updateProductById(Integer id, ProductRequestDto productRequestDto)
-            throws NotFoundException, ExistedException {
+                                                throws NotFoundException, ExistedException {
         logger.debug("Entered into updateProductsById method in product service");
-        Product product = productRepo.findByIdAndIsActive(id, true);
+        Product product = productRepository.findByIdAndIsActive(id, true);
         if (product == null) {
             throw new NotFoundException("Product id not found");
         }
-        if(productRepo.existsByNameAndPriceAndUnit(productRequestDto.getName(),
+        if(productRepository.existsByNameAndPriceAndUnit(productRequestDto.getName(),
                 productRequestDto.getPrice(), productRequestDto.getUnit())) {
             throw new ExistedException("Product already exist");
         }
         product.setName(productRequestDto.getName());
         product.setPrice(productRequestDto.getPrice());
         product.setUnit(productRequestDto.getUnit());
-        productRepo.save(product);
+        productRepository.save(product);
         logger.debug("updateProductsById method successfully executed");
         return new SuccessResponseDto(200, "Product details updated successfully");
     }
@@ -223,19 +216,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponseDto> getProductsByLocation(Integer locationId) throws NotFoundException {
         logger.debug("Entered into getProductsLocation method in product service");
-        List<Product> products = productRepo.findAllAndIsActive(true);
+        List<Product> products = productRepository.findAllAndIsActive(true);
         if (products.isEmpty()) {
             throw new NotFoundException("No products found");
         }
-        Boolean location = storeService.existByLocationId(locationId);
+        Boolean location = storeRepository.existsByIdAndIsActive(locationId, true);
         if(!location) {
             throw new NotFoundException("Location id invalid");
         }
         List<ProductResponseDto> productResponses = new ArrayList<>();
         for (Product product : products) {
             ProductResponseDto productResponseDto = ProductMapper.toProductDto(product);
-            Boolean isStockAvailable = stockService.
-                    getStocksAvailabilityByStoreLocationAndProduct(locationId, product.getId());
+            Boolean isStockAvailable = stockRepository.
+                                       existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan
+                                       (locationId, product.getId(), 0);
             productResponseDto.setIsStockAvailable(isStockAvailable);
             productResponses.add(productResponseDto);
         }
@@ -244,26 +238,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * {@inheritDoc}
+     *{@inheritDoc}
      */
-    @Override
-    public void getProductByCategoryId(Integer categoryId) {
-        List<Product> products = productRepo.findProductsByCategoryIdAndIsActive(categoryId, true);
-        for(Product product: products) {
-            product.setActive(false);
-            productRepo.save(product);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void getProductBySubCategoryId(Integer subCategoryId) {
-        List<Product> products = productRepo.findBySubCategoryIdAndIsActive(subCategoryId, true);
-        for(Product product: products) {
-            product.setActive(false);
-            productRepo.save(product);
-        }
+    public Product getProductByProductId(Integer id) {
+        Product product = productRepository.findByIdAndIsActive(id, true);
+        return product;
     }
 }

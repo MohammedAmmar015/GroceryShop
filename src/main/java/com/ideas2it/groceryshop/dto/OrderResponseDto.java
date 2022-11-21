@@ -15,8 +15,9 @@ import java.util.List;
 
 /**
  * <p>
- *     It is used to show order response dto which contains userId, orderedDate,
- *     expectedDeliveryDate, totalPrice, totalQuantity, orderDetails, isDelivered
+ *      It holds the OrderDeliveryResponseDto information(like userId, orderedDate, expectedDeliveryDate,
+ *      totalPrice, totalQuantity, orderDetails, isDelivered) and also it is used to view
+ *      order as response to user.
  * </p>
  *
  * @author Dhanalakshmi M
@@ -42,5 +43,4 @@ public class OrderResponseDto {
     private List<OrderDetailsResponseDto> orderDetails;
 
     private Boolean isDelivered;
-
 }
