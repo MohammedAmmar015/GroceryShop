@@ -11,7 +11,7 @@ import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.mapper.StockMapper;
-import com.ideas2it.groceryshop.model.OrderDetails;
+import com.ideas2it.groceryshop.model.OrderDetail;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.Stock;
 import com.ideas2it.groceryshop.model.StoreLocation;
@@ -139,7 +139,7 @@ public class StockServiceImpl implements StockService {
     public void removeStockByOrderDetails(Order order, Integer pinCode) {
         logger.debug("Entered removeStockByOrderDetails method in StockServiceImpl");
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
-        for (OrderDetails eachOrderDetail : order.getOrderDetails()) {
+        for (OrderDetail eachOrderDetail : order.getOrderDetails()) {
             stockRepository.decreaseStockByProductsAndLocation(eachOrderDetail.getQuantity(),
                                                                eachOrderDetail.getProduct(),
                                                                store.getId());
@@ -154,7 +154,7 @@ public class StockServiceImpl implements StockService {
         logger.debug("Entered updateStockByOrderDetails method in StockServiceImpl");
         Integer pinCode = order.getOrderDelivery().getShippingAddress().getPinCode();
         StoreLocation store = storeService.getStoreByPinCode(pinCode);
-        for (OrderDetails eachOrderDetail : order.getOrderDetails()) {
+        for (OrderDetail eachOrderDetail : order.getOrderDetails()) {
             stockRepository.increaseStockByProductsAndLocation(eachOrderDetail.getQuantity(),
                                                                eachOrderDetail.getProduct(),
                                                                store.getId());

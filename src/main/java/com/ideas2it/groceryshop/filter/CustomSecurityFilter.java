@@ -45,22 +45,22 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
     /**
      * <p>
-     *      Filtering token
+     *      Validates token received in HttpServletRequest.
      * </p>
      *
-     * @param request - Contains authentication type
-     * @param response - Contains http response codes
-     * @param filterChain - Contains request and response servlet
+     * @param httpServletRequest        - Contains authentication type
+     * @param httpServletResponse       - Contains http response codes
+     * @param filterChain               - Contains request and response servlet
      * @throws IllegalArgumentException - If wrong token is given
-     * @throws ServletException - If request or response is inappropriate
-     * @throws IOException - If input or output is inappropriate
+     * @throws ServletException         - If request or response is inappropriate
+     * @throws IOException              - If input or output is inappropriate
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
                                     FilterChain filterChain)
             throws IllegalArgumentException, ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
+        final String requestTokenHeader = httpServletRequest.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
         if (requestTokenHeader != null) {
@@ -83,6 +83,6 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
                 }
             }
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }
