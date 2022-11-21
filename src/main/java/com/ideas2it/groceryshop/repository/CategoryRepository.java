@@ -97,7 +97,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
      * @param name - To check name exist or not
      * @return - If name exist return true or-else false
      */
-    boolean existsByName(String name);
+    Boolean existsByName(String name);
 }
 
 

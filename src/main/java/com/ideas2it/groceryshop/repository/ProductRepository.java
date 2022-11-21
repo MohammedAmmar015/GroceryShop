@@ -84,7 +84,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
      * @param unit -To check unit
      * @return - If exists true otherwise false
      */
-    boolean existsByNameAndPriceAndUnitAndPerHead(String name, float price, String unit, Integer perHead);
+    Boolean existsByNameAndPriceAndUnitAndPerHead(String name, float price, String unit, Integer perHead);
 
     /**
      * <p>
@@ -94,7 +94,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
      * @param name - To check name already exists
      * @return - If exists true or-else false
      */
-    boolean existsByName(String name);
+    Boolean existsByName(String name);
 
     /**
      * <p>
