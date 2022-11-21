@@ -18,7 +18,7 @@ import com.ideas2it.groceryshop.model.User;
 
 /**
  * <p>
- *    Providing service for getting currently logged-in user object.
+ *    It holds login credentials of user.
  * </p>
  *
  * @version 1.0

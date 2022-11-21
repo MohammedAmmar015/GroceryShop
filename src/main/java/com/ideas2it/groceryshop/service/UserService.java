@@ -29,86 +29,86 @@ public interface UserService {
 
     /**
      * <p>
-     *     Create user profile.
+     *     Creates user profile.
      * </p>
      *
-     * @param userRequestDto - Contains user details.
-     * @return SuccessResponseDto - Contains success message and status code.
+     * @param userRequestDto    - Contains user details.
+     * @return                  - Contains success message and status code.
      * @throws ExistedException - If username already exist.
      */
     SuccessResponseDto addUser(UserRequestDto userRequestDto) throws ExistedException;
 
     /**
      * <p>
-     *     Get user by user id.
+     *     Gets user by user id.
      * </p>
      *
-     * @param id - To get user.
-     * @return userResponseDto - Contains user detail
+     * @param id                 - To get user.
+     * @return                   - Contains user detail
      * @throws NotFoundException - If user does not exist or inactive
      */
     UserResponseDto getUserById(Integer id) throws NotFoundException;
 
     /**
      * <p>
-     *     Get all users.
+     *     Gets all users.
      * </p>
      *
      * @return userResponseDtoList - List of user.
-     * @throws NotFoundException - If no user found.
+     * @throws NotFoundException   - If no user found.
      */
     List<UserResponseDto> getAllUser() throws NotFoundException;
 
     /**
      * <p>
-     *     Get users by role name.
+     *     Gets users by role name.
      * </p>
      *
-     * @param name - To search users by role name.
+     * @param name                 - To search users by role name.
      * @return userResponseDtoList - List of user.
-     * @throws NotFoundException - If no users not found.
+     * @throws NotFoundException   - If no users not found.
      */
     List<UserResponseDto> getUserByRole(String name) throws NotFoundException;
 
     /**
      * <p>
-     *     Delete user by id.
+     *     Deletes user by id.
      * </p>
      *
-     * @param id - To delete user.
+     * @param id                  - To delete user.
      * @return SuccessResponseDto - Contains success message and code.
-     * @throws NotFoundException - If user does not exist.
+     * @throws NotFoundException  - If user does not exist.
      */
     SuccessResponseDto deleteUserById(Integer id) throws NotFoundException;
 
     /**
      * <p>
-     *     Get userName by mobile number.
+     *     Gets userName by mobile number.
      *     Using Regex given string is validated as mobile number or username.
      *     If given string is mobileNumber using mobileNumber userName is
      *     retrieved and returned, else userName is returned.
      * </p>
      *
      * @param userNameOrMobileNumber - Contains username or mobileNumber.
-     * @return userName - username.
+     * @return userName              - username.
      */
     String getUserNameByMobileNumber(String userNameOrMobileNumber);
 
     /**
      * <p>
-     *     Update user by username.
+     *     Updates user by username.
      * </p>
      *
-     * @param userUpdateDto - Contains details to be updated.
+     * @param userUpdateDto       - Contains details to be updated.
      * @return SuccessResponseDto - Contains success message and status code.
-     * @throws NotFoundException - If user does not exist.
+     * @throws NotFoundException  - If user does not exist.
      */
     SuccessResponseDto updateUserByUserName(UserUpdateDto userUpdateDto)
                                             throws NotFoundException;
 
     /**
      * <p>
-     *     Get currently logged-in user profile.
+     *     Gets currently logged-in user profile.
      * </p>
      *
      * @return userResponseDto - Contains user details.
@@ -117,7 +117,7 @@ public interface UserService {
 
     /**
      * <p>
-     *      Get currently logged-in user object from security context holder.
+     *      Gets currently logged-in user object from security context holder.
      * </p>
      *
      * @return user - Contains logged-in user details.

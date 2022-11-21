@@ -27,7 +27,7 @@ public interface AddressService {
 
     /**
      * <p>
-     *     Add address to currently logged-in user.
+     *     Creates address to currently logged-in user.
      * </p>
      *
      * @param addressRequestDto - Contains address details.
@@ -36,33 +36,33 @@ public interface AddressService {
 
     /**
      * <p>
-     *     Get all address of existing user.
+     *     Gets all address of existing user.
      * </p>
      *
      * @return addressResponseDtoList - Contains list of user address.
-     * @throws NotFoundException - If no address found.
+     * @throws NotFoundException      - If no address found.
      */
     List<AddressResponseDto> getAddressesByUserId() throws NotFoundException;
 
     /**
      * <p>
-     *     Delete address of user by address id.
+     *     Deletes address of user by address id.
      * </p>
      *
-     * @param id - To delete address.
+     * @param id                 - To delete address.
      * @throws NotFoundException - If no address found.
      */
     SuccessResponseDto deleteAddressById(Integer id) throws NotFoundException;
 
     /**
      * <p>
-     *     Update address of user by address id.
+     *     Updates address of user by address id.
      * </p>
      *
      * @param addressUpdateRequestDto - contains updated address details.
-     * @param id - To update Address.
-     * @return SuccessResponseDto - Contains success message and status code.
-     * @throws NotFoundException - If address not found.
+     * @param id                      - To update Address.
+     * @return                        - Contains success message and status code.
+     * @throws NotFoundException      - If address not found.
      */
     SuccessResponseDto updateAddressByAddressId
                        (AddressUpdateRequestDto addressUpdateRequestDto, Integer id)

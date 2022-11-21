@@ -28,7 +28,7 @@ import com.ideas2it.groceryshop.model.Address;
  * <p>
  *     Provides implementation services for business logic, create, update,
  *     delete and view addresses of user.
- *     Data transfer objects(Dto) are converted into model object using mapper
+ *     Data transfer object(Dto) are converted into model object using mapper
  *     for storing in database and vice versa.
  * </p>
  *
@@ -38,7 +38,6 @@ import com.ideas2it.groceryshop.model.Address;
  */
 @Service
 public class AddressServiceImpl implements AddressService {
-
     private final AddressRepository addressRepository;
     private final UserService userService;
     private final Logger logger = LogManager.getLogger(AddressServiceImpl.class);
@@ -56,8 +55,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public SuccessResponseDto addAddress(AddressRequestDto addressRequestDto) {
         logger.debug("Entered addAddress method");
-        Address address =
-                AddressMapper.addressDtoToAddress(addressRequestDto);
+        Address address = AddressMapper.addressDtoToAddress(addressRequestDto);
         List<Address> addresses =
                 addressRepository.findByIsActiveAndUserId(true,
                         userService.getCurrentUser().getId());
@@ -96,8 +94,7 @@ public class AddressServiceImpl implements AddressService {
      *{@inheritDoc}
      */
     @Override
-    public SuccessResponseDto deleteAddressById(Integer id)
-                                               throws NotFoundException {
+    public SuccessResponseDto deleteAddressById(Integer id) throws NotFoundException {
         logger.debug("Entered deleteAddressById method");
         Optional<Address> address =
                 addressRepository.findByIsActiveAndId(true, id);
@@ -105,10 +102,9 @@ public class AddressServiceImpl implements AddressService {
             logger.debug("Address not found");
             throw new NotFoundException("Address not found");
         }
-        addressRepository.deleteAddress(id);
+        addressRepository.disableAddress(id);
         logger.debug("Address deleted successfully");
-        return new SuccessResponseDto(200,"Address " +
-                " deleted successfully");
+        return new SuccessResponseDto(200,"Address deleted successfully");
     }
 
     /**
