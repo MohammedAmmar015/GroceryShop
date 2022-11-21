@@ -112,10 +112,10 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * This method is used to handle HttpMessageNotReadableException
+     * HttpMessageNotReadableException thrown if JSON payload is missing fields.
      *
-     * @param httpMessageNotReadableException it contains error message
-     * @return errorDto it contains error message and error status code
+     * @param httpMessageNotReadableException - Contains error message
+     * @return errorDto - Contains error message and error status code
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -128,11 +128,10 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * This method is used to handle Forbidden exception thrown
-     * by spring boot and show error code and error message
+     * HttpClientErrorException is thrown if user don't have access to api
      *
-     * @param httpClientErrorException it contains error message
-     * @return errorDto it contains error message and error code
+     * @param httpClientErrorException - Contains error message
+     * @return errorDto - Contains error message and error code
      */
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(HttpClientErrorException.Forbidden.class)
@@ -141,6 +140,22 @@ public class ApplicationExceptionHandler {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(httpClientErrorException.getMessage());
         errorDto.setStatusCode(403);
+        return errorDto;
+    }
+
+    /**
+     * IllegalArgumentException thrown if wrong token is given
+     *
+     * @param illegalArgumentException - Contains error message
+     * @return errorDto - Contains error message and error code
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResponseDto handleIllegalArgumentException
+    (IllegalArgumentException illegalArgumentException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
+        errorDto.setErrorMessage(illegalArgumentException.getMessage());
+        errorDto.setStatusCode(500);
         return errorDto;
     }
 }

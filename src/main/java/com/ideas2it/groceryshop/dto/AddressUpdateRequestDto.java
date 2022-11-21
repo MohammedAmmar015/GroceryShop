@@ -14,10 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- * It is used to set data and transfer to model object for
- * updating address.
- * It is used to update address for user
+ * <p>
+ *    It holds the AddressUpdateRequestDto information(like street, landmark, isDefault etc.,)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P

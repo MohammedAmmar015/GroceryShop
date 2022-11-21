@@ -14,8 +14,10 @@ import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
- * Address service is providing services for create, update,
- * delete and view addresses of users.
+ * <p>
+ *     Provides service for business logic, create, update,
+ *     delete and view addresses of user.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -24,38 +26,45 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 public interface AddressService {
 
     /**
-     * it used to add address using user id
+     * <p>
+     *     Add address to currently logged-in user.
+     * </p>
      *
-     * @param addressRequestDto it contains address details
-     * @throws NotFoundException user not found
+     * @param addressRequestDto - Contains address details.
      */
-    SuccessResponseDto addAddress(AddressRequestDto addressRequestDto)
-            throws NotFoundException;
+    SuccessResponseDto addAddress(AddressRequestDto addressRequestDto);
 
     /**
-     *  It is used to retrieve list of user address by user id;
+     * <p>
+     *     Get all address of existing user.
+     * </p>
      *
-     * @return addressResponseDtoList it is contains list of user address
-     * @throws NotFoundException no address found exception
+     * @return addressResponseDtoList - Contains list of user address.
+     * @throws NotFoundException - If no address found.
      */
     List<AddressResponseDto> getAddressesByUserId() throws NotFoundException;
 
     /**
-     * It is used to delete user address by id
+     * <p>
+     *     Delete address of user by address id.
+     * </p>
      *
-     * @param id it is id to be deleted
-     * @throws NotFoundException no address found exception
+     * @param id - To delete address.
+     * @throws NotFoundException - If no address found.
      */
     SuccessResponseDto deleteAddressById(Integer id) throws NotFoundException;
 
     /**
-     * This method is used to update address by address id
+     * <p>
+     *     Update address of user by address id.
+     * </p>
      *
-     * @param addressUpdateRequestDto it contains updated address details
-     * @param id it is address of id
-     * @return Success it contains success message
-     * @throws NotFoundException it contains address not found
+     * @param addressUpdateRequestDto - contains updated address details.
+     * @param id - To update Address.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws NotFoundException - If address not found.
      */
     SuccessResponseDto updateAddressByAddressId
-    (AddressUpdateRequestDto addressUpdateRequestDto, Integer id) throws NotFoundException;
+                       (AddressUpdateRequestDto addressUpdateRequestDto, Integer id)
+                        throws NotFoundException;
 }

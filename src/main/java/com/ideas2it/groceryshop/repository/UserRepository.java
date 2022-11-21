@@ -18,9 +18,10 @@ import org.springframework.stereotype.Repository;
 import com.ideas2it.groceryshop.model.User;
 
 /**
- *
- * User repository is used to communicate User model with database
- * for delete, update, create and view operations
+ * <p>
+ *     Providing service for storing and retrieving data
+ *     from database for User entity.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -30,64 +31,78 @@ import com.ideas2it.groceryshop.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
-     * Find user by id and isActive
+     * <p>
+     *     Find user by id and isActive.
+     * </p>
      *
-     * @param isActive it is used to check user is active
-     * @param id it is used to search user by id
-     * @return user it returns user object
+     * @param isActive - To check user is active.
+     * @param id - To find user.
+     * @return user - Contains user details.
      */
     Optional<User> findByIsActiveAndId(Boolean isActive, Integer id);
 
     /**
-     *  It is used to get all active users
+     * <p>
+     *       Get all active users.
+     * </p>
      *
-     * @param isActive it checks for active user
-     * @return it returns list of active users
+     * @param isActive - To check active or inactive user.
+     * @return - list of active users.
      */
     List<User> findByIsActive(Boolean isActive);
 
     /**
-     * Find user by Role
+     * </p>
+     *      Find user by Role.
+     * </p>
      *
-     * @param isActive active user
-     * @param name it is role name of user
-     * @return users list of user
+     * @param isActive - To check active or inactive user.
+     * @param name - To get by role name.
+     * @return users - list of user.
      */
     List<User> findByIsActiveAndRoleName(Boolean isActive, String name);
 
     /**
-     * It is used to make user inactive
+     * <p>
+     *     Make user inactive.
+     * </p>
      *
-     * @param id it is the id to be deactivated
+     * @param id - To make user inactive.
      */
     @Modifying
     @Transactional
     @Query("update User set isActive = false where id = ?1")
-    void deactivateUser(Integer id);
+    void deleteUser(Integer id);
 
     /**
+     * <p>
+     *     Check if user exist.
+     * </p>
      *
-     *
-     * @param userName it is used to find user by username
-     * @return boolean it returns user exist or not
+     * @param userName - To find user.
+     * @return boolean - If user is found true or-else false.
      */
     boolean existsByUserName(String userName);
 
     /**
-     * It is used to find active user based on id
+     * <p>
+     *     Find active user based on id.
+     * </p>
      *
-     * @param username it is username
-     * @param isActive weather use is active or not
-     * @return user it returns user object
+     * @param username - To get user.
+     * @param isActive - To check active or inactive user.
+     * @return user - Contains user details.
      */
     Optional<User> findByUserNameAndIsActive(String username, boolean isActive);
 
     /**
-     * This method is used to get user by mobile number
+     * <p>
+     *      Get user by mobile number
+     * </p>
      *
-     * @param mobileNumber it is user mobile number
-     * @param isActive weather use is active or not
-     * @return user it returns user object
+     * @param mobileNumber To get username.
+     * @param isActive - To check active or inactive user.
+     * @return user - Contains user details.
      */
     Optional<User> findUserByMobileNumberAndIsActive(Long mobileNumber , Boolean isActive);
 }

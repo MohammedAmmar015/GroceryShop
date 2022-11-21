@@ -29,8 +29,9 @@ import com.ideas2it.groceryshop.service.UserService;
 import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
- * AuthenticationController is providing service
- * for logging-in for user
+ * <p>
+ *     Provide service for logging-in user
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -44,7 +45,7 @@ public class AuthenticationController {
     private final SecurityUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
     private final UserService userService;
-    private Logger logger = LogManager.getLogger(AuthenticationController.class);
+    private final Logger logger = LogManager.getLogger(AuthenticationController.class);
 
     @Autowired
     public AuthenticationController(DaoAuthenticationProvider authenticationProvider,
@@ -58,11 +59,13 @@ public class AuthenticationController {
     }
 
     /**
-     * This method is used to find if user exist or not and to create bearer token
+     * <p>
+     *     Find if user exist or not and create bearer token if user exists.
+     * </p>
      *
-     * @param loginRequestDto it contains username or mobile number and password
-     * @return LoginResponseDto it contains bearer token and success message
-     * @throws BadCredentialsException it contains badCredentials message
+     * @param loginRequestDto - Contains username or mobile number and password
+     * @return LoginResponseDto - Contains bearer token and success message
+     * @throws BadCredentialsException - Contains badCredentials message
      */
     @PostMapping
     public LoginResponseDto createAuthenticationToken
@@ -80,11 +83,13 @@ public class AuthenticationController {
     }
 
     /**
-     * This method is used to authenticate user by username and password
+     * <p>
+     *     Authenticate user by username and password
+     * </p>
      *
-     * @param username it is username of user
-     * @param password it is password of user
-     * @throws BadCredentialsException if credentials are false
+     * @param username - To authenticate username
+     * @param password - To authenticate password
+     * @throws BadCredentialsException - If credentials are false
      */
     private void authenticate(String username, String password)
             throws BadCredentialsException {

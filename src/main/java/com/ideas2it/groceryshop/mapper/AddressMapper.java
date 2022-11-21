@@ -10,11 +10,13 @@ import java.util.List;
 
 import com.ideas2it.groceryshop.dto.AddressRequestDto;
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
+import com.ideas2it.groceryshop.dto.AddressUpdateRequestDto;
 import com.ideas2it.groceryshop.model.Address;
 
 /**
- *
- * It is used to convert dto into model and vice versa
+ * <p>
+ *     Convert data transfer object into model and vice versa
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -23,13 +25,14 @@ import com.ideas2it.groceryshop.model.Address;
 public class AddressMapper {
 
     /**
-     * It is used to convert address dto into address object
+     * <p>
+     *      Convert address dto into address object and return address object
+     * </p>
      *
-     * @param addressRequestDto it contains address detail
-     * @return address it contains address detail
+     * @param addressRequestDto - Contains address detail
+     * @return address - Contains address detail
      */
-    public static Address addressDtoToAddress
-    (AddressRequestDto addressRequestDto) {
+    public static Address addressDtoToAddress(AddressRequestDto addressRequestDto) {
         Address address = new Address();
         address.setStreet(addressRequestDto.getStreet());
         address.setArea(addressRequestDto.getArea());
@@ -39,10 +42,13 @@ public class AddressMapper {
     }
 
     /**
-     * It is used to convert address object into address response Dto
+     * <p>
+     *     Convert address object into address response Dto
+     *     and return AddressResponseDto
+     * </p>
      *
-     * @param address it contains address detail
-     * @return addressResponseDto it contains address detail
+     * @param address - Contains address detail
+     * @return addressResponseDto - Contains address detail
      */
     public static AddressResponseDto addressResponseDto(Address address) {
         AddressResponseDto addressResponseDto = new AddressResponseDto();
@@ -60,17 +66,39 @@ public class AddressMapper {
     }
 
     /**
-     * It converts list of Address object into list of address response Dto
+     * <p>
+     *     Convert list of Address object into list of address response Dto
+     *     and return AddressResponseDto
+     * </p>
      *
-     * @param addressList It contains list of address object
-     * @return responseDtoList it contains list of address response Dto
+     * @param addressList - Contains list of address object
+     * @return responseDtoList - Contains list of address response Dto
      */
-    public static List<AddressResponseDto> addressResponseDtoList
-    (List<Address> addressList) {
-        List<AddressResponseDto> responseDtoList = new ArrayList<AddressResponseDto>();
+    public static List<AddressResponseDto> addressResponseDtoList(List<Address> addressList) {
+        List<AddressResponseDto> responseDtoList = new ArrayList<>();
         for(Address address : addressList) {
             responseDtoList.add(addressResponseDto(address));
         }
         return responseDtoList;
+    }
+
+    /**
+     * <p>
+     *     Convert addressUpdateRequestDto to Address object and return address object
+     * </p>
+     *
+     * @param addressUpdateRequestDto - Contains address to be updated
+     * @param address - Contains old address
+     * @return Address - Contains updated address
+     */
+    public static Address addressUpdateRequestDtoToAddress
+                                           (AddressUpdateRequestDto addressUpdateRequestDto,
+                                           Address address){
+        address.setStreet(addressUpdateRequestDto.getStreet());
+        address.setArea(addressUpdateRequestDto.getArea());
+        address.setIsDefault(addressUpdateRequestDto.getIsDefault());
+        address.setPinCode(addressUpdateRequestDto.getPinCode());
+        address.setLandMark(addressUpdateRequestDto.getLandMark());
+        return address;
     }
 }

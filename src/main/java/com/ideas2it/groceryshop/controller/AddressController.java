@@ -29,9 +29,9 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.AddressService;
 
 /**
- *
- * Address controller class is providing services for
- * create, delete and update address
+ * <p>
+ *    Provides services for create, delete, view and update address.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -50,10 +50,12 @@ public class AddressController {
     }
 
     /**
-     * This method is used to create address
+     * <p>
+     *     To create address for currently logged-in user.
+     * </p>
      *
-     * @param addressRequestDto it contains address of user
-     * @throws NotFoundException user not found
+     * @param addressRequestDto - Contains address.
+     * @throws NotFoundException - If user not found.
      */
     @PostMapping
     public SuccessResponseDto createAddress(@Valid @RequestBody
@@ -64,23 +66,26 @@ public class AddressController {
     }
 
     /**
-     * This method is used to get all address of a currently logged-in user
+     * <p>
+     *     Get all address of a currently logged-in user.
+     * </p>
      *
-     * @return addresses list of address
-     * @throws NotFoundException no address found
+     * @return addresses - List of address.
+     * @throws NotFoundException - If no address found.
      */
     @GetMapping
     public List<AddressResponseDto> viewAddressesByUserId() throws NotFoundException {
         logger.debug("Entered viewAddressesByUserId method");
-        List<AddressResponseDto> addresses = addressService.getAddressesByUserId();
-        return addresses;
+        return addressService.getAddressesByUserId();
     }
 
     /**
-     * This method used to delete address using address id
+     * <p>
+     *     Delete address using address id.
+     * </p>
      *
-     * @param id it is id of address
-     * @throws NotFoundException no address found
+     * @param id - Address id
+     * @throws NotFoundException - If no address found
      */
     @DeleteMapping("/{addressId}")
     public SuccessResponseDto deleteAddressById
@@ -90,16 +95,16 @@ public class AddressController {
     }
 
     /**
-     * This method is used to update user address by address id and
-     * update address request object
-     *
-     * @return SuccessResponseDto it contains success message
-     * @throws NotFoundException it contains address not found
+     * <p>
+     *     Update address of currently logged-in user by address id
+     * </p>
+     * @return SuccessResponseDto - Contains success message and code
+     * @throws NotFoundException - If address not found
      */
     @PutMapping("/{addressId}")
     public SuccessResponseDto updateAddressByAddressId
-                                      (@RequestBody AddressUpdateRequestDto addressUpdateRequestDto,
-                                      @PathVariable("addressId") Integer id) throws NotFoundException {
+                              (@RequestBody AddressUpdateRequestDto addressUpdateRequestDto,
+                              @PathVariable("addressId") Integer id) throws NotFoundException {
         logger.debug("Entered UpdateAddressByAddressId method");
         return addressService.updateAddressByAddressId
                 (addressUpdateRequestDto, id);

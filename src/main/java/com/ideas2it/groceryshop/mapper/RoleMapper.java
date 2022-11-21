@@ -8,8 +8,9 @@ package com.ideas2it.groceryshop.mapper;
 import com.ideas2it.groceryshop.model.Role;
 
 /**
- *
- * It is used to convert dto into model
+ * <p>
+ *     Convert data transfer object into model and vice versa.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -18,10 +19,12 @@ import com.ideas2it.groceryshop.model.Role;
 public class RoleMapper {
 
     /**
-     * It is used to convert role Dto object into model object
+     * <p>
+     *     Convert role Dto object into Role model object and return role.
+     * </p>
      *
-     * @param roleRequest it contains role name
-     * @return role it returns role object
+     * @param roleRequest - Contains role name.
+     * @return role - Contains role details.
      */
     public static Role roleDtoToRole(String roleRequest){
         Role role = new Role();

@@ -25,9 +25,9 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.RoleService;
 
 /**
- *
- * Role controller class is providing service to create,
- * update and delete role.
+ * <p>
+ *     Provides service to create, update and delete role.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -46,10 +46,12 @@ public class RoleController {
     }
 
     /**
-     * It is used to create role
+     * <p>
+     *     Create role by getting role name.
+     * </p>
      *
-     * @param roleRequestDto it is contains name of role
-     * @return SuccessResponseDto it returns success message
+     * @param roleRequestDto - Contains name of role
+     * @return SuccessResponseDto - Contains success message and status code
      */
     @PostMapping
     public SuccessResponseDto createRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
@@ -59,11 +61,13 @@ public class RoleController {
     }
 
     /**
-     * It is used to update name of existing role
+     * <p>
+     *     Update name of existing role by role name.
+     * </p>
      *
-     * @param roleUpdateRequestDto it contains old name of role to
-     *                            be updated and name of role
-     * @return SuccessResponseDto it returns success message
+     * @param roleUpdateRequestDto - Contains old name of role to
+     *                               be updated and name of role
+     * @return SuccessResponseDto - Contains success message and status code
      */
     @PutMapping
     public SuccessResponseDto updateRole
@@ -73,10 +77,12 @@ public class RoleController {
     }
 
     /**
-     * It is used to delete role by name
+     * <p>
+     *     Delete role by role name.
+     * </p>
      *
-     * @param roleRequestDto it contains role name
-     * @return SuccessResponseDto it returns success message
+     * @param roleRequestDto - Contains role name
+     * @return SuccessResponseDto - Success message and status code
      */
     @DeleteMapping
     public SuccessResponseDto deleteRole(@Valid @RequestBody RoleRequestDto roleRequestDto)

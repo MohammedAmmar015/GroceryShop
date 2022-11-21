@@ -18,8 +18,10 @@ import org.springframework.stereotype.Repository;
 import com.ideas2it.groceryshop.model.Address;
 
 /**
- * Address repository is used to communicate Address model with database
- * for delete, update, create and view operations
+ * <p>
+ *     Providing service for storing and retrieving data
+ *     from database for Address entity.
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -29,73 +31,50 @@ import com.ideas2it.groceryshop.model.Address;
 public interface AddressRepository extends JpaRepository<Address, Integer> {
 
     /**
-     * It is used to find active user address
+     * <p>
+     *     Find active user address.
+     * </p>
      *
-     * @param isActive it checks if user is active
-     * @param id it is id of user
-     * @return it returns list of address
+     * @param isActive - To check active or inactive address.
+     * @param id - To get user addresses.
+     * @return list of address.
      */
     List<Address> findByIsActiveAndUserId(Boolean isActive, Integer id);
 
     /**
-     * It is used to make user inactive
+     * <p>
+     *     Make user inactive.
+     * </p>
      *
-     * @param id it is used to deactivate address by id
-     * @return
+     * @param id - To deactivate address.
      */
     @Modifying
     @Transactional
     @Query("update Address set isActive = false where id = ?1")
-    Boolean deactivateAddress(Integer id);
+    void deleteAddress(Integer id);
 
     /**
-     * It is used to find active address by address id
+     * <p>
+     *     Find active address by address id.
+     * </p>
      *
-     * @param isActive it checks for address is active
-     * @param id it is id of address
-     * @return Address it returns address object
+     * @param isActive - To check active or inactive address.
+     * @param id - To get address.
+     * @return Address - Contains address details.
      */
     Optional<Address> findByIsActiveAndId(Boolean isActive, Integer id);
 
     /**
-     * This method is used to get address by active status, address id
-     * and user id
+     * <p>
+     *     Getting address by active status, address id
+     *     and user id.
+     * </p>
      *
-     * @param isActive it used to check address is active
-     * @param addressId it is id of address
-     * @param userId it is id of user
-     * @return Address it returns address object
+     * @param isActive - To check active or inactive address.
+     * @param addressId - To get address.
+     * @param userId - To get user address.
+     * @return Address - Contains address details.
      */
-    Optional<Address> findByIsActiveAndIdAndUserId(Boolean isActive,
-                                                   Integer addressId, Integer userId);
-    /**
-     * This method is used to delete all address
-     * of a user by user id
-     *
-     * @param id it is it of user
-     */
-    @Modifying
-    @Transactional
-    @Query("Update Address a set a.isActive = false where a.user.id = ?1")
-    void deactivateAddresses(Integer id);
-
-    /**
-     * This method is used to update address of user using address id.
-     *
-     * @param id it is id of address
-     * @param street it is name of street
-     * @param area it is name of area
-     * @param pinCode it is pin code of area
-     * @param landMark it is landmark of area
-     * @param isDefault it is used to if user want to set it
-     *                 as default address
-     */
-    @Modifying
-    @Transactional
-    @Query("Update Address a set a.street = ?2, a.area = ?3," +
-            " a.pinCode = ?4, a.landMark = ?5, a.isDefault = ?6" +
-            " where a.id = ?1")
-    void updateAddressByAddressId(Integer id, String street,
-                                  String area, Integer pinCode,
-                                  String landMark, Boolean isDefault);
+    Optional<Address> findByIsActiveAndIdAndUserId(Boolean isActive, Integer addressId,
+                                                   Integer userId);
 }

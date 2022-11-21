@@ -21,11 +21,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.ideas2it.groceryshop.audit.Audit;
-import com.ideas2it.groceryshop.model.User;
 
 /**
- *
- * Address POJO is used Store and retrieve address data
+ * <p>
+ *     It holds the address related information(like street, area details etc.,) and
+ *     also it is used to store and retrieve the address information to and from
+ *     database through JpaRepository
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
@@ -36,7 +38,7 @@ import com.ideas2it.groceryshop.model.User;
 @Getter
 @NoArgsConstructor
 @Setter
-@Table(name = "Address")
+@Table(name = "address")
 public class Address extends Audit{
 
     @Id

@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Login Response Dto is used to show token
- * and success message
+ * <p>
+ *    It holds the LoginResponse information(like token, success message and code)
+ * </p>
  *
  * @version 1.0
  * @author Rohit A P
