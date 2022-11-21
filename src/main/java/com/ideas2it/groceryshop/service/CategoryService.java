@@ -28,11 +28,12 @@ public interface CategoryService {
 
     /**
      * <p>
-     *     To create category by using category request dto.
+     *     Create category by using category request dto.
      * </p>
+     *
      * @param categoryRequestDto - Contains category details.
-     * @return - Success response dto message with status code.
-     * @throws ExistedException - If category is already added.
+     * @return                   - Success message and status code.
+     * @throws ExistedException  - If category is already added.
      * @throws NotFoundException - If category not found
      */
     SuccessResponseDto addCategory(CategoryRequestDto categoryRequestDto)
@@ -40,56 +41,56 @@ public interface CategoryService {
 
     /**
      * <p>
-     *     To get available categories.
+     *     Get available categories.
      * </p>
      *
-     * @return - List of category.
+     * @return                   - List of category.
      * @throws NotFoundException - If category not found.
      */
     List<CategoryResponseDto> getCategory() throws NotFoundException;
 
     /**
      * <p>
-     *     To get all available sub categories.
+     *     Get all available sub categories.
      * </p>
      *
-     * @return - List of sub category.
+     * @return                   - List of sub category.
      * @throws NotFoundException - If sub category not found.
      */
     List<SubCategoryResponseDto> getAllSubCategory() throws NotFoundException;
 
     /**
      * <p>
-     *     Delete category by using category id.
+     *     Deletes category by using category id.
      * </p>
      *
-     * @param id - To fetch relevant category.
-     * @return - Success response dto with message and status code.
+     * @param categoryId         - To fetch relevant category.
+     * @return                   - Success message and status code.
      * @throws NotFoundException - If category not found.
      */
-    SuccessResponseDto deleteCategory(Integer id) throws NotFoundException;
+    SuccessResponseDto deleteCategory(Integer categoryId) throws NotFoundException;
 
     /**
      * <p>
-     *     Delete sub category by using sub category id.
+     *     Deletes sub category by using sub category id.
      * </p>
      *
-     * @param parentId - To find relevant sub category.
-     * @param categoryId - To delete sub category.
-     * @return - Success response dto with message and status code.
+     * @param parentId           - To find relevant sub category.
+     * @param categoryId         - To delete sub category.
+     * @return                   - Success message and status code.
      * @throws NotFoundException - If sub category not found.
      */
     SuccessResponseDto deleteSubCategory(Integer parentId, Integer categoryId) throws NotFoundException;
 
     /**
      * <p>
-     *     Update category fields by using category request dto and category id.
+     *     Updates category fields by using category request dto and category id.
      * </p>
      *
-     * @param categoryId - To find which object to update
+     * @param categoryId         - To find which object to update
      * @param categoryRequestDto - Contains name to get update.
-     * @return - Success response dto with message and status code.
-     * @throws ExistedException - If category fields already exists.
+     * @return                   - Success message and status code.
+     * @throws ExistedException  - If category fields already exists.
      * @throws NotFoundException - If category not found.
      */
     SuccessResponseDto updateCategory(Integer categoryId, CategoryRequestDto categoryRequestDto)
@@ -97,14 +98,14 @@ public interface CategoryService {
 
     /**
      * <p>
-     *     Update sub category fields by using sub category request dto and sub category id.
+     *     Updates sub category fields by using sub category request dto and sub category id.
      * </p>
      *
-     * @param categoryId -To find relevant sub category.
-     * @param parentId - To fetch sub category.
+     * @param categoryId         - To find relevant sub category.
+     * @param parentId           - To fetch sub category.
      * @param categoryRequestDto - Contains category name, parentId to be updated.
-     * @return - Success response dto with message and status code.
-     * @throws ExistedException - If sub category fields already exists.
+     * @return                   - Success message and status code.
+     * @throws ExistedException  - If sub category fields already exists.
      * @throws NotFoundException - If sub category not found.
      */
     SuccessResponseDto updateSubCategory(Integer parentId, Integer categoryId, CategoryRequestDto
