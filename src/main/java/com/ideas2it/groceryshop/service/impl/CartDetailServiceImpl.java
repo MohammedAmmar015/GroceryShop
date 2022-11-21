@@ -1,7 +1,12 @@
+/*
+ * <p>
+ *      Copyright (c) All rights reserved Ideas2IT
+ * </p>
+ */
 package com.ideas2it.groceryshop.service.impl;
 
 import com.ideas2it.groceryshop.repository.CartDetailsRepository;
-import com.ideas2it.groceryshop.service.CartDetailsService;
+import com.ideas2it.groceryshop.service.CartDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class CartDetailsServiceImpl implements CartDetailsService {
+public class CartDetailServiceImpl implements CartDetailService {
     private final CartDetailsRepository cartDetailsRepository;
 
     /**

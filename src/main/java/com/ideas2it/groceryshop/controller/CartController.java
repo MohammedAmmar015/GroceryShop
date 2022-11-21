@@ -47,17 +47,18 @@ public class CartController {
 
     /**
      * <p>
-     *     Creates cart or if cart is inactive for currently logged-in user
-     *     else update the cart with given product details
+     *     Creates cart or updates an existing cart if cart is inactive for currently
+     *     logged-in user with given product details
      * </p>
-     * @param cartRequest - contains product id and quantity to add into cart
-     * @return SuccessResponseDto - contains message and status Code
-     * @throws NotFoundException - if product not found
-     * @throws ExistedException - if product already exist in cart
+     *
+     * @param cartRequest        - Contains product id and quantity to add into cart
+     * @return                   - Success message and status Code
+     * @throws NotFoundException - If product not found
+     * @throws ExistedException  - If product already exist in cart
      */
     @PostMapping
     public SuccessResponseDto createOrUpdateCart(@Valid @RequestBody CartRequestDto cartRequest)
-                                        throws NotFoundException, ExistedException {
+                                                 throws NotFoundException, ExistedException {
         logger.debug("Entered createCart method in CartController");
         return cartService.addOrModifyCart(cartRequest);
     }
@@ -66,8 +67,9 @@ public class CartController {
      * <p>
      *     View the cart of currently logged-in user
      * </p>
-     * @return - CartResponse with product details as cart detail, it's total price
-     * @throws NotFoundException - if cart is inactive or not found
+     *
+     * @return                   - Product details as cart detail, it's total price
+     * @throws NotFoundException - If cart is inactive or not found
      */
     @GetMapping
     public CartResponseDto viewCart() throws NotFoundException {
@@ -80,9 +82,10 @@ public class CartController {
      *     Updates quantity of particular product and to update
      *     new calculated price in active cart of currently logged-in user
      * </p>
-     * @param cartRequest - contains product id and quantity to add into cart
-     * @return SuccessResponseDto - contains message and status code
-     * @throws NotFoundException - if cart or given product id not found
+     *
+     * @param cartRequest        - Contains product id and quantity to add into cart
+     * @return                   - Success message and status code
+     * @throws NotFoundException - If cart or given product id not found
      */
     @PutMapping
     public SuccessResponseDto updateCart(@Valid @RequestBody CartRequestDto cartRequest)
@@ -93,10 +96,11 @@ public class CartController {
 
     /**
      * <p>
-     *     Delete all products from cartDetails and to delete cart
+     *     Removes all products from cartDetails and to delete cart
      *     based on currently logged-in user detail
      * </p>
-     * @return SuccessResponseDto - contains message and status code
+     *
+     * @return - Success message and status code
      */
     @DeleteMapping
     public SuccessResponseDto deleteCart() throws NotFoundException {
@@ -106,13 +110,13 @@ public class CartController {
 
     /**
      * <p>
-     *     Delete particular product from cartDetails based on given product id
+     *     Removes particular product from cartDetails based on given product id
      *     and to update cart with new calculated price
      * </p>
      *
-     * @param productId - product's id to remove product from cart
-     * @return SuccessResponseDto - contains message and status code
-     * @throws NotFoundException - if cart or given product id not found
+     * @param productId          - Product's id to remove product from cart
+     * @return                   - Success message and status code
+     * @throws NotFoundException - If cart or given product id not found
      */
     @DeleteMapping("/products/{productId}")
     public SuccessResponseDto deleteProductFromCart(@PathVariable Integer productId)
@@ -120,5 +124,4 @@ public class CartController {
         logger.debug("Entered deleteProductFromCart method in CartController");
         return cartService.removeProductFromCart(productId);
     }
-
 }

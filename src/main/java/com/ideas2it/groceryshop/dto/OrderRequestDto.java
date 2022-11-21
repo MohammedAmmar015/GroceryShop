@@ -16,9 +16,9 @@ import lombok.Setter;
  *      also it is used to get order details.
  * </p>
  *
- * @author Dhanalakshmi M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @Getter
 @Setter

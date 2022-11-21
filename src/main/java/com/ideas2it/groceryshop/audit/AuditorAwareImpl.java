@@ -16,7 +16,7 @@ import java.util.Optional;
 
 /**
  * <p>
- *      Provide implementation for AuditorAware, to find the current user or Auditor
+ *      Provides implementation for AuditorAware, to find the current user or Auditor
  *      from security context if user made any changes to entity
  * </p>
  *
@@ -29,10 +29,10 @@ public class AuditorAwareImpl implements AuditorAware<Integer> {
 
     /**
      * <p>
-     *      To get user id of principal or currently logged-in user from security context
+     *      Gets user id of principal or currently logged-in user from security context
      * </p>
      *
-     * @return user id - used to store as created by, modified by
+     * @return - currently logged-in user's id as optional
      */
     @Override
     public Optional<Integer> getCurrentAuditor() {

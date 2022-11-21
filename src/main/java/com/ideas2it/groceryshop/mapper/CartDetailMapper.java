@@ -27,7 +27,7 @@ public class CartDetailMapper {
      * </p>
      *
      * @param cartDetailRequest - Contains product id and quantity
-     * @return cartDetail - Contains quantity, etc
+     * @return                  - cart details like quantity, etc
      */
     public static CartDetail toCartDetail(CartDetailRequestDto cartDetailRequest) {
         CartDetail cartDetail = new CartDetail();
@@ -41,7 +41,7 @@ public class CartDetailMapper {
      * </p>
      *
      * @param cartDetail - Contains products added to cart
-     * @return CartDetailsResponse - Contains product name, total price, etc
+     * @return           - cart details like product name, total price, etc
      */
     public static CartDetailResponseDto toCartDetailResponse(CartDetail cartDetail) {
         CartDetailResponseDto cartDetailResponse = new CartDetailResponseDto();

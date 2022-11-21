@@ -18,7 +18,7 @@ import com.ideas2it.groceryshop.model.CartDetail;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.repository.CartRepository;
-import com.ideas2it.groceryshop.service.CartDetailsService;
+import com.ideas2it.groceryshop.service.CartDetailService;
 import com.ideas2it.groceryshop.service.CartService;
 import com.ideas2it.groceryshop.service.ProductService;
 import com.ideas2it.groceryshop.service.UserService;
@@ -50,7 +50,7 @@ public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final UserService userService;
     private final ProductService productService;
-    private final CartDetailsService cartDetailsService;
+    private final CartDetailService cartDetailService;
 
     /**
      * {@inheritDoc}
@@ -162,7 +162,7 @@ public class CartServiceImpl implements CartService {
     public SuccessResponseDto removeCart() {
         logger.debug("Entered removeCart method in cartServiceImpl");
         User user = userService.getCurrentUser();
-        cartDetailsService.removeCartDetailsByUserId(user.getId());
+        cartDetailService.removeCartDetailsByUserId(user.getId());
         cartRepository.deleteCartByUserId(user.getId());
         logger.debug("cart deleted successfully");
         return new SuccessResponseDto(200, "Cart deleted successfully");
@@ -187,7 +187,7 @@ public class CartServiceImpl implements CartService {
 
     /**
      * <p>
-     *     Delete particular product from cart based on given product id
+     *     Deletes particular product from cart based on given product id
      *     and to set new calculated price and quantity
      * </p>
      *

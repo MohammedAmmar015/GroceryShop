@@ -47,7 +47,6 @@ public class StockServiceImpl implements StockService {
     private final Logger logger = LogManager.getLogger(StockServiceImpl.class);
     private final StoreService storeService;
     private final StockRepository stockRepository;
-
     private final ProductService productService;
 
     /**
@@ -159,15 +158,5 @@ public class StockServiceImpl implements StockService {
                                                                eachOrderDetail.getProduct(),
                                                                store.getId());
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Boolean getStocksAvailabilityByStoreLocationAndProduct(Integer locationId,
-                                                                  Integer productId) {
-        return stockRepository.existsByStoreLocationIdAndProductIdAndAvailableStockGreaterThan
-                                                       (locationId, productId, 0);
     }
 }

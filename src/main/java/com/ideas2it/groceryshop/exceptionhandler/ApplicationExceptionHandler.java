@@ -30,7 +30,7 @@ import javax.validation.UnexpectedTypeException;
 
 /**
  * <p>
- *     It handle exception occurs in this application.
+ *     It handles exception occurs in this application.
  * </p>
  *
  * @author  RUBAN
@@ -42,12 +42,12 @@ public class ApplicationExceptionHandler {
 
     /**
      * <p>
-     *     It is implemented to throw an exception when the user is not
+     *     Implemented to handle an exception when the user is not
      *     getting the desired output.
      * </p>
      *
-     * @param notFoundException - Contains message to get display
-     * @return ErrorDto
+     * @param notFoundException - Contains message and status code
+     * @return                  - ErrorDto
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
@@ -60,11 +60,11 @@ public class ApplicationExceptionHandler {
 
     /**
      * <p>
-     *     This method is implemented to throw an exception when the user request
+     *     Implemented to handle an exception when the user request
      *     has conflict.
      * </p>
-     * @param exception contains message
-     * @return ErrorDto
+     * @param exception - contains message
+     * @return          - ErrorDto
      */
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ExistedException.class,
@@ -99,7 +99,8 @@ public class ApplicationExceptionHandler {
 
     /**
      * <p>
-     *     This is Exception handler method for MethodArgumentNotValid Exception
+     *     It is implemented to handle an MethodArgumentNotValidException thrown
+     *     when given payload is not valid
      * </p>
      * @param exception MethodArgumentNotValidException exception with Message
      * @return errors with field name and error message

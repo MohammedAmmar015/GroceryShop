@@ -39,8 +39,11 @@ public class OrderDeliveryTestController {
     OrderDeliveryController orderDeliveryController;
 
     /**
-     * This method is used test statusUpdate method
+     * <p>
+     *     Tests statusUpdate method
+     * </p>
      *
+     * @throws ExistedException
      * @throws NotFoundException
      */
     @Test
@@ -52,7 +55,9 @@ public class OrderDeliveryTestController {
     }
 
     /**
-     * Test the getDeliveryOrder method
+     * <p>
+     *     Tests the getDeliveryOrder method
+     * </p>
      *
      * @throws NotFoundException
      */

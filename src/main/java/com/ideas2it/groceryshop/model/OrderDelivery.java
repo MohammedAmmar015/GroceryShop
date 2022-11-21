@@ -32,9 +32,9 @@ import com.ideas2it.groceryshop.audit.Audit;
  *     retrieve order information from and to database.
  * </p>
  *
- * @author Dhanalakshmi.M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi.M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @Entity
 @Getter

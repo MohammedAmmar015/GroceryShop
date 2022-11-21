@@ -28,8 +28,9 @@ import java.util.List;
 /**
  * <p>
  *     Provides APIs to add, update, view and delete stock
- *     for different products on different location
+ *     for different products in different location
  * </p>
+ *
  * @author Mohammed Ammar
  * @since 05-11-2022
  * @version 1.0
@@ -38,21 +39,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/stocks")
 public class StockController {
-
     private final Logger logger = LogManager.getLogger(StockController.class);
     private final StockService stockService;
 
     /**
      * <p>
-     *     Create Stock for particular product on particular location
+     *     Creates Stock for particular product on particular location
      *     by getting stockRequest from user to add
      * </p>
-     * @param stockRequest - contains number of stock to add
-     * @param locationId - to add stock on given location
-     * @param productId - to add stock for given product
-     * @return SuccessResponseDto - contains success message and status code
-     * @throws NotFoundException - if given store id or product id not found
-     * @throws ExistedException - if stock already exist for given product and location
+     *
+     * @param stockRequest       - Contains number of stock to add
+     * @param locationId         - To add stock on given location
+     * @param productId          - To add stock for given product
+     * @return                   - Success message and status code
+     * @throws NotFoundException - If given store id or product id not found
+     * @throws ExistedException  - If stock already exist for given product and location
      */
     @PostMapping("/location/{locationId}/products/{productId}")
     public SuccessResponseDto createStock(@Valid @RequestBody StockRequestDto stockRequest,
@@ -68,10 +69,11 @@ public class StockController {
      *     View available Stock details for particular product
      *     available on different locations by getting product id from user
      * </p>
-     * @param productId - to view stock details on different location
-     * @return list of StockResponseDto - contains list of available stock for multiple location
-     *                                      for given product id
-     * @throws NotFoundException - if stock not found for given product id
+     *
+     * @param productId          - To view stock details on different location
+     * @return                   - Contains list of available stock for multiple location
+     *                             for given product id
+     * @throws NotFoundException - If stock not found for given product id
      */
     @GetMapping("/products/{productId}")
     public List<StockResponseDto> viewStockByProduct(@PathVariable Integer productId)
@@ -86,10 +88,11 @@ public class StockController {
      *     on particular location based on product id and location id
      *     by getting product id and location id
      * </p>
-     * @param productId - to view stock detail for given product
-     * @param locationId - to view stock detail on given
-     * @return StoreResponseDTO - contains available stock detail for given product and location
-     * @throws NotFoundException - if stock not found for given id
+     *
+     * @param productId          - To view stock detail for given product
+     * @param locationId         - To view stock detail on given
+     * @return                   - Contains available stock detail for given product and location
+     * @throws NotFoundException - If stock not found for given id
      */
     @GetMapping("/location/{locationId}/products/{productId}")
     public StockResponseDto getStockByProductAndLocation(@PathVariable Integer productId,
@@ -101,25 +104,23 @@ public class StockController {
 
     /**
      * <p>
-     *     Update stock for particular product on particular location
+     *     Updates stock for particular product on particular location
      *     based on product id and location id
      *     by getting locationId and productId from user
      * </p>
      *
-     * @param stockRequest - stock details to update
-     * @param productId    - to update stock for this product
-     * @param locationId   -  to update stock on this location
-     * @return SuccessResponseDto - contains success message and status code
-     * @throws NotFoundException - if stock not found for product id and location id
+     * @param stockRequest       - Stock details to update
+     * @param productId          - To update stock for this product
+     * @param locationId         - To update stock on this location
+     * @return                   - Success message and status code
+     * @throws NotFoundException - If stock not found for product id and location id
      */
     @PutMapping("location/{locationId}/products/{productId}")
     public SuccessResponseDto updateStockByProductAndLocation
                             (@Valid @RequestBody StockRequestDto stockRequest,
-                             @PathVariable Integer productId,
-                             @PathVariable Integer locationId) throws NotFoundException {
+                             @PathVariable Integer productId, @PathVariable Integer locationId)
+                             throws NotFoundException {
         logger.debug("Entered updateStockByProductAndLocation method in StockController");
-        return stockService.updateStockByProductAndLocation(stockRequest,
-                                                            productId,
-                                                             locationId);
+        return stockService.updateStockByProductAndLocation(stockRequest, productId, locationId);
     }
 }

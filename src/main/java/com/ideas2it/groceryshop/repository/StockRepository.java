@@ -28,7 +28,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>
-     *     To retrieve all Stocks of particular product which available in multiple location
+     *     Retrieves all Stocks of specific product which available in multiple location
      *     based on Product Id
      * </p>
      *
@@ -39,7 +39,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>
-     *     To retrieve stock details of particular product available on particular location
+     *     Retrieves stock details of specific product available on specific location
      *     based on location id and product id
      * </p>
      *
@@ -51,7 +51,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>
-     *     Update stock of particular product on any particular location based on
+     *     Updates stock of specific product on any specific location based on
      *     location id and product id
      * </p>
      *
@@ -68,7 +68,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>
-     *     Decrease stock of product that user has ordered based on
+     *     Decreases stock of product that user has ordered based on
      *     product id, quantity and location id
      * </p>
      *
@@ -84,7 +84,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>
-     *     To check if stock is available or not for particular product on particular location
+     *     To check if stock is available or not for specific product on particular location
      *     based on product id and location id
      * </p>
      *
@@ -111,7 +111,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     /**
      * <p>
-     *     Increase stock of product that user has cancelled
+     *     Increases stock of product that user has cancelled
      *     based on product, location and quantity Ordered
      * </p>
      *

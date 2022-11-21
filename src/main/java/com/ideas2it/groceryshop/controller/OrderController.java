@@ -36,9 +36,9 @@ import com.ideas2it.groceryshop.service.impl.UserServiceImpl;
  *     view order by using various filter option and cancel order
  * </p>
  *
- * @author Dhanalakshmi M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @RestController
 @RequiredArgsConstructor
@@ -51,11 +51,11 @@ public class OrderController {
 
     /**
      * <p>
-     *     creates order by getting the order Request
+     *     creates an order by getting the order request.
      * </p>
      *
-     * @param orderRequest - Contains addressId which helps to place order
-     * @return SuccessResponseDto - Contains success message and status code
+     * @param orderRequest       - Contains addressId, which aids in order placement
+     * @return                   - Success message and Status code
      * @throws NotFoundException - If cart not found.
      */
     @PostMapping("/placeOrder")
@@ -70,9 +70,9 @@ public class OrderController {
      *     Creates order directly without adding it to cart by using direct buy now option
      * </p>
      *
-     * @param orderRequest - Contains quantity, productId, addressId
-     * @return SuccessResponseDto - Contains success message and status code
-     * @throws NotFoundException - If Address not found.
+     * @param orderRequest        - quantity, productId, addressId
+     * @return                    - Success message and Status code
+     * @throws NotFoundException  - If Address not found.
      */
     @PostMapping("/buyNow")
     public SuccessResponseDto buyNow(@RequestBody OrderRequestDto orderRequest) throws NotFoundException {
@@ -82,10 +82,10 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get list of active orders
+     *     Gets list of active orders
      * </p>
      *
-     * @return OrderResponseDto - List of active orders which contains userId,
+     * @return                   - List of active orders which contains userId,
      *                             orderedDate, expectedDeliveryDate, totalPrice,
      *                             totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - If order not found.
@@ -98,12 +98,12 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get list of cancelled orders
+     *     Gets list of cancelled orders
      * </p>
      *
-     * @return OrderResponseDto - List of cancelled orders which contains userId,
-     *                            orderedDate, expectedDeliveryDate, totalPrice,
-     *                            totalQuantity, orderDetails, isDelivered
+     * @return                   - List of cancelled orders which contains userId,
+     *                             orderedDate, expectedDeliveryDate, totalPrice,
+     *                             totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - If cancelled orders not found.
      */
     @GetMapping("/cancelledOrders")
@@ -114,12 +114,12 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get Order by using orderId
+     *     Gets Order by using orderId
      * </p>
      *
-     * @param orderId - To get order.
-     * @return OrderResponseDto - Contains userId, orderedDate, expectedDeliveryDate,
-     *                            totalPrice, totalQuantity, orderDetails, isDelivered
+     * @param orderId            - To get order.
+     * @return                   - userId, orderedDate, expectedDeliveryDate,
+     *                             totalPrice, totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - If order not found.
      */
     @GetMapping("/{orderId}")
@@ -130,12 +130,12 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get list of orders of particular user
+     *     Gets list of orders of specific user
      * </p>
      *
-     * @return OrderResponseDto - Contains userId, orderedDate, expectedDeliveryDate,
-     *                            totalPrice, totalQuantity, orderDetails, isDelivered
-     *
+     * @return                   - Contains list of orders which contains
+     *                             userId, orderedDate, expectedDeliveryDate,
+     *                             totalPrice, totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - If order not found.
      */
     @GetMapping
@@ -147,12 +147,12 @@ public class OrderController {
 
     /**
      * <p>
-     *     Cancel order of current user by using orderId
+     *     Cancels order of current user by using orderId
      * </p>
      *
-     * @param orderId - To cancel order
-     * @return SuccessResponseDto - Contains success message and status code
-     * @throws NotFoundException - If order not found
+     * @param orderId             - To cancel order
+     * @return                    - Success message and Status code
+     * @throws NotFoundException  - If order not found
      */
     @PutMapping("/{orderId}/cancelOrder")
     public SuccessResponseDto cancelOrder(@PathVariable Integer orderId) throws NotFoundException {
@@ -162,13 +162,13 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get list of order of particular product using product id
+     *     Gets list of order of particular product using productId
      * </p>
      *
-     * @param productId - To get list of order placed for particular product
-     * @return OrderDetailsResponseDto - Contains list of orders of particular product
-     *                                   which contains categoryName, subCategoryName,
-     *                                   productName, quantity, price
+     * @param productId          - To get list of orders placed for specific product
+     * @return                   - Contains list of orders of particular product
+     *                             which contains categoryName, subCategoryName,
+     *                             productName, quantity, price
      * @throws NotFoundException - If order not found.
      */
     @GetMapping("/products/{productId}")
@@ -180,15 +180,15 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get list of order by date
+     *     Gets list of orders by orderedDate
      * </p>
      *
-     * @param orderedDate - To get orders of particular date
-     * @return OrderResponseDto - List of order which contains userId,
+     * @param orderedDate        - To get orders of particular date
+     * @return OrderResponseDto  - List of orders which contains userId,
      *                             orderedDate, expectedDeliveryDate, totalPrice,
      *                             totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - If order not found
-     * @throws ParseException - If date format is invalid
+     * @throws ParseException    - If date format is invalid
      */
     @GetMapping("/date/{orderedDate}")
     public List<OrderResponseDto> viewOrdersByDate(@PathVariable String orderedDate)
@@ -201,17 +201,17 @@ public class OrderController {
 
     /**
      * <p>
-     *     Get list of order of a particular user
-     *     as per mentioned date and userId
+     *     Gets list of orders of a specific user
+     *     as per mentioned orderedDate and userId
      * </p>
      *
-     * @param orderedDate - To get order of particular date
-     * @param userId - To get order of particular user
-     * @return OrderResponseDto - List of order which contains userId,
-     *                            orderedDate, expectedDeliveryDate, totalPrice,
-     *                            totalQuantity, orderDetails, isDelivered
+     * @param orderedDate        - To get order of particular date
+     * @param userId             - To get order of particular user
+     * @return                   - List of order which contains userId,
+     *                             orderedDate, expectedDeliveryDate, totalPrice,
+     *                             totalQuantity, orderDetails, isDelivered
      * @throws NotFoundException - If order not found
-     * @throws ParseException If date format is invalid
+     * @throws ParseException    - If date format is invalid
      */
     @GetMapping("/date/{orderedDate}/user/{userId}")
     public List<OrderResponseDto> viewOrdersByIdAndDate(@PathVariable String orderedDate,

@@ -28,9 +28,9 @@ import org.springframework.stereotype.Service;
  *    Provides services like get order and update delivery status.
  * </p>
  *
- * @author Dhanalakshmi.M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi.M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @Service
 @RequiredArgsConstructor

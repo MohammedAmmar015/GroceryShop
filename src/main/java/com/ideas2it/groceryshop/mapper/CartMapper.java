@@ -31,7 +31,7 @@ public class CartMapper {
      * </p>
      *
      * @param cart - Contains list of cart details, total price
-     * @return CartResponse - Contains product details, total price etc
+     * @return     - Cart details like product details, total price etc
      */
     public static CartResponseDto toCartResponse(Cart cart) {
         CartResponseDto cartResponse = new CartResponseDto();
@@ -52,7 +52,7 @@ public class CartMapper {
      * </p>
      *
      * @param cartRequest - Contains product id and quantity
-     * @return cart - Contains cart details
+     * @return            - Cart contains cart details
      */
     public static Cart toCart(CartRequestDto cartRequest) {
         Cart cart = new Cart();
