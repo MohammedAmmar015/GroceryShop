@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * <p>
  *      It holds the OrderDeliveryResponseDto information(like userId, orderedDate,
- *      expectedDeliveryDate, totalPrice, totalQuantity, orderDetails, isDelivered) and
- *      also it is used to view order as response to user.
+ *      expectedDeliveryDate, totalPrice, totalQuantity, orderStatus, orderDetails,
+ *      isDelivered) and also it is used to view order as response to user.
  * </p>
  *
  * @author   Dhanalakshmi M
@@ -39,6 +39,8 @@ public class OrderResponseDto {
     private Float totalPrice;
 
     private Integer totalQuantity;
+
+    private Boolean orderStatus;
 
     private List<OrderDetailResponseDto> orderDetails;
 
