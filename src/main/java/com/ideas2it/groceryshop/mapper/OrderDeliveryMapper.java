@@ -13,9 +13,9 @@ import com.ideas2it.groceryshop.model.OrderDelivery;
  *     Converts entity to dto and vice versa
  * </p>
  *
- * @author Dhanalakshmi.M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi.M
+ * @version  1.0
+ * @since    18-11-2022
  */
 public class OrderDeliveryMapper {
 
@@ -26,8 +26,8 @@ public class OrderDeliveryMapper {
      *
      * @param orderDelivery - Contains userId, orderId, shippingAddress, orderStatus,
      *                        totalPrice, totalQuantity
-     * @return OrderDeliveryResponseDto - Contains userId, orderId, totalPrice, shippingAddress,
-     *                                    orderStatus, totalQuantity
+     * @return              - userId, orderId, totalPrice, shippingAddress,
+     *                        orderStatus, totalQuantity
      */
     public static OrderDeliveryResponseDto toOrderDeliveryDto(OrderDelivery orderDelivery) {
         OrderDeliveryResponseDto orderDeliveryResponse = new OrderDeliveryResponseDto();

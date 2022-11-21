@@ -12,13 +12,14 @@ import lombok.Setter;
 
 /**
  * <p>
- *      It holds the OrderDetailsResponseDto information(like categoryName, subCategoryName, productName,
- *      quantity, price) and also it is used to view order details as response to user.
+ *      It holds the OrderDetailsResponseDto information(like categoryName, subCategoryName,
+ *      productName, quantity, price) and also it is used to view order details
+ *      as response to user.
  * </p>
  *
- * @author Dhanalakshmi M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @Getter
 @Setter

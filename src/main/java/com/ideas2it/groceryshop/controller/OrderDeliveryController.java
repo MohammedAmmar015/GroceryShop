@@ -5,7 +5,6 @@
  */
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.exception.ExistedException;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.OrderDeliveryService;
 
@@ -27,9 +27,9 @@ import com.ideas2it.groceryshop.service.OrderDeliveryService;
  *     Provides Apis like get order and update the delivery status
  * </p>
  *
- * @author Dhanalakshmi M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @RestController
 @RequiredArgsConstructor
@@ -40,12 +40,12 @@ public class OrderDeliveryController {
 
     /**
      * <p>
-     *     Get the DeliveryOrder using orderId
+     *     Retrieves the Delivery Order by using orderId
      * </p>
      *
-     * @param orderId - To pick order
-     * @return OrderDeliveryResponseDto - Contains userId, orderId, totalPrice, totalQuantity,
-     *                                    shippingAddress, orderStatus
+     * @param orderId            - To pick order
+     * @return                   - userId, orderId, totalPrice, totalQuantity,
+     *                             shippingAddress, orderStatus
      * @throws NotFoundException - If order not found
      */
     @GetMapping("/{orderId}/orderDelivery")
@@ -57,13 +57,13 @@ public class OrderDeliveryController {
 
     /**
      * <p>
-     *     Update delivery status once the order is delivered
+     *     Updates delivery status once the order is delivered
      * </p>
      *
-     * @param orderId - To update delivery status
-     * @return SuccessResponseDto - Contains success message and status code
+     * @param orderId            - To update delivery status
+     * @return                   - Success message and Status code
      * @throws NotFoundException - If order not found.
-     * @throws ExistedException - If order already delivered
+     * @throws ExistedException  - If order already delivered
      */
     @PutMapping("/{orderId}/statusUpdate")
     public SuccessResponseDto statusUpdate(@PathVariable Integer orderId) throws ExistedException,

@@ -19,7 +19,7 @@ import com.ideas2it.groceryshop.model.Order;
 
 /**
  * <p>
- *     Provide services like place order, view order and cancel order
+ *     Provides services like place order, view order and cancel order
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -34,30 +34,30 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * </p>
      *
      * @param status - To fetch active or inactive order
-     * @return Orders - Contains list of order which contains orderedDate, totalPrice,
+     * @return       - List of orders which contains orderedDate, totalPrice,
      *                 totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     List<Order> findByIsActive(Boolean status);
 
     /**
      * <p>
-     *     Retrieve list of order using user id
+     *     Retrieves list of order using user id
      * </p>
      *
      * @param userId - To fetch list of order
-     * @return Order - Contains list of order which contains orderedDate, totalPrice, totalQuantity,
+     * @return Order - List of orders which contains orderedDate, totalPrice, totalQuantity,
      *                 isActive, orderDetails, cart, user, orderDelivery
      */
     List<Order> findByUserId(Integer userId);
 
     /**
      * <p>
-     *     Update the order status to cancel the order
+     *     Updates the order status to cancel the order
      * </p>
      *
-     * @param orderId - To cancel order
-     * @return Integer - 1 if order is cancelled successfully
-     *                  0 if order is not cancelled
+     * @param orderId  - To cancel order
+     * @return Integer - 1 rows affected if order is cancelled successfully
+     *                   0 rows affected if order is not cancelled
      */
     @Modifying
     @Transactional
@@ -70,9 +70,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * </p>
      *
      * @param orderId - To fetch order
-     * @param userId - To fetch user order
-     * @return Order - Contains orderedDate, totalPrice, totalQuantity, isActive,
-     *                 orderDetails, cart, user, orderDelivery
+     * @param userId  - To fetch user order
+     * @return        - orderedDate, totalPrice, totalQuantity, isActive,
+     *                  orderDetails, cart, user, orderDelivery
      */
     Optional<Order> findByIdAndUserId(Integer orderId, Integer userId);
 
@@ -81,12 +81,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      *     Retrieves order by orderId, isActive, userId and isDelivered
      * </p>
      *
-     * @param orderId - To fetch order
-     * @param isActive - To fetch active or inactive order
-     * @param userId - To fetch user order
+     * @param orderId     - To fetch order
+     * @param isActive    - To fetch active or inactive order
+     * @param userId      - To fetch user order
      * @param isDelivered - To fetch order not delivered
-     * @return Order - Contains orderedDate, totalPrice, totalQuantity, isActive,
-     *                 orderDetails, cart, user, orderDelivery
+     * @return            - orderedDate, totalPrice, totalQuantity, isActive,
+     *                      orderDetails, cart, user, orderDelivery
      */
     Optional<Order> findByIdAndIsActiveAndUserIdAndOrderDeliveryIsDelivered(Integer orderId,
                                                                             Boolean isActive,
@@ -95,36 +95,36 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     /**
      * <p>
-     *     Retrieve list of order details of particular product
+     *     Retrieves list of order details of specific product
      * </p>
      *
-     * @param productId - To fetch list of order
-     * @return OrderDetails - Contains quantity, price, product
+     * @param productId - To fetch list of orders
+     * @return          - List of orders which contains quantity, price, product
      */
     @Query(value = "Select o from OrderDetail o where o.product.id = ?1")
     List<OrderDetail> findByProductId(Integer productId);
 
     /**
      * <p>
-     *     Retrieves order of particular date
+     *     Retrieves orders of particular date
      * </p>
      *
-     * @param orderedDate - To fetch list of order
-     * @return Order - Contains orderedDate, totalPrice, totalQuantity, isActive,
-     *                 orderDetails, cart, user, orderDelivery
+     * @param orderedDate - To fetch list of orders
+     * @return            - List of orders which contains orderedDate, totalPrice,
+     *                      totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     @Query("Select o from Order o where date(o.orderedDate) = ?1")
     List<Order> findByOrderedDate(Date orderedDate);
 
     /**
      * <p>
-     *     Retrieves order by using userId and orderedDate
+     *     Retrieves orders by using userId and orderedDate
      * </p>
      *
      * @param orderedDate - To fetch order
-     * @param userId - To fetch user order
-     * @return Order - Contains orderedDate, totalPrice, totalQuantity, isActive,
-     *                 orderDetails, cart, user, orderDelivery
+     * @param userId      - To fetch user order
+     * @return            - List of orders which contains orderedDate, totalPrice,
+     *                      totalQuantity, isActive, orderDetails, cart, user, orderDelivery
      */
     @Query("Select o from Order o where Date(o.orderedDate) = ?1 AND o.user.id = ?2")
     List<Order> findByOrderedDateAndUserId(Date orderedDate, Integer userId);

@@ -9,7 +9,6 @@ import com.ideas2it.groceryshop.dto.OrderDetailResponseDto;
 import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
-import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -95,7 +94,6 @@ public class OrderTestController {
      * This method is used to test the cancelOrder method
      *
      * @throws NotFoundException
-     * @throws ExistedException
      */
     @Test
     public void cancelOrder() throws NotFoundException {

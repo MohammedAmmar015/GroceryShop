@@ -18,9 +18,9 @@ import com.ideas2it.groceryshop.model.Product;
  *     Converts entity to dto and vice versa
  * </p>
  *
- * @author Dhanalakshmi.M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi.M
+ * @version  1.0
+ * @since    18-11-2022
  */
 public class OrderDetailMapper {
 
@@ -29,8 +29,8 @@ public class OrderDetailMapper {
      *     Converts OrderRequestDto to OrderDetail
      * </p>
      *
-     * @param orderRequest - Contains quantity, product
-     * @return OrderDetail - Contains quantity, product
+     * @param orderRequest - Contains quantity
+     * @return             - quantity
      */
     public static OrderDetail toOrderDetail(OrderRequestDto orderRequest) {
         OrderDetail orderDetail = new OrderDetail();
@@ -44,8 +44,8 @@ public class OrderDetailMapper {
      * </p>
      *
      * @param orderDetail - contains quantity, price and product
-     * @return OrderDetailResponseDto - contains quantity, price, productName,
-     *                                   categoryName, subCategoryName
+     * @return            - quantity, price, productName,
+     *                      categoryName, subCategoryName
      */
     public static OrderDetailResponseDto toOrderDetailDto(OrderDetail orderDetail) {
         OrderDetailResponseDto orderDetailsResponse = new OrderDetailResponseDto();
@@ -60,12 +60,12 @@ public class OrderDetailMapper {
 
     /**
      * <p>
-     *     Converts list of OrderDetail to list of OrderDetailResponseDto
+     *     Converts list of OrderDetails to list of OrderDetailsResponseDto
      * </p>
-     *
+
      * @param orderDescription - list of orderDetail which contains quantity, price and product
-     * @return OrderDetailResponseDto - list of OrderDetailResponse
-     *                                   which contains quantity, price and product
+     * @return                 - list of OrderDetailResponses which contains
+     *                           quantity, price and product
      */
     public static List<OrderDetailResponseDto> toOrderDetailDtoList
                                                 (List<OrderDetail> orderDescription) {
