@@ -15,7 +15,7 @@ import com.ideas2it.groceryshop.model.OrderDelivery;
 
 /**
  * <p>
- *     Provide services like get order and update order status
+ *     Provides services like get order and update order status
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -26,12 +26,12 @@ public interface OrderDeliveryRepository extends JpaRepository<OrderDelivery, In
 
     /**
      * <p>
-     *     Retrieve order using orderId
+     *     Retrieves order using orderId
      * </p>
      *
      * @param orderId - To fetch order
-     * @return OrderDelivery - Contains isDelivered, deliveryDate,
-     *                         expectedDeliveryDate, userOrder, shippingAddress
+     * @return        - isDelivered, deliveryDate,
+     *                  expectedDeliveryDate, userOrder, shippingAddress
      */
     OrderDelivery findByOrderId(Integer orderId);
 

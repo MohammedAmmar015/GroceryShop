@@ -12,7 +12,7 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
  * <p>
- *    Provide services like get order and update delivery status
+ *    Provides services like get order and update delivery status
  * </p>
  *
  * @author Dhanalakshmi.M
@@ -23,24 +23,24 @@ public interface OrderDeliveryService {
 
     /**
      * <p>
-     *     Update delivery status once the order is delivered
+     *     Updates delivery status once the order is delivered
      * </p>
      *
-     * @param orderId - To update delivery status
-     * @return SuccessResponseDto - Contains success message and status code
+     * @param orderId            - To update delivery status
+     * @return                   - Success message and Status code
      * @throws NotFoundException - If order not found.
-     * @throws ExistedException - If order already delivered
+     * @throws ExistedException  - If order already delivered
      */
     SuccessResponseDto statusUpdate(Integer orderId) throws ExistedException, NotFoundException;
 
     /**
      * <p>
-     *     Get the DeliveryOrder using orderId
+     *     Gets the DeliveryOrder using orderId
      * </p>
      *
-     * @param orderId - To pick order
-     * @return OrderDeliveryResponseDto - Contains userId, orderId, totalPrice, totalQuantity,
-     *                                    shippingAddress, orderStatus
+     * @param orderId            - To pick order
+     * @return                   - Contains userId, orderId, totalPrice, totalQuantity,
+     *                             shippingAddress, orderStatus
      * @throws NotFoundException - If order not found
      */
     OrderDeliveryResponseDto getDeliveryOrder(Integer orderId) throws NotFoundException;

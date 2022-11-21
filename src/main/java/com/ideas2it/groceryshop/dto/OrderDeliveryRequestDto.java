@@ -12,13 +12,13 @@ import lombok.Setter;
 
 /**
  * <p>
- *      It holds the OrderDeliveryRequestDto information(like isDelivered, orderId, shippingAddressId) and
- *      also it is used to get order delivery details.
+ *      It holds the OrderDeliveryRequestDto information(like isDelivered, orderId,
+ *      shippingAddressId) and also it is used to get order delivery details.
  * </p>
  *
- * @author Dhanalakshmi M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @Getter
 @Setter

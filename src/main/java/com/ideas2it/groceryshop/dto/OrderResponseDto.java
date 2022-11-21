@@ -15,14 +15,14 @@ import java.util.List;
 
 /**
  * <p>
- *      It holds the OrderDeliveryResponseDto information(like userId, orderedDate, expectedDeliveryDate,
- *      totalPrice, totalQuantity, orderDetails, isDelivered) and also it is used to view
- *      order as response to user.
+ *      It holds the OrderDeliveryResponseDto information(like userId, orderedDate,
+ *      expectedDeliveryDate, totalPrice, totalQuantity, orderDetails, isDelivered) and
+ *      also it is used to view order as response to user.
  * </p>
  *
- * @author Dhanalakshmi M
- * @version 1.0
- * @since 18-11-2022
+ * @author   Dhanalakshmi M
+ * @version  1.0
+ * @since    18-11-2022
  */
 @NoArgsConstructor
 @AllArgsConstructor
