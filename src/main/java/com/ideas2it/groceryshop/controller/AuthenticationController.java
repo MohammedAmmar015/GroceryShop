@@ -63,14 +63,16 @@ public class AuthenticationController {
      *     Finds if user exist or not and create bearer token if user exists.
      * </p>
      *
-     * @param loginRequestDto          - Contains username or mobile number and password.
-     * @return LoginResponseDto        - Contains bearer token and success message.
+     * @param loginRequestDto          - Contains username or mobile number
+     *                                   and password.
+     * @return LoginResponseDto        - Contains bearer token and
+     *                                   success message.
      * @throws BadCredentialsException - Contains badCredentials message.
      */
     @PostMapping
     public LoginResponseDto createAuthenticationToken
-            (@Valid @RequestBody Optional<LoginRequestDto> loginRequestDto)
-            throws BadCredentialsException {
+                     (@Valid @RequestBody Optional<LoginRequestDto> loginRequestDto)
+                     throws BadCredentialsException {
         logger.debug("Entered createAuthenticationToken");
         SecurityContextHolder.clearContext();
         String userName = userService.getUserNameByMobileNumber
