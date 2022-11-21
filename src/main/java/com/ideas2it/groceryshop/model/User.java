@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
-import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,7 +65,6 @@ public class User {
     private String password;
 
     @Column(name = "mobile_number", length = 10, nullable = false, unique=true)
-    @Pattern(regexp = "^[6-9][0-9]{9}", message = "Enter valid mobile number")
     private Long mobileNumber;
 
     @Column(name = "email", length = 50, nullable = false, unique=true)

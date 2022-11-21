@@ -52,12 +52,12 @@ public class UserController {
 
     /**
      * <p>
-     *     Create user profile by getting user details.
+     *     Creates user profile by getting user details.
      * </p>
      *
-     * @param userRequestDto - Contains user detail
-     * @return SuccessResponseDto - Contains success message and status code
-     * @throws ExistedException - If username already exist
+     * @param userRequestDto      - Contains user detail.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws ExistedException   - If username already exist.
      */
     @PostMapping
     public SuccessResponseDto createUser(@Valid @RequestBody UserRequestDto userRequestDto)
@@ -68,12 +68,12 @@ public class UserController {
 
     /**
      * <p>
-     *     Get user by id
+     *     Gets user by id.
      * </p>
      *
-     * @param id - To get user
-     * @return userResponseDto - Contains user details
-     * @throws NotFoundException - If user does not exist
+     * @param id                 - To get user.
+     * @return userResponseDto   - Contains user details.
+     * @throws NotFoundException - If user does not exist.
      */
     @GetMapping("/{userId}")
     public UserResponseDto getUserById(@PathVariable("userId") Integer id)
@@ -84,11 +84,11 @@ public class UserController {
 
     /**
      * <p>
-     *     Get all users.
+     *     Gets all users.
      * </p>
      *
-     * @return userResponseDtoList - Contains list of user
-     * @throws NotFoundException - If users does not found
+     * @return userResponseDtoList - Contains list of user.
+     * @throws NotFoundException   - If users does not found.
      */
     @GetMapping
     public List<UserResponseDto> viewAllUser() throws NotFoundException {
@@ -100,12 +100,12 @@ public class UserController {
 
     /**
      * <p>
-     *     Get user by role name.
+     *     Gets user by role name.
      * </p>
      *
-     * @param name - role name to get users
-     * @return userResponseDtoList - Contains list of user
-     * @throws NotFoundException - If users not found
+     * @param name                 - Role name to get users.
+     * @return userResponseDtoList - Contains list of user.
+     * @throws NotFoundException   - If users not found.
      */
     @GetMapping("/role/{roleName}")
     public List<UserResponseDto> viewUsersByRole(@PathVariable("roleName") String name)
@@ -118,10 +118,10 @@ public class UserController {
 
     /**
      * <p>
-     *     Get currently logged-in user profile
+     *     Gets currently logged-in user profile.
      * </p>
      *
-     * @return UserResponseDto - contains user profile
+     * @return UserResponseDto - contains user profile.
      */
     @GetMapping("/userProfile")
     public UserResponseDto viewProfile() {
@@ -131,12 +131,12 @@ public class UserController {
 
     /**
      * <p>
-     *     Delete user by id.
+     *     Deletes user by id.
      * </p>
      *
-     * @param id - To delete user
-     * @return SuccessResponseDto - Contains success message and status code
-     * @throws NotFoundException - If user not found exception
+     * @param id - To delete user.
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws NotFoundException  - If user not found exception.
      */
     @DeleteMapping("/{userId}")
     public SuccessResponseDto deleteUserById(@PathVariable("userId") Integer id)
@@ -147,13 +147,13 @@ public class UserController {
 
     /**
      * <p>
-     *     Update user by username.
+     *     Updates user by username.
      *     Following are the fields that can be updated,
-     *     firstName, lastName, password and email
+     *     firstName, lastName, password and email.
      * </p>
      *
-     * @return SuccessResponseDto - Contains success message and status code
-     * @throws NotFoundException - If user does not exist
+     * @return SuccessResponseDto - Contains success message and status code.
+     * @throws NotFoundException  - If user does not exist.
      */
     @PutMapping
     public SuccessResponseDto updateUserByUserName

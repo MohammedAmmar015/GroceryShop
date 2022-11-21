@@ -34,7 +34,7 @@ import com.ideas2it.groceryshop.service.RoleService;
  * @since 11-11-2022
  */
 @RestController
-@RequestMapping("api/v1/users/roles")
+@RequestMapping("api/v1/roles")
 public class RoleController {
 
     private final RoleService roleService;
@@ -47,11 +47,11 @@ public class RoleController {
 
     /**
      * <p>
-     *     Create role by getting role name.
+     *     Creates role by getting role name.
      * </p>
      *
-     * @param roleRequestDto - Contains name of role
-     * @return SuccessResponseDto - Contains success message and status code
+     * @param roleRequestDto      - Contains name of role.
+     * @return SuccessResponseDto - Contains success message and status code.
      */
     @PostMapping
     public SuccessResponseDto createRole(@Valid @RequestBody RoleRequestDto roleRequestDto)
@@ -62,12 +62,12 @@ public class RoleController {
 
     /**
      * <p>
-     *     Update name of existing role by role name.
+     *     Updates name of existing role by role name.
      * </p>
      *
      * @param roleUpdateRequestDto - Contains old name of role to
-     *                               be updated and name of role
-     * @return SuccessResponseDto - Contains success message and status code
+     *                               be updated and name of role.
+     * @return SuccessResponseDto  - Contains success message and status code.
      */
     @PutMapping
     public SuccessResponseDto updateRole
@@ -78,11 +78,11 @@ public class RoleController {
 
     /**
      * <p>
-     *     Delete role by role name.
+     *     Deletes role by role name.
      * </p>
      *
-     * @param roleRequestDto - Contains role name
-     * @return SuccessResponseDto - Success message and status code
+     * @param roleRequestDto      - Contains role name.
+     * @return SuccessResponseDto - Success message and status code.
      */
     @DeleteMapping
     public SuccessResponseDto deleteRole(@Valid @RequestBody RoleRequestDto roleRequestDto)

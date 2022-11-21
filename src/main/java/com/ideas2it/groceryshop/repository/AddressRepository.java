@@ -19,8 +19,8 @@ import com.ideas2it.groceryshop.model.Address;
 
 /**
  * <p>
- *     Providing service for storing and retrieving data
- *     from database for Address entity.
+ *     Provides service to store and retrieve data
+ *     from Address entity.
  * </p>
  *
  * @version 1.0
@@ -32,18 +32,18 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
 
     /**
      * <p>
-     *     Find active user address.
+     *     Retrieves addresses of user by user id.
      * </p>
      *
      * @param isActive - To check active or inactive address.
-     * @param id - To get user addresses.
-     * @return list of address.
+     * @param id       - To get user addresses.
+     * @return         - list of address.
      */
     List<Address> findByIsActiveAndUserId(Boolean isActive, Integer id);
 
     /**
      * <p>
-     *     Make user inactive.
+     *     Deletes address by address id.
      * </p>
      *
      * @param id - To deactivate address.
@@ -51,29 +51,29 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     @Modifying
     @Transactional
     @Query("update Address set isActive = false where id = ?1")
-    void deleteAddress(Integer id);
+    void disableAddress(Integer id);
 
     /**
      * <p>
-     *     Find active address by address id.
+     *     Retrieves active address by address id.
      * </p>
      *
      * @param isActive - To check active or inactive address.
-     * @param id - To get address.
-     * @return Address - Contains address details.
+     * @param id       - To get address.
+     * @return         - Contains address details.
      */
     Optional<Address> findByIsActiveAndId(Boolean isActive, Integer id);
 
     /**
      * <p>
-     *     Getting address by active status, address id
+     *     Gets address by active status, address id
      *     and user id.
      * </p>
      *
-     * @param isActive - To check active or inactive address.
+     * @param isActive  - To check active or inactive address.
      * @param addressId - To get address.
-     * @param userId - To get user address.
-     * @return Address - Contains address details.
+     * @param userId    - To get user address.
+     * @return Address  - Contains address details.
      */
     Optional<Address> findByIsActiveAndIdAndUserId(Boolean isActive, Integer addressId,
                                                    Integer userId);

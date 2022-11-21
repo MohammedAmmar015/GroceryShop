@@ -18,8 +18,8 @@ import com.ideas2it.groceryshop.model.Role;
 
 /**
  * <p>
- *     Providing service for storing and retrieving data
- *     from database for Role entity.
+ *     Provides service to store and retrieve data
+ *     from Role entity.
  * </p>
  *
  * @version 1.0
@@ -31,21 +31,21 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
      * <p>
-     *     Find role by name.
+     *     Retrieves role by name.
      * </p>
      *
      * @param isActive - To check active or inactive role.
-     * @param name - To get role.
-     * @return - role object.
+     * @param name     - To get role.
+     * @return         - role object contains role details.
      */
     Optional<Role> findByIsActiveAndName(Boolean isActive, String name);
 
     /**
      * <p>
-     *     Update role Name by role name.
+     *     Updates role Name by role name.
      * </p>
      *
-     * @param name - To update name.
+     * @param name         - To update name.
      * @param nameToUpdate - Name to be updated.
      */
     @Modifying
@@ -55,12 +55,12 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
      * <p>
-     *     Check if role exist.
+     *     Checks if role exist.
      * </p>
      *
-     * @param name - To check role is exists.
+     * @param name     - To check role is exists.
      * @param isActive - To check active or inactive role.
-     * @return Boolean - If exists true or-else false.
+     * @return         - If exists true or-else false.
      */
     Boolean existsByNameAndIsActive(String name, Boolean isActive);
 }

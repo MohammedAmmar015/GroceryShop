@@ -26,6 +26,8 @@ import com.ideas2it.groceryshop.dto.ErrorResponseDto;
 import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 
+import javax.validation.UnexpectedTypeException;
+
 /**
  * <p>
  *     It handle exception occurs in this application.
@@ -76,11 +78,13 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * This method is used to handle BadCredentialsException, UsernameNotFoundException
-     * and HttpClientErrorException
+     * <p>
+     *     It is implemented to handle BadCredentialsException or
+     *     UsernameNotFoundException or HttpClientErrorException when thrown.
+     * </p>
      *
-     * @param exception it contains error message
-     * @return errorDto it contains error message and error status code
+     * @param exception - Contains error message.
+     * @return errorDto - Contains error message and error status code.
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({BadCredentialsException.class,
@@ -115,15 +119,17 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * HttpMessageNotReadableException thrown if JSON payload is missing fields.
+     * <p>
+     *     It is implemented to handle IllegalArgumentException when thrown.
+     * </p>
      *
-     * @param httpMessageNotReadableException - Contains error message
-     * @return errorDto - Contains error message and error status code
+     * @param httpMessageNotReadableException - Contains error message.
+     * @return                                - Contains error message and error status code.
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorResponseDto handlerMessageNotReadableException
-    (HttpMessageNotReadableException httpMessageNotReadableException) {
+                           (HttpMessageNotReadableException httpMessageNotReadableException) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(httpMessageNotReadableException.getMessage());
         errorDto.setStatusCode(400);
@@ -131,15 +137,17 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * HttpClientErrorException is thrown if user don't have access to api
+     * <p>
+     *     It is implemented to handle HttpClientErrorException when thrown.
+     * </p>
      *
-     * @param httpClientErrorException - Contains error message
-     * @return errorDto - Contains error message and error code
+     * @param httpClientErrorException - Contains error message.
+     * @return                         - Contains error message and error code.
      */
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(HttpClientErrorException.Forbidden.class)
     public ErrorResponseDto handlerForbiddenException
-    (HttpClientErrorException httpClientErrorException) {
+                                         (HttpClientErrorException httpClientErrorException) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(httpClientErrorException.getMessage());
         errorDto.setStatusCode(403);
@@ -147,18 +155,38 @@ public class ApplicationExceptionHandler {
     }
 
     /**
-     * IllegalArgumentException thrown if wrong token is given
+     * <p>
+     *     It is implemented to handle IllegalArgumentException when thrown.
+     * </p>
      *
-     * @param illegalArgumentException - Contains error message
-     * @return errorDto - Contains error message and error code
+     * @param illegalArgumentException - Contains error message.
+     * @return errorDto                - Contains error message and error code.
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorResponseDto handleIllegalArgumentException
-    (IllegalArgumentException illegalArgumentException) {
+                                      (IllegalArgumentException illegalArgumentException) {
         ErrorResponseDto errorDto = new ErrorResponseDto();
         errorDto.setErrorMessage(illegalArgumentException.getMessage());
-        errorDto.setStatusCode(500);
+        errorDto.setStatusCode(401);
+        return errorDto;
+    }
+
+    /**
+     * <p>
+     *     It is implemented to handle UnexpectedTypeException when thrown.
+     * </p>
+     *
+     * @param unexpectedTypeException - Contains error message.
+     * @return errorDto               - Contains error message and error code.
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UnexpectedTypeException.class)
+    public ErrorResponseDto handleUnexpectedTypeException
+                                         (UnexpectedTypeException unexpectedTypeException) {
+        ErrorResponseDto errorDto = new ErrorResponseDto();
+        errorDto.setErrorMessage(unexpectedTypeException.getMessage());
+        errorDto.setStatusCode(400);
         return errorDto;
     }
 }

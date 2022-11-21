@@ -22,7 +22,7 @@ import com.ideas2it.groceryshop.filter.CustomSecurityFilter;
 
 /**
  * <p>
- *    Providing service to restricts users from accessing all API and restrict them
+ *    Provides service to restricts users from accessing all API and restrict them
  *    based on their role.
  * </p>
  *
@@ -46,10 +46,10 @@ public class SecurityConfig {
 
     /**
      * <p>
-     *     Creating bean for BCryptPasswordEncoder
+     *     Creates bean for BCryptPasswordEncoder.
      * </p>
      *
-     * @return BCryptPasswordEncoder - password encoder
+     * @return BCryptPasswordEncoder - Password encoder.
      */
     @Bean
     public BCryptPasswordEncoder getPasswordEncoder() {
@@ -58,34 +58,34 @@ public class SecurityConfig {
 
     /**
      * <p>
-     *     Creating bean for DaoAuthenticationProvider
+     *     Creates bean for DaoAuthenticationProvider T.
      * </p>
      *
-     * @return authenticationProvider - authenticate user based
-     *         on username and password
-     * @throws AuthenticationException - contains invalid credentials message
+     * @return authenticationProvider  - Authenticate user based on username and password.
+     * @throws AuthenticationException - Contains invalid credentials message.
      */
     @Bean
-    public DaoAuthenticationProvider authenticationManagerBean()
-            throws AuthenticationException {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(getPasswordEncoder());
-        return authenticationProvider;
+    public DaoAuthenticationProvider getAuthenticationProvider()
+                                             throws AuthenticationException {
+        DaoAuthenticationProvider daoAuthenticationProvider =
+                                             new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        return daoAuthenticationProvider;
     }
 
     /**
      * <p>
-     *     Restricts users from accessing all api
+     *     Restricts users from accessing all api.
      * </p>
      *
-     * @param http - to configure security filter
-     * @return http.build() - contains authorization based on role
-     * @throws Exception - contains exception message
+     * @param httpSecurity  - To configure security filter.
+     * @return http.build() - Contains authorization based on role.
+     * @throws Exception    - Contains exception message.
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/v1/login",
                         "/api/v1/users").permitAll()
@@ -116,22 +116,28 @@ public class SecurityConfig {
                         "/api/v1/categories/subCategories/*/*",
                         "/api/v1/users/roles/*")
                 .hasRole("ADMIN")
-                .antMatchers("/api/v1/orders/*/orderDelivery")
+                .antMatchers("/api/v1/orders/*/orderDelivery",
+                        "/api/v1/orders/*/statusUpdate")
                 .hasRole("DELIVERY_PERSON")
                 .antMatchers("/api/v1/orders/activeOrders")
                 .hasAnyRole("ADMIN", "DELIVERY_PERSON")
-                .antMatchers(HttpMethod.PUT, "/api/v1/user/carts/*",
+                .antMatchers(HttpMethod.PUT, "/api/v1/user/carts",
                         "/api/v1/user/orders/*/cancelOrder")
                 .hasRole("CUSTOMER")
                 .antMatchers(HttpMethod.POST , "/api/v1/user/orders/*",
                         "/api/v1/user/carts")
                 .hasRole("CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/api/v1/user/orders/*",
+                        "/api/v1/user/carts",
                         "/api/v1/user/orders")
+                .hasRole("CUSTOMER")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/user/carts",
+                        "/api/v1/user/carts/products/*")
                 .hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and().httpBasic();
-        http.addFilterBefore(customSecurityFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+        httpSecurity.addFilterBefore(customSecurityFilter,
+                UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
     }
 }

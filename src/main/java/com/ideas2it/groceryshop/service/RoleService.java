@@ -27,44 +27,44 @@ public interface RoleService {
 
     /**
      * <p>
-     *     Create role by getting role name.
+     *     Creates role by getting role name.
      * </p>
      *
-     * @param roleRequestDto - Contains role name.
-     * @return SuccessResponseDto - Contains success message and status code.
+     * @param roleRequestDto    - Contains role name.
+     * @return                  - Contains success message and status code.
      * @throws ExistedException - If role already exist.
      */
     SuccessResponseDto addRole(RoleRequestDto roleRequestDto) throws ExistedException;
 
     /**
      * <p>
-     *     Update role name by existing role name.
+     *     Updates role name by existing role name.
      * </p>
      *
      * @param roleUpdateRequestDto - Contains existing role name and name to be updated.
-     * @return SuccessResponseDto - Contains success message and status code.
-     * @throws NotFoundException - If role not found.
+     * @return                     - Contains success message and status code.
+     * @throws NotFoundException   - If role not found.
      */
     SuccessResponseDto updateRole(RoleUpdateRequestDto roleUpdateRequestDto)
                                   throws NotFoundException;
 
     /**
      * <p>
-     *     Delete role by role name.
+     *     Deletes role by role name.
      * </p>
      *
-     * @param roleRequestDto - Contains role name.
-     * @return SuccessResponseDto - Contains success message and status code.
-     * @throws NotFoundException - If role not found.
+     * @param roleRequestDto      - Contains role name.
+     * @return                    - Contains success message and status code.
+     * @throws NotFoundException  - If role not found.
      */
     SuccessResponseDto deleteRole(RoleRequestDto roleRequestDto) throws NotFoundException;
 
     /**
      * <p>
-     *     Get role by name.
+     *     Gets role by name.
      * </p>
      *
-     * @param name - To get role.
+     * @param name  - To get role.
      * @return Role - Contains role details.
      */
     Optional<Role> findRoleByName(String name);

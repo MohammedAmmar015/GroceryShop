@@ -37,8 +37,9 @@ import com.ideas2it.groceryshop.service.RoleService;
 
 /**
  * <p>
- *     UserService is used to save, update, delete and retrive user data from database.
- *     Data transfer objects(Dto) are converted into model object using mapper
+ *     Provides implementation services for business logic, save, update,
+ *     delete and retrive user data.
+ *     Data transfer object(Dto) are converted into model object using mapper
  *     for storing in database and vice versa.
  * </p>
  *
@@ -144,7 +145,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             logger.debug("User not found");
             throw new NotFoundException("User not found");
         }
-        userRepository.deleteUser(id);
+        userRepository.disableUserById(id);
         logger.debug("User Deleted successfully");
         return new SuccessResponseDto(200,"User Deleted successfully");
     }

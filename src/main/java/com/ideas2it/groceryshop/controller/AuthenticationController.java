@@ -30,7 +30,7 @@ import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
  * <p>
- *     Provides API to logging-in user
+ *     Provides API to log-in user.
  * </p>
  *
  * @version 1.0
@@ -60,12 +60,12 @@ public class AuthenticationController {
 
     /**
      * <p>
-     *     Find if user exist or not and create bearer token if user exists.
+     *     Finds if user exist or not and create bearer token if user exists.
      * </p>
      *
-     * @param loginRequestDto - Contains username or mobile number and password
-     * @return LoginResponseDto - Contains bearer token and success message
-     * @throws BadCredentialsException - Contains badCredentials message
+     * @param loginRequestDto          - Contains username or mobile number and password.
+     * @return LoginResponseDto        - Contains bearer token and success message.
+     * @throws BadCredentialsException - Contains badCredentials message.
      */
     @PostMapping
     public LoginResponseDto createAuthenticationToken
@@ -79,12 +79,13 @@ public class AuthenticationController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
         logger.debug("Logged in successfully");
-        return new LoginResponseDto(token, "Logged in successfully", 201);
+        return new LoginResponseDto(token, "Logged in successfully",
+                                   201);
     }
 
     /**
      * <p>
-     *     Authenticate user by username and password
+     *     Authenticates user by username and password.
      * </p>
      *
      * @param username - To authenticate username

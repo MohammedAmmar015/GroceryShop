@@ -51,26 +51,25 @@ public class AddressController {
 
     /**
      * <p>
-     *     To create address for currently logged-in user.
+     *     Creates address for currently logged-in user.
      * </p>
      *
-     * @param addressRequestDto - Contains address.
-     * @throws NotFoundException - If user not found.
+     * @param addressRequestDto  - Contains address.
+     * @return                   - Success message and status code.
      */
     @PostMapping
     public SuccessResponseDto createAddress(@Valid @RequestBody
-                                            AddressRequestDto addressRequestDto)
-                                            throws NotFoundException {
+                                            AddressRequestDto addressRequestDto) {
         logger.debug("Entered createAddress method");
         return addressService.addAddress(addressRequestDto);
     }
 
     /**
      * <p>
-     *     Get all address of a currently logged-in user.
+     *     Gets all address of a currently logged-in user.
      * </p>
      *
-     * @return addresses - List of address.
+     * @return                   - List of address.
      * @throws NotFoundException - If no address found.
      */
     @GetMapping
@@ -81,25 +80,27 @@ public class AddressController {
 
     /**
      * <p>
-     *     Delete address using address id.
+     *     Removes address using address id.
      * </p>
      *
-     * @param id - Address id
-     * @throws NotFoundException - If no address found
+     * @param id                 - Address id.
+     * @return                   - Contains success message and status code.
+     * @throws NotFoundException - If no address found.
      */
     @DeleteMapping("/{addressId}")
-    public SuccessResponseDto deleteAddressById
-    (@Valid @PathVariable("addressId") Integer id) throws NotFoundException {
+    public SuccessResponseDto deleteAddressById(@Valid @PathVariable("addressId")
+                                                Integer id) throws NotFoundException {
         logger.debug("Entered deleteAddressById method");
         return addressService.deleteAddressById(id);
     }
 
     /**
      * <p>
-     *     Update address of currently logged-in user by address id
+     *     Updates address of currently logged-in user by address id.
      * </p>
-     * @return SuccessResponseDto - Contains success message and code
-     * @throws NotFoundException - If address not found
+     *
+     * @return                    - Contains success message and status code.
+     * @throws NotFoundException  - If address not found.
      */
     @PutMapping("/{addressId}")
     public SuccessResponseDto updateAddressByAddressId
