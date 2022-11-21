@@ -30,7 +30,7 @@ import com.ideas2it.groceryshop.util.SecurityUtil;
 
 /**
  * <p>
- *     Provide service for logging-in user
+ *     Provides API to logging-in user
  * </p>
  *
  * @version 1.0

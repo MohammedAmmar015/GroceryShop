@@ -128,7 +128,6 @@ public class SecurityConfig {
                 .hasRole("CUSTOMER")
                 .antMatchers(HttpMethod.GET, "/api/v1/user/orders/*",
                         "/api/v1/user/orders")
-                .antMatchers("/api/v1/user/carts/*")
                 .hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and().httpBasic();
