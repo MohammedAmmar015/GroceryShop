@@ -28,13 +28,13 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *     This service class is implemented to perform create, update, delete
+ *     Provides implementation to perform create, update, delete
  *     and view category operations.
  * </p>
  *
  * @author RUBAN
  * @version  1.0
- * @since 03/11/22
+ * @since 03-11-22
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -42,7 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final Logger logger;
     private final ProductRepository productRepository;
 
-    public CategoryServiceImpl(ProductRepository productRepository,CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(ProductRepository productRepository,
+                               CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.logger = LogManager.getLogger(CategoryServiceImpl.class);
@@ -61,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category categories = CategoryMapper.toCategory(categoryRequestDto);
         if(categoryRequestDto.getParentId() != 0) {
             Optional<Category> category = categoryRepository.findById(categoryRequestDto.
-                    getParentId());
+                                                             getParentId());
             if(category.isPresent()) {
                 categories.setCategory(category.get());
             } else  {
@@ -82,16 +83,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryResponseDto> getCategory() throws NotFoundException {
         logger.debug("Entered into getCategory method in category service");
-        List<Category> resultCategories = categoryRepository.findByParentIdAndIsActive( true);
-        if (resultCategories.isEmpty()) {
+        List<Category> categoriesList = categoryRepository.
+                                        findCategoriesByParentIdAndIsActive( true);
+        if (categoriesList.isEmpty()) {
             throw new NotFoundException("Category not added");
         }
-        List<CategoryResponseDto> categoriesList = new ArrayList<>();
-        for(Category category : resultCategories) {
-            categoriesList.add(CategoryMapper.toCategoryDto(category));
+        List<CategoryResponseDto> categoriesResponse = new ArrayList<>();
+        for(Category category : categoriesList) {
+            categoriesResponse.add(CategoryMapper.toCategoryDto(category));
         }
         logger.debug("getCategory method successfully executed");
-        return categoriesList;
+        return categoriesResponse;
     }
 
     /**
@@ -100,7 +102,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<SubCategoryResponseDto> getAllSubCategory() throws NotFoundException {
         logger.debug("Entered into getAllSubCategory method in category service");
-        List<Category> categories = categoryRepository.findByParentIdNotNullAndIsActive(true);
+        List<Category> categories = categoryRepository.
+                                    findSubCategoriesByParentIdAndIsActive(true);
         if (categories.isEmpty()) {
             throw new NotFoundException("Sub category not added");
         }
@@ -116,19 +119,21 @@ public class CategoryServiceImpl implements CategoryService {
      * {@inheritDoc}
      */
     @Override
-    public SuccessResponseDto deleteCategory(Integer id) throws NotFoundException {
+    public SuccessResponseDto deleteCategory(Integer categoryId) throws NotFoundException {
         logger.debug("Entered into deleteCategory method in category service");
-        Category categories = categoryRepository.findByIdAndIsActive(id, true);
+        Category categories = categoryRepository.findCategoryByIdAndIsActive(categoryId, true);
         if (categories == null) {
             throw new NotFoundException("Category id not found");
         }
         categories.setActive(false);
-        List<Category> subCategories = categoryRepository.findSubCategoryByParentId(id);
+        List<Category> subCategories = categoryRepository.
+                                       findSubCategoriesByParentIdAndIsActive(categoryId, true);
         for (Category category : subCategories) {
             category.setActive(false);
             categoryRepository.save(category);
         }
-        List<Product> products = productRepository.findProductsByCategoryIdAndIsActive(id, true);
+        List<Product> products = productRepository.
+                findProductsByCategoryIdAndIsActive(categoryId, true);
         for(Product product: products) {
             product.setActive(false);
             productRepository.save(product);
@@ -152,7 +157,8 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category.setActive(false);
         categoryRepository.save(category);
-        List<Product> products = productRepository.findBySubCategoryIdAndIsActive(categoryId, true);
+        List<Product> products = productRepository.
+                findProductsBySubCategoryIdAndIsActive(categoryId, true);
         for(Product product: products) {
             product.setActive(false);
             productRepository.save(product);
@@ -165,10 +171,10 @@ public class CategoryServiceImpl implements CategoryService {
      * {@inheritDoc}
      */
     @Override
-    public SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
+    public SuccessResponseDto updateCategory(Integer categoryId, CategoryRequestDto categoryRequestDto)
                                              throws NotFoundException, ExistedException {
         logger.debug("Entered into updateCategory method in category service");
-        Category category = categoryRepository.findByIdAndParentIdAndIsActive(id, true);
+        Category category = categoryRepository.findCategoryByIdAndIsActive(categoryId, true);
         if(category == null) {
             throw new NotFoundException("Category id not found");
         }

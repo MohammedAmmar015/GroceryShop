@@ -31,7 +31,7 @@ import com.ideas2it.groceryshop.audit.Audit;
  *
  * @author Ruban
  * @version 1.0
- * @since 03/11/22
+ * @since 03-11-22
  *
  **/
 @Entity
@@ -46,7 +46,7 @@ public class Product extends Audit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "Name", length = 20, nullable = false)
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
 
     @Column(name ="price", nullable = false)
@@ -57,7 +57,7 @@ public class Product extends Audit {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="sub_category_id")
-    private Category category;
+    private Category subCategory;
 
     @Column(name ="unit", length = 10)
     private String unit;
@@ -65,6 +65,6 @@ public class Product extends Audit {
     @Column(name = "per_Head")
     private int perHead;
 
-    @Column(name = "Image")
+    @Column(name = "image")
     private String image;
 }

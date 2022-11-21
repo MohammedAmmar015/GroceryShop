@@ -22,7 +22,7 @@ import com.ideas2it.groceryshop.exception.NotFoundException;
  *
  * @author RUBAN
  * @version  1.0
- * @since 03/11/22
+ * @since 03-11-22
  */
 public interface CategoryService {
 
@@ -86,13 +86,13 @@ public interface CategoryService {
      *     Update category fields by using category request dto and category id.
      * </p>
      *
-     * @param id - To find which object to update
+     * @param categoryId - To find which object to update
      * @param categoryRequestDto - Contains name to get update.
      * @return - Success response dto with message and status code.
      * @throws ExistedException - If category fields already exists.
      * @throws NotFoundException - If category not found.
      */
-    SuccessResponseDto updateCategory(Integer id, CategoryRequestDto categoryRequestDto)
+    SuccessResponseDto updateCategory(Integer categoryId, CategoryRequestDto categoryRequestDto)
             throws ExistedException, NotFoundException;
 
     /**

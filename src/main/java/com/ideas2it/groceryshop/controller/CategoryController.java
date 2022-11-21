@@ -30,12 +30,13 @@ import java.util.List;
 
 /**
  * <p>
- *     Provides create, view, update and delete operations for Category.
+ *     Provides APIs to  create, view, update and delete operations
+ *     for Category.
  * </p>
  *
  * @author RUBAN
  * @version  1.0
- * @since 03/11/22
+ * @since 03-11-22
  */
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -132,18 +133,18 @@ public class CategoryController {
      *     Update category fields by using category request dto and category id.
      * </p>
      *
-     * @param id - To find which object to update
+     * @param categoryId - To find which object to update
      * @param categoryRequestDto - Contains name to get update.
      * @return - Success response dto with message and status code.
      * @throws ExistedException - If category fields already exists.
      * @throws NotFoundException - If category not found.
      */
-    @PutMapping("/{id}")
-    public SuccessResponseDto updateCategory(@PathVariable("id") Integer id,
+    @PutMapping("/{categoryId}")
+    public SuccessResponseDto updateCategory(@PathVariable("categoryId") Integer categoryId,
                                              @RequestBody CategoryRequestDto categoryRequestDto)
                                              throws ExistedException, NotFoundException {
         logger.debug("Entered into updateCategory method in category controller");
-        return categoryService.updateCategory(id, categoryRequestDto);
+        return categoryService.updateCategory(categoryId, categoryRequestDto);
     }
 
     /**

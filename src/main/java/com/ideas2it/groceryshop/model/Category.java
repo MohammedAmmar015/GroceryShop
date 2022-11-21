@@ -30,7 +30,7 @@ import com.ideas2it.groceryshop.audit.Audit;
  *
  * @author Ruban
  * @version 1.0
- * @since 03/11/22
+ * @since 03-11-22
  **/
 @Entity
 @Getter
