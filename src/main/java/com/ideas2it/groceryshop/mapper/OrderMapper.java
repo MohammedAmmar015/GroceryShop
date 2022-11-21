@@ -30,14 +30,15 @@ public class OrderMapper {
      *
      * @param order - contains orderedDate, totalPrice, totalQuantity,
      *                isDelivered, userId, orderDetails
-     * @return OrderResponseDto - contains orderedDate, totalPrice,
-     *                            totalQuantity, isDelivered, userId, orderDetails
+     * @return      - contains orderedDate, totalPrice, totalQuantity,
+     *                orderStatus, isDelivered, userId, orderDetails
      */
      public static OrderResponseDto toOrderResponseDto(Order order) {
          OrderResponseDto orderResponseDto = new OrderResponseDto();
          orderResponseDto.setOrderedDate(order.getOrderedDate());
          orderResponseDto.setTotalPrice(order.getTotalPrice());
          orderResponseDto.setTotalQuantity(order.getTotalQuantity());
+         orderResponseDto.setOrderStatus(order.getIsActive());
          orderResponseDto.setExpectedDeliveryDate(order.getOrderDelivery().getExpectedDeliveryDate());
          orderResponseDto.setIsDelivered(order.getOrderDelivery().getIsDelivered());
          orderResponseDto.setUserId(order.getUser().getId());
@@ -52,9 +53,9 @@ public class OrderMapper {
      * </p>
      *
      * @param orders - contains list of orders which contains orderedDate, totalPrice, totalQuantity,
-     *                 isDelivered, userId, orderDetails
-     * @return OrderResponseDto - contains list of OrderResponseDto which contains orderedDate, totalPrice,
-     *                            totalQuantity, isDelivered, userId, orderDetails
+     *                 orderStatus, isDelivered, userId, orderDetails
+     * @return       - contains list of OrderResponseDto which contains orderedDate, totalPrice,
+     *                 totalQuantity, orderStatus, isDelivered, userId, orderDetails
      */
     public static List<OrderResponseDto> toOrdersDtoList(List<Order> orders) {
         List<OrderResponseDto> orderResponses = new ArrayList<>();
