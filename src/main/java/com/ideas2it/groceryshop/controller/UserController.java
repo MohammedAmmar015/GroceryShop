@@ -31,7 +31,7 @@ import com.ideas2it.groceryshop.service.UserService;
 
 /**
  * <p>
- *     Provides services for create, delete, update and view users.
+ *     Provides APIs to create, delete, update and view users.
  * </p>
  *
  * @version 1.0

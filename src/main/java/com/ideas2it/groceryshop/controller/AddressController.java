@@ -30,7 +30,7 @@ import com.ideas2it.groceryshop.service.AddressService;
 
 /**
  * <p>
- *    Provides services for create, delete, view and update address.
+ *    Provides APIs to create, delete, view and update address.
  * </p>
  *
  * @version 1.0

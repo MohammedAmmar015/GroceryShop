@@ -26,7 +26,7 @@ import com.ideas2it.groceryshop.service.RoleService;
 
 /**
  * <p>
- *     Provides service to create, update and delete role.
+ *     Provides APIs to create, update and delete role.
  * </p>
  *
  * @version 1.0
