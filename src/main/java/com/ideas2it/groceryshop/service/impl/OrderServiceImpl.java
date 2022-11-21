@@ -17,18 +17,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.OrderDetailResponseDto;
 import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
-import com.ideas2it.groceryshop.mapper.OrderDetailsMapper;
+import com.ideas2it.groceryshop.mapper.OrderDetailMapper;
 import com.ideas2it.groceryshop.mapper.OrderMapper;
 import com.ideas2it.groceryshop.model.Product;
-import com.ideas2it.groceryshop.model.OrderDetails;
+import com.ideas2it.groceryshop.model.OrderDetail;
 import com.ideas2it.groceryshop.model.User;
 import com.ideas2it.groceryshop.model.Address;
-import com.ideas2it.groceryshop.model.CartDetails;
+import com.ideas2it.groceryshop.model.CartDetail;
 import com.ideas2it.groceryshop.model.Order;
 import com.ideas2it.groceryshop.model.OrderDelivery;
 import com.ideas2it.groceryshop.model.Cart;
@@ -73,8 +73,8 @@ public class OrderServiceImpl implements OrderService {
             order.setUser(cart.getUser());
             order.setTotalQuantity(cart.getTotalQuantity());
             order.setTotalPrice(cart.getTotalPrice());
-            List<CartDetails> cartDetails = cart.getCartDetails();
-            List<OrderDetails> orderDetails= cartDetailsToOrderDetails(cartDetails);
+            List<CartDetail> cartDetails = cart.getCartDetails();
+            List<OrderDetail> orderDetails = cartDetailsToOrderDetails(cartDetails);
             order.setOrderDetails(orderDetails);
             OrderDelivery orderDelivery = orderDelivery(orderRequest);
             order.setOrderDelivery(orderDelivery);
@@ -97,11 +97,11 @@ public class OrderServiceImpl implements OrderService {
      * @param cartDetails - Contains list of quantity, price, productId
      * @return OrderDetails - Contains list of quantity, price, product
      */
-    private List<OrderDetails> cartDetailsToOrderDetails(List<CartDetails> cartDetails) {
+    private List<OrderDetail> cartDetailsToOrderDetails(List<CartDetail> cartDetails) {
         logger.debug("Entered cartDetailsToOrderDetails method in OrderServiceImpl");
-        List<OrderDetails> orderDetails = new ArrayList<>();
-        for(CartDetails cartDetail : cartDetails) {
-            OrderDetails orderDetail = new OrderDetails();
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        for(CartDetail cartDetail : cartDetails) {
+            OrderDetail orderDetail = new OrderDetail();
             orderDetail.setQuantity(cartDetail.getQuantity());
             orderDetail.setPrice(cartDetail.getPrice());
             orderDetail.setProduct(cartDetail.getProduct());
@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
         logger.debug("Entered buyNow method in OrderServiceImpl");
         User user = userService.getCurrentUser();
         Order order = new Order();
-        List<OrderDetails> orderDetails = setOrderDetails(orderRequest);
+        List<OrderDetail> orderDetails = setOrderDetails(orderRequest);
         order.setOrderDetails(orderDetails);
         order.setTotalPrice(orderDetails.get(0).getPrice());
         order.setTotalQuantity(orderDetails.get(0).getQuantity());
@@ -148,14 +148,13 @@ public class OrderServiceImpl implements OrderService {
         Optional<Address> address = addressService.getAddressByAddressId(orderRequest.getAddressId());
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 3);
-        if(address.isPresent()) {
-            orderDelivery.setExpectedDeliveryDate(calendar.getTime());
-            orderDelivery.setShippingAddress(address.get());
-            return orderDelivery;
-        } else {
+        if(address.isEmpty()) {
             logger.debug("Address not found");
             throw new NotFoundException("Address not found");
         }
+        orderDelivery.setExpectedDeliveryDate(calendar.getTime());
+        orderDelivery.setShippingAddress(address.get());
+        return orderDelivery;
     }
 
     /**
@@ -166,12 +165,11 @@ public class OrderServiceImpl implements OrderService {
         logger.debug("Entered viewOrderById method in OrderServiceImpl");
         Integer userId = userService.getCurrentUser().getId();
         Optional<Order> order = orderRepository.findByIdAndUserId(orderId, userId);
-        if (order.isPresent()) {
-            return OrderMapper.toOrderResponseDto(order.get());
-        } else {
+        if (order.isEmpty()) {
             logger.debug("No record found");
             throw new NotFoundException("No record found");
         }
+        return OrderMapper.toOrderResponseDto(order.get());
     }
 
     /**
@@ -182,13 +180,12 @@ public class OrderServiceImpl implements OrderService {
      * @param orderRequest - Contains quantity, productId, addressId, userId of an order
      * @return OrderDetails - Contains quantity, price, product
      */
-    private List<OrderDetails> setOrderDetails(OrderRequestDto orderRequest) {
+    private List<OrderDetail> setOrderDetails(OrderRequestDto orderRequest) {
         logger.debug("Entered setOrderDetails method in OrderServiceImpl");
-        OrderDetails orderDetail = OrderDetailsMapper.toOrderDetails(orderRequest);
-        List<OrderDetails> orderDetails = new ArrayList<>();
+        OrderDetail orderDetail = OrderDetailMapper.toOrderDetail(orderRequest);
+        List<OrderDetail> orderDetails = new ArrayList<>();
         Integer productId = orderRequest.getProductId();
         Product product = productService.getProductByProductId(productId);
-        orderDetail.setQuantity(orderDetail.getQuantity());
         orderDetail.setPrice(orderDetail.getQuantity() * product.getPrice());
         orderDetail.setProduct(product);
         orderDetails.add(orderDetail);
@@ -263,14 +260,14 @@ public class OrderServiceImpl implements OrderService {
      * {@inheritDoc}
      */
    @Override
-    public List<OrderDetailsResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException {
+    public List<OrderDetailResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException {
        logger.debug("Entered viewOrdersByProductId method in OrderServiceImpl");
-        List<OrderDetails> orders = orderRepository.findByProductId(productId);
+        List<OrderDetail> orders = orderRepository.findByProductId(productId);
         if(orders.isEmpty()) {
             logger.debug("No record found");
             throw new NotFoundException("No record found");
         }
-        return OrderDetailsMapper.toOrderDetailsDtoList(orders);
+        return OrderDetailMapper.toOrderDetailDtoList(orders);
     }
 
     /**

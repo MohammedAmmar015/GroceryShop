@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.OrderDetailResponseDto;
 import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
@@ -120,7 +120,7 @@ public interface OrderService {
      *                                   productName, quantity, price
      * @throws NotFoundException - If order not found.
      */
-    List<OrderDetailsResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException;
+    List<OrderDetailResponseDto> viewOrdersByProductId(Integer productId) throws NotFoundException;
 
     /**
      * <p>

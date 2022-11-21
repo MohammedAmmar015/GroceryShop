@@ -67,7 +67,7 @@ public class Order extends Audit {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private List<OrderDetails> orderDetails;
+    private List<OrderDetail> orderDetails;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")

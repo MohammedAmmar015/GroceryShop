@@ -7,6 +7,7 @@ package com.ideas2it.groceryshop.service;
 
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 
 /**
@@ -28,8 +29,9 @@ public interface OrderDeliveryService {
      * @param orderId - To update delivery status
      * @return SuccessResponseDto - Contains success message and status code
      * @throws NotFoundException - If order not found.
+     * @throws ExistedException - If order already delivered
      */
-    SuccessResponseDto statusUpdate(Integer orderId) throws NotFoundException;
+    SuccessResponseDto statusUpdate(Integer orderId) throws ExistedException, NotFoundException;
 
     /**
      * <p>

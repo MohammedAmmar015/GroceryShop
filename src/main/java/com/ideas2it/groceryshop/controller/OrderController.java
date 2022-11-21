@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.OrderDetailResponseDto;
 import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
@@ -32,7 +32,7 @@ import com.ideas2it.groceryshop.service.impl.UserServiceImpl;
 
 /**
  * <p>
- *     Provide services to place order directly by using buy now and by cart,
+ *     Provides Apis to place order directly by using buy now and by cart option,
  *     view order by using various filter option and cancel order
  * </p>
  *
@@ -172,7 +172,7 @@ public class OrderController {
      * @throws NotFoundException - If order not found.
      */
     @GetMapping("/products/{productId}")
-    public List<OrderDetailsResponseDto> viewOrderByProductId(@PathVariable Integer productId)
+    public List<OrderDetailResponseDto> viewOrderByProductId(@PathVariable Integer productId)
                                                               throws NotFoundException {
         logger.debug("Entered viewOrderByProductId method in OrderController");
         return orderService.viewOrdersByProductId(productId);

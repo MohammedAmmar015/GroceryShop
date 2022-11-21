@@ -39,7 +39,7 @@ import com.ideas2it.groceryshop.audit.Audit;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="order_details")
-public class OrderDetails extends Audit {
+public class OrderDetail extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

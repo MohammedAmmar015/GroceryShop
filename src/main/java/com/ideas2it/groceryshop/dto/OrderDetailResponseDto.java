@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailsResponseDto {
+public class OrderDetailResponseDto {
 
     private String categoryName;
 
