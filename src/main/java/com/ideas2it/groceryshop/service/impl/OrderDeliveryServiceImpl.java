@@ -9,6 +9,7 @@ import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.OrderResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
 import com.ideas2it.groceryshop.exception.NotFoundException;
+import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.mapper.OrderDeliveryMapper;
 import com.ideas2it.groceryshop.model.OrderDelivery;
 import com.ideas2it.groceryshop.repository.OrderDeliveryRepository;
@@ -42,12 +43,12 @@ public class OrderDeliveryServiceImpl implements OrderDeliveryService {
      * {@inheritDoc}
      */
     @Override
-    public SuccessResponseDto statusUpdate(Integer orderId) throws NotFoundException {
+    public SuccessResponseDto statusUpdate(Integer orderId) throws ExistedException, NotFoundException {
         logger.debug("Entered statusUpdate method in OrderServiceImpl");
         OrderResponseDto orderResponse = orderService.viewOrderById(orderId);
         if(orderResponse.getIsDelivered()) {
-            logger.debug("No record found");
-            throw new NotFoundException("No record found");
+            logger.debug("Already Delivered");
+            throw new ExistedException("Already Delivered");
         }
         orderDeliveryRepository.updateStatus(orderId);
         logger.debug("Order delivered successfully");

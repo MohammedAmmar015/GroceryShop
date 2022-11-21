@@ -40,7 +40,7 @@ public class OrderResponseDto {
 
     private Integer totalQuantity;
 
-    private List<OrderDetailsResponseDto> orderDetails;
+    private List<OrderDetailResponseDto> orderDetails;
 
     private Boolean isDelivered;
 }

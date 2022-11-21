@@ -41,7 +41,7 @@ public class OrderMapper {
          orderResponseDto.setExpectedDeliveryDate(order.getOrderDelivery().getExpectedDeliveryDate());
          orderResponseDto.setIsDelivered(order.getOrderDelivery().getIsDelivered());
          orderResponseDto.setUserId(order.getUser().getId());
-         orderResponseDto.setOrderDetails(OrderDetailsMapper.toOrderDetailsDtoList
+         orderResponseDto.setOrderDetails(OrderDetailMapper.toOrderDetailDtoList
                                          (order.getOrderDetails()));
          return orderResponseDto;
         }

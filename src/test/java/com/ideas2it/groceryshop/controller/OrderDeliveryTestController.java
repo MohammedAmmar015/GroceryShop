@@ -8,6 +8,7 @@ package com.ideas2it.groceryshop.controller;
 import com.ideas2it.groceryshop.dto.AddressResponseDto;
 import com.ideas2it.groceryshop.dto.OrderDeliveryResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
+import com.ideas2it.groceryshop.exception.ExistedException;
 import com.ideas2it.groceryshop.exception.NotFoundException;
 import com.ideas2it.groceryshop.service.OrderDeliveryService;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ public class OrderDeliveryTestController {
      * @throws NotFoundException
      */
     @Test
-    public void statusUpdate() throws NotFoundException {
+    public void statusUpdate() throws ExistedException, NotFoundException {
         SuccessResponseDto SuccessResponseDto = new SuccessResponseDto(202,
                 "Order Delivered Successfully");
         when(orderDeliveryService.statusUpdate(1)).thenReturn(SuccessResponseDto);

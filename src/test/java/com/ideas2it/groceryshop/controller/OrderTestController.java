@@ -5,7 +5,7 @@
  */
 package com.ideas2it.groceryshop.controller;
 
-import com.ideas2it.groceryshop.dto.OrderDetailsResponseDto;
+import com.ideas2it.groceryshop.dto.OrderDetailResponseDto;
 import com.ideas2it.groceryshop.dto.OrderRequestDto;
 import com.ideas2it.groceryshop.dto.OrderResponseDto;
 import com.ideas2it.groceryshop.dto.SuccessResponseDto;
@@ -80,8 +80,8 @@ public class OrderTestController {
      */
     @Test
     public void viewOrderByUserId() throws NotFoundException {
-        List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
-        orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables",
+        List<OrderDetailResponseDto> orderDetailsResponse = new ArrayList<>();
+        orderDetailsResponse.add(new OrderDetailResponseDto("Fruits & Vegetables",
                 "Fruits", "Apple", 2, 200f));
         List<OrderResponseDto> userOrderResponse = new ArrayList<>();
         userOrderResponse.add(new OrderResponseDto(1, new Date(2022/11/13), new Date(2022/11/15),
@@ -114,8 +114,8 @@ public class OrderTestController {
     @Test
     public void viewOrdersByDate() throws NotFoundException {
         Date date = new Date(2022/11/13);
-        List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
-        orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables",
+        List<OrderDetailResponseDto> orderDetailsResponse = new ArrayList<>();
+        orderDetailsResponse.add(new OrderDetailResponseDto("Fruits & Vegetables",
                 "Fruits", "Apple", 2, 200f));
         List<OrderResponseDto> userOrderResponse = new ArrayList<>();
         userOrderResponse.add(new OrderResponseDto(1, new Date(2022/11/13), new Date(2022/11/15),
@@ -134,8 +134,8 @@ public class OrderTestController {
     public void viewOrdersByIdAndDate() throws NotFoundException, ParseException {
         Integer userId = 1;
         Date date = new Date(2022/11/13);
-        List<OrderDetailsResponseDto> orderDetailsResponse = new ArrayList<>();
-        orderDetailsResponse.add(new OrderDetailsResponseDto("Fruits & Vegetables",
+        List<OrderDetailResponseDto> orderDetailsResponse = new ArrayList<>();
+        orderDetailsResponse.add(new OrderDetailResponseDto("Fruits & Vegetables",
                 "Fruits", "Apple", 2, 200f));
         List<OrderResponseDto> userOrderResponse = new ArrayList<>();
         userOrderResponse.add(new OrderResponseDto(1, new Date(2022/11/13), new Date(2022/11/15),

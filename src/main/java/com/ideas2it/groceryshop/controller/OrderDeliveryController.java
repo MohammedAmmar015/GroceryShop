@@ -5,6 +5,7 @@
  */
 package com.ideas2it.groceryshop.controller;
 
+import com.ideas2it.groceryshop.exception.ExistedException;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ import com.ideas2it.groceryshop.service.OrderDeliveryService;
 
 /**
  * <p>
- *     Provide services like get order and update the delivery status
+ *     Provides Apis like get order and update the delivery status
  * </p>
  *
  * @author Dhanalakshmi M
@@ -62,9 +63,11 @@ public class OrderDeliveryController {
      * @param orderId - To update delivery status
      * @return SuccessResponseDto - Contains success message and status code
      * @throws NotFoundException - If order not found.
+     * @throws ExistedException - If order already delivered
      */
     @PutMapping("/{orderId}/statusUpdate")
-    public SuccessResponseDto statusUpdate(@PathVariable Integer orderId) throws NotFoundException {
+    public SuccessResponseDto statusUpdate(@PathVariable Integer orderId) throws ExistedException,
+                                           NotFoundException {
         logger.debug("Entered statusUpdate method in OrderController");
         return orderDeliveryService.statusUpdate(orderId);
     }

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.ideas2it.groceryshop.model.OrderDetails;
+import com.ideas2it.groceryshop.model.OrderDetail;
 import com.ideas2it.groceryshop.model.Order;
 
 /**
@@ -101,8 +101,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @param productId - To fetch list of order
      * @return OrderDetails - Contains quantity, price, product
      */
-    @Query(value = "Select o from OrderDetails o where o.product.id = ?1")
-    List<OrderDetails> findByProductId(Integer productId);
+    @Query(value = "Select o from OrderDetail o where o.product.id = ?1")
+    List<OrderDetail> findByProductId(Integer productId);
 
     /**
      * <p>
