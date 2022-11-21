@@ -37,7 +37,7 @@ public class UserMapper {
         user.setUserName(userRequestDto.getUserName());
         user.setFirstName(userRequestDto.getFirstName());
         user.setLastName(userRequestDto.getLastName());
-        user.setMobileNumber(userRequestDto.getMobileNumber());
+        user.setMobileNumber(Long.parseLong(userRequestDto.getMobileNumber()));
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(userRequestDto.getPassword());
         user.setRole(RoleMapper.roleDtoToRole(userRequestDto.getRole()));

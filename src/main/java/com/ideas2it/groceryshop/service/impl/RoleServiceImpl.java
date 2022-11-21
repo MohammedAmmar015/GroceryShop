@@ -108,7 +108,7 @@ public class RoleServiceImpl implements RoleService {
     public Optional<Role> findRoleByName(String name) {
         logger.debug("Entered findRoleByName");
         Optional<Role> role = roleRepository.findByIsActiveAndName(true, name);
-        logger.debug("Got optional role object");
+        logger.debug("Got role object");
         return role;
     }
 }
