@@ -14,8 +14,6 @@ import com.ideas2it.groceryshop.model.Category;
 import com.ideas2it.groceryshop.model.Product;
 import com.ideas2it.groceryshop.repository.CategoryRepository;
 import com.ideas2it.groceryshop.repository.ProductRepository;
-import com.ideas2it.groceryshop.repository.StockRepository;
-import com.ideas2it.groceryshop.repository.StoreRepository;
 import com.ideas2it.groceryshop.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

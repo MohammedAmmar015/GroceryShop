@@ -56,7 +56,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
      * @param status     - To get active or inactive products.
      * @return           - list of product.
      */
-    @Query(value ="select * from product p join category sc on sc.id = p.sub_category_id join" +
+    @Query(value ="select * from product p join category sc on sc.id = p.sub_category_id join " +
             "category c on c.id = sc.parent_id where c.id = ?1 and p.is_active = true",
             nativeQuery = true)
     List<Product> findProductsByCategoryIdAndIsActive(Integer categoryId, Boolean status);
@@ -84,7 +84,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
      * @param unit  - To check unit.
      * @return      - If exists true otherwise false.
      */
-    Boolean existsByNameAndPriceAndUnitAndPerHead(String name, float price, String unit, Integer perHead);
+    Boolean existsByNameAndPriceAndUnitAndPerHead(String name, Float price, String unit, Integer perHead);
 
     /**
      * <p>

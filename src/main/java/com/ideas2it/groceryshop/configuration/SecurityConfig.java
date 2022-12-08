@@ -119,7 +119,7 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/orders/*/orderDelivery",
                         "/api/v1/orders/*/statusUpdate")
                 .hasRole("DELIVERY_PERSON")
-                .antMatchers("/api/v1/orders/activeOrders")
+                .antMatchers("/api/v1/user/orders/activeOrders")
                 .hasAnyRole("ADMIN", "DELIVERY_PERSON")
                 .antMatchers(HttpMethod.PUT, "/api/v1/user/carts",
                         "/api/v1/user/orders/*/cancelOrder")

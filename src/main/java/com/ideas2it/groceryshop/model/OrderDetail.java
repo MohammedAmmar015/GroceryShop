@@ -38,7 +38,7 @@ import com.ideas2it.groceryshop.audit.Audit;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="order_details")
+@Table(name="order_detail")
 public class OrderDetail extends Audit {
 
     @Id
